@@ -1,6 +1,7 @@
 { config, pkgs, id, inputs, ... }:
 let
   nixpkgsPackages = with pkgs; [
+    glibc
     nix
     tailscale
     htop
@@ -36,7 +37,8 @@ let
     awscli2
     file
     xclip
-    vscode
+    # vscode
+    speedtest-cli
     firefox
     popcorntime
     yakuake
@@ -54,9 +56,30 @@ let
     meslo-lgs-nf
     # devbox
     # mach-nix
-    # kitty
+    # kitty 
+    statix
+    rnix-lsp
+    nix-tree
+    nix-du
+    graphviz
+    manix
+    age
+
+    # nixops
+    nixops_unstable
+    sops
+    _1password
+    _1password-gui
+    # sops-nix
+
+  ] ++ [
+    #inputs.sops-nix.nixosModules.sops
   ];
-in {
+in
+{
+
+  programs.direnv.enable = true;
+  programs.direnv.nix-direnv.enable = true;
 
   # Comment out if you wish to disable unfree packages for your system
   nixpkgs.config.allowUnfree = true;
@@ -65,7 +88,7 @@ in {
   home.homeDirectory = "/home/${id.username}";
   programs.home-manager.enable = true;
 
-  home.packages = nixpkgsPackages ++ [ inputs.mach-nix ];
+  home.packages = nixpkgsPackages ++ [ ];
 
   # programs.virtualisation.docker.enable = true;
 
@@ -130,9 +153,11 @@ in {
     enableAutosuggestions = true;
 
     initExtraFirst = ''
-      # p10k instant prompt
-      local P10K_INSTANT_PROMPT="${config.xdg.cacheHome}/p10k-instant-prompt-''${(%):-%n}.zsh"
-      [[ ! -r "$P10K_INSTANT_PROMPT" ]] || source "$P10K_INSTANT_PROMPT"
+        # p10k instant prompt
+        local P10K_INSTANT_PROMPT="${config.xdg.cacheHome}/p10k-instant-prompt-''${(%):-%n}.zsh"
+        [[ ! -r "$P10K_INSTANT_PROMPT" ]] || source "$P10K_INSTANT_PROMPT"
+
+      #  if [ -e /home/enikolov/.nix-profile/etc/profile.d/nix.sh ]; then . /home/enikolov/.nix-profile/etc/profile.d/nix.sh; fi
     '';
 
     plugins = with pkgs; [
@@ -156,11 +181,11 @@ in {
         name = "zsh-fast-syntax-highlighting";
         src = "${zsh-fast-syntax-highlighting}/share/zsh/site-functions/";
       }
-      {
-        file = "fzf-tab.plugin.zsh";
-        name = "zsh-fzf-tab";
-        src = "${zsh-fzf-tab}/share/fzf-tab/";
-      }
+      # {
+      #   file = "fzf-tab.plugin.zsh";
+      #   name = "zsh-fzf-tab";
+      #   src = "${zsh-fzf-tab}/share/fzf-tab/";
+      # }
     ];
 
     initExtra = ''

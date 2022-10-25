@@ -1,3 +1,12 @@
+
+# Only execute the nix.sh once per shell.
+if [ -z "${__ETC_PROFILE_NIX_SOURCED:-}" ]; then
+    # __ETC_PROFILE_NIX_SOURCED=1
+    export __ETC_PROFILE_NIX_SOURCED=1
+
+    if [ -e /home/enikolov/.nix-profile/etc/profile.d/nix.sh ]; then . /home/enikolov/.nix-profile/etc/profile.d/nix.sh; fi 
+fi
+
 # autoload -Uz compinit
 # compinit
 autoload bashcompinit && bashcompinit
@@ -78,7 +87,7 @@ zinit snippet OMZP::colored-man-pages
 # zinit ice from"gh-r" as"program"
 # zinit load asdf-vm/asdf
 # zinit pack"binary+keys" for fzf
-# zinit load Aloxaf/fzf-tab
+zinit load Aloxaf/fzf-tab
 zinit load zimfw/input
 
 . ~/.config/nixpkgs/text-selections.zsh
@@ -107,6 +116,7 @@ select-word-style bash
 
 [ -f ~/.config/nixpkgs/.kubectl_aliases ] && source ~/.config/nixpkgs/.kubectl_aliases
 
+unalias age
 
 xc() {
     xclip -selection clipboard

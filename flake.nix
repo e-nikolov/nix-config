@@ -7,16 +7,13 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     flake-utils.url = "github:numtide/flake-utils";
-    mach-nix.url = "github:DavHau/mach-nix";
-    mach-nix.inputs.nixpkgs.follows = "nixpkgs";
-    mach-nix.inputs.pypi-deps-db.follows = "pypi-deps-db";
-    pypi-deps-db.url = "github:DavHau/pypi-deps-db";
-    pypi-deps-db.flake = false;
+    sops-nix.url = github:Mic92/sops-nix;
   };
 
-  outputs = inputs@{ nixpkgs, mach-nix, home-manager, ... }:
+  outputs = inputs@{ nixpkgs, home-manager, ... }:
     let id = import ./values.nix { };
-    in {
+    in
+    {
       homeConfigurations.kdell = home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages.x86_64-linux;
 
