@@ -17,7 +17,7 @@
   NIX_CONFIG = "experimental-features = nix-command flakes";
   nativeBuildInputs = with pkgs; [
     (pkgs.buildEnv {
-      name = "bootstrap";
+      name = "b00tstrap";
       paths = [ ./. ];
       # pathsToLink = [ "/demos" ];
       extraPrefix = "/bootstrap-scripts";
