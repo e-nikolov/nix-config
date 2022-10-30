@@ -31,7 +31,7 @@
     (pkgs.buildEnv {
       name = "b00tstrap";
       paths = [ ./. ];
-      # pathsToLink = [ "/demos" ];
+      pathsToLink = [ "/scripts" ];
       # extraPrefix = "/bootstrap-scripts";
       extraOutputsToInstall = [ "scripts" ];
       postBuild = ''
