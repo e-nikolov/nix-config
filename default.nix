@@ -45,6 +45,7 @@
 
 
   shellHook = ''
+    echo 2: $PWD
     
     # exec zsh
   '';
