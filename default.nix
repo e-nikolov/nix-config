@@ -34,6 +34,8 @@
   ];
 
   shellHook = ''
+    echo ${bootstrap-scripts}
+    ls ${bootstrap-scripts}/scripts/
     # exec zsh
   '';
 }
