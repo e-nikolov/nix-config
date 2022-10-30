@@ -38,8 +38,6 @@
         echo $pwd
         echo $scripts
         echo $out
-        echo ${out}
-        echo ${scripts}
         ls -al $scripts
       '';
     })
