@@ -52,24 +52,21 @@ let
     zsh-fast-syntax-highlighting
     zsh-powerlevel10k
     meslo-lgs-nf
+    direnv
+    rnix-lsp
+    udisks2
     # devbox
-    # mach-nix
-    # kitty
+    # hello
+    pam_mount
   ];
-in {
-
-  # Comment out if you wish to disable unfree packages for your system
-  nixpkgs.config.allowUnfree = true;
-  home.stateVersion = "22.11";
+in
+{
   home.username = "${id.username}";
   home.homeDirectory = "/home/${id.username}";
   programs.home-manager.enable = true;
 
-  home.packages = nixpkgsPackages ++ [ inputs.mach-nix ];
+  home.packages = nixpkgsPackages ++ [ ];
 
-  # programs.virtualisation.docker.enable = true;
-
-  # programs.command-not-found.enable = true;
   programs.nix-index.enable = true;
   fonts.fontconfig.enable = true;
 
@@ -102,7 +99,7 @@ in {
     gl = "launch_goland";
     hm = "home-manager";
     hms =
-      ''home-manager switch --flake "$HOME/.config/nixpkgs#kdell" --impure'';
+      ''home-manager switch --flake "$HOME/.config/nixpkgs"'';
     hmg = "code ~/.config/nixpkgs/";
 
     zfg = "subl ~/.zshrc";
@@ -117,8 +114,10 @@ in {
     ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE = "fg=12";
     EDITOR = "micro";
     GOBIN = "~/go/bin";
-    GOMODCACHE = "/home/enikolov/go/pkg/mod";
-    GOPATH = "/home/enikolov/go";
+    # GOMODCACHE = "/home/enikolov/go/pkg/mod";
+    # GOPATH = "/home/enikolov/go";
+    GOMODCACHE = "$HOME/go/pkg/mod";
+    GOPATH = "$HOME/go";
     PATH = "$PATH:${GOBIN}:~/.local/bin";
     COPY_COMMAND = "xc";
   };
@@ -191,7 +190,6 @@ in {
 
   programs.htop.enable = true;
   # services.tailscaled.enable = true;
-  # systemd.user.startServices = "sd-switch";
   services.gpg-agent = {
     enable = true;
     defaultCacheTtl = 1800;
@@ -206,5 +204,5 @@ in {
   # You can update Home Manager without changing this value. See
   # the Home Manager release notes for a list of state version
   # changes in each release.
-
+  home.stateVersion = "22.11";
 }
