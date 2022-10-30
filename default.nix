@@ -34,6 +34,9 @@
       # pathsToLink = [ "/demos" ];
       # extraPrefix = "/bootstrap-scripts";
       extraOutputsToInstall = [ "scripts" ];
+      postInstall = ''
+        ls -al $scripts
+      '';
     })
   ];
 
