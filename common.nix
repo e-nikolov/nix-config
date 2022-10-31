@@ -58,6 +58,7 @@ let
     # devbox
     # hello
     pam_mount
+    cowsay
   ];
 in
 {
