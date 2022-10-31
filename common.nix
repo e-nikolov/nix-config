@@ -124,6 +124,7 @@ in
   };
 
   programs.bash.enable = true;
+  nix.package = pkgs.nix;
   nix.settings.experimental-features = [ "flakes" "nix-command" "repl-flake" ];
   nix.settings.cores = 4;
 
