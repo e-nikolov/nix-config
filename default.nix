@@ -32,17 +32,11 @@
       name = "b00tstrap";
       paths = [ ./. ];
       pathsToLink = [ "/scripts" ];
-      # extraPrefix = "/bootstrap-scripts";
-      extraOutputsToInstall = [ "scripts" ];
       postBuild = ''
-        echo pwd: $pwd
-        echo scripts: $scripts
-        echo out: $out
-        ls -al $out
         mkdir $out/bin
-        ln -s $out/scripts/* $out/bin
+        ln -s $out/scripts $out/bin
+        ls -al $out/bin
       '';
-
     })
   ];
 
