@@ -33,9 +33,9 @@
       paths = [ ./. ];
       pathsToLink = [ "/scripts" ];
       postBuild = ''
+        echo $out
         mkdir $out/bin
         ln -s $out/scripts $out/bin
-        ls -al $out/bin
       '';
     })
   ];
