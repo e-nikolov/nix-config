@@ -9,6 +9,7 @@ else
     curl -L https://nixos.org/nix/install | sh
 fi
 
+
 echo 4: $@
 echo 5: $*
 

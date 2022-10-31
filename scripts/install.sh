@@ -22,5 +22,5 @@ echo 1: $@
 echo 2: $*
 
 # home-manager switch --flake .
-home-manager switch --flake . "$@"
+home-manager switch --flake . $@
 
