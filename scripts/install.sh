@@ -18,4 +18,4 @@ cd $location
 
 git pull
 
-home-manager switch flake .
+home-manager switch --flake .
