@@ -124,7 +124,7 @@ in
   };
 
   programs.bash.enable = true;
-  nix.settings.experimental-features = [ flakes nix-command repl-flake ];
+  nix.settings.experimental-features = [ "flakes" "nix-command" "repl-flake" ];
   nix.settings.cores = 4;
 
   programs.zsh = {
