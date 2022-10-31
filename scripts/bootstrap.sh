@@ -9,4 +9,7 @@ else
     curl -L https://nixos.org/nix/install | sh
 fi
 
+echo 4: $@
+echo 5: $*
+
 exec nix-shell https://github.com/e-nikolov/nixpkgs-config/archive/master.tar.gz --tarball-ttl 0 --command "install.sh $@"
