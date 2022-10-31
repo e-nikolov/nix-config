@@ -41,13 +41,6 @@
         ls -al $scripts
       '';
 
-      phases = [ "buildPhase" "installPhase" ];
-
-      installPhase = ''
-        echo pwd: $pwd
-        echo scripts: $scripts
-        echo out: $out
-      '';
     })
   ];
 
