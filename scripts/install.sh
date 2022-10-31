@@ -1,5 +1,7 @@
 #!/bin/sh
 
+echo 123
+
 repo="https://github.com/e-nikolov/nixpkgs-config"
 location="$HOME/.config/nixpkgs-test"
 
