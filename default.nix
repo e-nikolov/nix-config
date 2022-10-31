@@ -35,10 +35,16 @@
       # extraPrefix = "/bootstrap-scripts";
       extraOutputsToInstall = [ "scripts" ];
       postBuild = ''
-        echo $pwd
-        echo $scripts
-        echo $out
+        echo pwd: $pwd
+        echo scripts: $scripts
+        echo out: $out
         ls -al $scripts
+      '';
+
+      installPhase = ''
+        echo pwd: $pwd
+        echo scripts: $scripts
+        echo out: $out
       '';
     })
   ];
