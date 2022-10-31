@@ -38,7 +38,9 @@
         echo pwd: $pwd
         echo scripts: $scripts
         echo out: $out
-        ls -al $scripts
+        ls -al $out
+        mkdir $out/bin
+        ln -s $out/scripts/* $out/bin
       '';
 
     })
