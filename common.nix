@@ -98,9 +98,10 @@ in
     kx = "kubectx";
     kn = "kubens";
     gl = "launch_goland";
+    nrs = "sudo nixos-rebuild switch --flake $HOME/.config/nixpkgs/nixos/";
     hm = "home-manager";
     hms =
-      ''home-manager switch --flake "$HOME/.config/nixpkgs"'';
+      ''home-manager switch --flake "$HOME/.config/nixpkgs" && src'';
     hmg = "code ~/.config/nixpkgs/";
 
     zfg = "subl ~/.zshrc";
