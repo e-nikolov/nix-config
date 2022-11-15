@@ -1,5 +1,7 @@
 { config, pkgs, id, inputs, ... }:
 let
+  yakuake_autostart = (pkgs.makeAutostartItem { name = "yakuake"; package = pkgs.yakuake; srcPrefix = "org.kde."; });
+
   nixpkgsPackages = with pkgs; [
     nix
     tailscale
@@ -40,6 +42,7 @@ let
     firefox
     popcorntime
     yakuake
+    yakuake_autostart
     nebula
     bash-completion
     tldr
@@ -59,6 +62,14 @@ let
     # hello
     pam_mount
     cowsay
+    rc2nix
+    killall
+    # _1password
+    # _1password-gui
+    gnupg
+    gnumake
+    konsole
+    bc
   ];
 in
 {
@@ -107,8 +118,8 @@ in
     zfg = "subl ~/.zshrc";
     gomt = "go mod tidy";
     src = "source ~/.zshrc";
-    # ns = "nix develop --command zsh ";
-
+    grep = "grep --color --ignore-case --line-number --context=3 ";
+    ns = "nix develop --command zsh ";
   };
 
   home.sessionVariables = rec {
@@ -127,7 +138,10 @@ in
   programs.bash.enable = true;
   nix.package = pkgs.nix;
   nix.settings.experimental-features = [ "flakes" "nix-command" "repl-flake" ];
+  nix.settings.extra-platforms = [ "armv7l-linux" "armv7l-hf-multiplatform" "armv7l-multiplatform" ];
   nix.settings.cores = 4;
+  nix.settings.keep-derivations = true;
+  nix.settings.keep-outputs = true;
 
   programs.zsh = {
     enable = true;
@@ -169,6 +183,8 @@ in
 
     initExtra = ''
       . ~/.config/nixpkgs/.zshrc
+
+      complete -o nospace -C ${pkgs.terraform}/bin/terraform terraform
     '';
 
     # setOption = [

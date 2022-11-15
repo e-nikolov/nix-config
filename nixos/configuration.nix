@@ -6,25 +6,24 @@
 
 {
   imports =
-    [ # Include the results of the hardware scan.
+    [
+      # Include the results of the hardware scan.
       ./hardware-configuration.nix
     ];
 
-  # Use the systemd-boot EFI boot loader.
-  # boot.loader.systemd-boot.enable = true;
-  # boot.loader.efi.canTouchEfiVariables = true;
-
-  boot.kernelParams = ["acpi_rev_override=1"];
+  # boot.blacklistedKernelModules = [ "nouveau" "nvidia" ];
+  # boot.kernelParams = [ "acpi_rev_override=1" "nomodeset" ];
+  boot.kernelParams = [ "acpi_rev_override=1" ];
   boot.loader = {
-  	systemd-boot = {
-  		enable = true;
-  		extraEntries = { 
-  			"kubuntu.conf" = ''
-  		  		title Kubuntu
-  		  		efi /EFI/ubuntu/shimx64.efi
-  			'';
-  		 };
-  	};
+    systemd-boot = {
+      enable = true;
+      extraEntries = {
+        "kubuntu.conf" = ''
+          title Kubuntu
+          efi /EFI/ubuntu/shimx64.efi
+        '';
+      };
+    };
     efi = {
       canTouchEfiVariables = true;
       # efiSysMountPoint = "/boot/efi"; # ← use the same mount point here.
@@ -35,12 +34,25 @@
     #   device = "nodev";
     #};
   };
+  boot.plymouth.enable = true;
 
+  programs.zsh.enable = true;
+  users.defaultUserShell = pkgs.zsh;
+
+  # Define a user account. Don't forget to set a password with ‘passwd’.
+  users.users.enikolov = {
+    isNormalUser = true;
+    extraGroups = [ "wheel" "podman" ]; # Enable ‘sudo’ for the user.
+    packages = with pkgs; [
+      # firefox
+      # thunderbird
+    ];
+  };
   networking.hostName = "nixps"; # Define your hostname.
   networking.hostId = "a96153f9";
   # Pick only one of the below networking options.
+  networking.networkmanager.enable = true; # Easiest to use and most distros use this by default.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-  networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
 
   # Set your time zone.
   time.timeZone = "Europe/Amsterdam";
@@ -49,42 +61,45 @@
   # networking.proxy.default = "http://user:password@proxy:port/";
   # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
-  # Select internationalisation properties.
-  # i18n.defaultLocale = "en_US.UTF-8";
-  # console = {
-  #   font = "Lat2-Terminus16";
-  #   keyMap = "us";
-  #   useXkbConfig = true; # use xkbOptions in tty.
-  # };
-
-  # Enable the X11 windowing system.
-  services.xserver.displayManager.defaultSession = "plasma";
-  services.xserver.enable = true;
-  services.xserver.layout = "us";
-  services.xserver.desktopManager.plasma5.enable = true;
-  services.xserver.displayManager.sddm.enable = true;
-
-
   # NVIDIA drivers are unfree.
   nixpkgs.config.allowUnfree = true;
-
-  services.xserver.videoDrivers = [ "nvidia" ];
   hardware.opengl.enable = true;
-
   # Optionally, you may need to select the appropriate driver version for your specific GPU.
   # hardware.nvidia.package = config.boot.kernelPackages.nvidiaPackages.stable;
 
   i18n.defaultLocale = "en_IE.UTF-8";
   console = {
     font = "Lat2-Terminus16";
-    keyMap = "us";
+    useXkbConfig = true;
   };
-  # Configure keymap in X11
-  # services.xserver.layout = "us";
-  # services.xserver.xkbOptions = {
-  #   "eurosign:e";
-  #   "caps:escape" # map caps to escape.
-  # };
+
+  # Enable the X11 windowing system.
+  services.xserver.videoDrivers = [ "intel" ];
+  services.xserver.displayManager.defaultSession = "plasma";
+  services.xserver.enable = true;
+  services.xserver.layout = "us,bg";
+  services.xserver.desktopManager.xterm.enable = false;
+  services.xserver.displayManager.startx.enable = true;
+  services.xserver.desktopManager.plasma5.enable = true;
+  services.xserver.displayManager.sddm.enable = true;
+  services.xserver.desktopManager.plasma5.runUsingSystemd = true;
+  services.xserver.xkbOptions = "terminate:ctrl_alt_bksp,esc:swapcaps";
+
+  services.xserver.libinput = {
+    enable = true;
+    touchpad.clickMethod = "buttonareas";
+    touchpad.naturalScrolling = false;
+    touchpad.scrollMethod = "twofinger";
+    touchpad.disableWhileTyping = true;
+    touchpad.middleEmulation = true;
+    touchpad.tapping = true;
+    touchpad.tappingDragLock = false;
+
+    touchpad.additionalOptions = ''
+      Option "PalmDetection" "on"
+      Option "TappingButtonMap" "lmr"
+    '';
+  };
 
   # Enable CUPS to print documents.
   # services.printing.enable = true;
@@ -93,33 +108,30 @@
   sound.enable = true;
   hardware.pulseaudio.enable = true;
 
-  # Enable touchpad support (enabled default in most desktopManager).
-  services.xserver.libinput.enable = false;
-  services.xserver.synaptics.enable = true;
-
-  users.defaultUserShell = pkgs.zsh;
-  # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.enikolov = {
-    isNormalUser = true;
-    extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
-    packages = with pkgs; [
-     # firefox
-     # thunderbird
-    ];
-  };
+  virtualisation.docker.enable = false;
+  virtualisation.podman.enable = true;
+  virtualisation.podman.dockerSocket.enable = true;
+  virtualisation.podman.defaultNetwork.dnsname.enable = true;
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-     vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-     wget
-     git
-     plymouth
-     firefox
-     micro
+    vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
+    wget
+    git
+    # plymouth
+    firefox # use programs.firefox.enable = true; ?
+    micro
+    yakuake
+    konsole
   ];
 
-  programs.zsh.enable = true;
+  programs.git.enable = true;
+  programs._1password.enable = true;
+  programs._1password-gui.enable = true;
+  programs._1password-gui.polkitPolicyOwners = [ "enikolov" ];
+  security.pam.services.kwallet.enableKwallet = true;
+  security.polkit.enable = true;
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
@@ -129,6 +141,8 @@
   #   enableSSHSupport = true;
   # };
   services.tailscale.enable = true;
+  networking.firewall.checkReversePath = "loose";
+
 
   # List services that you want to enable:
 
@@ -153,6 +167,4 @@
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "22.11"; # Did you read the comment?
-
 }
-

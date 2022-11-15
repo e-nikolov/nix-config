@@ -10,6 +10,10 @@
       url = "github:edolstra/flake-compat";
       flake = false;
     };
+
+    plasma-manager.url = "github:pjones/plasma-manager";
+    plasma-manager.inputs.nixpkgs.follows = "nixpkgs";
+    plasma-manager.inputs.home-manager.follows = "home-manager";
   };
 
   outputs = inputs@{ self, nixpkgs, flake-utils, home-manager, ... }:
@@ -22,24 +26,35 @@
       pkgs = import nixpkgs {
         inherit system;
         config = { allowUnfree = true; };
+        overlays = [ (self: super: { rc2nix = inputs.plasma-manager.packages.${system}.rc2nix; }) ];
       };
 
-    in
-    {
-      # TODO figure out how to do this without hardcoding the username
-      homeConfigurations.enikolov = home-manager.lib.homeManagerConfiguration {
+      mkHome = { modules ? [ ] }: home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
 
         modules = [
-          ./common.nix
-          ./home.nix
-        ];
+          ./hosts/common.nix
+        ] ++ modules;
 
         # pass through arguments to home.nix
         extraSpecialArgs = {
           inherit inputs;
           inherit id;
         };
+      };
+
+    in
+    {
+      # TODO figure out how to do this without hardcoding the username
+      homeConfigurations."enikolov@nixps" = mkHome {
+        modules = [
+          inputs.plasma-manager.homeManagerModules.plasma-manager
+          ./hosts/nixps.nix
+        ];
+      };
+
+      homeConfigurations."enikolov@home-nix" = mkHome {
+        modules = [ ./hosts/home-nix.nix ];
       };
 
       devShell = pkgs.mkShell {
