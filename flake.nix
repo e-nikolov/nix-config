@@ -14,64 +14,89 @@
     plasma-manager.url = "github:pjones/plasma-manager";
     plasma-manager.inputs.nixpkgs.follows = "nixpkgs";
     plasma-manager.inputs.home-manager.follows = "home-manager";
+
+    nixos-wsl.url = "github:nix-community/nixos-wsl/main";
+    nixos-wsl.inputs.nixpkgs.follows = "nixpkgs";
+    nixos-wsl.inputs.flake-utils.follows = "flake-utils";
+    nixos-wsl.inputs.flake-compat.follows = "flake-compat";
+
+    nixos-hardware.url = "github:NixOS/nixos-hardware/master";
   };
 
   outputs = inputs@{ self, nixpkgs, flake-utils, home-manager, ... }:
-    let
-      id = import ./values.nix { };
+    flake-utils.lib.eachSystem (flake-utils.lib.defaultSystems ++ [ flake-utils.lib.system.armv7l-linux ])
+      (system:
+        let
+          values = import ./values.nix { };
 
-      system = "x86_64-linux";
+          pkgs = import nixpkgs {
+            inherit system;
+            config = { allowUnfree = true; };
+            overlays = [ (self: super: { rc2nix = inputs.plasma-manager.packages.${system}.rc2nix; }) ];
+          };
 
-      # pkgs = nixpkgs.legacyPackages.${system};
-      pkgs = import nixpkgs {
-        inherit system;
-        config = { allowUnfree = true; };
-        overlays = [ (self: super: { rc2nix = inputs.plasma-manager.packages.${system}.rc2nix; }) ];
-      };
+          mkHome = { modules ? [ ] }: home-manager.lib.homeManagerConfiguration {
+            inherit pkgs;
 
-      mkHome = { modules ? [ ] }: home-manager.lib.homeManagerConfiguration {
-        inherit pkgs;
+            modules = [
+              ./hosts/common.nix
+            ] ++ modules;
 
-        modules = [
-          ./hosts/common.nix
-        ] ++ modules;
+            extraSpecialArgs = {
+              inherit inputs values;
+            };
+          };
 
-        # pass through arguments to home.nix
-        extraSpecialArgs = {
-          inherit inputs;
-          inherit id;
-        };
-      };
+          mkSystem = { modules ? [ ], system ? "x86_64-linux" }: nixpkgs.lib.nixosSystem {
+            modules = [
 
-    in
-    {
-      # TODO figure out how to do this without hardcoding the username
-      homeConfigurations."enikolov@nixps" = mkHome {
-        modules = [
-          inputs.plasma-manager.homeManagerModules.plasma-manager
-          ./hosts/nixps.nix
-        ];
-      };
+            ] ++ modules;
+          };
 
-      homeConfigurations."enikolov@home-nix" = mkHome {
-        modules = [ ./hosts/home-nix.nix ];
-      };
+        in
+        {
+          # TODO figure out how to do this without hardcoding the username
+          packages.homeConfigurations."enikolov@nixps" = mkHome {
+            modules = [
+              inputs.plasma-manager.homeManagerModules.plasma-manager
+              ./hosts/nixps/home.nix
+            ];
+          };
 
-      devShell = pkgs.mkShell {
-        NIX_CONFIG = "extra-experimental-features = nix-command flakes repl-flake";
-        nativeBuildInputs = with pkgs; [
-          home-manager
-          nix
-          zsh
-          git
+          packages.homeConfigurations."enikolov@home-nix" = mkHome {
+            modules = [ ./hosts/home-nix/home.nix ];
+          };
 
-          sops
-          gnupg
-          age
-        ];
-        shellHook = ''
-          zsh
-        '';
-      };
-    };
+          packages.nixosConfigurations.nixps = mkSystem {
+            modules = [
+              ./hosts/nixps/configuration.nix
+              inputs.nixos-hardware.nixosModules.dell-xps-15-9560-intel
+            ];
+          };
+
+          packages.nixosConfigurations.home-nix = mkSystem {
+            modules = [
+              ./hosts/home-nix/configuration.nix
+              inputs.nixos-wsl.nixosModules.wsl
+            ];
+          };
+
+          devShell = pkgs.mkShell
+            {
+              NIX_CONFIG = "extra-experimental-features = nix-command flakes repl-flake";
+              nativeBuildInputs = with pkgs; [
+                home-manager
+                nix
+                zsh
+                git
+
+                sops
+                gnupg
+                age
+              ];
+              shellHook = ''
+                zsh
+              '';
+            };
+        });
 }

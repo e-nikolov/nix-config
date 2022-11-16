@@ -26,13 +26,7 @@
     };
     efi = {
       canTouchEfiVariables = true;
-      # efiSysMountPoint = "/boot/efi"; # ← use the same mount point here.
     };
-    #grub = {
-    #   efiSupport = true;
-    #   #efiInstallAsRemovable = true; # in case canTouchEfiVariables doesn't work for your system
-    #   device = "nodev";
-    #};
   };
   boot.plymouth.enable = true;
 
@@ -44,26 +38,20 @@
     isNormalUser = true;
     extraGroups = [ "wheel" "podman" ]; # Enable ‘sudo’ for the user.
     packages = with pkgs; [
-      # firefox
-      # thunderbird
     ];
   };
+
   networking.hostName = "nixps"; # Define your hostname.
   networking.hostId = "a96153f9";
-  # Pick only one of the below networking options.
   networking.networkmanager.enable = true; # Easiest to use and most distros use this by default.
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   # Set your time zone.
   time.timeZone = "Europe/Amsterdam";
 
-  # Configure network proxy if necessary
-  # networking.proxy.default = "http://user:password@proxy:port/";
-  # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
-
   # NVIDIA drivers are unfree.
   nixpkgs.config.allowUnfree = true;
   hardware.opengl.enable = true;
+
   # Optionally, you may need to select the appropriate driver version for your specific GPU.
   # hardware.nvidia.package = config.boot.kernelPackages.nvidiaPackages.stable;
 
@@ -104,7 +92,6 @@
   # Enable CUPS to print documents.
   # services.printing.enable = true;
 
-  # Enable sound.
   sound.enable = true;
   hardware.pulseaudio.enable = true;
 
@@ -119,7 +106,6 @@
     vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
     wget
     git
-    # plymouth
     firefox # use programs.firefox.enable = true; ?
     micro
     yakuake
@@ -130,30 +116,18 @@
   programs._1password.enable = true;
   programs._1password-gui.enable = true;
   programs._1password-gui.polkitPolicyOwners = [ "enikolov" ];
+  programs._1password-gui.package = (pkgs._1password-gui-beta.overrideAttrs
+    (oldAttrs: {
+      postInstall = ''
+        ln -s $out/share/1password/op-ssh-sign $out/bin/op-ssh-sign
+      '';
+    }));
+
   security.pam.services.kwallet.enableKwallet = true;
   security.polkit.enable = true;
 
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
-  # programs.mtr.enable = true;
-  # programs.gnupg.agent = {
-  #   enable = true;
-  #   enableSSHSupport = true;
-  # };
   services.tailscale.enable = true;
   networking.firewall.checkReversePath = "loose";
-
-
-  # List services that you want to enable:
-
-  # Enable the OpenSSH daemon.
-  # services.openssh.enable = true;
-
-  # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
-  # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
 
   # Copy the NixOS configuration file and link it from the resulting system
   # (/run/current-system/configuration.nix). This is useful in case you

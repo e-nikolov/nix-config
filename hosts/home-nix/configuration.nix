@@ -1,14 +1,7 @@
 { lib, pkgs, config, modulesPath, ... }:
-
-with lib;
-let
-  nixos-wsl = import ./nixos-wsl;
-in
-{
+with lib; {
   imports = [
     "${modulesPath}/profiles/minimal.nix"
-
-    nixos-wsl.nixosModules.wsl
   ];
 
   wsl = {

@@ -1,7 +1,5 @@
-{ config, pkgs, id, inputs, ... }:
+{ config, pkgs, values, inputs, ... }:
 let
-  yakuake_autostart = (pkgs.makeAutostartItem { name = "yakuake"; package = pkgs.yakuake; srcPrefix = "org.kde."; });
-
   nixpkgsPackages = with pkgs; [
     nix
     tailscale
@@ -37,12 +35,6 @@ let
     go-ethereum
     awscli2
     file
-    xclip
-    vscode
-    firefox
-    popcorntime
-    yakuake
-    yakuake_autostart
     nebula
     bash-completion
     tldr
@@ -64,17 +56,14 @@ let
     cowsay
     rc2nix
     killall
-    # _1password
-    # _1password-gui
     gnupg
     gnumake
-    konsole
     bc
   ];
 in
 {
-  home.username = "${id.username}";
-  home.homeDirectory = "/home/${id.username}";
+  home.username = "${values.username}";
+  home.homeDirectory = "/home/${values.username}";
   programs.home-manager.enable = true;
 
   home.packages = nixpkgsPackages ++ [ ];
@@ -109,7 +98,7 @@ in
     kx = "kubectx";
     kn = "kubens";
     gl = "launch_goland";
-    nrs = "sudo nixos-rebuild switch --flake $HOME/.config/nixpkgs/nixos/";
+    nrs = "sudo nixos-rebuild switch --flake $HOME/.config/nixpkgs/";
     hm = "home-manager";
     hms =
       ''home-manager switch --flake "$HOME/.config/nixpkgs" && src'';
@@ -204,8 +193,8 @@ in
 
   programs.git = {
     enable = true;
-    userName = "${id.gitUsername}";
-    userEmail = "${id.email}";
+    userName = "${values.gitUsername}";
+    userEmail = "${values.email}";
   };
 
   programs.htop.enable = true;

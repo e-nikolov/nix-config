@@ -3,6 +3,14 @@ let
   yakuake_autostart = (pkgs.makeAutostartItem { name = "yakuake"; package = pkgs.yakuake; srcPrefix = "org.kde."; });
 
   nixpkgsPackages = with pkgs; [
+    xclip
+    vscode
+    firefox
+    popcorntime
+    yakuake
+    yakuake_autostart
+    konsole
+    ark
   ];
 in
 {
