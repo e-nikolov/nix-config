@@ -17,6 +17,7 @@
   boot.loader = {
     systemd-boot = {
       enable = true;
+      configurationLimit = 10;
       extraEntries = {
         "kubuntu.conf" = ''
           title Kubuntu
@@ -28,7 +29,6 @@
       canTouchEfiVariables = true;
     };
   };
-  #  boot.plymouth.enable = true;
 
   programs.zsh.enable = true;
   users.defaultUserShell = pkgs.zsh;
@@ -128,7 +128,7 @@
     enable = true;
     enableSSHSupport = false;
   };
-  boot.zfs.requestEncryptionCredentials = false;
+  # boot.zfs.requestEncryptionCredentials = false;
   security.pam.services.kwallet.enableKwallet = true;
   security.polkit.enable = true;
 

@@ -129,7 +129,7 @@ in
     Wallpaper=${config.home.homeDirectory}/.local/share/konsole/termix-bg.png
     WallpaperOpacity=0.9
   '';
-  home.file.".local/share/konsole/termix-bg.png".source = ../../images/terminal-bg.png;
+  home.file.".local/share/konsole/termix-bg.png".source = ../../images/termix-bg.png;
 
   programs.vscode = {
     enable = true;
