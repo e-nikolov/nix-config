@@ -218,7 +218,7 @@ in
   services.gpg-agent = {
     enable = true;
     defaultCacheTtl = 1800;
-    # enableSshSupport = true;
+    enableSshSupport = true;
   };
 
   # This value determines the Home Manager release that your
