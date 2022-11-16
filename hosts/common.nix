@@ -4,7 +4,6 @@ let
     nix
     tailscale
     htop
-    fortune
     cacert
     zotero
     nixfmt
@@ -32,7 +31,7 @@ let
     jq
     websocat
     rustc
-    go-ethereum
+    # go-ethereum
     awscli2
     file
     nebula
@@ -51,14 +50,28 @@ let
     rnix-lsp
     udisks2
     # devbox
-    # hello
     pam_mount
-    cowsay
     rc2nix
     killall
     gnupg
     gnumake
     bc
+    terraform
+    nixos-install-tools
+    # fortune
+    # hello
+    # cowsay
+
+    # kdiskmark
+    # filelight
+    # bonnie
+    # _7zz
+    # podman
+    # shadow
+    # parallel
+    # pssh
+    # polkit
+    # nixos-generators
   ];
 in
 {
