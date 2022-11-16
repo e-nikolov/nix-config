@@ -264,5 +264,38 @@ in
         Width = 100;
       };
     };
+    files.powermanagementprofilesrc = {
+      "AC.DPMSControl" = {
+        idleTime = 3600;
+        lockBeforeTurnOff = 0;
+      };
+      "AC.DimDisplay" = {
+        idleTime = 3600000;
+      };
+      "AC.HandleButtonEvents" = {
+        lidAction = 0;
+        powerButtonAction = 16;
+        powerDownAction = 16;
+        triggerLidActionWhenExternalMonitorPresent = false;
+      };
+      "Battery.DPMSControl" = {
+        idleTime = 1500;
+        lockBeforeTurnOff = 0;
+      };
+      "Battery.DimDisplay" = {
+        idleTime = 900000;
+      };
+      "Battery.HandleButtonEvents" = {
+        lidAction = 1;
+        powerButtonAction = 16;
+        powerDownAction = 16;
+        triggerLidActionWhenExternalMonitorPresent = false;
+      };
+      "Battery.SuspendSession" = {
+        idleTime = 1800000;
+        suspendThenHibernate = false;
+        suspendType = 1;
+      };
+    };
   };
 }

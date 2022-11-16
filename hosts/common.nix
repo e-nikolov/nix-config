@@ -115,11 +115,10 @@ in
       ''home-manager switch --flake "$HOME/.config/nixpkgs" && src'';
     hmg = "code ~/.config/nixpkgs/";
 
-    zfg = "subl ~/.zshrc";
+    zfg = "code ~/.zshrc";
     gomt = "go mod tidy";
     src = "source ~/.zshrc";
     grep = "grep --color --ignore-case --line-number --context=3 ";
-    ns = "nix develop --command zsh ";
   };
 
   home.sessionVariables = rec {
@@ -162,7 +161,7 @@ in
       {
         file = "p10k.zsh";
         name = "powerlevel10k-config";
-        src = ./.;
+        src = ../dotfiles/.;
       }
       {
         file = "zsh-z.plugin.zsh";
@@ -182,7 +181,7 @@ in
     ];
 
     initExtra = ''
-      . ~/.config/nixpkgs/.zshrc
+      . ~/.config/nixpkgs/dotfiles/.zshrc
 
       complete -o nospace -C ${pkgs.terraform}/bin/terraform terraform
     '';

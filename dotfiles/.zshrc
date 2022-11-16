@@ -1,5 +1,3 @@
-# autoload -Uz compinit
-# compinit
 autoload bashcompinit && bashcompinit
 zmodload -i zsh/complist
 
@@ -36,10 +34,6 @@ bindkey -e
 
 # # End of lines added by compinstall
 
-### Plugins ###
-# zinit ice depth=1; zinit light romkatv/powerlevel10k
-# [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-
 # # Load a few important annexes, without Turbo
 # # (this is currently required for annexes)
 zinit light-mode for \
@@ -48,56 +42,28 @@ zinit light-mode for \
     zdharma-continuum/zinit-annex-patch-dl \
     zdharma-continuum/zinit-annex-rust
 
-#  atinit"zicompinit; zicdreplay" \
-
 zinit wait lucid light-mode for \
     blockf \
         zsh-users/zsh-completions \
     pick"git-it-on.plugin.zsh" \
         peterhurford/git-it-on.zsh
 
-# zinit light-mode for \
-#     pick"zsh-lazyload.zsh" \
-#         qoomon/zsh-lazyload
-
 zinit snippet OMZL::git.zsh
 zinit snippet OMZP::git
 # zinit snippet OMZP::common-aliases
 zinit snippet OMZP::debian
-# zinit snippet OMZP::command-not-found
 zinit snippet OMZP::sudo
 zinit snippet OMZP::golang
-# zinit load rupa/z
-# zinit load changyuheng/fz
 zinit snippet OMZ::plugins/ssh-agent/ssh-agent.plugin.zsh
-# zinit load zdharma-continuum/zui
-# zinit load zdharma-continuum/zbrowse
-# zinit light zdharma-continuum/zinit-crasis
 zinit load "djui/alias-tips"
 zinit snippet OMZP::colored-man-pages
-# zinit ice from"gh-r" as"program"
-# zinit load asdf-vm/asdf
-# zinit pack"binary+keys" for fzf
-# zinit load Aloxaf/fzf-tab
 zinit load zimfw/input
 
-. ~/.config/nixpkgs/text-selections.zsh
-# export ACTION_CUT_SELECTION=$'^X'
-# zinit multisrc"{text-selections,echo-quoted-line}/*.zsh" for e-nikolov/zinit-plugins
-# zinit multisrc"echo-quoted-line/*.zsh" for e-nikolov/zinit-plugins
+. ~/.config/nixpkgs/dotfiles/text-selections.zsh
 
 ### Key binds ###
 
 bindkey '^G' fzf-file-widget
-# bindkey '^H' my-backward-delete-word
-# bindkey '^H' tcsh-backward-delete-word
-# bindkey '^[[1;5C' forward-word
-# bindkey '^[[1;5D' backward-word
-# bindkey '^[[1;7D' emacs-backward-word
-# bindkey '^[[1;7C' emacs-forward-word
-# bindkey '^[[1;3D' emacs-backward-word
-# bindkey '^[[1;3C' emacs-forward-word
-# bindkey '^H' backward-kill-word
 bindkey -M emacs '^[[3;5~' kill-word
 bindkey '^P' fzf-process-widget
 autoload -U select-word-style
@@ -105,14 +71,13 @@ select-word-style bash
 
 ### Aliases ###
 
-[ -f ~/.config/nixpkgs/.kubectl_aliases ] && source ~/.config/nixpkgs/.kubectl_aliases
+[ -f ~/.config/nixpkgs/dotfiles/.kubectl_aliases ] && source ~/.config/nixpkgs/dotfiles/.kubectl_aliases
 
 
 xc() {
     xclip -selection clipboard
 }
 
-# alias pp="ps axww -o pid,user,%cpu,%mem,start,time,command | fzf | sed 's/^ *//' | cut -f1 -d' '"
 fzf-process-widget() {
     # local cmd="ps axww -o pid,user,%cpu,%mem,start,time,command | fzf | sed 's/^ *//' | cut -f1 -d' '"
     local pid=( $(ps axww -o pid,user,%cpu,%mem,start,time,command | fzf | sed 's/^ *//' | cut -f1 -d' ') )
