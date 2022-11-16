@@ -47,7 +47,7 @@
             };
           };
 
-          mkSystem = { modules ? [ ], system ? "x86_64-linux" }: nixpkgs.lib.nixosSystem {
+          mkSystem = { modules ? [ ] }: nixpkgs.lib.nixosSystem {
             modules = [
 
             ] ++ modules;
