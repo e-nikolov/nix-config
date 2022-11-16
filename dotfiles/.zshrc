@@ -19,11 +19,11 @@ zinit light trystan2k/zsh-tab-title
 
 ### Environment variables and Configs ###
 
-# export GPG_TTY=$TTY
+export GPG_TTY=$TTY
 
 zstyle :omz:plugins:ssh-agent agent-forwarding on
 zstyle :omz:plugins:ssh-agent lazy yes
-zstyle :omz:plugins:ssh-agent lifetime 10m
+zstyle :omz:plugins:ssh-agent lifetime 30m
 
 setopt histignorealldups sharehistory
 

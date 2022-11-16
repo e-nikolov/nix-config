@@ -71,6 +71,9 @@ in
   programs.nix-index.enable = true;
   fonts.fontconfig.enable = true;
 
+  programs.direnv.enable = true;
+  programs.direnv.nix-direnv.enable = true;
+
   home.shellAliases = {
     gi = "go install ./...";
     sudo = ''sudo -E env "PATH=$PATH" '';
@@ -199,11 +202,11 @@ in
 
   programs.htop.enable = true;
   # services.tailscaled.enable = true;
-  services.gpg-agent = {
-    enable = true;
-    defaultCacheTtl = 1800;
-    enableSshSupport = true;
-  };
+  # services.gpg-agent = {
+  #   enable = true;
+  #   defaultCacheTtl = 1800;
+  #   enableSshSupport = true;
+  # };
 
   # This value determines the Home Manager release that your
   # configuration is compatible with. This helps avoid breakage
