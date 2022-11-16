@@ -28,7 +28,7 @@
       canTouchEfiVariables = true;
     };
   };
-#  boot.plymouth.enable = true;
+  #  boot.plymouth.enable = true;
 
   programs.zsh.enable = true;
   users.defaultUserShell = pkgs.zsh;
@@ -110,6 +110,7 @@
     micro
     yakuake
     konsole
+    plymouth
   ];
 
   programs.git.enable = true;
@@ -123,6 +124,11 @@
       '';
     }));
 
+  programs.gnupg.agent = {
+    enable = true;
+    enableSSHSupport = false;
+  };
+  boot.zfs.requestEncryptionCredentials = false;
   security.pam.services.kwallet.enableKwallet = true;
   security.polkit.enable = true;
 
