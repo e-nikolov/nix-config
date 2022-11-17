@@ -48,7 +48,7 @@
           };
 
           mkSystem = { modules ? [ ] }: nixpkgs.lib.nixosSystem {
-            nixpkgs.config.allowUnfree = true;
+            inherit pkgs;
 
             modules = [
 
