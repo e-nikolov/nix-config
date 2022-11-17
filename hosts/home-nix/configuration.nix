@@ -19,6 +19,7 @@ with lib; {
     interop.register = true;
   };
   networking.firewall.checkReversePath = "loose";
+  networking.hostName = "home-nix";
   services.tailscale.enable = true;
   # programs.ssh.startAgent = true;
   programs.zsh.enable = true;
