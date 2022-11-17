@@ -121,6 +121,7 @@ in
     src = "source ~/.zshrc";
     grep = "grep --color --ignore-case --line-number --context=3 ";
     ls = "ls -alh --group-directories-first --color ";
+    df = "df -h ";
   };
 
   home.sessionVariables = rec {

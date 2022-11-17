@@ -75,5 +75,7 @@ with lib; {
     experimental-features = nix-command flakes
   '';
 
+  boot.binfmt.emulatedSystems = [ "armv7l-linux" ];
+
   system.stateVersion = "22.05";
 }

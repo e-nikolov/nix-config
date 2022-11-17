@@ -14,6 +14,7 @@
   # boot.blacklistedKernelModules = [ "nouveau" "nvidia" ];
   # boot.kernelParams = [ "acpi_rev_override=1" "nomodeset" ];
   boot.kernelParams = [ "acpi_rev_override=1" ];
+  boot.binfmt.emulatedSystems = [ "armv7l-linux" ];
   boot.loader = {
     systemd-boot = {
       enable = true;
