@@ -98,13 +98,10 @@ in
     d = "docker";
     dci = "docker_install";
     port = "sudo lsof -i -P -n | grep LISTEN | grep ";
-    K =
-      "KUBECONFIG=~/go/src/github.com/unchain/tbg-nodes/kubeconfig.local.yaml ";
-    kk =
-      "KUBECONFIG=~/go/src/github.com/unchain/tbg-nodes/kubeconfig.local.yaml k ";
+    K = "KUBECONFIG=~/go/src/github.com/unchain/tbg-nodes/kubeconfig.local.yaml ";
+    kk = "KUBECONFIG=~/go/src/github.com/unchain/tbg-nodes/kubeconfig.local.yaml k ";
     cz = "chezmoi";
-    pp =
-      "ps axww -o pid,user,%cpu,%mem,start,time,command | fzf | sed 's/^ *//' | cut -f1 -d' '";
+    pp = "ps axww -o pid,user,%cpu,%mem,start,time,command | fzf | sed 's/^ *//' | cut -f1 -d' '";
 
     ll = "ls -l";
 
@@ -116,14 +113,14 @@ in
     gl = "launch_goland";
     nrs = "sudo nixos-rebuild switch --flake $HOME/.config/nixpkgs/";
     hm = "home-manager";
-    hms =
-      ''home-manager switch --flake "$HOME/.config/nixpkgs" && src'';
+    hms = ''home-manager switch --flake "$HOME/.config/nixpkgs" && src'';
     hmg = "code ~/.config/nixpkgs/";
 
     zfg = "code ~/.zshrc";
     gomt = "go mod tidy";
     src = "source ~/.zshrc";
     grep = "grep --color --ignore-case --line-number --context=3 ";
+    ls = "ls -alh --group-directories-first ";
   };
 
   home.sessionVariables = rec {

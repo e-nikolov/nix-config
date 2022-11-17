@@ -71,7 +71,9 @@
   services.xserver.desktopManager.plasma5.enable = true;
   services.xserver.displayManager.sddm.enable = true;
   services.xserver.desktopManager.plasma5.runUsingSystemd = true;
-  services.xserver.xkbOptions = "terminate:ctrl_alt_bksp,esc:swapcaps";
+  services.xserver.xkbOptions = "esc:caps";
+
+  programs.partition-manager.enable = true;
 
   services.xserver.libinput = {
     enable = true;

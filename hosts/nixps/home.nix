@@ -2,20 +2,40 @@
 let
   yakuake_autostart = (pkgs.makeAutostartItem { name = "yakuake"; package = pkgs.yakuake; srcPrefix = "org.kde."; });
   _1password_autostart = (pkgs.makeAutostartItem { name = "1password"; package = pkgs._1password-gui; });
+
+  popcorntime = (pkgs.popcorntime.overrideAttrs (final: old: rec {
+    desktopItem = pkgs.makeDesktopItem (with old; {
+      name = pname;
+      exec = pname;
+      icon = pname;
+      comment = meta.description;
+      genericName = meta.description;
+      type = "Application";
+      desktopName = "Popcorn-Time";
+      categories = [ "Video" "AudioVideo" ];
+    });
+
+    installPhase = old.installPhase + ''
+
+      ln -s ${desktopItem}/share/applications/popcorntime.desktop $out/share/applications/popcorntime.desktop
+    '';
+  }));
 in
 {
-  home.packages = with pkgs;[
-    xclip
-    vscode
-    firefox
-    popcorntime
-    yakuake
+  home.packages = [
+    pkgs.xclip
+    pkgs.vscode
+    pkgs.firefox
+    pkgs.yakuake
+    pkgs.konsole
+    pkgs.ark
+    pkgs.krita
+    pkgs.vlc
+
     yakuake_autostart
     _1password_autostart
-    konsole
-    ark
-    krita
-    vlc
+
+    popcorntime
   ];
 
   home.file.".local/share/konsole/termix.profile".source = ../../dotfiles/termix.profile;
