@@ -6,7 +6,7 @@ with lib; {
 
   wsl = {
     enable = true;
-    automountPath = "/mnt";
+    wslConf.automount.root = "/mnt";
     defaultUser = "enikolov";
     # startMenuLaunchers = true;
 
