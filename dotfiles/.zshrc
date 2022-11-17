@@ -92,7 +92,7 @@ zle -N fzf-process-widget
 typeset -g POWERLEVEL9K_KUBECONTEXT_SHOW_ON_COMMAND='kubectl|helm|kubens|kubectx|oc|istioctl|kogito|k9s|helmfile|make'
 
 POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(kubecontext os_icon dir vcs newline prompt_char)
-POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status asdf root_indicator command_execution_time background_jobs history direnv virtualenv anaconda pyenv goenv nodeenv fvm luaenv jenv plenv phpenv scalaenv haskell_stack kubecontext terraform aws aws_eb_env azure gcloud google_app_cred context nordvpn ranger nnn vim_shell midnight_commander nix_shell todo timewarrior taskwarrior time newline)
+POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status asdf root_indicator command_execution_time background_jobs history direnv virtualenv anaconda pyenv goenv nodeenv fvm luaenv jenv plenv phpenv scalaenv haskell_stack kubecontext terraform aws aws_eb_env azure gcloud google_app_cred context nordvpn ranger nnn vim_shell midnight_commander nix_shell todo timewarrior taskwarrior time newline go_version)
 typeset -g POWERLEVEL9K_ASDF_PROMPT_ALWAYS_SHOW=true
 typeset -g POWERLEVEL9K_ASDF_NODEJS_SHOW_ON_UPGLOB='*.js|package.json'
 typeset -g POWERLEVEL9K_ASDF_RUBY_SHOW_ON_UPGLOB='*.rb'
