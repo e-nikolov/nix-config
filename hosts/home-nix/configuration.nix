@@ -16,6 +16,7 @@ with lib; {
     # Enable integration with Docker Desktop (needs to be installed)
     # docker-desktop.enable = true;
     # interop.preserveArgvZero = false;
+    interop.register = true;
   };
   networking.firewall.checkReversePath = "loose";
   services.tailscale.enable = true;
