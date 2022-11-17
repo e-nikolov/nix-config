@@ -1,6 +1,7 @@
 { config, pkgs, id, inputs, ... }:
 let
   yakuake_autostart = (pkgs.makeAutostartItem { name = "yakuake"; package = pkgs.yakuake; srcPrefix = "org.kde."; });
+  _1password_autostart = (pkgs.makeAutostartItem { name = "1password"; package = pkgs._1password-gui; });
 in
 {
   home.packages = with pkgs;[
@@ -10,9 +11,11 @@ in
     popcorntime
     yakuake
     yakuake_autostart
+    _1password_autostart
     konsole
     ark
     krita
+    vlc
   ];
 
   home.file.".local/share/konsole/termix.profile".source = ../../dotfiles/termix.profile;
