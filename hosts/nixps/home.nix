@@ -31,6 +31,7 @@ in
     pkgs.ark
     pkgs.krita
     pkgs.vlc
+    pkgs.parted
 
     yakuake_autostart
     _1password_autostart
