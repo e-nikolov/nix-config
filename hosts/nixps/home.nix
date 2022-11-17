@@ -1,4 +1,4 @@
-{ config, pkgs, id, inputs, ... }:
+{ config, pkgs, id, inputs, lib, ... }:
 let
   yakuake_autostart = (pkgs.makeAutostartItem { name = "yakuake"; package = pkgs.yakuake; srcPrefix = "org.kde."; });
   _1password_autostart = (pkgs.makeAutostartItem { name = "1password"; package = pkgs._1password-gui; });
@@ -156,6 +156,35 @@ in
 
   programs.vscode = {
     enable = true;
+
+    extensions = with pkgs.vscode-extensions; [
+      hashicorp.terraform
+      _2gua.rainbow-brackets
+      oderwat.indent-rainbow
+      alefragnani.bookmarks
+      bbenoist.nix
+      golang.go
+      jnoortheen.nix-ide
+      arrterian.nix-env-selector
+      # p1c2u.docker-compose
+      (pkgs.vscode-utils.buildVscodeMarketplaceExtension {
+        mktplcRef = {
+          publisher = "k--kato";
+          name = "intellij-idea-keybindings";
+          version = "1.5.4";
+          sha256 = "sha256-3RNwOQtq/4R13LB6MPYVI4liAT5yXcmCKlb8TBRP5fg=";
+        };
+        meta = with lib; {
+          changelog = "https://github.com/kasecato/vscode-intellij-idea-keybindings/blob/master/CHANGELOG.md";
+          description = "Port of IntelliJ IDEA key bindings for VS Code.";
+          downloadPage = "https://marketplace.visualstudio.com/items?itemName=k--kato.intellij-idea-keybindings";
+          homepage = "https://github.com/kasecato/vscode-intellij-idea-keybindings#readme";
+          license = licenses.mit;
+          maintainers = with maintainers; [ ];
+        };
+      })
+    ];
+
     userSettings = {
       go.formatTool = "gofumports";
       go.useCodeSnippetsOnFunctionSuggest = true;
