@@ -128,8 +128,6 @@ in
     ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE = "fg=12";
     EDITOR = "micro";
     GOBIN = "~/go/bin";
-    # GOMODCACHE = "/home/enikolov/go/pkg/mod";
-    # GOPATH = "/home/enikolov/go";
     GOMODCACHE = "$HOME/go/pkg/mod";
     GOPATH = "$HOME/go";
     PATH = "$PATH:${GOBIN}:~/.local/bin";
