@@ -48,6 +48,8 @@
           };
 
           mkSystem = { modules ? [ ] }: nixpkgs.lib.nixosSystem {
+            nixpkgs.config.allowUnfree = true;
+
             modules = [
 
             ] ++ modules;
