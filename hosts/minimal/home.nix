@@ -194,11 +194,6 @@
           src = "${pkgs.zsh-fzf-tab}/share/fzf-tab/";
         }
         {
-          file = "autopair.zsh";
-          name = "zsh-autopair";
-          src = "${pkgs.zsh-autopair}/share/zsh/zsh-autopair/";
-        }
-        {
           name = "you-should-use";
           src = "${pkgs.zsh-you-should-use}/share/zsh/plugins/you-should-use/";
         }
@@ -211,6 +206,11 @@
             rev = "7cec4020c0f84f4bbc33ca3a613d1ab1f20b1795";
             sha256 = "sha256-LHFkAkf0QfOoQfsE8TZEK/zdDjfP8hnRHm+uByh0vZ4=";
           };
+        }
+        {
+          file = "autopair.zsh";
+          name = "zsh-autopair";
+          src = "${pkgs.zsh-autopair}/share/zsh/zsh-autopair/";
         }
         {
           name = "kubectl-aliases";
