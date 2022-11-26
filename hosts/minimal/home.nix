@@ -79,6 +79,9 @@
   programs.ssh = {
     forwardAgent = true;
     enable = true;
+    extraConfig = ''
+      AddKeysToAgent yes
+    '';
   };
 
   programs.nix-index.enable = true;
