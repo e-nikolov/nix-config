@@ -32,7 +32,7 @@
           };
         in
         {
-          packages.homeConfigurations."<username>@<hostname>" = mkHome {
+          packages.homeConfigurations."{{username}}@{{hostname}}" = mkHome {
             modules = [
               ./home.nix
             ];
