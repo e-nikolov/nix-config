@@ -23,7 +23,7 @@
             inherit pkgs;
 
             modules = [
-              # You can remove the line below if you don't want to get updates from the minimal flake from github.com/e-nikolov/nix-config
+              # You can remove the line below if you don't want to use the minimal flake from github.com/e-nikolov/nix-config
               nix-config.minimal
 
               # You can uncomment the line below if you want to switch to a local copy of the minimal flake from github.com/e-nikolov/nix-config
@@ -38,6 +38,7 @@
         {
           packages.homeConfigurations."{{username}}@{{hostname}}" = mkHome {
             modules = [
+              # You can include your own customizations on top of the minimal flake inside home.nix
               ./home.nix
             ];
           };
