@@ -46,20 +46,20 @@ is equivalent to
 ```nix
     a.b.c = "d";
 ```
-    - Function definitions - the following is a function `f` with 3 arguments `a`, `b`, `c` that returns their sum:
+- Function definitions - the following is a function `f` with 3 arguments `a`, `b`, `c` that returns their sum:
 
 ```nix
 f = a: b: c: a + b + c;
 ```
-    - Function calls - `x` will have the resulting value of calling the function f with arguments 1 2 and 3
+- Function calls - `x` will have the resulting value of calling the function f with arguments 1 2 and 3
 ```nix
 x = f 1 2 3;
 ```
-    - sometimes calling a function with arguments has lower priority than other operations around it, so the arguments would have to be surrounded with parentheses:
+- sometimes calling a function with arguments has lower priority than other operations around it, so the arguments would have to be surrounded with parentheses:
 ```nix
 x = [(f 1 2 3) (f 3 4 5)];
 ```
-    - calling a function with an attribute set as an argument:
+- calling a function with an attribute set as an argument:
 
 ```nix
 x = doSomething {
