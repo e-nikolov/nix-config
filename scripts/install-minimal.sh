@@ -20,14 +20,16 @@ mkdir -p $INSTALL_LOCATION
 nix flake --refresh new --template github:e-nikolov/nixpkgs-config/master#minimal $INSTALL_LOCATION
 cd $INSTALL_LOCATION
 
-sed -i s/{{username}}/$USER/g flake.nix
-sed -i s/{{username}}/$USER/g home.nix
+echo Configuring the flake for "$USER"@"$HOST" with home "$HOME"
 
-sed -i s/{{hostname}}/$HOST/g flake.nix
-sed -i s/{{hostname}}/$HOST/g home.nix
+sed -i s@{{username}}@"$USER"@g flake.nix
+sed -i s@{{username}}@"$USER"@g home.nix
 
-sed -i s/{{homedir}}/$HOME/g flake.nix
-sed -i s/{{homedir}}/$HOME/g home.nix
+sed -i s@{{hostname}}@"$HOST"@g flake.nix
+sed -i s@{{hostname}}@"$HOST"@g home.nix
+
+sed -i s@{{homedir}}@"$HOME"@g flake.nix
+sed -i s@{{homedir}}@"$HOME"@g home.nix
 
 echo Run this command to finish the installation:
 echo home-manager switch --flake . $*
