@@ -39,7 +39,8 @@
             inherit pkgs;
 
             modules = [
-              ./hosts/common.nix
+              ./hosts/minimal/home.nix
+              ./hosts/common/home.nix
             ] ++ modules;
 
             extraSpecialArgs = {

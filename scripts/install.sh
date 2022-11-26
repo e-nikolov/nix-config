@@ -1,7 +1,7 @@
 #!/bin/sh
 
 repo="https://github.com/e-nikolov/nixpkgs-config"
-location="$HOME/.config/nixpkgs-test"
+location="$HOME/nix-config"
 
 echo 'configuring nix'
 

@@ -18,6 +18,8 @@ with lib; {
     # interop.preserveArgvZero = false;
     interop.register = true;
   };
+  boot.binfmt.emulatedSystems = [ "armv7l-linux" ];
+
   networking.firewall.checkReversePath = "loose";
   networking.hostName = "home-nix";
   services.tailscale.enable = true;
@@ -76,8 +78,6 @@ with lib; {
   nix.extraOptions = ''
     experimental-features = nix-command flakes
   '';
-
-  boot.binfmt.emulatedSystems = [ "armv7l-linux" ];
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
 

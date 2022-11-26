@@ -22,8 +22,10 @@ let
   }));
 in
 {
+
+  programs.git = { };
+
   home.packages = [
-    pkgs.xclip
     pkgs.vscode
     pkgs.firefox
     pkgs.yakuake
@@ -32,6 +34,8 @@ in
     pkgs.krita
     pkgs.vlc
     pkgs.parted
+    pkgs.brave
+    # pkgs.texlive.combined.scheme-full
 
     yakuake_autostart
     _1password_autostart
@@ -39,6 +43,10 @@ in
     popcorntime
   ];
 
+  programs.texlive.enable = true;
+  programs.texlive.extraPackages = tpkgs: { inherit (tpkgs) scheme-full; };
+
+  home.file.".local/share/konsole/default.keytab".source = ../../dotfiles/default.keytab;
   home.file.".local/share/konsole/termix.profile".source = ../../dotfiles/termix.profile;
   home.file.".local/share/konsole/termix.colorscheme".text = ''
     [Background]
@@ -154,6 +162,9 @@ in
     WallpaperOpacity=0.9
   '';
   home.file.".local/share/konsole/termix-bg.png".source = ../../images/termix-bg.png;
+  home.file.".npmrc".text = ''
+    prefix = ${config.home.homeDirectory}/.npm-packages
+  '';
 
   programs.vscode = {
     enable = true;
@@ -328,9 +339,18 @@ in
         key = "ctrl+s";
         command = "workbench.action.files.saveFiles";
       }
+      {
+        key = "ctrl+b";
+        command = "editor.action.openLink";
+      }
     ];
   };
-
+  programs.kitty.enable = true;
+  services.polybar.enable = true;
+  services.polybar.script = ''
+    polybar bar &
+  '';
+  programs.feh.enable = true;
 
   programs.plasma = {
     enable = true;
@@ -406,6 +426,11 @@ in
         sortingStrategy = "1";
       };
     };
+    files.konsolerc = {
+      "Desktop Entry" = {
+        DefaultProfile = "termix.profile";
+      };
+    };
     files.yakuakerc = {
       "Appearance" = {
         HideSkinBorders = true;
@@ -430,6 +455,9 @@ in
         previous-terminal = "Ctrl+Shift+Up";
         rename-session = "F2";
         new-session = "Ctrl+Shift+T; Ctrl+T";
+      };
+      "Desktop Entry" = {
+        DefaultProfile = "termix.profile";
       };
       "Window" = {
         DynamicTabTitles = true;

@@ -7,6 +7,7 @@ then
 else
     echo installing nix
     curl -L https://nixos.org/nix/install | sh
+    source ~/.bashrc
 fi
 
 nix-shell https://github.com/e-nikolov/nixpkgs-config/archive/master.tar.gz --tarball-ttl 0 --command "install.sh $*" 
