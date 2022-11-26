@@ -53,7 +53,7 @@ is equivalent to
 ```nix
 {f = a: b: c: a + b + c; }
 ```
-- Function calls - `x` will have the resulting value of calling the function f with arguments 1 2 and 3
+- Function calls - `x` will have the resulting value of calling the function `f` with arguments 1, 2, and 3
 ```nix
 {x = f 1 2 3; }
 ```
@@ -72,4 +72,4 @@ is equivalent to
     };
 }
 ```
-To the untrained eye, this might look like a function definition, but it's actually a call of the function doSomething with an attribute set argument.
+To the untrained eye, this might look like a function definition, but it's actually a call of the function `doSomething` with an attribute set argument.
