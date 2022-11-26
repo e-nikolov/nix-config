@@ -2,7 +2,7 @@
 
 set -e
 
-repo="https://github.com/e-nikolov/nixpkgs-config"
+repo="https://github.com/e-nikolov/nix-config"
 
 echo 'configuring nix'
 

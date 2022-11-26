@@ -6,7 +6,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     flake-utils.url = "github:numtide/flake-utils";
-    nix-config.url = "github:e-nikolov/nixpkgs-config/master";
+    nix-config.url = "github:e-nikolov/nix-config/master";
   };
 
   outputs = inputs@{ self, nixpkgs, flake-utils, home-manager, nix-config, ... }:
@@ -23,10 +23,10 @@
             inherit pkgs;
 
             modules = [
-              # You can remove the line below if you don't want to follow github.com/e-nikolov/nixpkgs-config
+              # You can remove the line below if you don't want to follow github.com/e-nikolov/nix-config
               nix-config.minimal
 
-              # You can uncomment the line below if you want to switch to a local copy of the minimal flake from github.com/e-nikolov/nixpkgs-config
+              # You can uncomment the line below if you want to switch to a local copy of the minimal flake from github.com/e-nikolov/nix-config
               ./hosts/minimal/home.nix
             ] ++ modules;
 

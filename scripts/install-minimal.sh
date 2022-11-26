@@ -17,7 +17,7 @@ export HOST=$(hostname)
 echo installing to $INSTALL_LOCATION
 mkdir -p $INSTALL_LOCATION
 
-nix flake --refresh new --template github:e-nikolov/nixpkgs-config/master#minimal $INSTALL_LOCATION
+nix flake --refresh new --template github:e-nikolov/nix-config/master#minimal $INSTALL_LOCATION
 cd $INSTALL_LOCATION
 
 echo Configuring the flake for "$USER"@"$HOST" with home "$HOME"

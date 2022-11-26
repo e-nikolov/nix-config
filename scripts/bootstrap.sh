@@ -42,4 +42,4 @@ while [ $# -gt 0 ]; do
     shift
 done
 
-nix-shell https://github.com/e-nikolov/nixpkgs-config/archive/master.tar.gz --tarball-ttl 0 --command "$INSTALL_SCRIPT $*" 
+nix-shell https://github.com/e-nikolov/nix-config/archive/master.tar.gz --tarball-ttl 0 --command "$INSTALL_SCRIPT $*" 
