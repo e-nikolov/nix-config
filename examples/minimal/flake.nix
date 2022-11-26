@@ -6,7 +6,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     flake-utils.url = "github:numtide/flake-utils";
-    nix-config.url = "github:e-nikolov/nix-config/master";
+    nix-config.url = "github:e-nikolov/nixpkgs-config/master";
   };
 
   outputs = inputs@{ self, nixpkgs, flake-utils, home-manager, nix-config, ... }:

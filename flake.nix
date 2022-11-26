@@ -60,6 +60,13 @@
         {
           minimal = ./hosts/minimal/home.nix;
 
+          templates.minimal = {
+            description = ''
+              Minimal flake
+            '';
+            path = ./examples/minimal;
+          };
+
           # TODO figure out how to do this without hardcoding the username
           packages.homeConfigurations."enikolov@nixps" = mkHome {
             modules = [
