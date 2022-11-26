@@ -31,6 +31,8 @@
         '';
         path = ./examples/minimal;
       };
+
+      minimal = ./hosts/minimal/home.nix;
     } //
     flake-utils.lib.eachSystem (flake-utils.lib.defaultSystems ++ [ flake-utils.lib.system.armv7l-linux ])
       (system:
@@ -66,8 +68,6 @@
 
         in
         {
-          minimal = ./hosts/minimal/home.nix;
-
           # TODO figure out how to do this without hardcoding the username
           packages.homeConfigurations."enikolov@nixps" = mkHome {
             modules = [
