@@ -55,7 +55,7 @@ is equivalent to
 ```
 - Function calls - `x` will have the resulting value of calling the function f with arguments 1 2 and 3
 ```nix
-{x = f 1 2 3}
+{x = f 1 2 3; }
 ```
 - sometimes calling a function with arguments has lower priority than other operations around it, so the arguments would have to be surrounded with parentheses:
 ```nix
