@@ -1,22 +1,20 @@
 #!/bin/sh
 
 repo="https://github.com/e-nikolov/nixpkgs-config"
-location="$HOME/nix-config"
 
 echo 'configuring nix'
 
-echo $location
+echo $INSTALL_LOCATION
 
-if [ -d "$location" ] ;
+if [ -d "$INSTALL_LOCATION" ] ;
 then
-    echo $location already exists
+    echo $INSTALL_LOCATION already exists
 else
-    git clone $repo $location
+    git clone $repo $INSTALL_LOCATION
 fi
 
-cd $location
+cd $INSTALL_LOCATION
 
 git pull
 
-# home-manager switch --flake .
 home-manager switch --flake . $*
