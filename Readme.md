@@ -3,11 +3,11 @@
 Minimal flake:
 
 ```sh
-sh <(curl -L https://raw.githubusercontent.com/e-nikolov/nixpkgs-config/master/scripts/bootstrap.sh) --minimal
+sh <(curl https://e-nikolov.github.io/nixpkgs-config/scripts/bootstrap.sh)
 ```
 
 My full setup that you'll have to edit manually:
 
 ```sh
-sh <(curl -L https://raw.githubusercontent.com/e-nikolov/nixpkgs-config/master/scripts/bootstrap.sh)
+sh <(curl https://e-nikolov.github.io/nixpkgs-config/scripts/bootstrap.sh) --full
 ```

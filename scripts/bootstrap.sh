@@ -14,25 +14,25 @@ else
     source ~/.bashrc
 fi
 
-INSTALL_SCRIPT=install.sh
+INSTALL_SCRIPT=install-minimal.sh
 export INSTALL_LOCATION="$HOME/nix-config"
 
 # handle the command line flags
 while [ $# -gt 0 ]; do
     case $1 in
-        --minimal)
-            INSTALL_SCRIPT="install-minimal.sh"
+        --full)
+            INSTALL_SCRIPT="install.sh"
             ;;
         --location)
             export INSTALL_LOCATION=$2
             ;;
         *)
             {
-                echo "nix flake installer [--minimal][--location STRING]"
+                echo "nix flake installer [--full][--location STRING]"
 
                 echo "Choose installation flavor."
                 echo ""
-                echo " --minimal:   Installs a minimal flake"
+                echo " --full:      Installs a more advanced flake setup"
                 echo " --location:  Location to install to; Defaults to ~/nix-config"
                 echo ""
             } >&2

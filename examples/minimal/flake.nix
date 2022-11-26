@@ -23,7 +23,11 @@
             inherit pkgs;
 
             modules = [
+              # You can remove the line below if you don't want to follow github.com/e-nikolov/nixpkgs-config
               nix-config.minimal
+
+              # You can uncomment the line below if you want to switch to a local copy of the minimal flake from github.com/e-nikolov/nixpkgs-config
+              ./hosts/minimal/home.nix
             ] ++ modules;
 
             extraSpecialArgs = {
