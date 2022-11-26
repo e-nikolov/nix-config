@@ -17,7 +17,7 @@ fi
 echo installing to $INSTALL_LOCATION
 mkdir -p $INSTALL_LOCATION
 
-nix flake new --template github:e-nikolov/nixpkgs-config#minimal $INSTALL_LOCATION
+nix flake new --template github:e-nikolov/nixpkgs-config/master#minimal $INSTALL_LOCATION
 cd $INSTALL_LOCATION
 
 sed -i s/<username>/$USER/g flake.nix
