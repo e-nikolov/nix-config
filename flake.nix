@@ -24,6 +24,14 @@
   };
 
   outputs = inputs@{ self, nixpkgs, flake-utils, home-manager, ... }:
+    {
+      templates.minimal = {
+        description = ''
+          Minimal flake
+        '';
+        path = ./examples/minimal;
+      };
+    } //
     flake-utils.lib.eachSystem (flake-utils.lib.defaultSystems ++ [ flake-utils.lib.system.armv7l-linux ])
       (system:
         let
@@ -59,13 +67,6 @@
         in
         {
           minimal = ./hosts/minimal/home.nix;
-
-          templates.minimal = {
-            description = ''
-              Minimal flake
-            '';
-            path = ./examples/minimal;
-          };
 
           # TODO figure out how to do this without hardcoding the username
           packages.homeConfigurations."enikolov@nixps" = mkHome {

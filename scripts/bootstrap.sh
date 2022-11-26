@@ -1,4 +1,8 @@
 #!/bin/sh
+
+
+set -e
+
 # install nix if missing
 
 if [ $(command -v nix) ]

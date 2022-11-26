@@ -1,5 +1,7 @@
 #!/bin/sh
 
+set -e
+
 repo="https://github.com/e-nikolov/nixpkgs-config"
 
 echo 'configuring nix'
