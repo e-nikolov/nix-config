@@ -31,5 +31,7 @@ sed -i s@{{hostname}}@"$HOST"@g home.nix
 sed -i s@{{homedir}}@"$HOME"@g flake.nix
 sed -i s@{{homedir}}@"$HOME"@g home.nix
 
+echo 
+echo 
 echo Run this command to finish the installation:
 echo home-manager switch --flake $INSTALL_LOCATION -b backup $*
