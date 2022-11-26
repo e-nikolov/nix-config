@@ -4,8 +4,6 @@ set -e
 
 echo 'configuring nix'
 
-
-
 if [ -d "$INSTALL_LOCATION" ] ;
 then
     echo $INSTALL_LOCATION already exists
@@ -13,6 +11,8 @@ then
     rand_suffix=$(echo $RANDOM | md5sum | head -c 10; echo)
     export INSTALL_LOCATION=${INSTALL_LOCATION}-${rand_suffix}
 fi
+
+export HOST=$(hostname)
 
 echo installing to $INSTALL_LOCATION
 mkdir -p $INSTALL_LOCATION
@@ -32,4 +32,4 @@ sed -i s@{{homedir}}@"$HOME"@g flake.nix
 sed -i s@{{homedir}}@"$HOME"@g home.nix
 
 echo Run this command to finish the installation:
-echo home-manager switch --flake . $*
+echo home-manager switch --flake $INSTALL_LOCATION -b backup $*
