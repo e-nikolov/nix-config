@@ -39,6 +39,8 @@ in
 
     yakuake_autostart
     _1password_autostart
+    # pkgs.hello
+    pkgs.xdotool
 
     popcorntime
   ];
@@ -228,6 +230,30 @@ in
       local-history.path = "~/.vscode-history";
       local-history.daysLimit = 3;
       files.hotExit = "onExitAndWindowClose";
+      latex-workshop.view.pdf.external.viewer.args = [
+        "-shell-escape"
+        "%PDF%"
+      ];
+      latex-workshop.latex.outDir = "%DIR%/build";
+      # latex-workshop.latex.tools = [{
+      #   "name" = "pdflatex";
+      #   "command" = "pdflatex";
+      #   "args" = [
+      #     "-shell-escape"
+      #     "-synctex=1"
+      #     "-interaction=nonstopmode"
+      #     "-file-line-error"
+      #     "%DOC%"
+      #   ];
+      #   "env" = { };
+      # }];
+      latex-workshop.latex.magic.args = [
+        "-shell-escape"
+        "-synctex=1"
+        "-interaction=nonstopmode"
+        "-file-line-error"
+        "%DOC%"
+      ];
     };
     keybindings = [
       {
@@ -468,6 +494,11 @@ in
         Width = 100;
       };
     };
+    files.kscreenlockerrc = {
+      Daemon = {
+        Autolock = false;
+      };
+    };
     files.powermanagementprofilesrc = {
       "AC.DPMSControl" = {
         idleTime = 3600;
@@ -477,7 +508,7 @@ in
         idleTime = 3600000;
       };
       "AC.HandleButtonEvents" = {
-        lidAction = 0;
+        lidAction = 32;
         powerButtonAction = 16;
         powerDownAction = 16;
         triggerLidActionWhenExternalMonitorPresent = false;

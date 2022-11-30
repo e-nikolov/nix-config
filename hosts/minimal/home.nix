@@ -119,19 +119,27 @@
     kn = "kubens";
 
     tf = "terraform";
+    x = "xdg-open";
   };
 
   home.sessionVariables = {
     ZSH_AUTOSUGGEST_USE_ASYNC = "on";
     ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE = "fg=12";
     EDITOR = "micro";
-    GOBIN = "~/go/bin";
+    GOBIN = "$HOME/go/bin";
     GOMODCACHE = "$HOME/go/pkg/mod";
     GOPATH = "$HOME/go";
     COPY_COMMAND = "xc";
-    NODE_PATH = "~/.npm-packages/lib/node_modules";
-    PATH = "$PATH:$GOBIN:~/.local/bin:~/.npm-packages/bin";
+    NODE_PATH = "$HOME/.npm-packages/lib/node_modules";
+    PATH = "$GOBIN:$HOME/.local/bin:$HOME/.npm-packages/bin:zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz:$PATH";
   };
+
+  home.sessionPath = [
+    "$GOBIN"
+    "$HOME/.local/bin"
+    "$HOME/.npm-packages/bin"
+    "xxxxxxxxxxxxxxxxxxxxx"
+  ];
 
   programs.bash.enable = true;
   nix.package = pkgs.nix;
@@ -381,6 +389,17 @@
         POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(os_icon dir vcs newline prompt_char)
         # POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status root_indicator command_execution_time background_jobs history direnv goenv nodeenv fvm kubecontext terraform context nordvpn nnn midnight_commander nix_shell time newline go_version)
         POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status command_execution_time direnv kubecontext context nix_shell time)
+
+
+        export ZSH_AUTOSUGGEST_USE_ASYNC="on";
+        export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=12";
+        export EDITOR="micro";
+        export GOBIN="$HOME/go/bin";
+        export GOMODCACHE="$HOME/go/pkg/mod";
+        export GOPATH="$HOME/go";
+        export COPY_COMMAND="xc";
+        export NODE_PATH="$HOME/.npm-packages/lib/node_modules";
+        export PATH="$GOBIN:$HOME/.local/bin:$HOME/.npm-packages/bin:zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz:$PATH";
 
         [ -f  ~/nix-config/dotfiles/.zshrc ] && source ~/nix-config/dotfiles/.zshrc
       '';
