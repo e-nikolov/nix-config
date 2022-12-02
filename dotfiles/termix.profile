@@ -8,3 +8,6 @@ Parent=FALLBACK/
 
 [Keyboard]
 KeyBindings=default
+
+[Scrolling]
+HistoryMode=2

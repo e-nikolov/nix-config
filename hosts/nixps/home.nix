@@ -35,18 +35,34 @@ in
     pkgs.vlc
     pkgs.parted
     pkgs.brave
-    # pkgs.texlive.combined.scheme-full
+    pkgs.patchelf
 
     yakuake_autostart
     _1password_autostart
     # pkgs.hello
     pkgs.xdotool
+    pkgs.xorg.xev
+    pkgs.xkblayout-state
+    pkgs.xkb-switch
 
     popcorntime
   ];
 
+  services.sxhkd = {
+    enable = true;
+    keybindings = {
+      # "alt + Shift_L" = "setxkbmap -query | grep -q 'bg,us' && setxkbmap us,bg || setxkbmap bg,us";
+      # "alt + Shift_L" = "xkb-switch | grep -q 'us' && xkb-switch -s bg || xkb-switch -s us";
+      "alt + Shift_L" = "xkblayout-state set +1";
+    };
+  };
+
+  xsession.enable = true;
   programs.texlive.enable = true;
   programs.texlive.extraPackages = tpkgs: { inherit (tpkgs) scheme-full; };
+  home.keyboard.options = [
+    "caps:escape"
+  ];
 
   home.file.".local/share/konsole/default.keytab".source = ../../dotfiles/default.keytab;
   home.file.".local/share/konsole/termix.profile".source = ../../dotfiles/termix.profile;
@@ -372,6 +388,7 @@ in
     ];
   };
   programs.kitty.enable = true;
+  programs.alacritty.enable = true;
   services.polybar.enable = true;
   services.polybar.script = ''
     polybar bar &
@@ -407,7 +424,14 @@ in
       "kwin"."Window Maximize" = "Meta+Up,Meta+Up,Maximize Window";
       "kwin"."Expose" = "Meta+F,,Expose";
       "kwin"."Toggle Overview" = "Meta+F,Meta+F,Toggle Overview";
-      "yakuake".toggle-window-state = "Alt+\\\\,F12,Open/Retract Yakuake";
+      "yakuake".toggle-window-state = "Alt+\\\\\tAlt+„,F12,Open/Retract Yakuake";
+    };
+    files."kxkbrc" = {
+      Layout = {
+        Options = "caps:escape";
+        ResetOldOptions = true;
+        SwitchMode = "WinClass";
+      };
     };
     files."plasmarc" = {
       Theme.name = "breeze-dark";

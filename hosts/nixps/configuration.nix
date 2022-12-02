@@ -72,7 +72,7 @@
   services.xserver.desktopManager.plasma5.enable = true;
   services.xserver.displayManager.sddm.enable = true;
   services.xserver.desktopManager.plasma5.runUsingSystemd = true;
-  services.xserver.xkbOptions = "esc:caps";
+  # services.xserver.xkbOptions = "caps:escape";
 
   programs.partition-manager.enable = true;
 

@@ -44,7 +44,6 @@
     # pkgs.pssh
     # pkgs.polkit
     # pkgs.nixos-generators
-    # pkgs.texlive.combined.scheme-full
   ] ++ [ ];
 
 
