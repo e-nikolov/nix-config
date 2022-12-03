@@ -88,6 +88,7 @@ in
           (x: (x.pname != "markdown"))
           pkgs.texlive.scheme-full.pkgs;
       };
+      kpathsea = tpkgs.kpathsea;
 
       scheme-custom.pkgs = [ markdown ];
     };
@@ -106,6 +107,8 @@ in
     pkgs.parted
     pkgs.brave
     pkgs.patchelf
+    pkgs.python3
+    pkgs.python310Packages.pygments
 
     yakuake_autostart
     _1password_autostart
