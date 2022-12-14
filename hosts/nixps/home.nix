@@ -109,6 +109,7 @@ in
     pkgs.patchelf
     pkgs.python3
     pkgs.python310Packages.pygments
+    pkgs.libreoffice-qt
 
     yakuake_autostart
     _1password_autostart
@@ -117,6 +118,14 @@ in
     pkgs.xorg.xev
     pkgs.xkblayout-state
     pkgs.xkb-switch
+    pkgs.sublime4
+    pkgs.sublime-merge
+    pkgs.libsForQt5.kate
+    pkgs.libsForQt5.kio-gdrive
+    pkgs.libsForQt5.kaccounts-integration
+    pkgs.obsidian
+    pkgs.pandoc
+    pkgs.zettlr
 
     popcorntime
   ];
@@ -128,6 +137,7 @@ in
       # "alt + Shift_L" = "xkb-switch | grep -q 'us' && xkb-switch -s bg || xkb-switch -s us";
       "alt + Shift_L" = "xkblayout-state set +1";
       "ctrl + shift + greater" = "zotero.sh";
+      "ctrl + alt + BackSpace" = "kwin_x11 --replace";
     };
   };
 
@@ -259,6 +269,7 @@ in
 
   programs.vscode = {
     enable = true;
+    enableUpdateCheck = false;
 
     extensions = with pkgs.vscode-extensions; [
       hashicorp.terraform
@@ -465,6 +476,15 @@ in
   services.polybar.enable = true;
   services.polybar.script = ''
     polybar bar &
+  '';
+  services.polybar.extraConfig = ''
+    [bar/mybar]
+    modules-right = date
+
+    [module/date]
+    type = internal/date
+    date = %Y-%m-%d%
+
   '';
   programs.feh.enable = true;
 

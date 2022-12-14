@@ -47,7 +47,7 @@
   ] ++ [ ];
 
 
-  nix.settings.extra-platforms = [ "armv7l-linux" "armv7l-hf-multiplatform" "armv7l-multiplatform" ];
+  nix.settings.extra-platforms = [ "armv7l-linux" "armv7l-hf-multiplatform" "armv7l-multiplatform" "aarch64-linux" ];
   nix.settings.cores = 4;
   # nix.settings.trusted-substituters = [ "https://cache.armv7l.xyz" ];
   # nix.settings.substituters = [ "https://cache.armv7l.xyz" ];

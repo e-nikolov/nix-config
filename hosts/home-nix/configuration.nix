@@ -18,7 +18,7 @@ with lib; {
     # interop.preserveArgvZero = false;
     interop.register = true;
   };
-  boot.binfmt.emulatedSystems = [ "armv7l-linux" ];
+  boot.binfmt.emulatedSystems = [ "armv7l-linux" "aarch64-linux" ];
 
   networking.firewall.checkReversePath = "loose";
   networking.hostName = "home-nix";

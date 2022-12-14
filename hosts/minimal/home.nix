@@ -40,6 +40,7 @@
     pkgs.zsh-you-should-use
     pkgs.zsh-completions
     pkgs.meslo-lgs-nf
+    pkgs.neofetch
     # pkgs.fortune
     # pkgs.hello
     # pkgs.cowsay
@@ -120,6 +121,7 @@
 
     tf = "terraform";
     x = "xdg-open";
+    nixpkgs = "web_search nixpkgs ";
   };
 
   home.sessionVariables = {
@@ -400,6 +402,7 @@
         export COPY_COMMAND="xc";
         export NODE_PATH="$HOME/.npm-packages/lib/node_modules";
         export PATH="$GOBIN:$HOME/.local/bin:$HOME/.npm-packages/bin:zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz:$PATH";
+        export ZSH_WEB_SEARCH_ENGINES=(nixpkgs "https://search.nixos.org/packages?channel=unstable&from=0&size=50&sort=relevance&type=packages&query=")
 
         [ -f  ~/nix-config/dotfiles/.zshrc ] && source ~/nix-config/dotfiles/.zshrc
       '';
