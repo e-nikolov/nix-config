@@ -97,6 +97,17 @@ in
   programs.git = { };
 
   home.packages = [
+    pkgs.chromium
+    pkgs.slack
+    pkgs.carla
+    pkgs.jack2
+    pkgs.jackmix
+    pkgs.qpwgraph
+    pkgs.qjackctl
+    pkgs.paprefs
+    pkgs.pamix
+    pkgs.viber
+    pkgs.unrar
     pkgs.vscode
     pkgs.firefox
     pkgs.yakuake
@@ -471,7 +482,7 @@ in
       }
     ];
   };
-  programs.kitty.enable = true;
+  # programs.kitty.enable = true;
   programs.alacritty.enable = true;
   services.polybar.enable = true;
   services.polybar.script = ''

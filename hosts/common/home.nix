@@ -4,6 +4,7 @@
   home.homeDirectory = "/home/${values.username}";
 
   home.packages = [
+    pkgs.python3Packages.autopep8
     pkgs.tailscale
     pkgs.cacert
     pkgs.zotero

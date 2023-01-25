@@ -12,6 +12,7 @@
     ];
 
   # boot.blacklistedKernelModules = [ "nouveau" "nvidia" ];
+  boot.blacklistedKernelModules = [ "snd_pcsp" ];
   # boot.kernelParams = [ "acpi_rev_override=1" "nomodeset" ];
   boot.kernelParams = [ "acpi_rev_override=1" ];
   boot.binfmt.emulatedSystems = [ "armv7l-linux" "aarch64-linux" ];
@@ -30,6 +31,15 @@
       canTouchEfiVariables = true;
     };
   };
+  security.rtkit.enable = true;
+  services.pipewire = {
+    enable = true;
+    alsa.enable = true;
+    alsa.support32Bit = true;
+    pulse.enable = true;
+    # If you want to use JACK applications, uncomment this
+    jack.enable = true;
+  };
 
   programs.zsh.enable = true;
   users.defaultUserShell = pkgs.zsh;
@@ -37,10 +47,13 @@
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.enikolov = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "podman" ]; # Enable ‘sudo’ for the user.
+    extraGroups = [ "wheel" "podman" "audio" ]; # Enable ‘sudo’ for the user.
     packages = with pkgs; [
     ];
   };
+
+  hardware.bluetooth.enable = true;
+  services.blueman.enable = true;
 
   networking.hostName = "nixps"; # Define your hostname.
   networking.hostId = "a96153f9";
@@ -96,12 +109,13 @@
   # services.printing.enable = true;
 
   sound.enable = true;
-  hardware.pulseaudio.enable = true;
+  # hardware.pulseaudio.enable = true;
+  programs.dconf.enable = true;
 
   virtualisation.docker.enable = false;
   virtualisation.podman.enable = true;
   virtualisation.podman.dockerSocket.enable = true;
-  virtualisation.podman.defaultNetwork.dnsname.enable = true;
+  # virtualisation.podman.defaultNetwork.dnsname.enable = true;
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
@@ -114,6 +128,9 @@
     yakuake
     konsole
     plymouth
+
+    miraclecast
+    gnome-network-displays
   ];
 
   programs.git.enable = true;

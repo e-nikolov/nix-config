@@ -21,9 +21,12 @@
     nixos-wsl.inputs.flake-compat.follows = "flake-compat";
 
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
+
+    nix-index-database.url = "github:Mic92/nix-index-database";
+    nix-index-database.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = inputs@{ self, nixpkgs, flake-utils, home-manager, ... }:
+  outputs = inputs@{ self, nixpkgs, flake-utils, nix-index-database, home-manager, ... }:
     {
       templates.minimal = {
         description = ''
@@ -51,6 +54,7 @@
             modules = [
               ./hosts/minimal/home.nix
               ./hosts/common/home.nix
+              nix-index-database.hmModules.nix-index
             ] ++ modules;
 
             extraSpecialArgs = {
