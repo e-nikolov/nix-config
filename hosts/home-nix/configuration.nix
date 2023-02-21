@@ -72,6 +72,7 @@ with lib; {
   environment.systemPackages = with pkgs; [
     vim
     git
+    wget
   ];
   # Enable nix flakes
   nix.package = pkgs.nixFlakes;

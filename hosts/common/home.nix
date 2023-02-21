@@ -1,5 +1,63 @@
 { config, pkgs, values, inputs, ... }:
-{
+let
+  markdown = pkgs.stdenv.mkDerivation {
+    pname = "latex-markdown";
+    version = "2.18.0-0-gd8ae860";
+    tlType = "run";
+
+    src = pkgs.fetchgit {
+      url = "https://github.com/Witiko/markdown";
+
+      leaveDotGit = true;
+      fetchSubmodules = true;
+      deepClone = true;
+      rev = "refs/tags/2.18.0";
+      sha256 = "sha256-wYmGEL1OrgSnVN4DA8PM13djAKtfRaK9nrbzV2/GMVU=";
+    };
+
+    nativeBuildInputs = [ pkgs.texlive.combined.scheme-small pkgs.bashInteractive pkgs.git ];
+
+    buildPhase = ''
+      runHook preBuild
+      latex markdown.ins
+      runHook postBuild
+    '';
+
+    installPhase = ''
+      ls -alh
+      ls -alh libraries/
+      ls -alh libraries/lua-tinyyaml
+
+      path="$out/tex/latex/markdown"
+      mkdir -p "$path"
+      cp *.sty "$path/"
+
+      path="$out/tex/generic/markdown/"
+      mkdir -p "$path"
+      cp markdown.tex "$path/"
+
+      path="$out/scripts/markdown/"
+      mkdir -p "$path"
+      cp markdown-cli.lua "$path/"
+
+      path="$out/tex/luatex/markdown/"
+      mkdir -p "$path"
+      cp markdown.lua "$path/"
+      cp libraries/lua-tinyyaml/tinyyaml.lua "$path/markdown-tinyyaml.lua"
+
+      path="$out/tex/context/third/markdown/"
+      mkdir -p "$path"
+      cp t-markdown.tex "$path/"
+    '';
+
+    # # meta = with lib; {
+    # # description = "A LaTeX2e class for overhead transparencies";
+    # # license = licenses.unfreeRedistributable;
+    # # maintainers = with maintainers; [ veprbl ];
+    # # platforms = platforms.all;
+    # # };
+  };
+  in {
   home.username = "${values.username}";
   home.homeDirectory = "/home/${values.username}";
 
@@ -31,6 +89,9 @@
     pkgs.terraform
     pkgs.nixos-install-tools
     pkgs.ent-go
+    pkgs.patchelf
+    pkgs.python3
+    pkgs.python310Packages.pygments
     # pkgs.fortune
     # pkgs.hello
     # pkgs.cowsay
@@ -46,7 +107,19 @@
     # pkgs.polkit
     # pkgs.nixos-generators
   ] ++ [ ];
+  programs.texlive = {
+    enable = true;
+    extraPackages = tpkgs: {
+      scheme-full = pkgs.texlive.scheme-full // {
+        pkgs = pkgs.lib.filter
+          (x: (x.pname != "markdown"))
+          pkgs.texlive.scheme-full.pkgs;
+      };
+      kpathsea = tpkgs.kpathsea;
 
+      scheme-custom.pkgs = [ markdown ];
+    };
+  };
 
   nix.settings.extra-platforms = [ "armv7l-linux" "armv7l-hf-multiplatform" "armv7l-multiplatform" "aarch64-linux" ];
   nix.settings.cores = 4;

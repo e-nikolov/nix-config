@@ -24,6 +24,7 @@
 
     nix-index-database.url = "github:Mic92/nix-index-database";
     nix-index-database.inputs.nixpkgs.follows = "nixpkgs";
+    vscode-server.url = "github:msteen/nixos-vscode-server";
   };
 
   outputs = inputs@{ self, nixpkgs, flake-utils, nix-index-database, home-manager, ... }:
@@ -95,6 +96,10 @@
             modules = [
               ./hosts/home-nix/configuration.nix
               inputs.nixos-wsl.nixosModules.wsl
+              inputs.vscode-server.nixosModule
+              ({ config, pkgs, ... }: {
+                services.vscode-server.enable = true;
+              })
             ];
           };
 

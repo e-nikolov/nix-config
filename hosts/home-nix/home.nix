@@ -4,10 +4,12 @@ let
   ];
 in
 {
-  home.packages = nixpkgsPackages ++ [ ];
+  home.packages = nixpkgsPackages ++ [ pkgs.obsidian];
+  
 
   programs.zsh = {
     initExtra = ''
+      export PATH=/bin:$PATH
       ### Windows WSL2 ###
       if grep -qEi "(Microsoft|WSL)" /proc/sys/kernel/osrelease &> /dev/null ; then
           # bindkey '^[[3;5~' kill-word
