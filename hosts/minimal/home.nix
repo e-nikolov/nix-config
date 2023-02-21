@@ -13,7 +13,7 @@
     pkgs.git
     pkgs.ripgrep-all
     pkgs.niv
-    pkgs.go
+    pkgs.go_1_20
     pkgs.python3
     pkgs.nodejs
     pkgs.jq
@@ -95,8 +95,8 @@
     gct = "git commit -am 'tmp'";
 
     sudo = ''sudo -E env "PATH=$PATH" '';
-    ls = "exa -alh --group-directories-first --color always ";
-    tree = "exa --tree -alh --group-directories-first --color always ";
+    ls = "exa -alh --group-directories-first --color always --icons ";
+    tree = "exa --tree -alh --group-directories-first --color always --icons ";
     grep = "grep --color --ignore-case --line-number --context=3 ";
     df = "df -h ";
 
@@ -172,7 +172,7 @@
         zstyle :omz:plugins:ssh-agent agent-forwarding on
         zstyle :omz:plugins:ssh-agent helper ksshaskpass
         zstyle :omz:plugins:ssh-agent lazy yes
-        zstyle :omz:plugins:ssh-agent lifetime 30m
+        zstyle :omz:plugins:ssh-agent lifetime 300m
       '';
 
       defaultKeymap = "emacs";
