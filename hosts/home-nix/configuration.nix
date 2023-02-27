@@ -17,6 +17,8 @@ with lib; {
     # docker-desktop.enable = true;
     # interop.preserveArgvZero = false;
     interop.register = true;
+    wslConf.network.generateResolvConf = true;
+    wslConf.network.generateHosts = false;
   };
   boot.binfmt.emulatedSystems = [ "armv7l-linux" "aarch64-linux" ];
 
@@ -24,7 +26,11 @@ with lib; {
   networking.hostName = "home-nix";
   services.tailscale.enable = true;
   # programs.ssh.startAgent = true;
-  programs.zsh.enable = true;
+  programs.zsh = {
+    # enableBashCompletion = true;
+    enable = true;
+  };
+
   services.passSecretService.enable = true;
   services.passSecretService.package = (pkgs.pass-secret-service.overrideAttrs (old: {
     checkInputs = [ ];
@@ -62,6 +68,8 @@ with lib; {
   #   name = "kwallet";
   #   enableKwallet = true;
   # };
+
+  programs.mosh.enable = true;
   programs._1password.enable = true;
   programs._1password-gui.enable = true;
   users.defaultUserShell = pkgs.zsh;

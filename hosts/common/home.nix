@@ -57,7 +57,8 @@ let
     # # platforms = platforms.all;
     # # };
   };
-  in {
+in
+{
   home.username = "${values.username}";
   home.homeDirectory = "/home/${values.username}";
 
@@ -92,6 +93,8 @@ let
     pkgs.patchelf
     pkgs.python3
     pkgs.python310Packages.pygments
+    pkgs.inetutils
+    pkgs.host.dnsutils
     # pkgs.fortune
     # pkgs.hello
     # pkgs.cowsay
@@ -106,7 +109,14 @@ let
     # pkgs.pssh
     # pkgs.polkit
     # pkgs.nixos-generators
+    pkgs.wireguard-tools
+    pkgs.wireguard-go
+    pkgs.kmod
+    pkgs.qrencode
+    pkgs.coturn
   ] ++ [ ];
+
+
   programs.texlive = {
     enable = true;
     extraPackages = tpkgs: {
@@ -128,8 +138,13 @@ let
 
   programs.zsh = {
     enable = true;
-    initExtra = ''
 
+    completionInit = ''
+    '';
+
+    initExtra = ''
+      command -v wg > /dev/null && . ~/.nix-profile/share/bash-completion/completions/wg
+      command -v wg-quick > /dev/null && . ~/.nix-profile/share/bash-completion/completions/wg-quick
     '';
   };
 

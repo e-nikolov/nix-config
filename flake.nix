@@ -52,11 +52,11 @@
           mkHome = { modules ? [ ] }: home-manager.lib.homeManagerConfiguration {
             inherit pkgs;
 
-            modules = [
+            modules = modules ++ [
               ./hosts/minimal/home.nix
               ./hosts/common/home.nix
               nix-index-database.hmModules.nix-index
-            ] ++ modules;
+            ];
 
             extraSpecialArgs = {
               inherit inputs values;

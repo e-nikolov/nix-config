@@ -161,6 +161,7 @@
     {
       enable = true;
       enableAutosuggestions = true;
+      enableVteIntegration = true;
 
       initExtraFirst = ''
         # p10k instant prompt
@@ -273,7 +274,7 @@
         zmodload -i zsh/complist
         autoload -U compinit && compinit
         autoload bashcompinit && bashcompinit
-        complete -o nospace -C ${pkgs.terraform}/bin/terraform terraform 
+        command -v terraform > /dev/null && complete -o nospace -C ${pkgs.terraform}/bin/terraform terraform 
         command -v vault > /dev/null && complete -o nospace -C vault vault
 
         WORDCHARS=""

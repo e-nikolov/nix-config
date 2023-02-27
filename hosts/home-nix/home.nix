@@ -4,8 +4,8 @@ let
   ];
 in
 {
-  home.packages = nixpkgsPackages ++ [ pkgs.obsidian];
-  
+  home.packages = nixpkgsPackages ++ [ pkgs.obsidian ];
+
 
   programs.zsh = {
     initExtra = ''
