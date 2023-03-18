@@ -4,7 +4,7 @@ let
   ];
 in
 {
-  home.packages = nixpkgsPackages ++ [ pkgs.obsidian ];
+  home.packages = nixpkgsPackages ++ [ pkgs.libsForQt5.kate pkgs.obsidian pkgs.xdg-utils ];
 
 
   programs.zsh = {

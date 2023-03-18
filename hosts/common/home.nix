@@ -57,10 +57,35 @@ let
     # # platforms = platforms.all;
     # # };
   };
+
+  hp = pkgs.haskellPackages.override {
+    overrides = self: super: {
+      pandoc = super.pandoc_3_1;
+      doctemplates = super.doctemplates_0_11;
+      gridtables = super.gridtables_0_1_0_0;
+      jira-wiki-markup = super.jira-wiki-markup_1_5_0;
+      mime-types = super.mime-types_0_1_1_0;
+      pandoc-types = super.pandoc-types_1_23;
+      texmath = super.texmath_0_12_6;
+    };
+  };
+
+  pandoc3 = pkgs.haskellPackages.pandoc.override {
+    doctemplates = pkgs.haskellPackages.doctemplates_0_11;
+    gridtables = pkgs.haskellPackages.gridtables_0_1_0_0;
+    jira-wiki-markup = pkgs.haskellPackages.jira-wiki-markup_1_5_0;
+    mime-types = pkgs.haskellPackages.mime-types_0_1_1_0;
+    pandoc-types = pkgs.haskellPackages.pandoc-types_1_23;
+    texmath = pkgs.haskellPackages.texmath_0_12_6;
+    version = "123";
+  };
+
+  pandoc_3_1 = pkgs.haskell.lib.doJailbreak pkgs.haskellPackages.pandoc_3_1;
 in
 {
   home.username = "${values.username}";
   home.homeDirectory = "/home/${values.username}";
+
 
   home.packages = [
     pkgs.python3Packages.autopep8
@@ -114,6 +139,19 @@ in
     pkgs.kmod
     pkgs.qrencode
     pkgs.coturn
+    pkgs.R
+
+    # hp.pandoc
+    # pandoc3
+    pkgs.haskellPackages.pandoc
+
+    # pandoc_3_1
+    # (pkgs.haskellPackages.pandoc_3_1.override (old: {
+    #   libraryHaskellDepends = old.libraryHaskellDepends ++ [ pkgs.haskellPackages.doctemplates_0_11 ];
+    # }))
+
+
+    pkgs.rstudio
   ] ++ [ ];
 
 

@@ -92,6 +92,12 @@
             ];
           };
 
+          packages.nixosConfigurations.rpi1 = mkSystem {
+            modules = [
+              ./hosts/rpi1/configuration.nix
+            ];
+          };
+
           packages.nixosConfigurations.home-nix = mkSystem {
             modules = [
               ./hosts/home-nix/configuration.nix
