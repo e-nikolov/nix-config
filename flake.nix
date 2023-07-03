@@ -1,6 +1,7 @@
 {
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    # nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:nixos/nixpkgs/ac718d02867a84b42522a0ece52d841188208f2c";
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -21,11 +22,15 @@
     nixos-wsl.inputs.flake-compat.follows = "flake-compat";
 
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
+    comma.url = "github:nix-community/comma";
 
     nix-index-database.url = "github:Mic92/nix-index-database";
     nix-index-database.inputs.nixpkgs.follows = "nixpkgs";
-    vscode-server.url = "github:msteen/nixos-vscode-server";
+    vscode-server.url = "github:nix-community/nixos-vscode-server";
   };
+
+  nixConfig.extra-trusted-substituters = [ "https://cache.armv7l.xyz" ];
+  nixConfig.extra-trusted-public-keys = [ "cache.armv7l.xyz-1:kBY/eGnBAYiqYfg0fy0inWhshUo+pGFM3Pj7kIkmlBk=" ];
 
   outputs = inputs@{ self, nixpkgs, flake-utils, nix-index-database, home-manager, ... }:
     {
@@ -46,7 +51,12 @@
           pkgs = import nixpkgs {
             inherit system;
             config = { allowUnfree = true; };
-            overlays = [ (self: super: { rc2nix = inputs.plasma-manager.packages.${system}.rc2nix; }) ];
+            overlays = [
+              # (inputs.comma.overlays.default)
+              (self: super: {
+                rc2nix = inputs.plasma-manager.packages.${system}.rc2nix;
+              })
+            ];
           };
 
           mkHome = { modules ? [ ] }: home-manager.lib.homeManagerConfiguration {
@@ -56,6 +66,8 @@
               ./hosts/minimal/home.nix
               ./hosts/common/home.nix
               nix-index-database.hmModules.nix-index
+
+              # { programs.nix-index-database.comma.enable = true; }
             ];
 
             extraSpecialArgs = {
@@ -92,7 +104,9 @@
             ];
           };
 
-          packages.nixosConfigurations.rpi1 = mkSystem {
+          packages.nixosConfigurations.rpi1 = nixpkgs.lib.nixosSystem {
+            system = "armv7l-linux";
+            inherit pkgs;
             modules = [
               ./hosts/rpi1/configuration.nix
             ];
@@ -102,7 +116,7 @@
             modules = [
               ./hosts/home-nix/configuration.nix
               inputs.nixos-wsl.nixosModules.wsl
-              inputs.vscode-server.nixosModule
+              inputs.vscode-server.nixosModules.default
               ({ config, pkgs, ... }: {
                 services.vscode-server.enable = true;
               })

@@ -19,8 +19,10 @@ with lib; {
     interop.register = true;
     wslConf.network.generateResolvConf = true;
     wslConf.network.generateHosts = false;
+    startMenuLaunchers = true;
   };
   boot.binfmt.emulatedSystems = [ "armv7l-linux" "aarch64-linux" ];
+  security.sudo.wheelNeedsPassword = true;
 
   networking.firewall.checkReversePath = "loose";
   networking.hostName = "home-nix";
@@ -56,6 +58,9 @@ with lib; {
   #  };
   #};
   #};
+
+
+  fonts.fontconfig.enable = pkgs.lib.mkForce true;
   security.polkit.enable = true;
   programs._1password-gui.polkitPolicyOwners = [ "enikolov" ];
   programs._1password-gui.package = (pkgs._1password-gui-beta.overrideAttrs (oldAttrs: {
@@ -81,12 +86,17 @@ with lib; {
     vim
     git
     wget
+    obsidian
+    zettlr
   ];
   # Enable nix flakes
   nix.package = pkgs.nixFlakes;
   nix.extraOptions = ''
     experimental-features = nix-command flakes
   '';
+  nix.settings.extra-trusted-substituters = [ "https://cache.armv7l.xyz" ];
+  nix.settings.extra-trusted-public-keys = [ "cache.armv7l.xyz-1:kBY/eGnBAYiqYfg0fy0inWhshUo+pGFM3Pj7kIkmlBk=" ];
+  nix.settings.trusted-users = [ "root" "enikolov" ];
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
 

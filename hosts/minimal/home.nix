@@ -41,6 +41,7 @@
     pkgs.zsh-completions
     pkgs.meslo-lgs-nf
     pkgs.neofetch
+    pkgs.comma
     # pkgs.fortune
     # pkgs.hello
     # pkgs.cowsay
@@ -83,6 +84,15 @@
   };
 
   programs.nix-index.enable = true;
+  # programs.nix-index.package = pkgs.nix-index.overrideAttrs (oldAttrs: {
+  #   postInstall = ''
+  #     mkdir -p $out/etc/profile.d
+  #     cp ${../../scripts/command-not-found.sh} $out/etc/profile.d/command-not-found.sh
+  #     substituteInPlace $out/etc/profile.d/command-not-found.sh \
+  #       --replace "@out@" "$out"
+  #   '';
+  # });
+
   fonts.fontconfig.enable = true;
 
   programs.direnv.enable = true;
@@ -306,6 +316,10 @@
         } 
 
         ns() {
+            nix shell $@ --command zsh
+        }
+
+        nd() {
             nix develop $@ --command zsh
         }
         

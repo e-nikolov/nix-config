@@ -1,10 +1,10 @@
 { config, pkgs, id, inputs, ... }:
-let
-  nixpkgsPackages = with pkgs; [
-  ];
-in
 {
-  home.packages = nixpkgsPackages ++ [ pkgs.libsForQt5.kate pkgs.obsidian pkgs.xdg-utils ];
+  home.packages = [
+    pkgs.libsForQt5.kate
+    pkgs.xdg-utils
+    pkgs.emanote
+  ];
 
 
   programs.zsh = {

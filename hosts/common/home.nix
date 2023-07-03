@@ -140,10 +140,21 @@ in
     pkgs.qrencode
     pkgs.coturn
     pkgs.R
+    pkgs.inkscape
+    pkgs.librsvg
 
     # hp.pandoc
     # pandoc3
     pkgs.haskellPackages.pandoc
+    pkgs.drawio
+    pkgs.obsidian
+    pkgs.haskellPackages.pandoc-crossref
+    pkgs.evince
+    pkgs.stuntman
+    pkgs.libnatpmp
+    pkgs.miniupnpc
+    pkgs.gcc
+
 
     # pandoc_3_1
     # (pkgs.haskellPackages.pandoc_3_1.override (old: {
@@ -152,6 +163,7 @@ in
 
 
     pkgs.rstudio
+    pkgs.screen
   ] ++ [ ];
 
 
@@ -171,8 +183,8 @@ in
 
   nix.settings.extra-platforms = [ "armv7l-linux" "armv7l-hf-multiplatform" "armv7l-multiplatform" "aarch64-linux" ];
   nix.settings.cores = 4;
-  # nix.settings.trusted-substituters = [ "https://cache.armv7l.xyz" ];
-  # nix.settings.substituters = [ "https://cache.armv7l.xyz" ];
+  nix.settings.extra-trusted-substituters = [ "https://cache.armv7l.xyz" ];
+  nix.settings.extra-trusted-public-keys = [ "cache.armv7l.xyz-1:kBY/eGnBAYiqYfg0fy0inWhshUo+pGFM3Pj7kIkmlBk=" ];
 
   programs.zsh = {
     enable = true;
