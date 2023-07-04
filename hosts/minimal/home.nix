@@ -41,7 +41,7 @@
     pkgs.zsh-completions
     pkgs.meslo-lgs-nf
     pkgs.neofetch
-    pkgs.comma
+    # pkgs.comma
     # pkgs.fortune
     # pkgs.hello
     # pkgs.cowsay
@@ -310,6 +310,10 @@
           exec $SHELL
         }
       
+        nfu() {
+          nix flake update ~/nix-config $@
+        }
+
         nrs() {
           sudo nixos-rebuild switch --flake ~/nix-config/ $@
           exec $SHELL

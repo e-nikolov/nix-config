@@ -120,6 +120,7 @@ in
     pkgs.python310Packages.pygments
     pkgs.inetutils
     pkgs.host.dnsutils
+    pkgs.nix-alien
     # pkgs.fortune
     # pkgs.hello
     # pkgs.cowsay
@@ -154,6 +155,8 @@ in
     pkgs.libnatpmp
     pkgs.miniupnpc
     pkgs.gcc
+    pkgs.steam-run
+    pkgs.nix-ld
 
 
     # pandoc_3_1
@@ -169,22 +172,22 @@ in
 
   programs.texlive = {
     enable = true;
-    extraPackages = tpkgs: {
-      scheme-full = pkgs.texlive.scheme-full // {
-        pkgs = pkgs.lib.filter
-          (x: (x.pname != "markdown"))
-          pkgs.texlive.scheme-full.pkgs;
-      };
-      kpathsea = tpkgs.kpathsea;
+    # extraPackages = tpkgs: {
+    #   scheme-full = pkgs.texlive.scheme-full // {
+    #     pkgs = pkgs.lib.filter
+    #       (x: (x.pname != "markdown"))
+    #       pkgs.texlive.scheme-full.pkgs;
+    #   };
+    #   kpathsea = tpkgs.kpathsea;
 
-      scheme-custom.pkgs = [ markdown ];
-    };
+    #   scheme-custom.pkgs = [ markdown ];
+    # };
   };
 
-  nix.settings.extra-platforms = [ "armv7l-linux" "armv7l-hf-multiplatform" "armv7l-multiplatform" "aarch64-linux" ];
+  nix.settings.extra-platforms = [ "armv7l-linux" "armv7l-hf-multiplatform" "armv7l-multiplatform" "aarch64-linux" "i686-linux" ];
   nix.settings.cores = 4;
-  nix.settings.extra-trusted-substituters = [ "https://cache.armv7l.xyz" ];
-  nix.settings.extra-trusted-public-keys = [ "cache.armv7l.xyz-1:kBY/eGnBAYiqYfg0fy0inWhshUo+pGFM3Pj7kIkmlBk=" ];
+  # nix.settings.extra-trusted-substituters = [ "https://cache.armv7l.xyz" ];
+  # nix.settings.extra-trusted-public-keys = [ "cache.armv7l.xyz-1:kBY/eGnBAYiqYfg0fy0inWhshUo+pGFM3Pj7kIkmlBk=" ];
 
   programs.zsh = {
     enable = true;

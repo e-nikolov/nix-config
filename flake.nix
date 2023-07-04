@@ -1,7 +1,7 @@
 {
   inputs = {
-    # nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    nixpkgs.url = "github:nixos/nixpkgs/ac718d02867a84b42522a0ece52d841188208f2c";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    # nixpkgs.url = "github:nixos/nixpkgs/ac718d02867a84b42522a0ece52d841188208f2c";
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -22,15 +22,23 @@
     nixos-wsl.inputs.flake-compat.follows = "flake-compat";
 
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
-    comma.url = "github:nix-community/comma";
+    # comma.url = "github:nix-community/comma/master";
 
-    nix-index-database.url = "github:Mic92/nix-index-database";
+    nix-index-database.url = "github:nix-community/nix-index-database/main";
     nix-index-database.inputs.nixpkgs.follows = "nixpkgs";
     vscode-server.url = "github:nix-community/nixos-vscode-server";
+    vscode-server.inputs.flake-utils.follows = "flake-utils";
+    vscode-server.inputs.nixpkgs.follows = "nixpkgs";
+
+    nix-alien.url = "github:thiagokokada/nix-alien";
+    nix-alien.inputs.nixpkgs.follows = "nixpkgs";
+    nix-alien.inputs.flake-compat.follows = "flake-compat";
+    nix-alien.inputs.flake-utils.follows = "flake-utils";
+    nix-alien.inputs.nix-index-database.follows = "nix-index-database";
   };
 
-  nixConfig.extra-trusted-substituters = [ "https://cache.armv7l.xyz" ];
-  nixConfig.extra-trusted-public-keys = [ "cache.armv7l.xyz-1:kBY/eGnBAYiqYfg0fy0inWhshUo+pGFM3Pj7kIkmlBk=" ];
+  # nixConfig.extra-trusted-substituters = [ "https://cache.armv7l.xyz" ];
+  # nixConfig.extra-trusted-public-keys = [ "cache.armv7l.xyz-1:kBY/eGnBAYiqYfg0fy0inWhshUo+pGFM3Pj7kIkmlBk=" ];
 
   outputs = inputs@{ self, nixpkgs, flake-utils, nix-index-database, home-manager, ... }:
     {
@@ -52,6 +60,7 @@
             inherit system;
             config = { allowUnfree = true; };
             overlays = [
+              inputs.nix-alien.overlays.default
               # (inputs.comma.overlays.default)
               (self: super: {
                 rc2nix = inputs.plasma-manager.packages.${system}.rc2nix;
@@ -66,8 +75,12 @@
               ./hosts/minimal/home.nix
               ./hosts/common/home.nix
               nix-index-database.hmModules.nix-index
-
-              # { programs.nix-index-database.comma.enable = true; }
+ 
+              { 
+                programs.nix-index-database.comma.enable = true; 
+                # home.packages = [ inputs.nix-alien.packages.${system}.nix-alien ];
+              }
+              
             ];
 
             extraSpecialArgs = {

@@ -8,8 +8,8 @@ with lib; {
     enable = true;
     wslConf.automount.root = "/mnt";
     defaultUser = "enikolov";
-    # startMenuLaunchers = true;
-
+    # startMenuLaunchers = true; 
+    nativeSystemd = true;
     # Enable native Docker support
     docker-native.enable = true;
 
@@ -17,6 +17,7 @@ with lib; {
     # docker-desktop.enable = true;
     # interop.preserveArgvZero = false;
     interop.register = true;
+    wslConf.boot.systemd = true;
     wslConf.network.generateResolvConf = true;
     wslConf.network.generateHosts = false;
     startMenuLaunchers = true;
@@ -63,12 +64,12 @@ with lib; {
   fonts.fontconfig.enable = pkgs.lib.mkForce true;
   security.polkit.enable = true;
   programs._1password-gui.polkitPolicyOwners = [ "enikolov" ];
-  programs._1password-gui.package = (pkgs._1password-gui-beta.overrideAttrs (oldAttrs: {
-    postInstall = ''
-      ln -s $out/share/1password/op-ssh-sign $out/bin/op-ssh-sign
-      ln -s $out/share/1password/1Password-KeyringHelper $out/bin/1Password-KeyringHelper
-    '';
-  }));
+  # programs._1password-gui.package = (pkgs._1password-gui-beta.overrideAttrs (oldAttrs: {
+  #   postInstall = ''
+  #     ln -s $out/share/1password/op-ssh-sign $out/bin/op-ssh-sign
+  #     ln -s $out/share/1password/1Password-KeyringHelper $out/bin/1Password-KeyringHelper
+  #   '';
+  # }));
   # security.pam.services.kwallet = {
   #   name = "kwallet";
   #   enableKwallet = true;
@@ -94,8 +95,8 @@ with lib; {
   nix.extraOptions = ''
     experimental-features = nix-command flakes
   '';
-  nix.settings.extra-trusted-substituters = [ "https://cache.armv7l.xyz" ];
-  nix.settings.extra-trusted-public-keys = [ "cache.armv7l.xyz-1:kBY/eGnBAYiqYfg0fy0inWhshUo+pGFM3Pj7kIkmlBk=" ];
+  # nix.settings.extra-trusted-substituters = [ "https://cache.armv7l.xyz" ];
+  # nix.settings.extra-trusted-public-keys = [ "cache.armv7l.xyz-1:kBY/eGnBAYiqYfg0fy0inWhshUo+pGFM3Pj7kIkmlBk=" ];
   nix.settings.trusted-users = [ "root" "enikolov" ];
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
