@@ -41,6 +41,9 @@
     pkgs.zsh-completions
     pkgs.meslo-lgs-nf
     pkgs.neofetch
+    pkgs.sops
+    pkgs.age
+
     # pkgs.comma
     # pkgs.fortune
     # pkgs.hello
@@ -143,14 +146,13 @@
     GOPATH = "$HOME/go";
     COPY_COMMAND = "xc";
     NODE_PATH = "$HOME/.npm-packages/lib/node_modules";
-    PATH = "$GOBIN:$HOME/.local/bin:$HOME/.npm-packages/bin:zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz:$PATH";
+    PATH = "$GOBIN:$HOME/.local/bin:$HOME/.npm-packages/bin:$PATH";
   };
 
   home.sessionPath = [
     "$GOBIN"
     "$HOME/.local/bin"
     "$HOME/.npm-packages/bin"
-    "xxxxxxxxxxxxxxxxxxxxx"
   ];
 
   programs.bash.enable = true;
@@ -287,7 +289,6 @@
         command -v terraform > /dev/null && complete -o nospace -C ${pkgs.terraform}/bin/terraform terraform 
         command -v vault > /dev/null && complete -o nospace -C vault vault
 
-        WORDCHARS=""
         unsetopt MENU_COMPLETE
         unsetopt FLOW_CONTROL
         setopt AUTO_MENU
@@ -340,11 +341,32 @@
         }
         zle -N fzf-port-widget
 
-        force-backward-delete-word () {
-            local WORDCHARS='~!#$%^&*(){}[]<>?+_-/;'
+        WORDCHARS=""
+        STATEMENTCHARS="@\,:\"'~=!#$%^&*(){}[]<>?+_-/;."
+
+        backward-delete-statement () {
+            local WORDCHARS=$STATEMENTCHARS
             zle backward-delete-word
         }
-        zle -N force-backward-delete-word
+        zle -N backward-delete-statement 
+
+        kill-statement () {
+            local WORDCHARS=$STATEMENTCHARS
+            zle kill-word
+        }
+        zle -N kill-statement 
+
+        backward-statement () {
+            local WORDCHARS=$STATEMENTCHARS
+            zle backward-word
+        }
+        zle -N backward-statement
+
+        forward-statement () {
+            local WORDCHARS=$STATEMENTCHARS
+            zle forward-word
+        }
+        zle -N forward-statement
 
         fif() {
             if [ ! "$#" -gt 0 ]; then echo "Need a string to search for!"; return 1; fi
@@ -388,18 +410,108 @@
 
         ### Key binds ###
 
+        
+        function mkdest() {
+            local positional=()
+
+            while (( $# )); do
+                case $1 in
+                --)                 shift; positional+=("$*"); break  ;;
+                -*)                            ;;
+                *)                  positional+=("$1")         ;;
+                esac
+                shift
+            done
+            local target="$positional[-1]"
+            local dir
+
+            if [[ "$target" =~ '/$' ]]; then
+                dir="$target"
+            else
+                dir="$(dirname "$target")"
+            fi
+
+            test -d "$dir" || mkdir -vp "$dir"
+        }
+
+        function cp() {
+            mkdest "$@"
+            command cp "$@"
+        }
+
+        function mv() {
+            mkdest "$@"
+            command mv "$@"
+        }
+
+        # Ctrl+LeftArrow
+        bindkey '^[[1;5D' backward-word
+
+        # Ctrl+RightArrow
+        bindkey '^[[1;5C' forward-word
+
+        # Alt+LeftArrow
+        bindkey '^[[1;3D' backward-statement
+
+        # Alt+RightArrow
+        bindkey '^[[1;3C' forward-statement
+
+        # Ctrl+Backspace
+        bindkey '^H' backward-delete-word
+
+        # Alt+Backspace
+        bindkey '^[^?' backward-delete-statement
+
+        # Ctrl+Delete
+        bindkey '^[[3;5~' kill-word
+
+        # Alt+Delete
+        bindkey '^[[3;3~' kill-statement
+
+        # Ctrl+G
         bindkey '^G' fzf-file-widget
-        bindkey -M emacs '^[[3;5~' kill-word
         bindkey '^P' fzf-process-widget
         bindkey '^O' fzf-port-widget
+
         autoload -U select-word-style
         select-word-style bash
 
-        bindkey '^H' force-backward-delete-word
+        # Ctrl+Alt+LeftArrow
         bindkey "^[[1;7D" dirhistory_zle_dirhistory_back
+        # Ctrl+Alt+RightArrow
         bindkey "^[[1;7C" dirhistory_zle_dirhistory_future
         # bindkey "^[[1;7C" dirhistory_zle_dirhistory_up
         # bindkey "^[[1;7C" dirhistory_zle_dirhistory_down
+
+        export ACTION_SELECT_BACKWARD_STATEMENT=$'^[[1;8D'
+        export ACTION_SELECT_FORWARD_STATEMENT=$'^[[1;8C'
+
+        export ACTION_UNSELECT_FORWARD_STATEMENT=$'^[[1;3C'
+        export ACTION_UNSELECT_BACKWARD_STATEMENT=$'^[[1;3D'
+
+        function widget::action-select-forward-statement() {
+            widget::util-select forward-statement $@
+        }
+        zle -N widget::action-select-forward-statement
+        bindkey $ACTION_SELECT_FORWARD_STATEMENT widget::action-select-forward-statement
+
+        function widget::action-select-backward-statement() {
+            widget::util-select backward-statement $@
+        }
+        zle -N widget::action-select-backward-statement
+        bindkey $ACTION_SELECT_BACKWARD_STATEMENT widget::action-select-backward-statement
+
+        function widget::action-unselect-forward-statement() {
+            widget::util-unselect forward-statement $@
+        }
+        zle -N widget::action-unselect-forward-statement
+        bindkey $ACTION_UNSELECT_FORWARD_STATEMENT widget::action-unselect-forward-statement
+
+        function widget::action-unselect-backward-statement() {
+            widget::util-unselect backward-statement $@
+        }
+        zle -N widget::action-unselect-backward-statement
+        bindkey $ACTION_UNSELECT_BACKWARD_STATEMENT widget::action-unselect-backward-statement
 
         ### Aliases ###
         

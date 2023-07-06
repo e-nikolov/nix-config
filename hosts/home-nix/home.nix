@@ -7,6 +7,10 @@
   ];
 
 
+  programs.bash.initExtra = ''
+    source ~/nix-config/dotfiles/.bashrc
+  '';
+
   programs.zsh = {
     initExtra = ''
       export PATH=/bin:$PATH
@@ -34,17 +38,17 @@
               powershell.exe -Command "cd C:/; goland.cmd $(wp $*)"
           }
 
-          test() {
-              cmd.exe /C echo $(wslpath -w . | sed s/wsl.localhost/wsl$/g)
-          }
+          # test() {
+          #     cmd.exe /C echo $(wslpath -w . | sed s/wsl.localhost/wsl$/g)
+          # }
 
-          xc() {
-              clip.exe
-          }
+          # xc() {
+          #     clip.exe
+          # }
 
-          xco() {
-              powershell.exe -command "Get-Clipboard"
-          }
+          # xco() {
+          #     powershell.exe -command "Get-Clipboard"
+          # }
       fi
     '';
   };

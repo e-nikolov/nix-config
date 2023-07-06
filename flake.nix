@@ -35,6 +35,14 @@
     nix-alien.inputs.flake-compat.follows = "flake-compat";
     nix-alien.inputs.flake-utils.follows = "flake-utils";
     nix-alien.inputs.nix-index-database.follows = "nix-index-database";
+
+    golink.url = "github:tailscale/golink/main";
+    golink.inputs.nixpkgs.follows = "nixpkgs";
+    golink.inputs.flake-utils.follows = "flake-utils";
+
+    sops-nix.url = "github:Mic92/sops-nix";
+    sops-nix.inputs.nixpkgs.follows = "nixpkgs";
+
   };
 
   # nixConfig.extra-trusted-substituters = [ "https://cache.armv7l.xyz" ];
@@ -66,6 +74,7 @@
             };
             overlays = [
               inputs.nix-alien.overlays.default
+              inputs.golink.overlays.${system}.default
               # (inputs.comma.overlays.default)
               (self: super: {
                 rc2nix = inputs.plasma-manager.packages.${system}.rc2nix;
@@ -97,8 +106,15 @@
             inherit pkgs;
 
             modules = [
-
+              inputs.golink.nixosModules.default
+              inputs.sops-nix.nixosModules.sops
+              ./hosts/common/configuration.nix
             ] ++ modules;
+
+
+            # extraSpecialArgs = {
+            #   inherit inputs;
+            # };
           };
 
         in

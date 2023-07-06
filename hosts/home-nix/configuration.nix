@@ -34,6 +34,11 @@ with lib; {
     enable = true;
   };
 
+  services.golink = {
+    enable = true;
+    tailscaleAuthKeyFile = "/run/secrets/services/golink/auth_key";
+  };
+
   services.passSecretService.enable = true;
   services.passSecretService.package = (pkgs.pass-secret-service.overrideAttrs (old: {
     checkInputs = [ ];
