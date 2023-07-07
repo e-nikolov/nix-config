@@ -132,8 +132,10 @@
 
     miraclecast
     gnome-network-displays
+    libsForQt5.kcalc
   ];
 
+  services.openssh.enable = true;
   programs.git.enable = true;
   programs._1password.enable = true;
   programs._1password-gui.enable = true;
