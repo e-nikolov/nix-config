@@ -158,6 +158,11 @@ in
     pkgs.steam-run
     pkgs.nix-ld
 
+    pkgs.strongswan
+    pkgs.nmap-unfree
+    pkgs.sofia_sip
+
+
 
     # pandoc_3_1
     # (pkgs.haskellPackages.pandoc_3_1.override (old: {
@@ -178,7 +183,7 @@ in
     #       (x: (x.pname != "markdown"))
     #       pkgs.texlive.scheme-full.pkgs;
     #   };
-    #   kpathsea = tpkgs.kpathsea;
+    # kpathsea = tpkgs.kpathsea;
 
     #   scheme-custom.pkgs = [ markdown ];
     # };

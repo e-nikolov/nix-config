@@ -3,99 +3,25 @@ let
   yakuake_autostart = (pkgs.makeAutostartItem { name = "yakuake"; package = pkgs.yakuake; srcPrefix = "org.kde."; });
   # _1password_autostart = (pkgs.makeAutostartItem { name = "1password"; package = pkgs._1password-gui; });
 
-  markdown = pkgs.stdenv.mkDerivation {
-    pname = "latex-markdown";
-    version = "2.18.0-0-gd8ae860";
-    tlType = "run";
+  # popcorntime = (pkgs.popcorntime.overrideAttrs (final: old: rec {
+  #   desktopItem = pkgs.makeDesktopItem (with old; {
+  #     name = pname;
+  #     exec = pname;
+  #     icon = pname;
+  #     comment = meta.description;
+  #     genericName = meta.description;
+  #     type = "Application";
+  #     desktopName = "Popcorn-Time";
+  #     categories = [ "Video" "AudioVideo" ];
+  #   });
 
-    src = pkgs.fetchgit {
-      url = "https://github.com/Witiko/markdown";
+  #   installPhase = old.installPhase + ''
 
-      leaveDotGit = true;
-      fetchSubmodules = true;
-      deepClone = true;
-      rev = "refs/tags/2.18.0";
-      sha256 = "sha256-wYmGEL1OrgSnVN4DA8PM13djAKtfRaK9nrbzV2/GMVU=";
-    };
-
-    nativeBuildInputs = [ pkgs.texlive.combined.scheme-small pkgs.bashInteractive pkgs.git ];
-
-    buildPhase = ''
-      runHook preBuild
-      latex markdown.ins
-      runHook postBuild
-    '';
-
-    installPhase = ''
-      ls -alh
-      ls -alh libraries/
-      ls -alh libraries/lua-tinyyaml
-
-      path="$out/tex/latex/markdown"
-      mkdir -p "$path"
-      cp *.sty "$path/"
-
-      path="$out/tex/generic/markdown/"
-      mkdir -p "$path"
-      cp markdown.tex "$path/"
-
-      path="$out/scripts/markdown/"
-      mkdir -p "$path"
-      cp markdown-cli.lua "$path/"
-
-      path="$out/tex/luatex/markdown/"
-      mkdir -p "$path"
-      cp markdown.lua "$path/"
-      cp libraries/lua-tinyyaml/tinyyaml.lua "$path/markdown-tinyyaml.lua"
-
-      path="$out/tex/context/third/markdown/"
-      mkdir -p "$path"
-      cp t-markdown.tex "$path/"
-    '';
-
-    # # meta = with lib; {
-    # # description = "A LaTeX2e class for overhead transparencies";
-    # # license = licenses.unfreeRedistributable;
-    # # maintainers = with maintainers; [ veprbl ];
-    # # platforms = platforms.all;
-    # # };
-  };
-
-  popcorntime = (pkgs.popcorntime.overrideAttrs (final: old: rec {
-    desktopItem = pkgs.makeDesktopItem (with old; {
-      name = pname;
-      exec = pname;
-      icon = pname;
-      comment = meta.description;
-      genericName = meta.description;
-      type = "Application";
-      desktopName = "Popcorn-Time";
-      categories = [ "Video" "AudioVideo" ];
-    });
-
-    installPhase = old.installPhase + ''
-
-      ln -s ${desktopItem}/share/applications/popcorntime.desktop $out/share/applications/popcorntime.desktop
-    '';
-  }));
+  #     ln -s ${desktopItem}/share/applications/popcorntime.desktop $out/share/applications/popcorntime.desktop
+  #   '';
+  # }));
 in
 {
-  programs.texlive = {
-    enable = true;
-    extraPackages = tpkgs: {
-      scheme-full = pkgs.texlive.scheme-full // {
-        pkgs = pkgs.lib.filter
-          (x: (x.pname != "markdown"))
-          pkgs.texlive.scheme-full.pkgs;
-      };
-      kpathsea = tpkgs.kpathsea;
-
-      scheme-custom.pkgs = [ markdown ];
-    };
-  };
-
-  programs.git = { };
-
   home.packages = [
     pkgs.chromium
     pkgs.slack
@@ -117,14 +43,10 @@ in
     pkgs.vlc
     pkgs.parted
     pkgs.brave
-    pkgs.patchelf
     pkgs.python3
     pkgs.python310Packages.pygments
     pkgs.libreoffice-qt
 
-    yakuake_autostart
-    # _1password_autostart
-    # pkgs.hello
     pkgs.xdotool
     pkgs.xorg.xev
     pkgs.xkblayout-state
@@ -135,21 +57,11 @@ in
     pkgs.libsForQt5.kio-gdrive
     pkgs.libsForQt5.kaccounts-integration
     pkgs.obsidian
-    pkgs.pandoc
-    pkgs.zettlr
     pkgs.vivaldi
     pkgs.microsoft-edge
-    pkgs.libnatpmp
-    pkgs.strongswan
-    pkgs.miniupnpc
-    pkgs.stuntman
-    pkgs.nmap-unfree
-    pkgs.sofia_sip
+    pkgs.popcorntime
 
-
-
-
-    popcorntime
+    yakuake_autostart
   ];
 
   services.sxhkd = {
