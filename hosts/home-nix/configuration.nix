@@ -96,10 +96,10 @@ with lib; {
     zettlr
   ];
   # Enable nix flakes
-  nix.package = pkgs.nixFlakes;
-  nix.extraOptions = ''
-    experimental-features = nix-command flakes
-  '';
+  # nix.package = pkgs.nixFlakes;
+  # nix.extraOptions = ''
+  #   experimental-features = nix-command flakes
+  # '';
   # nix.settings.extra-trusted-substituters = [ "https://cache.armv7l.xyz" ];
   # nix.settings.extra-trusted-public-keys = [ "cache.armv7l.xyz-1:kBY/eGnBAYiqYfg0fy0inWhshUo+pGFM3Pj7kIkmlBk=" ];
   nix.settings.trusted-users = [ "root" "enikolov" ];

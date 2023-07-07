@@ -34,10 +34,14 @@ with lib; {
     git
     wget
     golink
+    (cowsay.overrideAttrs
+      (old: {
+        __contentAddressable = true;
+      }))
   ];
   # Enable nix flakes
-  #nix.package = pkgs.nixFlakes;
-  # nix.extraOptions = ''
-  #   experimental-features = nix-command flakes
-  # '';
+  nix.package = pkgs.nixFlakes;
+  nix.extraOptions = ''
+    experimental-features = nix-command flakes repl-flake ca-derivations
+  '';
 }

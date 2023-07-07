@@ -157,7 +157,7 @@
 
   programs.bash.enable = true;
   nix.package = pkgs.nix;
-  nix.settings.experimental-features = [ "flakes" "nix-command" "repl-flake" ];
+  nix.settings.experimental-features = [ "flakes" "nix-command" "repl-flake" "ca-derivations" ];
   nix.settings.keep-derivations = true;
   nix.settings.keep-outputs = true;
 
@@ -439,8 +439,17 @@
             command cp "$@"
         }
 
+        
+        function cpp() {
+            command cp "$@"
+        }
+
         function mv() {
             mkdest "$@"
+            command mv "$@"
+        }
+        
+        function mvv() {
             command mv "$@"
         }
 
