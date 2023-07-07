@@ -1,7 +1,7 @@
 { config, pkgs, id, inputs, lib, ... }:
 let
   yakuake_autostart = (pkgs.makeAutostartItem { name = "yakuake"; package = pkgs.yakuake; srcPrefix = "org.kde."; });
-  _1password_autostart = (pkgs.makeAutostartItem { name = "1password"; package = pkgs._1password-gui; });
+  # _1password_autostart = (pkgs.makeAutostartItem { name = "1password"; package = pkgs._1password-gui; });
 
   markdown = pkgs.stdenv.mkDerivation {
     pname = "latex-markdown";
@@ -123,7 +123,7 @@ in
     pkgs.libreoffice-qt
 
     yakuake_autostart
-    _1password_autostart
+    # _1password_autostart
     # pkgs.hello
     pkgs.xdotool
     pkgs.xorg.xev
@@ -137,6 +137,17 @@ in
     pkgs.obsidian
     pkgs.pandoc
     pkgs.zettlr
+    pkgs.vivaldi
+    pkgs.microsoft-edge
+    pkgs.libnatpmp
+    pkgs.strongswan
+    pkgs.miniupnpc
+    pkgs.stuntman
+    pkgs.nmap-unfree
+    pkgs.sofia_sip
+
+
+
 
     popcorntime
   ];

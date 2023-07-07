@@ -64,6 +64,7 @@
 
   # NVIDIA drivers are unfree.
   nixpkgs.config.allowUnfree = true;
+
   hardware.opengl.enable = true;
 
   # Optionally, you may need to select the appropriate driver version for your specific GPU.
@@ -137,12 +138,12 @@
   programs._1password.enable = true;
   programs._1password-gui.enable = true;
   programs._1password-gui.polkitPolicyOwners = [ "enikolov" ];
-  programs._1password-gui.package = (pkgs._1password-gui-beta.overrideAttrs
-    (oldAttrs: {
-      postInstall = ''
-        ln -s $out/share/1password/op-ssh-sign $out/bin/op-ssh-sign
-      '';
-    }));
+  # programs._1password-gui.package = (pkgs._1password-gui-beta.overrideAttrs
+  #   (oldAttrs: {
+  #     postInstall = ''
+  #       ln -s $out/share/1password/op-ssh-sign $out/bin/op-ssh-sign
+  #     '';
+  #   }));
 
   programs.gnupg.agent = {
     enable = true;
@@ -154,6 +155,7 @@
 
   services.tailscale.enable = true;
   networking.firewall.checkReversePath = "loose";
+  networking.firewall.allowedTCPPorts = [ 12345 ];
 
   # Copy the NixOS configuration file and link it from the resulting system
   # (/run/current-system/configuration.nix). This is useful in case you

@@ -58,7 +58,12 @@
 
           pkgs = import nixpkgs {
             inherit system;
-            config = { allowUnfree = true; };
+            config = {
+              allowUnfree = true;
+              permittedInsecurePackages = [
+                "openssl-1.1.1u"
+              ];
+            };
             overlays = [
               inputs.nix-alien.overlays.default
               # (inputs.comma.overlays.default)
@@ -75,12 +80,12 @@
               ./hosts/minimal/home.nix
               ./hosts/common/home.nix
               nix-index-database.hmModules.nix-index
- 
-              { 
-                programs.nix-index-database.comma.enable = true; 
+
+              {
+                programs.nix-index-database.comma.enable = true;
                 # home.packages = [ inputs.nix-alien.packages.${system}.nix-alien ];
               }
-              
+
             ];
 
             extraSpecialArgs = {

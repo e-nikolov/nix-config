@@ -304,8 +304,12 @@
           exec $SHELL
         } 
 
-        ns() {
+        nd() {
             nix develop $@ --command zsh
+        }
+
+        ns() {
+            nix shell $@ --command zsh
         }
         
         fzf-process-widget() {
