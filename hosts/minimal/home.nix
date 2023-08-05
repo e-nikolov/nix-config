@@ -50,6 +50,13 @@
     # pkgs.cowsay
   ] ++ [ ];
 
+  programs.neovim.enable = true;
+  programs.neovim.coc.enable = true;
+  programs.neovim.viAlias = true;
+  programs.neovim.vimdiffAlias = true;
+  programs.neovim.withPython3 = true;
+  programs.neovim.withNodeJs = true;
+
   programs.git = {
     enable = true;
     difftastic.enable = true;
@@ -73,6 +80,7 @@
   };
 
   programs.gitui.enable = true;
+  programs.nix-index-database.comma.enable = true;
 
   programs.exa = {
     enable = true;
@@ -104,6 +112,7 @@
   home.shellAliases = {
     nfg = "code ~/nix-config/";
     hm = "home-manager";
+    xargs = "xargs ";
 
     gct = "git commit -am 'tmp'";
 
@@ -452,6 +461,27 @@
         function mvv() {
             command mv "$@"
         }
+
+        function ww() {
+            local paths=()
+            local lines=()
+            while IFS= read -r line; do
+                if [[ $line =~ ^/ ]]; then
+                    paths+=("$line")
+                else
+                    lines+=("$line")
+                fi 
+            done < <(which "$@");
+
+            if [[ ! ''${#paths[@]} -eq 0 ]]; then
+                realpath $paths | xargs exa -alh --group-directories-first --color always --icons
+            fi
+            
+            for i in $lines; do
+                echo $i
+            done
+        }
+
 
         # Ctrl+LeftArrow
         bindkey '^[[1;5D' backward-word

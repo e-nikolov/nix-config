@@ -22,7 +22,6 @@
     nixos-wsl.inputs.flake-compat.follows = "flake-compat";
 
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
-    # comma.url = "github:nix-community/comma/master";
 
     nix-index-database.url = "github:nix-community/nix-index-database/main";
     nix-index-database.inputs.nixpkgs.follows = "nixpkgs";
@@ -43,7 +42,13 @@
     sops-nix.url = "github:Mic92/sops-nix";
     sops-nix.inputs.nixpkgs.follows = "nixpkgs";
 
+    devenv.url = "github:cachix/devenv/latest";
   };
+
+  # nixConfig.extra-trusted-substituters = [ "https://devenv.cachix.org" ];
+  # nixConfig.extra-trusted-public-keys = [ "devenv.cachix.org-1:w1cLUi8dv3hnoSPGAuibQv+f9TZLr6cv/Hm9XgU50cw=" ];
+  nixConfig.substituters = [ "https://cache.nixos.org/" "https://devenv.cachix.org/" "https://nixpkgs-python.cachix.org" ];
+  nixConfig.trusted-public-keys = [ "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY=" "devenv.cachix.org-1:w1cLUi8dv3hnoSPGAuibQv+f9TZLr6cv/Hm9XgU50cw=" "nixpkgs-python.cachix.org-1:hxjI7pFxTyuTHn2NkvWCrAUcNZLNS3ZAvfYNuYifcEU=" ];
 
   # nixConfig.extra-trusted-substituters = [ "https://cache.armv7l.xyz" ];
   # nixConfig.extra-trusted-public-keys = [ "cache.armv7l.xyz-1:kBY/eGnBAYiqYfg0fy0inWhshUo+pGFM3Pj7kIkmlBk=" ];
@@ -76,24 +81,26 @@
               inputs.nix-alien.overlays.default
               inputs.golink.overlays.${system}.default
               # (inputs.comma.overlays.default)
-              (self: super: {
+              (final: prev: {
                 rc2nix = inputs.plasma-manager.packages.${system}.rc2nix;
+                devenv = inputs.devenv.packages.${system}.devenv;
               })
             ];
+
           };
 
           mkHome = { modules ? [ ] }: home-manager.lib.homeManagerConfiguration {
             inherit pkgs;
 
             modules = modules ++ [
+              nix-index-database.hmModules.nix-index
               ./hosts/minimal/home.nix
               ./hosts/common/home.nix
-              nix-index-database.hmModules.nix-index
 
-              {
-                programs.nix-index-database.comma.enable = true;
-                # home.packages = [ inputs.nix-alien.packages.${system}.nix-alien ];
-              }
+              # {
+              #   programs.nix-index-database.comma.enable = true;
+              #   # home.packages = [ inputs.nix-alien.packages.${system}.nix-alien ];
+              # }
 
             ];
 
@@ -119,6 +126,8 @@
 
         in
         {
+          # packages.test = [ devenv.packages.devenv ];
+          # packages.x86_64-linux = [ devenv.packages.x86_64-linux.devenv ];
           # TODO figure out how to do this without hardcoding the username
           packages.homeConfigurations."enikolov@nixps" = mkHome {
             modules = [

@@ -86,23 +86,27 @@ with lib; {
   users.defaultUserShell = pkgs.zsh;
   users.users.enikolov.extraGroups = [ "wheel" "docker" "onepassword-cli" "onepassword" ];
   programs.git.enable = true;
+  # Set your time zone.
+  time.timeZone = "Europe/Amsterdam";
+
   services.gnome.gnome-keyring.enable = true;
   # services.gnome-keyring.enable = true;
   environment.systemPackages = with pkgs; [
     vim
     git
     wget
-    obsidian
-    zettlr
+    pciutils
+    waybar
+    dunst
+    kmod
+    mako
   ];
   # Enable nix flakes
-  # nix.package = pkgs.nixFlakes;
-  # nix.extraOptions = ''
-  #   experimental-features = nix-command flakes
-  # '';
-  # nix.settings.extra-trusted-substituters = [ "https://cache.armv7l.xyz" ];
-  # nix.settings.extra-trusted-public-keys = [ "cache.armv7l.xyz-1:kBY/eGnBAYiqYfg0fy0inWhshUo+pGFM3Pj7kIkmlBk=" ];
   nix.settings.trusted-users = [ "root" "enikolov" ];
+  programs.hyprland = {
+    enable = true;
+    xwayland.enable = true;
+  };
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
 
