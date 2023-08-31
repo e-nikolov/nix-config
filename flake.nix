@@ -118,10 +118,9 @@
               ./hosts/common/configuration.nix
             ] ++ modules;
 
-
-            # extraSpecialArgs = {
-            #   inherit inputs;
-            # };
+            specialArgs = {
+              inherit inputs;
+            };
           };
 
         in

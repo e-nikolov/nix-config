@@ -1,4 +1,4 @@
-{ lib, pkgs, config, modulesPath, ... }:
+{ lib, pkgs, config, modulesPath, inputs, ... }:
 with lib; {
   # imports = [
   #   "${pkgs.sops-nix}/modules/sops"
@@ -44,4 +44,5 @@ with lib; {
   nix.extraOptions = ''
     experimental-features = nix-command flakes repl-flake ca-derivations
   '';
+  nix.nixPath = [ "nixpkgs=${inputs.nixpkgs.outPath}" ];
 }
