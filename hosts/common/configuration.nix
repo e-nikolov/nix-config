@@ -44,5 +44,7 @@ with lib; {
   nix.extraOptions = ''
     experimental-features = nix-command flakes repl-flake ca-derivations
   '';
+
+  # https://github.com/nix-community/nix-index/issues/212
   nix.nixPath = [ "nixpkgs=${inputs.nixpkgs.outPath}" ];
 }
