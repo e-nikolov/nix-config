@@ -95,10 +95,10 @@ in
   };
 
   nix.settings.extra-platforms = [ "armv7l-linux" "armv7l-hf-multiplatform" "armv7l-multiplatform" "aarch64-linux" "i686-linux" ];
-  nix.settings.cores = 4;
+  nix.settings.cores = 6;
 
-  nix.settings.substituters = [ "https://cache.nixos.org/" "https://devenv.cachix.org/" "https://nixpkgs-python.cachix.org" ];
-  nix.settings.trusted-public-keys = [ "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY=" "devenv.cachix.org-1:w1cLUi8dv3hnoSPGAuibQv+f9TZLr6cv/Hm9XgU50cw=" "nixpkgs-python.cachix.org-1:hxjI7pFxTyuTHn2NkvWCrAUcNZLNS3ZAvfYNuYifcEU=" ];
+  # nix.settings.substituters = [ "https://cache.nixos.org/" "https://devenv.cachix.org/" "https://nixpkgs-python.cachix.org" ];
+  # nix.settings.trusted-public-keys = [ "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY=" "devenv.cachix.org-1:w1cLUi8dv3hnoSPGAuibQv+f9TZLr6cv/Hm9XgU50cw=" "nixpkgs-python.cachix.org-1:hxjI7pFxTyuTHn2NkvWCrAUcNZLNS3ZAvfYNuYifcEU=" ];
   # nix.settings.extra-trusted-substituters = [ "https://cache.armv7l.xyz" ];
   # nix.settings.extra-trusted-public-keys = [ "cache.armv7l.xyz-1:kBY/eGnBAYiqYfg0fy0inWhshUo+pGFM3Pj7kIkmlBk=" ];
 
