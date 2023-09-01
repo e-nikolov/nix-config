@@ -11,7 +11,11 @@ then
 else
     echo installing nix
     curl -L https://nixos.org/nix/install | sh
-    source ~/.bashrc
+    echo installing nix... done
+
+    NIX_LINK="$HOME/.nix-profile"
+    p_sh=$NIX_LINK/etc/profile.d/nix.sh
+    source ${p_sh}
 fi
 
 INSTALL_SCRIPT=install-minimal.sh
