@@ -1,4 +1,4 @@
-{ lib, pkgs, config, modulesPath, inputs, ... }:
+{ lib, pkgs, config, modulesPath, inputs, values, ... }:
 with lib; {
   # imports = [
   #   "${pkgs.sops-nix}/modules/sops"
@@ -19,15 +19,14 @@ with lib; {
     enable = true;
   };
 
-  # fonts.fontconfig.enable = pkgs.lib.mkForce true;
   security.polkit.enable = true;
-  #programs._1password-gui.polkitPolicyOwners = [ "enikolov" ];
+  #programs._1password-gui.polkitPolicyOwners = [ values.username ];
 
   programs.mosh.enable = true;
   programs._1password.enable = true;
   programs._1password-gui.enable = true;
   users.defaultUserShell = pkgs.zsh;
-  #users.users.enikolov.extraGroups = [ "wheel" "docker" "onepassword-cli" "onepassword" ];
+  #users.users."${values.username}".extraGroups = [ "wheel" "docker" "onepassword-cli" "onepassword" ];
   programs.git.enable = true;
   environment.systemPackages = with pkgs; [
     vim
@@ -47,4 +46,7 @@ with lib; {
 
   # https://github.com/nix-community/nix-index/issues/212
   nix.nixPath = [ "nixpkgs=${inputs.nixpkgs.outPath}" ];
+  # https://discourse.nixos.org/t/problems-after-switching-to-flake-system/24093/7
+  nix.registry.nixpkgs.flake = inputs.nixpkgs;
+  nix.gc.automatic = true;
 }

@@ -61,6 +61,8 @@ in
     pkgs.microsoft-edge
     pkgs.popcorntime
 
+    pkgs.rc2nix
+
     yakuake_autostart
   ];
 

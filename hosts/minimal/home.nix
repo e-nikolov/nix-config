@@ -13,7 +13,7 @@
     pkgs.git
     pkgs.ripgrep-all
     pkgs.niv
-    pkgs.go_1_20
+    pkgs.go
     pkgs.python3
     pkgs.nodejs
     pkgs.jq
@@ -32,7 +32,7 @@
     pkgs.bash-completion
     pkgs.oh-my-zsh
     pkgs.zsh-fzf-tab
-    pkgs.zsh-z
+    # pkgs.zsh-z
     pkgs.zsh-autosuggestions
     pkgs.zsh-fast-syntax-highlighting
     pkgs.zsh-powerlevel10k
@@ -43,12 +43,35 @@
     pkgs.neofetch
     pkgs.sops
     pkgs.age
+    pkgs.xxh
 
     # pkgs.comma
     # pkgs.fortune
     # pkgs.hello
     # pkgs.cowsay
   ] ++ [ ];
+
+
+  programs.fzf.enable = true;
+  programs.htop.enable = true;
+  programs.yazi.enable = true;
+  programs.yazi.enableZshIntegration = true;
+  programs.zoxide.enable = true;
+  programs.zoxide.enableZshIntegration = true;
+  programs.zellij.enable = true;
+  programs.zellij.settings = {
+    copy_on_select = false;
+
+    keybinds = {
+      unbind = [ "Alt Left" "Alt Right" "Ctrl 1" "Ctrl 3" "Ctrl 5" "Ctrl 2" ];
+      normal = {
+        "bind \"Ctrl 1\"" = { MoveFocusOrTab = "Left"; };
+        "bind \"Ctrl 3\"" = { MoveFocusOrTab = "Right"; };
+        "bind \"Ctrl 5\"" = { MoveFocus = "Down"; };
+        "bind \"Ctrl 2\"" = { MoveFocus = "Up"; };
+      };
+    };
+  };
 
   programs.neovim.enable = true;
   programs.neovim.coc.enable = true;
@@ -80,6 +103,7 @@
   };
 
   programs.gitui.enable = true;
+  programs.nix-index.enable = true;
   programs.nix-index-database.comma.enable = true;
 
   programs.exa = {
@@ -94,15 +118,6 @@
     '';
   };
 
-  programs.nix-index.enable = true;
-  # programs.nix-index.package = pkgs.nix-index.overrideAttrs (oldAttrs: {
-  #   postInstall = ''
-  #     mkdir -p $out/etc/profile.d
-  #     cp ${../../scripts/command-not-found.sh} $out/etc/profile.d/command-not-found.sh
-  #     substituteInPlace $out/etc/profile.d/command-not-found.sh \
-  #       --replace "@out@" "$out"
-  #   '';
-  # });
 
   fonts.fontconfig.enable = true;
 
@@ -111,7 +126,6 @@
 
   home.shellAliases = {
     nfg = "code ~/nix-config/";
-    hm = "home-manager";
     xargs = "xargs ";
 
     gct = "git commit -am 'tmp'";
@@ -169,13 +183,13 @@
   nix.settings.experimental-features = [ "flakes" "nix-command" "repl-flake" "ca-derivations" ];
   nix.settings.keep-derivations = true;
   nix.settings.keep-outputs = true;
+  nix.settings.auto-optimise-store = true;
 
   programs.zsh =
     let
       omzp = name: { inherit name; src = "${pkgs.oh-my-zsh}/share/oh-my-zsh/plugins/${name}"; };
       omzl = name: file: {
         inherit name file;
-        # file = if file != "" then file else "${name}.zsh";
         src = "${pkgs.oh-my-zsh}/share/oh-my-zsh/lib/";
       };
     in
@@ -210,11 +224,11 @@
           name = "powerlevel10k-config";
           src = ../../dotfiles/.;
         }
-        {
-          file = "zsh-z.plugin.zsh";
-          name = "zsh-z";
-          src = "${pkgs.zsh-z}/share/zsh-z";
-        }
+        # {
+        #   file = "zsh-z.plugin.zsh";
+        #   name = "zsh-z";
+        #   src = "${pkgs.zsh-z}/share/zsh-z";
+        # }
         {
           file = "fast-syntax-highlighting.plugin.zsh";
           name = "zsh-fast-syntax-highlighting";
@@ -313,6 +327,10 @@
 
         xc() {
             xclip -selection clipboard
+        }
+
+        hm() {
+          home-manager --flake ~/nix-config $@
         }
 
         hms() {
@@ -583,10 +601,6 @@
         ignoreDups = true;
       };
     };
-
-  programs.fzf.enable = true;
-
-  programs.htop.enable = true;
 
   # This value determines the Home Manager release that your
   # configuration is compatible with. This helps avoid breakage

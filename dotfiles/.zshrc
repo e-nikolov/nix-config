@@ -9,7 +9,6 @@
 ## COMPLETIONS ########################################
 
 ### Functions ###
-# ^[[1;8D ^[[1;8C
 
 export PATH=$PATH:"$HOME/.cargo/bin"
 

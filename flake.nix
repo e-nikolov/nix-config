@@ -1,7 +1,8 @@
 {
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    # nixpkgs.url = "github:nixos/nixpkgs/ac718d02867a84b42522a0ece52d841188208f2c";
+    nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-23.05";
+
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -53,7 +54,7 @@
   # nixConfig.extra-trusted-substituters = [ "https://cache.armv7l.xyz" ];
   # nixConfig.extra-trusted-public-keys = [ "cache.armv7l.xyz-1:kBY/eGnBAYiqYfg0fy0inWhshUo+pGFM3Pj7kIkmlBk=" ];
 
-  outputs = inputs@{ self, nixpkgs, flake-utils, nix-index-database, home-manager, ... }:
+  outputs = inputs@{ self, nixpkgs, nixpkgs-stable, flake-utils, nix-index-database, home-manager, ... }:
     {
       templates.minimal = {
         description = ''
@@ -67,7 +68,17 @@
     flake-utils.lib.eachSystem (flake-utils.lib.defaultSystems ++ [ flake-utils.lib.system.armv7l-linux ])
       (system:
         let
-          values = import ./values.nix { };
+          values = import ./values.nix;
+
+          pkgs-stable = import nixpkgs-stable {
+            system = system;
+            config = {
+              allowUnfree = true;
+              permittedInsecurePackages = [
+                "openssl-1.1.1u"
+              ];
+            };
+          };
 
           pkgs = import nixpkgs {
             inherit system;
@@ -80,10 +91,11 @@
             overlays = [
               inputs.nix-alien.overlays.default
               inputs.golink.overlays.${system}.default
-              # (inputs.comma.overlays.default)
               (final: prev: {
                 rc2nix = inputs.plasma-manager.packages.${system}.rc2nix;
                 devenv = inputs.devenv.packages.${system}.devenv;
+                emanote = pkgs-stable.emanote;
+                ripgrep-all = pkgs-stable.ripgrep-all;
               })
             ];
 
@@ -93,15 +105,15 @@
             inherit pkgs;
 
             modules = modules ++ [
+              {
+                # nix.package = pkgs.nix;
+                home.username = values.username;
+                home.homeDirectory = "/home/${values.username}";
+                home.stateVersion = "22.11";
+              }
               nix-index-database.hmModules.nix-index
               ./hosts/minimal/home.nix
               ./hosts/common/home.nix
-
-              # {
-              #   programs.nix-index-database.comma.enable = true;
-              #   # home.packages = [ inputs.nix-alien.packages.${system}.nix-alien ];
-              # }
-
             ];
 
             extraSpecialArgs = {
@@ -119,50 +131,52 @@
             ] ++ modules;
 
             specialArgs = {
-              inherit inputs;
+              inherit inputs values;
             };
           };
 
         in
         {
-          # packages.test = [ devenv.packages.devenv ];
-          # packages.x86_64-linux = [ devenv.packages.x86_64-linux.devenv ];
           # TODO figure out how to do this without hardcoding the username
-          packages.homeConfigurations."enikolov@nixps" = mkHome {
-            modules = [
-              inputs.plasma-manager.homeManagerModules.plasma-manager
-              ./hosts/nixps/home.nix
-            ];
+          packages.homeConfigurations = {
+            "${values.username}@nixps" = mkHome {
+              modules = [
+                inputs.plasma-manager.homeManagerModules.plasma-manager
+                ./hosts/nixps/home.nix
+              ];
+            };
+
+            "${values.username}@home-nix" = mkHome {
+              modules = [ ./hosts/home-nix/home.nix ];
+            };
           };
 
-          packages.homeConfigurations."enikolov@home-nix" = mkHome {
-            modules = [ ./hosts/home-nix/home.nix ];
-          };
+          packages.nixosConfigurations = {
+            nixps = mkSystem {
+              modules = [
+                ./hosts/nixps/configuration.nix
+                inputs.nixos-hardware.nixosModules.dell-xps-15-9560-intel
+              ];
+            };
 
-          packages.nixosConfigurations.nixps = mkSystem {
-            modules = [
-              ./hosts/nixps/configuration.nix
-              inputs.nixos-hardware.nixosModules.dell-xps-15-9560-intel
-            ];
-          };
+            home-nix = mkSystem {
+              modules = [
+                ./hosts/home-nix/configuration.nix
+                inputs.nixos-wsl.nixosModules.wsl
+                inputs.vscode-server.nixosModules.default
+                ({ config, pkgs, ... }: {
+                  services.vscode-server.enable = true;
+                })
+              ];
+            };
 
-          packages.nixosConfigurations.rpi1 = nixpkgs.lib.nixosSystem {
-            system = "armv7l-linux";
-            inherit pkgs;
-            modules = [
-              ./hosts/rpi1/configuration.nix
-            ];
-          };
-
-          packages.nixosConfigurations.home-nix = mkSystem {
-            modules = [
-              ./hosts/home-nix/configuration.nix
-              inputs.nixos-wsl.nixosModules.wsl
-              inputs.vscode-server.nixosModules.default
-              ({ config, pkgs, ... }: {
-                services.vscode-server.enable = true;
-              })
-            ];
+            rpi1 = nixpkgs.lib.nixosSystem {
+              system = "armv7l-linux";
+              inherit pkgs;
+              modules = [
+                ./hosts/rpi1/configuration.nix
+              ];
+            };
           };
 
           devShell = pkgs.mkShell

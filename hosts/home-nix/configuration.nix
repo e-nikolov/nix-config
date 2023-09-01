@@ -1,4 +1,4 @@
-{ lib, pkgs, config, modulesPath, ... }:
+{ lib, pkgs, config, modulesPath, inputs, values, ... }:
 with lib; {
   imports = [
     "${modulesPath}/profiles/minimal.nix"
@@ -7,8 +7,7 @@ with lib; {
   wsl = {
     enable = true;
     wslConf.automount.root = "/mnt";
-    defaultUser = "enikolov";
-    # startMenuLaunchers = true; 
+    defaultUser = values.username;
     nativeSystemd = true;
     # Enable native Docker support
     docker-native.enable = true;
@@ -55,36 +54,16 @@ with lib; {
       };
     })
   ];
-  #python3Packages = pkgs.python3Packages.override {
-  #  overrides = pfinal: pprev: {
-  #    dbus-next = pprev.dbus-next.overridePythonAttrs (old: {
-  #      # temporary fix for https://github.com/NixOS/nixpkgs/issues/197408
-  #      checkPhase = builtins.replaceStrings ["not test_peer_interface"] ["not test_peer_interface and not test_tcp_connection_with_forwarding"] old.checkPhase;
-  #    });
-  #  };
-  #};
-  #};
 
-
-  fonts.fontconfig.enable = pkgs.lib.mkForce true;
+  # fonts.fontconfig.enable = pkgs.lib.mkForce true;
   security.polkit.enable = true;
-  programs._1password-gui.polkitPolicyOwners = [ "enikolov" ];
-  # programs._1password-gui.package = (pkgs._1password-gui-beta.overrideAttrs (oldAttrs: {
-  #   postInstall = ''
-  #     ln -s $out/share/1password/op-ssh-sign $out/bin/op-ssh-sign
-  #     ln -s $out/share/1password/1Password-KeyringHelper $out/bin/1Password-KeyringHelper
-  #   '';
-  # }));
-  # security.pam.services.kwallet = {
-  #   name = "kwallet";
-  #   enableKwallet = true;
-  # };
+  programs._1password-gui.polkitPolicyOwners = [ values.username ];
 
   programs.mosh.enable = true;
   programs._1password.enable = true;
   programs._1password-gui.enable = true;
   users.defaultUserShell = pkgs.zsh;
-  users.users.enikolov.extraGroups = [ "wheel" "docker" "onepassword-cli" "onepassword" ];
+  users.users.${values.username}.extraGroups = [ "wheel" "docker" "onepassword-cli" "onepassword" ];
   programs.git.enable = true;
   # Set your time zone.
   time.timeZone = "Europe/Amsterdam";
@@ -101,8 +80,7 @@ with lib; {
     kmod
     mako
   ];
-  # Enable nix flakes
-  nix.settings.trusted-users = [ "root" "enikolov" ];
+  nix.settings.trusted-users = [ "root" values.username ];
   programs.hyprland = {
     enable = true;
     xwayland.enable = true;
