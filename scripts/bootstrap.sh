@@ -15,7 +15,7 @@ else
 
     NIX_LINK="$HOME/.nix-profile"
     p_sh=$NIX_LINK/etc/profile.d/nix.sh
-    source ${p_sh}
+    . ${p_sh}
 fi
 
 INSTALL_SCRIPT=install-minimal.sh
