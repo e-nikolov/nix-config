@@ -1,25 +1,7 @@
 { config, pkgs, id, inputs, lib, ... }:
 let
   yakuake_autostart = (pkgs.makeAutostartItem { name = "yakuake"; package = pkgs.yakuake; srcPrefix = "org.kde."; });
-  # _1password_autostart = (pkgs.makeAutostartItem { name = "1password"; package = pkgs._1password-gui; });
 
-  # popcorntime = (pkgs.popcorntime.overrideAttrs (final: old: rec {
-  #   desktopItem = pkgs.makeDesktopItem (with old; {
-  #     name = pname;
-  #     exec = pname;
-  #     icon = pname;
-  #     comment = meta.description;
-  #     genericName = meta.description;
-  #     type = "Application";
-  #     desktopName = "Popcorn-Time";
-  #     categories = [ "Video" "AudioVideo" ];
-  #   });
-
-  #   installPhase = old.installPhase + ''
-
-  #     ln -s ${desktopItem}/share/applications/popcorntime.desktop $out/share/applications/popcorntime.desktop
-  #   '';
-  # }));
 in
 {
   home.packages = [
