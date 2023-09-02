@@ -22,11 +22,11 @@ pkgs.mkShell
     home-manager
     git
 
-    sops
-    gnupg
-    age
+    # sops
+    # gnupg
+    # age
 
-    zsh
+    # zsh
   ];
 
   packages = with pkgs; [
