@@ -37,6 +37,7 @@
         overlays = [
           (self: super: {
             inherit (inputs.devenv.packages.${system}) devenv;
+            inherit (pkgs-stable) ripgrep-all;
           })
         ];
       };
