@@ -40,6 +40,10 @@ sed -i s@{{homedir}}@"$HOME"@g home.nix
 # /nix/store/r1yfx3cckx14ib06hvlzr32w3j20pp8y-home-manager/bin/home-manager switch --extra-experimental-features "nix-command flakes" --flake $HOME/nix-config
 
 # home-manager --extra-experimental-features "nix-command flakes"
+nix-env --uninstall nix
+home-manager init --switch $INSTALL_LOCATION -b backup
+home-manager switch --flake $INSTALL_LOCATION -b backup
+
 echo
 echo
 echo Run this command to finish the installation:

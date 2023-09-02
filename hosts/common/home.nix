@@ -87,6 +87,7 @@
       pkgs.alejandra
       pkgs.deadnix
       pkgs.statix
+      pkgs.manix
 
       # pkgs.fortune
       # pkgs.hello
