@@ -81,7 +81,9 @@ in
     pkgs.killall
     pkgs.nixos-install-tools
     pkgs.kmod
-
+    pkgs.alejandra
+    pkgs.deadnix
+    pkgs.statix
 
     # pkgs.fortune
     # pkgs.hello

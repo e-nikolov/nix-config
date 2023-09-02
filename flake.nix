@@ -44,67 +44,43 @@
     sops-nix.inputs.nixpkgs.follows = "nixpkgs";
 
     devenv.url = "github:cachix/devenv/latest";
+    flake-parts.url = "github:hercules-ci/flake-parts";
   };
 
-  # nixConfig.extra-trusted-substituters = [ "https://devenv.cachix.org" ];
-  # nixConfig.extra-trusted-public-keys = [ "devenv.cachix.org-1:w1cLUi8dv3hnoSPGAuibQv+f9TZLr6cv/Hm9XgU50cw=" ];
-  # nixConfig.substituters = [ "https://cache.nixos.org/" "https://devenv.cachix.org/" "https://nixpkgs-python.cachix.org" ];
-  # nixConfig.trusted-public-keys = [ "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY=" "devenv.cachix.org-1:w1cLUi8dv3hnoSPGAuibQv+f9TZLr6cv/Hm9XgU50cw=" "nixpkgs-python.cachix.org-1:hxjI7pFxTyuTHn2NkvWCrAUcNZLNS3ZAvfYNuYifcEU=" ];
+  outputs = inputs @ {
+    self,
+    flake-parts,
+    nixpkgs,
+    nixpkgs-stable,
+    flake-utils,
+    nix-index-database,
+    home-manager,
+    ...
+  }: let
+    values = import ./values.nix;
+  in
+    flake-parts.lib.mkFlake {inherit inputs;} ({
+      withSystem,
+      flake-parts-lib,
+      ...
+    }: let
+      # inherit (flake-parts-lib) importApply;
+      # flakeModules.default = importApply ./flake-module.nix { inherit withSystem; };
+      mkHome = {
+        modules ? [],
+        system ? "x86_64-linux",
+      }:
+        withSystem system ({
+          config,
+          inputs',
+          pkgs,
+          ...
+        }: (home-manager.lib.homeManagerConfiguration {
+          inherit pkgs;
 
-  # nixConfig.extra-trusted-substituters = [ "https://cache.armv7l.xyz" ];
-  # nixConfig.extra-trusted-public-keys = [ "cache.armv7l.xyz-1:kBY/eGnBAYiqYfg0fy0inWhshUo+pGFM3Pj7kIkmlBk=" ];
-
-  outputs = inputs@{ self, nixpkgs, nixpkgs-stable, flake-utils, nix-index-database, home-manager, ... }:
-    {
-      templates.minimal = {
-        description = ''
-          Minimal flake
-        '';
-        path = ./examples/minimal;
-      };
-
-      minimal = ./hosts/minimal/home.nix;
-    } //
-    flake-utils.lib.eachSystem (flake-utils.lib.defaultSystems ++ [ flake-utils.lib.system.armv7l-linux ])
-      (system:
-        let
-          values = import ./values.nix;
-
-          pkgs-stable = import nixpkgs-stable {
-            system = system;
-            config = {
-              allowUnfree = true;
-              permittedInsecurePackages = [
-                "openssl-1.1.1u"
-              ];
-            };
-          };
-
-          pkgs = import nixpkgs {
-            inherit system;
-            config = {
-              allowUnfree = true;
-              permittedInsecurePackages = [
-                "openssl-1.1.1u"
-              ];
-            };
-            overlays = [
-              inputs.nix-alien.overlays.default
-              inputs.golink.overlays.${system}.default
-              (final: prev: {
-                rc2nix = inputs.plasma-manager.packages.${system}.rc2nix;
-                devenv = inputs.devenv.packages.${system}.devenv;
-                emanote = pkgs-stable.emanote;
-                ripgrep-all = pkgs-stable.ripgrep-all;
-              })
-            ];
-
-          };
-
-          mkHome = { modules ? [ ] }: home-manager.lib.homeManagerConfiguration {
-            inherit pkgs;
-
-            modules = modules ++ [
+          modules =
+            modules
+            ++ [
               {
                 # nix.package = pkgs.nix;
                 home.username = values.username;
@@ -116,85 +92,152 @@
               ./hosts/common/home.nix
             ];
 
-            extraSpecialArgs = {
-              inherit inputs values;
-            };
+          extraSpecialArgs = {
+            inherit inputs values;
+          };
+        }));
+
+      mkSystem = {
+        modules ? [
+          inputs.golink.nixosModules.default
+          inputs.sops-nix.nixosModules.sops
+          ./hosts/common/configuration.nix
+        ],
+        extraModules ? [],
+        system ? "x86_64-linux",
+        username ? values.username,
+      }:
+        withSystem system
+        ({
+          config,
+          inputs',
+          pkgs,
+          ...
+        }: (nixpkgs.lib.nixosSystem {
+          inherit pkgs;
+
+          modules = modules ++ extraModules;
+
+          specialArgs = {
+            inherit inputs values;
+          };
+        }));
+    in {
+      systems = [
+        "aarch64-darwin"
+        "aarch64-linux"
+        "x86_64-darwin"
+        "x86_64-linux"
+        "armv7l-linux"
+      ];
+
+      perSystem = {
+        config,
+        self',
+        inputs',
+        pkgs,
+        system,
+        ...
+      }: let
+        pkgs-stable = import nixpkgs-stable {
+          inherit system;
+          config = {
+            allowUnfree = true;
+            permittedInsecurePackages = [
+              "openssl-1.1.1u"
+            ];
+          };
+        };
+
+        pkgs = import nixpkgs {
+          inherit system;
+          config = {
+            allowUnfree = true;
           };
 
-          mkSystem = { modules ? [ ] }: nixpkgs.lib.nixosSystem {
-            inherit pkgs;
+          overlays = [
+            (inputs.nix-alien.overlays.default)
+            # (inputs.golink.overlays.default)
+            (inputs.golink.overlay)
+            # (inputs.golink.overlays."${system}".default)
 
+            (final: prev: {
+              # rc2nix = inputs.plasma-manager.packages.rc2nix;
+              rc2nix = inputs.plasma-manager.packages.${system}.rc2nix;
+              # devenv = inputs.devenv.packages.devenv;
+              devenv = inputs.devenv.packages.${system}.devenv;
+              emanote = pkgs-stable.emanote;
+              ripgrep-all = pkgs-stable.ripgrep-all;
+            })
+          ];
+        };
+      in {
+        _module.args.pkgs = pkgs;
+        devShells.default = pkgs.mkShell {
+          NIX_CONFIG = "extra-experimental-features = nix-command flakes repl-flake";
+          nativeBuildInputs = [
+            pkgs.home-manager
+            pkgs.nix
+            pkgs.zsh
+            pkgs.git
+
+            pkgs.sops
+            pkgs.gnupg
+            pkgs.age
+          ];
+          shellHook = ''
+            zsh
+          '';
+        };
+      };
+      flake = {
+        templates.minimal = {
+          description = ''
+            Minimal flake
+          '';
+          path = ./examples/minimal;
+        };
+        minimal = ./hosts/minimal/home.nix;
+        homeConfigurations = {
+          "${values.username}@nixps" = mkHome {
             modules = [
-              inputs.golink.nixosModules.default
-              inputs.sops-nix.nixosModules.sops
-              ./hosts/common/configuration.nix
-            ] ++ modules;
-
-            specialArgs = {
-              inherit inputs values;
-            };
+              inputs.plasma-manager.homeManagerModules.plasma-manager
+              ./hosts/nixps/home.nix
+            ];
           };
 
-        in
-        {
-          # TODO figure out how to do this without hardcoding the username
-          packages.homeConfigurations = {
-            "${values.username}@nixps" = mkHome {
-              modules = [
-                inputs.plasma-manager.homeManagerModules.plasma-manager
-                ./hosts/nixps/home.nix
-              ];
-            };
-
-            "${values.username}@home-nix" = mkHome {
-              modules = [ ./hosts/home-nix/home.nix ];
-            };
+          "${values.username}@home-nix" = mkHome {
+            modules = [./hosts/home-nix/home.nix];
           };
-
-          packages.nixosConfigurations = {
-            nixps = mkSystem {
-              modules = [
-                ./hosts/nixps/configuration.nix
-                inputs.nixos-hardware.nixosModules.dell-xps-15-9560-intel
-              ];
-            };
-
-            home-nix = mkSystem {
-              modules = [
-                ./hosts/home-nix/configuration.nix
-                inputs.nixos-wsl.nixosModules.wsl
-                inputs.vscode-server.nixosModules.default
-                ({ config, pkgs, ... }: {
-                  services.vscode-server.enable = true;
-                })
-              ];
-            };
-
-            rpi1 = nixpkgs.lib.nixosSystem {
-              system = "armv7l-linux";
-              inherit pkgs;
-              modules = [
-                ./hosts/rpi1/configuration.nix
-              ];
-            };
+        };
+        nixosConfigurations = {
+          home-nix = mkSystem {
+            extraModules = [
+              ./hosts/home-nix/configuration.nix
+              inputs.nixos-wsl.nixosModules.wsl
+              inputs.vscode-server.nixosModules.default
+              ({
+                config,
+                pkgs,
+                ...
+              }: {
+                services.vscode-server.enable = true;
+              })
+            ];
           };
-
-          devShell = pkgs.mkShell
-            {
-              NIX_CONFIG = "extra-experimental-features = nix-command flakes repl-flake";
-              nativeBuildInputs = with pkgs; [
-                home-manager
-                nix
-                zsh
-                git
-
-                sops
-                gnupg
-                age
-              ];
-              shellHook = ''
-                zsh
-              '';
-            };
-        });
+          nixps = mkSystem {
+            extraModules = [
+              ./hosts/nixps/configuration.nix
+              inputs.nixos-hardware.nixosModules.dell-xps-15-9560-intel
+            ];
+          };
+          rpi1 = mkSystem {
+            system = "armv7l-linux";
+            extraModules = [
+              ./hosts/rpi1/configuration.nix
+            ];
+          };
+        };
+      };
+    });
 }

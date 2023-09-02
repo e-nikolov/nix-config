@@ -47,6 +47,7 @@ with lib; {
   # https://github.com/nix-community/nix-index/issues/212
   nix.nixPath = [ "nixpkgs=${inputs.nixpkgs.outPath}" ];
   # https://discourse.nixos.org/t/problems-after-switching-to-flake-system/24093/7
-  nix.registry.nixpkgs.flake = inputs.nixpkgs;
+  # nix.registry.nixpkgs.flake = "${inputs.nixpkgs}";
+  # nix.registry.nixpkgs.flake = inputs.nixpkgs;
   nix.gc.automatic = true;
 }

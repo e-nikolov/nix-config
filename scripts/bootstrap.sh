@@ -46,4 +46,6 @@ while [ $# -gt 0 ]; do
     shift
 done
 
+echo Running $INSTALL_SCRIPT to $INSTALL_LOCATION
+
 nix-shell https://github.com/e-nikolov/nix-config/archive/master.tar.gz --tarball-ttl 0 --command "$INSTALL_SCRIPT $*" 

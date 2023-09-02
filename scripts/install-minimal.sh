@@ -14,6 +14,8 @@ fi
 
 export HOST=$(hostname)
 
+# Content-Type
+
 echo installing to $INSTALL_LOCATION
 mkdir -p $INSTALL_LOCATION
 
@@ -30,6 +32,15 @@ sed -i s@{{hostname}}@"$HOST"@g home.nix
 
 sed -i s@{{homedir}}@"$HOME"@g flake.nix
 sed -i s@{{homedir}}@"$HOME"@g home.nix
+curl -s "https://api.github.com/repos/NixOS/nixpkgs/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/'
+
+
+nix -- run home-manager/master -- init --switch $INSTALL_LOCATION -b backup $*
+
+nix --extra-experimental-features "nix-command flakes" run home-manager/master -- init --switch ~/nix-config
+nix --extra-experimental-features "nix-command flakes" run home-manager/master -- --extra-experimental-features "nix-command flakes" init --switch ~/nix-config
+
+home-manager --extra-experimental-features "nix-command flakes"
 
 echo 
 echo 

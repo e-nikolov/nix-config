@@ -45,6 +45,9 @@
     pkgs.age
     pkgs.xxh
 
+    pkgs.cachix
+    pkgs.devenv
+
     # pkgs.comma
     # pkgs.fortune
     # pkgs.hello
