@@ -1,4 +1,12 @@
-{ lib, pkgs, config, modulesPath, inputs, values, ... }:
+{
+  lib,
+  pkgs,
+  config,
+  modulesPath,
+  inputs,
+  values,
+  ...
+}:
 with lib; {
   imports = [
     "${modulesPath}/profiles/minimal.nix"
@@ -21,7 +29,7 @@ with lib; {
     wslConf.network.generateHosts = false;
     startMenuLaunchers = true;
   };
-  boot.binfmt.emulatedSystems = [ "armv7l-linux" "aarch64-linux" ];
+  boot.binfmt.emulatedSystems = ["armv7l-linux" "aarch64-linux"];
   security.sudo.wheelNeedsPassword = true;
 
   networking.firewall.checkReversePath = "loose";
@@ -39,31 +47,32 @@ with lib; {
   };
 
   services.passSecretService.enable = true;
-  services.passSecretService.package = (pkgs.pass-secret-service.overrideAttrs (old: {
-    checkInputs = [ ];
-  }));
+  services.passSecretService.package = pkgs.pass-secret-service.overrideAttrs (old: {
+    checkInputs = [];
+  });
   nixpkgs.overlays = [
     (final: prev: {
       python3 = prev.python3.override {
         packageOverrides = self: super: {
           # https://github.com/NixOS/nixpkgs/issues/197408
           dbus-next = super.dbus-next.overridePythonAttrs (old: {
-            checkPhase = builtins.replaceStrings [ "not test_peer_interface" ] [ "not test_peer_interface and not test_tcp_connection_with_forwarding" ] old.checkPhase;
+            checkPhase = builtins.replaceStrings ["not test_peer_interface"] ["not test_peer_interface and not test_tcp_connection_with_forwarding"] old.checkPhase;
           });
         };
       };
     })
   ];
 
+  services.vscode-server.enable = true;
   # fonts.fontconfig.enable = pkgs.lib.mkForce true;
   security.polkit.enable = true;
-  programs._1password-gui.polkitPolicyOwners = [ values.username ];
+  programs._1password-gui.polkitPolicyOwners = [values.username];
 
   programs.mosh.enable = true;
   programs._1password.enable = true;
   programs._1password-gui.enable = true;
   users.defaultUserShell = pkgs.zsh;
-  users.users.${values.username}.extraGroups = [ "wheel" "docker" "onepassword-cli" "onepassword" ];
+  users.users.${values.username}.extraGroups = ["wheel" "docker" "onepassword-cli" "onepassword"];
   programs.git.enable = true;
   # Set your time zone.
   time.timeZone = "Europe/Amsterdam";
@@ -80,7 +89,7 @@ with lib; {
     kmod
     mako
   ];
-  nix.settings.trusted-users = [ "root" values.username ];
+  nix.settings.trusted-users = ["root" values.username];
   programs.hyprland = {
     enable = true;
     xwayland.enable = true;

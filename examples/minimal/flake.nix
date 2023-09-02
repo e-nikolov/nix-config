@@ -15,29 +15,38 @@
     devenv.url = "github:cachix/devenv/latest";
   };
 
-  outputs = inputs@{ self, nixpkgs, nixpkgs-stable, flake-utils, home-manager, nix-config, ... }:
+  outputs = inputs @ {
+    self,
+    nixpkgs,
+    nixpkgs-stable,
+    flake-utils,
+    home-manager,
+    nix-config,
+    ...
+  }:
     flake-utils.lib.eachDefaultSystem
-      (system:
-        let
-          pkgs-stable = import nixpkgs-stable {
-            inherit system;
-            config = { allowUnfree = true; };
-          };
+    (system: let
+      pkgs-stable = import nixpkgs-stable {
+        inherit system;
+        config = {allowUnfree = true;};
+      };
 
-          pkgs = import nixpkgs {
-            inherit system;
-            config = { allowUnfree = true; };
-            overlays = [
-              (self: super: {
-                devenv = inputs.devenv.packages.${system}.devenv;
-              })
-            ];
-          };
+      pkgs = import nixpkgs {
+        inherit system;
+        config = {allowUnfree = true;};
+        overlays = [
+          (self: super: {
+            devenv = inputs.devenv.packages.${system}.devenv;
+          })
+        ];
+      };
 
-          mkHome = { modules ? [ ] }: home-manager.lib.homeManagerConfiguration {
-            inherit pkgs;
+      mkHome = {modules ? []}:
+        home-manager.lib.homeManagerConfiguration {
+          inherit pkgs;
 
-            modules = [
+          modules =
+            [
               inputs.nix-index-database.hmModules.nix-index
 
               # You can remove the line below if you don't want to use the minimal flake from github.com/e-nikolov/nix-config
@@ -45,19 +54,19 @@
 
               # You can uncomment the line below if you want to switch to a local copy of the minimal flake from github.com/e-nikolov/nix-config
               # ./hosts/minimal/home.nix
-            ] ++ modules;
+            ]
+            ++ modules;
 
-            extraSpecialArgs = {
-              inherit inputs;
-            };
+          extraSpecialArgs = {
+            inherit inputs;
           };
-        in
-        {
-          packages.homeConfigurations."{{username}}@{{hostname}}" = mkHome {
-            modules = [
-              # You can include your own customizations on top of the minimal flake inside home.nix
-              ./home.nix
-            ];
-          };
-        });
+        };
+    in {
+      packages.homeConfigurations."{{username}}@{{hostname}}" = mkHome {
+        modules = [
+          # You can include your own customizations on top of the minimal flake inside home.nix
+          ./home.nix
+        ];
+      };
+    });
 }

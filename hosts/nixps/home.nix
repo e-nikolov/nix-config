@@ -1,9 +1,17 @@
-{ config, pkgs, id, inputs, lib, ... }:
-let
-  yakuake_autostart = (pkgs.makeAutostartItem { name = "yakuake"; package = pkgs.yakuake; srcPrefix = "org.kde."; });
-
-in
 {
+  config,
+  pkgs,
+  id,
+  inputs,
+  lib,
+  ...
+}: let
+  yakuake_autostart = pkgs.makeAutostartItem {
+    name = "yakuake";
+    package = pkgs.yakuake;
+    srcPrefix = "org.kde.";
+  };
+in {
   home.packages = [
     pkgs.chromium
     pkgs.slack
@@ -212,7 +220,7 @@ in
           downloadPage = "https://marketplace.visualstudio.com/items?itemName=k--kato.intellij-idea-keybindings";
           homepage = "https://github.com/kasecato/vscode-intellij-idea-keybindings#readme";
           license = licenses.mit;
-          maintainers = with maintainers; [ ];
+          maintainers = with maintainers; [];
         };
       })
     ];

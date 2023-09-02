@@ -1,25 +1,32 @@
 # Edit this configuration file to define what should be installed on
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
-
-{ config, pkgs, lib, ... }:
-let
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}: let
   user = "pi";
   password = "...";
   SSID = "...";
   SSIDpassword = "...";
   interface = "wlan0";
   hostname = "rpi1";
-in
-{
+in {
   # boot.loader.grub.enable = false;
   # boot.loader.generic-extlinux-compatible.enable = true;
   # boot.kernelPackages = pkgs.linuxPackages_rpi2;
 
-  nix.settings.substituters = lib.mkForce [ "https://cache.armv7l.xyz" ];
-  nix.settings.trusted-public-keys = [ "cache.armv7l.xyz-1:kBY/eGnBAYiqYfg0fy0inWhshUo+pGFM3Pj7kIkmlBk=" ];
+  nix.settings.substituters = lib.mkForce ["https://cache.armv7l.xyz"];
+  nix.settings.trusted-public-keys = ["cache.armv7l.xyz-1:kBY/eGnBAYiqYfg0fy0inWhshUo+pGFM3Pj7kIkmlBk="];
 
-  swapDevices = [{ device = "/swapfile"; size = 2048; }];
+  swapDevices = [
+    {
+      device = "/swapfile";
+      size = 2048;
+    }
+  ];
 
   # imports = ["${fetchTarball "https://github.com/NixOS/nixos-hardware/archive/936e4649098d6a5e0762058cb7687be1b2d90550.tar.gz" }/raspberry-pi/2"];
 
@@ -28,7 +35,7 @@ in
     wireless = {
       enable = true;
       networks."${SSID}".psk = SSIDpassword;
-      interfaces = [ interface ];
+      interfaces = [interface];
     };
   };
 
@@ -46,7 +53,7 @@ in
     users."${user}" = {
       isNormalUser = true;
       password = password;
-      extraGroups = [ "wheel" "docker" ];
+      extraGroups = ["wheel" "docker"];
     };
   };
 
@@ -61,11 +68,10 @@ in
 
   # hardware.pulseaudio.enable = true;
 
-  imports =
-    [
-      # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-    ];
+  imports = [
+    # Include the results of the hardware scan.
+    ./hardware-configuration.nix
+  ];
 
   # Use the extlinux boot loader. (NixOS wants to enable GRUB by default)
   boot.loader.grub.enable = false;
@@ -99,7 +105,6 @@ in
     experimental-features = nix-command flakes repl-flake ca-derivations
   '';
 
-
   # Configure keymap in X11
   # services.xserver.layout = "us";
   # services.xserver.xkbOptions = {
@@ -109,7 +114,6 @@ in
 
   # Enable CUPS to print documents.
   # services.printing.enable = true;
-
 
   # Enable sound.
   # sound.enable = true;
@@ -165,5 +169,4 @@ in
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "22.11"; # Did you read the comment?
-
 }

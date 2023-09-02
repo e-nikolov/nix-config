@@ -1,11 +1,15 @@
-{ config, pkgs, id, inputs, ... }:
 {
+  config,
+  pkgs,
+  id,
+  inputs,
+  ...
+}: {
   home.packages = [
     pkgs.libsForQt5.kate
     pkgs.xdg-utils
     pkgs.emanote
   ];
-
 
   programs.bash.initExtra = ''
     source ~/nix-config/dotfiles/.bashrc
@@ -18,7 +22,7 @@
       if grep -qEi "(Microsoft|WSL)" /proc/sys/kernel/osrelease &> /dev/null ; then
           # bindkey '^[[3;5~' kill-word
 
-          # if [ ! $VSCODE_GIT_ASKPASS_MAIN ]; then 
+          # if [ ! $VSCODE_GIT_ASKPASS_MAIN ]; then
           #     bindkey '^H' backward-kill-word
           # fi
 

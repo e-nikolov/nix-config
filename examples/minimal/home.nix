@@ -1,5 +1,9 @@
-{ config, pkgs, inputs, ... }:
 {
+  config,
+  pkgs,
+  inputs,
+  ...
+}: {
   home.username = "{{username}}";
   home.homeDirectory = "{{homedir}}";
 
