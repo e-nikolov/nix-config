@@ -36,7 +36,7 @@
         config = {allowUnfree = true;};
         overlays = [
           (self: super: {
-            devenv = inputs.devenv.packages.${system}.devenv;
+            inherit (inputs.devenv.packages.${system}) devenv;
           })
         ];
       };

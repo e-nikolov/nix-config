@@ -43,14 +43,14 @@
             allowUnfree = true;
           };
           overlays = [
-            (inputs.nix-alien.overlays.default)
-            (inputs.golink.overlay)
+            inputs.nix-alien.overlays.default
+            inputs.golink.overlay
 
             (final: prev: {
-              rc2nix = inputs.plasma-manager.packages.${system}.rc2nix;
-              devenv = inputs.devenv.packages.${system}.devenv;
-              emanote = pkgs-stable.emanote;
-              ripgrep-all = pkgs-stable.ripgrep-all;
+              inherit (inputs.plasma-manager.packages.${system}) rc2nix;
+              inherit (inputs.devenv.packages.${system}) devenv;
+              inherit (pkgs-stable) emanote;
+              inherit (pkgs-stable) ripgrep-all;
             })
           ];
         };

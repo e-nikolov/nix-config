@@ -52,7 +52,7 @@ in {
     mutableUsers = false;
     users."${user}" = {
       isNormalUser = true;
-      password = password;
+      inherit password;
       extraGroups = ["wheel" "docker"];
     };
   };
