@@ -13,14 +13,8 @@
       pkgs.htop
       pkgs.nixfmt
       pkgs.curl
-      pkgs.kubectl
-      pkgs.kubectx
       pkgs.git
       pkgs.ripgrep-all
-      pkgs.niv
-      pkgs.go
-      pkgs.python3
-      pkgs.nodejs
       pkgs.jq
       pkgs.websocat
       pkgs.rustc
@@ -50,8 +44,8 @@
       pkgs.age
       pkgs.xxh
 
-      pkgs.cachix
-      pkgs.devenv
+      # pkgs.cachix
+      # pkgs.devenv
 
       # pkgs.comma
       # pkgs.fortune
@@ -162,10 +156,6 @@
     dcu = "docker-compose up";
     dcr = "docker-compose run";
     dclt = "docker-compose logs --follow --tail=100";
-
-    k = "kubectl";
-    kx = "kubectx";
-    kn = "kubens";
 
     tf = "terraform";
     x = "xdg-open";

@@ -62,6 +62,8 @@
       pkgs.awscli2
       pkgs.doctl
       pkgs.vault
+      pkgs.kubectl
+      pkgs.kubectx
 
       ## LANGUAGES ##
       pkgs.gcc
@@ -88,6 +90,10 @@
       pkgs.deadnix
       pkgs.statix
       pkgs.manix
+      pkgs.niv
+      pkgs.go
+      pkgs.python3
+      pkgs.nodejs
 
       # pkgs.fortune
       # pkgs.hello
@@ -101,7 +107,11 @@
 
   nix.settings.extra-platforms = ["armv7l-linux" "armv7l-hf-multiplatform" "armv7l-multiplatform" "aarch64-linux" "i686-linux"];
   nix.settings.cores = 6;
-
+  home.shellAliases = {
+    k = "kubectl";
+    kx = "kubectx";
+    kn = "kubens";
+  };
   programs.zsh = {
     enable = true;
 
