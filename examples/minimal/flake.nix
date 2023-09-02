@@ -7,7 +7,6 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    flake-utils.url = "github:numtide/flake-utils";
     nix-config.url = "github:e-nikolov/nix-config/master";
 
     nix-index-database.url = "github:nix-community/nix-index-database/main";
@@ -19,7 +18,6 @@
     self,
     nixpkgs,
     nixpkgs-stable,
-    flake-utils,
     home-manager,
     nix-config,
     ...
@@ -36,7 +34,7 @@
         config = {allowUnfree = true;};
         overlays = [
           (self: super: {
-            inherit (inputs.devenv.packages.${system}) devenv;
+            # inherit (inputs.devenv.packages.${system}) devenv;
             inherit (pkgs-stable) ripgrep-all;
           })
         ];
