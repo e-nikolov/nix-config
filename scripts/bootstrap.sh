@@ -6,12 +6,10 @@
         exit 1
     }
     set -e
-
-    # install nix if missing
     export NIX_CONFIG="extra-experimental-features = flakes nix-command auto-allocate-uids"
     export HOME_CONFIG_PATH="$HOME/nix-config"
-    export ___NIX_DAEMON_SHELL_PROFILE_PATH=/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
-    export ___NIX_USER_SHELL_PROFILE_PATH=$HOME/.nix-profile/etc/profile.d/nix.sh
+    export ___NIX_DAEMON_SHELL_PROFILE_PATH=
+    export ___NIX_USER_SHELL_PROFILE_PATH=$HOME/.nix-profile/etc/profile.d/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh/nix.sh
 
     if [ -e ___NIX_DAEMON_SHELL_PROFILE_PATH ]; then
         . $___NIX_DAEMON_SHELL_PROFILE_PATH
@@ -106,9 +104,10 @@
 
     if [ -d "$HOME_CONFIG_PATH" ]; then
         echo $HOME_CONFIG_PATH already exists
+        rand=$(od -An -N2 -i /dev/urandom)
 
         rand_suffix=$(
-            echo $RANDOM | md5sum | head -c 10
+            echo ${rand} | md5sum | head -c 10
             echo
         )
         export HOME_CONFIG_PATH=${HOME_CONFIG_PATH}-${rand_suffix}
@@ -121,7 +120,7 @@
     echo Configuring the flake for "$USER"@"$HOST" with home "$HOME"
 
     flake_path=$HOME_CONFIG_PATH/flake.nix
-
+    echo sed -i s@{{username}}@"$USER"@g $flake_path
     sed -i s@{{username}}@"$USER"@g $flake_path
     sed -i s@{{hostname}}@"$HOST"@g $flake_path
     sed -i s@{{homedir}}@"$HOME"@g $flake_path
