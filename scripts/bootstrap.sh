@@ -150,6 +150,6 @@
     "
     ## TODO remove the second nix
 
-    exec $SHELL -l
+    # exec $SHELL -l
 
 } # End of wrapping
