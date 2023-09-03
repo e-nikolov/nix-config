@@ -21,7 +21,7 @@
     nixpkgs-stable,
     flake-utils,
     home-manager,
-    nix-config,
+    nix-config-minimal,
     ...
   }:
     flake-utils.lib.eachDefaultSystem

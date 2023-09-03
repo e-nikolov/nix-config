@@ -20,7 +20,6 @@
     nixpkgs-stable,
     flake-utils,
     home-manager,
-    nix-config,
     ...
   }:
     flake-utils.lib.eachDefaultSystem

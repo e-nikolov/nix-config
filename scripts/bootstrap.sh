@@ -39,11 +39,11 @@
         shift
     done
 
-    if [ "$FLAKE_TEMPLATE" == "minimal" || "$FLAKE_TEMPLATE" == "" ]; then
+    if [ "$FLAKE_TEMPLATE" = "minimal" ] || [ "$FLAKE_TEMPLATE" = "" ]; then
         FLAKE_TEMPLATE=github:e-nikolov/nix-config/master?dir=modules/minimal#minimal
-    elif [ "$FLAKE_TEMPLATE" == "bare" ]; then
+    elif [ "$FLAKE_TEMPLATE" = "bare" ]; then
         FLAKE_TEMPLATE=github:e-nikolov/nix-config/master?dir=modules/bare#bare
-    elif [ "$FLAKE_TEMPLATE" == "full" ]; then
+    elif [ "$FLAKE_TEMPLATE" = "full" ]; then
         FLAKE_TEMPLATE=github:e-nikolov/nix-config/master#full
     fi
 
@@ -70,7 +70,6 @@
         else
             curl -L https://nixos.org/nix/install | sh
             . $HOME/.nix-profile/etc/profile.d/nix.sh
-            ## * install a second nix with a lower priority than the one from home-manager
 
             ## * There are some issues with bootstrapping nix and home-manager on single user installs
             ## * After we are done we want home-manager to manage the nix installation
@@ -81,6 +80,8 @@
             ## * Our solution is to add a second nix installation with a lower priority(9) and then remove the original one
             ## * Later on home-manager will install and manage a third nix with the default priority (5)
             ## * which will not clash with the second nix we installed. Finally, after home-manager is installed, we can remove the second nix
+            echo installing a second nix with a lower priority
+            echo nix profile install nixpkgs#nix --priority 9
             nix profile install nixpkgs#nix --priority 9
         fi
         echo installing nix... done
@@ -102,9 +103,12 @@
         )
         export HOME_CONFIG_PATH=${HOME_CONFIG_PATH}-${rand_suffix}
     fi
-    echo installing home-manager and initializing its flake config to $HOME_CONFIG_PATH
+    echo initializing home-manager\'s flake from template $FLAKE_TEMPLATE to $HOME_CONFIG_PATH
 
+    echo nix flake --refresh new --template $FLAKE_TEMPLATE $HOME_CONFIG_PATH
     nix flake --refresh new --template $FLAKE_TEMPLATE $HOME_CONFIG_PATH
+
+    echo nix shell home-manager/master nixpkgs#jq --command sh -c ''
     nix shell home-manager/master nixpkgs#jq --command sh -c "
         ## * There is no easy way to find the original nix package in the current profile
         ## * We use jq to find the index of the package that has priority 5 and a store path that contains *-nix-[digit]*
@@ -120,11 +124,15 @@
         )
         
         if [ \"\$i\" ]; then
+            echo removing the original nix installation
             nix profile remove \$i
         fi
 
+        echo installing home-manager
         home-manager init --switch $HOME_CONFIG_PATH -b backup
     "
     ## TODO remove the second nix
+
+    exec $SHELL -l
 
 } # End of wrapping
