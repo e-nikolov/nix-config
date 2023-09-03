@@ -8,8 +8,8 @@
     set -e
     export NIX_CONFIG="extra-experimental-features = flakes nix-command auto-allocate-uids"
     export HOME_CONFIG_PATH="$HOME/nix-config"
-    export ___NIX_DAEMON_SHELL_PROFILE_PATH=
-    export ___NIX_USER_SHELL_PROFILE_PATH=$HOME/.nix-profile/etc/profile.d/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh/nix.sh
+    export ___NIX_DAEMON_SHELL_PROFILE_PATH=/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
+    export ___NIX_USER_SHELL_PROFILE_PATH=$HOME/.nix-profile/etc/profile.d/nix.sh
 
     if [ -e ___NIX_DAEMON_SHELL_PROFILE_PATH ]; then
         . $___NIX_DAEMON_SHELL_PROFILE_PATH
