@@ -10,6 +10,16 @@
     # install nix if missing
     export NIX_CONFIG="extra-experimental-features = flakes nix-command auto-allocate-uids"
     export HOME_CONFIG_PATH="$HOME/nix-config"
+    export ___NIX_DAEMON_SHELL_PROFILE_PATH=/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
+    export ___NIX_USER_SHELL_PROFILE_PATH=$HOME/.nix-profile/etc/profile.d/nix.sh
+
+    if [ -e ___NIX_DAEMON_SHELL_PROFILE_PATH ]; then
+        . $___NIX_DAEMON_SHELL_PROFILE_PATH
+    fi
+    if [ -e $___NIX_USER_SHELL_PROFILE_PATH ]; then
+        . $___NIX_USER_SHELL_PROFILE_PATH
+    fi
+    export HOST=$(hostname)
 
     # # handle the command line flags
     while [ $# -gt 0 ]; do
@@ -65,11 +75,11 @@
         echo installing nix via $nix_installer_type installer
         if [ "$nix_installer_type" == "multi-user" ]; then
             curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install
-            . /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
+            . $___NIX_DAEMON_SHELL_PROFILE_PATH
             nix profile list ## * Avoids ERROR: Could not find suitable profile directory
         else
             curl -L https://nixos.org/nix/install | sh
-            . $HOME/.nix-profile/etc/profile.d/nix.sh
+            . $___NIX_USER_SHELL_PROFILE_PATH
 
             ## * There are some issues with bootstrapping nix and home-manager on single user installs
             ## * After we are done we want home-manager to manage the nix installation
@@ -107,6 +117,14 @@
 
     echo nix flake --refresh new --template $FLAKE_TEMPLATE $HOME_CONFIG_PATH
     nix flake --refresh new --template $FLAKE_TEMPLATE $HOME_CONFIG_PATH
+
+    echo Configuring the flake for "$USER"@"$HOST" with home "$HOME"
+
+    flake_path=$HOME_CONFIG_PATH/flake.nix
+
+    sed -i s@{{username}}@"$USER"@g $flake_path
+    sed -i s@{{hostname}}@"$HOST"@g $flake_path
+    sed -i s@{{homedir}}@"$HOME"@g $flake_path
 
     echo nix shell home-manager/master nixpkgs#jq --command sh -c ''
     nix shell home-manager/master nixpkgs#jq --command sh -c "
