@@ -119,7 +119,7 @@
     '';
 
     initExtraFirst = ''
-      eval "$(zellij setup --generate-auto-start zsh)"
+      # eval "$(zellij setup --generate-auto-start zsh)"
     '';
 
     initExtra = ''

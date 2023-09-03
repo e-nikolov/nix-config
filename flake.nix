@@ -89,8 +89,8 @@
               home.stateVersion = "23.05";
             }
             nix-index-database.hmModules.nix-index
-            ./hosts/minimal/home.nix
-            ./hosts/common/home.nix
+            ./modules/minimal/home.nix
+            ./modules/common/home.nix
           ],
           extraModules ? [],
           system ? "x86_64-linux",
@@ -114,7 +114,7 @@
           modules ? [
             inputs.golink.nixosModules.default
             inputs.sops-nix.nixosModules.sops
-            ./hosts/common/configuration.nix
+            ./modules/common/configuration.nix
           ],
           extraModules ? [],
           system ? "x86_64-linux",
@@ -164,13 +164,30 @@
             extraModules = [./hosts/rpi1/configuration.nix];
           };
         };
-        templates.minimal = {
-          description = ''
-            Minimal flake
-          '';
-          path = ./examples/minimal;
+        templates = {
+          bare = {
+            description = ''
+              A bare flake template with a home-manager configuration that only manages itself and the nix package manager
+            '';
+            path = ./examples/bare;
+          };
+          minimal = {
+            description = ''
+              A minimal flake template with a home-manager configuration that adds zsh + customizations
+            '';
+            path = ./examples/minimal;
+          };
+          full = {
+            path = ./.;
+            description = ''
+              This entire repository, including all of my machines, nixos and home-manager configurations.
+              Probably only useful for myself, but others can use it as a reference.
+            '';
+          };
         };
-        minimal = ./hosts/minimal/home.nix;
+        homeModules.bare = ./modules/bare/home.nix;
+        homeModules.minimal = ./modules/minimal/home.nix;
+        flakeModules.full = self;
       };
     });
 

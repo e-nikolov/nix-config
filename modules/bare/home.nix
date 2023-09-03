@@ -1,0 +1,1 @@
+../../examples/bare/home.nix

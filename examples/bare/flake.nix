@@ -8,7 +8,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     flake-utils.url = "github:numtide/flake-utils";
-    nix-config-minimal.url = "github:e-nikolov/nix-config/master?dir=modules/minimal";
 
     nix-index-database.url = "github:nix-community/nix-index-database/main";
     nix-index-database.inputs.nixpkgs.follows = "nixpkgs";
@@ -42,21 +41,15 @@
         ];
       };
 
-      mkHome = {extraModules ? []}:
+      mkHome = {modules ? []}:
         home-manager.lib.homeManagerConfiguration {
           inherit pkgs;
 
           modules =
             [
               inputs.nix-index-database.hmModules.nix-index
-
-              # You can remove the line below if you don't want to use the minimal flake from github.com/e-nikolov/nix-config
-              nix-config-minimal.homeModule
-
-              # You can uncomment the line below if you want to switch to a local copy of the minimal flake from github.com/e-nikolov/nix-config
-              # ./modules/minimal/home.nix
             ]
-            ++ extraModules;
+            ++ modules;
 
           extraSpecialArgs = {
             inherit inputs;
@@ -64,14 +57,11 @@
         };
     in {
       packages.homeConfigurations."{{username}}@{{hostname}}" = mkHome {
-        extraModules = [
+        modules = [
+          # You can include your own customizations on top of the minimal flake inside home.nix
           {
             home.username = "{{username}}";
             home.homeDirectory = "{{homedir}}";
-
-            home.packages = [
-              pkgs.hello
-            ];
 
             # This value determines the Home Manager release that your
             # configuration is compatible with. This helps avoid breakage
@@ -83,6 +73,7 @@
             # changes in each release.
             home.stateVersion = "23.05";
           }
+          ./home.nix # Add your customizations to the home.nix file
         ];
       };
     });

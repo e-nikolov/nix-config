@@ -43,6 +43,8 @@
       pkgs.sops
       pkgs.age
       pkgs.xxh
+      pkgs.nixos-option
+      pkgs.nix-doc
 
       # pkgs.cachix
       # pkgs.devenv
@@ -53,6 +55,7 @@
       # pkgs.cowsay
     ]
     ++ [];
+  targets.genericLinux.enable = true;
 
   programs.fzf.enable = true;
   programs.htop.enable = true;
@@ -131,7 +134,7 @@
   programs.direnv.nix-direnv.enable = true;
 
   home.shellAliases = {
-    nfg = "code ~/nix-config/";
+    hme = "code ~/nix-config/ ";
     xargs = "xargs ";
 
     gct = "git commit -am 'tmp'";
@@ -337,17 +340,15 @@
       }
 
       hms() {
-        home-manager switch --flake ~/nix-config $@
-        exec $SHELL
+        home-manager switch --flake ~/nix-config $@ && exec $SHELL
       }
 
-      nfu() {
+      hmu() {
         nix flake update ~/nix-config $@
       }
 
       nrs() {
-        sudo nixos-rebuild switch --flake ~/nix-config/ $@
-        exec $SHELL
+        sudo nixos-rebuild switch --flake ~/nix-config/ $@ && exec $SHELL
       }
 
       nd() {

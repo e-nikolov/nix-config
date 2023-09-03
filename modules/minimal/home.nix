@@ -1,0 +1,1 @@
+../../examples/minimal/modules/minimal/home.nix
