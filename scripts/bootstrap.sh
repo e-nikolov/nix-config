@@ -1,5 +1,4 @@
-#!/bin/sh
-
+#!/usr/bin/env bash
 { # Prevent execution if this script was only partially downloaded
     oops() {
         echo "$0:" "$@" >&2
@@ -14,6 +13,7 @@
     if [ -e ___NIX_DAEMON_SHELL_PROFILE_PATH ]; then
         . $___NIX_DAEMON_SHELL_PROFILE_PATH
     fi
+
     if [ -e $___NIX_USER_SHELL_PROFILE_PATH ]; then
         . $___NIX_USER_SHELL_PROFILE_PATH
     fi
@@ -46,6 +46,8 @@
         esac
         shift
     done
+
+    POST_SUCCESS=""
 
     if [ "$FLAKE_TEMPLATE" = "minimal" ] || [ "$FLAKE_TEMPLATE" = "" ]; then
         FLAKE_TEMPLATE=github:e-nikolov/nix-config/master?dir=modules/minimal#minimal
@@ -142,6 +144,7 @@
         
         if [ \"\$i\" ]; then
             echo removing the original nix installation
+            echo nix profile remove \$i
             nix profile remove \$i
         fi
 
@@ -149,7 +152,33 @@
         home-manager init --switch $HOME_CONFIG_PATH -b backup
     "
     ## TODO remove the second nix
-
     # exec $SHELL -l
+
+    echo $POST_SUCCESS
+
+    if [ "$POST_SUCCESS" ]; then
+        eval $POST_SUCCESS
+    fi
+
+    if [ $FLAKE_TEMPLATE == "github:e-nikolov/nix-config/master?dir=modules/minimal#minimal" ]; then
+        echo setting zsh as the default shell
+        command -v zsh | sudo tee -a /etc/shells
+        sudo chsh -s "$(command -v zsh)" "${USER}"
+        SHELL=$(command -v zsh)
+    fi
+
+    if [ "$nix_installer_type" == "multi-user" ]; then
+        echo . $___NIX_DAEMON_SHELL_PROFILE_PATH
+    else
+        echo . $___NIX_USER_SHELL_PROFILE_PATH
+    fi
+
+    parent_shell=$(ps -o comm= -p $PPID)
+    ${SHELL:=$parent_shell}
+    ${SHELL:=bash}
+
+    echo exec $SHELL
+
+    exec $SHELL -l
 
 } # End of wrapping

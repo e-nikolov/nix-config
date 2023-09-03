@@ -63,32 +63,32 @@
   programs.yazi.enableZshIntegration = true;
   programs.zoxide.enable = true;
   programs.zoxide.enableZshIntegration = true;
-  programs.zellij.enable = true;
-  programs.zellij.settings = {
-    # copy_on_select = false;
-    default_layout = "compact";
+  # programs.zellij.enable = true;
+  # programs.zellij.settings = {
+  #   # copy_on_select = false;
+  #   default_layout = "compact";
 
-    keybinds = {
-      unbind = ["Alt Left" "Alt Right" "Ctrl 1" "Ctrl 3" "Ctrl 5" "Ctrl 2" "Ctrl h" "Alt ["];
-      normal = {
-        "bind \"Ctrl 1\"" = {MoveFocusOrTab = "Left";};
-        "bind \"Ctrl 3\"" = {MoveFocusOrTab = "Right";};
-        "bind \"Ctrl 5\"" = {MoveFocus = "Down";};
-        "bind \"Ctrl 2\"" = {MoveFocus = "Up";};
-        "bind \"Ctrl e\"" = {SwitchToMode = "Tab";};
-        "bind \"Alt t\"" = {NewTab = "";};
-        "bind \"Ctrl [\"" = {PreviousSwapLayout = "";};
-        "bind \"Ctrl ]\"" = {NextSwapLayout = "";};
-      };
-    };
-  };
+  #   keybinds = {
+  #     unbind = ["Alt Left" "Alt Right" "Ctrl 1" "Ctrl 3" "Ctrl 5" "Ctrl 2" "Ctrl h" "Alt ["];
+  #     normal = {
+  #       "bind \"Ctrl 1\"" = {MoveFocusOrTab = "Left";};
+  #       "bind \"Ctrl 3\"" = {MoveFocusOrTab = "Right";};
+  #       "bind \"Ctrl 5\"" = {MoveFocus = "Down";};
+  #       "bind \"Ctrl 2\"" = {MoveFocus = "Up";};
+  #       "bind \"Ctrl e\"" = {SwitchToMode = "Tab";};
+  #       "bind \"Alt t\"" = {NewTab = "";};
+  #       "bind \"Ctrl [\"" = {PreviousSwapLayout = "";};
+  #       "bind \"Ctrl ]\"" = {NextSwapLayout = "";};
+  #     };
+  #   };
+  # };
 
-  programs.neovim.enable = true;
-  programs.neovim.coc.enable = true;
-  programs.neovim.viAlias = true;
-  programs.neovim.vimdiffAlias = true;
-  programs.neovim.withPython3 = true;
-  programs.neovim.withNodeJs = true;
+  # programs.neovim.enable = true;
+  # programs.neovim.coc.enable = true;
+  # programs.neovim.viAlias = true;
+  # programs.neovim.vimdiffAlias = true;
+  # programs.neovim.withPython3 = true;
+  # programs.neovim.withNodeJs = true;
 
   programs.git = {
     enable = true;
@@ -136,6 +136,7 @@
   home.shellAliases = {
     hme = "code ~/nix-config/ ";
     xargs = "xargs ";
+    gst = "git status";
 
     gct = "git commit -am 'tmp'";
 
@@ -183,7 +184,42 @@
     "$HOME/.npm-packages/bin"
   ];
 
-  programs.bash.enable = true;
+  programs.bash = {
+    enable = true;
+
+    initExtra = ''
+      ### Functions ###
+
+      xc() {
+          xclip -selection clipboard
+      }
+
+      hm() {
+        home-manager --flake ~/nix-config $@
+      }
+
+      hms() {
+        home-manager switch --flake ~/nix-config $@ && exec $SHELL
+      }
+
+      hmu() {
+        nix flake update ~/nix-config $@
+      }
+
+      nrs() {
+        sudo nixos-rebuild switch --flake ~/nix-config/ $@ && exec $SHELL
+      }
+
+      nd() {
+          nix develop $@ --command zsh
+      }
+
+      ns() {
+          nix shell $@ --command zsh
+      }
+    '';
+  };
+
   nix.package = pkgs.nix;
   nix.settings.experimental-features = ["flakes" "nix-command" "repl-flake" "ca-derivations" "auto-allocate-uids"];
   nix.settings.keep-derivations = true;
