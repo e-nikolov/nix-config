@@ -22,16 +22,18 @@
     home-manager,
     ...
   }:
-    flake-utils.lib.eachDefaultSystem
-    (system: {
-      templates = {
-        bare = {
-          description = ''
-            A bare flake template with a home-manager configuration that only manages itself and the nix package manager
-          '';
-          path = ../../examples/bare;
-        };
+  # flake-utils.lib.eachDefaultSystem
+  # (system:
+  {
+    templates = {
+      bare = {
+        description = ''
+          A bare flake template with a home-manager configuration that only manages itself and the nix package manager
+        '';
+        path = ../../examples/bare;
       };
-      homeModule = ./home.nix;
-    });
+    };
+    homeModule = ./home.nix;
+  };
+  # );
 }

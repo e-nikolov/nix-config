@@ -14,16 +14,18 @@
     devenv.url = "github:cachix/devenv/latest";
   };
 
-  outputs = inputs @ {
-    self,
-    nixpkgs,
-    nixpkgs-stable,
-    flake-utils,
-    home-manager,
-    ...
-  }:
-    flake-utils.lib.eachDefaultSystem
-    (system: {
+  outputs =
+    inputs @ {
+      self,
+      nixpkgs,
+      nixpkgs-stable,
+      flake-utils,
+      home-manager,
+      ...
+    }:
+    # flake-utils.lib.eachDefaultSystem
+    # (system:
+    {
       templates = {
         minimal = {
           description = ''
@@ -33,5 +35,7 @@
         };
       };
       homeModule = ./home.nix;
-    });
+    }
+    # )
+    ;
 }
