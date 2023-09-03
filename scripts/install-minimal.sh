@@ -38,8 +38,10 @@ sed -i s@{{homedir}}@"$HOME"@g home.nix
 # nix --extra-experimental-features "nix-command flakes" run home-manager/master -- init --switch ~/nix-config
 # nix --extra-experimental-features "nix-command flakes" run home-manager/master -- --extra-experimental-features "nix-command flakes" init --switch ~/nix-config
 # /nix/store/r1yfx3cckx14ib06hvlzr32w3j20pp8y-home-manager/bin/home-manager switch --extra-experimental-features "nix-command flakes" --flake $HOME/nix-config
-
+# nix run --extra-experimental-features "nix-command flakes" home-manager/master -- init --switch
 # home-manager --extra-experimental-features "nix-command flakes"
+# sudo chsh -s "$(command -v zsh)" "${USER}"
+
 nix-env --uninstall nix
 home-manager init --switch $INSTALL_LOCATION -b backup
 home-manager switch --flake $INSTALL_LOCATION -b backup

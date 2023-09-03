@@ -75,6 +75,7 @@
           '';
         };
       };
+      ## * End of perSystem() ##
 
       flake = let
         # inherit (flake-parts-lib) importApply;
@@ -85,7 +86,7 @@
               # nix.package = pkgs.nix;
               home.username = values.username;
               home.homeDirectory = "/home/${values.username}";
-              home.stateVersion = "22.11";
+              home.stateVersion = "23.05";
             }
             nix-index-database.hmModules.nix-index
             ./hosts/minimal/home.nix

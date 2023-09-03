@@ -182,7 +182,7 @@
 
   programs.bash.enable = true;
   nix.package = pkgs.nix;
-  nix.settings.experimental-features = ["flakes" "nix-command" "repl-flake" "ca-derivations"];
+  nix.settings.experimental-features = ["flakes" "nix-command" "repl-flake" "ca-derivations" "auto-allocate-uids"];
   nix.settings.keep-derivations = true;
   nix.settings.keep-outputs = true;
   nix.settings.auto-optimise-store = true;
@@ -613,5 +613,5 @@
   # You can update Home Manager without changing this value. See
   # the Home Manager release notes for a list of state version
   # changes in each release.
-  home.stateVersion = "22.11";
+  home.stateVersion = "23.05";
 }
