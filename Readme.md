@@ -1,17 +1,32 @@
 # Bootstrap
 
-Minimal flake:
+nix-bootstrap is a very experimental script that automatically installs nix and home-manager with flakes enabled, and bootstraps a flake template. It should work on most platforms including NixOS, other Linux distributions, WSL, containers and MacOS. It's main goal is to simplify the first time experience of setting up a usable nix environment with running a single command.
+
+## Usage
+
+Bare flake - a home-manager configuration with nix and some very basic utilities:
 
 ```sh
-sh <(curl https://e-nikolov.github.io/nix-bootstrap)
+sh <(curl https://e-nikolov.github.io/nix-bootstrap) --template bare
 ```
 
-Complete setup for all of my personal machines that uses flakes, home-manager and NixOS:
+Minimal flake - a home-manager configuration with zsh and a number of customizations:
 
 ```sh
-sh <(curl https://e-nikolov.github.io/nix-bootstrap) --full
+sh <(curl https://e-nikolov.github.io/nix-bootstrap) --template minimal
 ```
 
+Full flake - the complete setup for all of my personal machines that use both NixOS and home-manager:
+
+```sh
+sh <(curl https://e-nikolov.github.io/nix-bootstrap) --template full
+```
+
+Bootstrap your own flake:
+
+```sh
+sh <(curl https://e-nikolov.github.io/nix-bootstrap) --template <flake-template-url>
+```
 
 # Nix Resources
 

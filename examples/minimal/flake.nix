@@ -12,7 +12,7 @@
 
     nix-index-database.url = "github:nix-community/nix-index-database/main";
     nix-index-database.inputs.nixpkgs.follows = "nixpkgs";
-    devenv.url = "github:cachix/devenv/latest";
+    # devenv.url = "github:cachix/devenv/latest";
   };
 
   outputs = inputs @ {
