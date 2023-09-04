@@ -1,6 +1,6 @@
 # Bootstrap
 
-nix-bootstrap is a very experimental script that automatically installs nix and home-manager with flakes enabled, and bootstraps a flake template. It should work on most platforms including NixOS, other Linux distributions, WSL, containers and MacOS. It's main goal is to simplify the first time experience of setting up a usable nix environment with running a single command.
+nix-bootstrap is a very experimental script that automatically installs nix and home-manager with flakes enabled, and bootstraps a flake template. It should work on most platforms including NixOS, other Linux distributions, WSL, containers and MacOS. It's main goal is to simplify the first time experience of setting up a usable nix environment by running a single command.
 
 ## Usage
 
