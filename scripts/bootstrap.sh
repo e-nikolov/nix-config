@@ -28,6 +28,12 @@
             FLAKE_TEMPLATE=$2
 
             shift
+            shift
+            ;;
+
+        --no-home-manager)
+            NO_HOME_MANAGER=1
+            shift
             ;;
         --help | -h | -\?)
             {
@@ -36,17 +42,20 @@
                 echo "Choose installation flavor."
                 echo ""
                 echo " --template: [bare|minimal|full|<flake-template-url>]; Defaults to minimal"
+                echo " --no-home-manager: Skips the home-manager installation"
                 echo " path:  Location to install to; Defaults to ~/nix-config"
                 echo ""
             } >&2
 
             exit
             ;;
+        --*)
+            oops "Unknown option $1"
+            ;;
         *)
             export HOME_CONFIG_PATH=$1
             ;;
         esac
-        shift
     done
 
     POST_SUCCESS=""
@@ -128,6 +137,11 @@
     sed -i s@{{username}}@"$USER"@g $flake_path
     sed -i s@{{hostname}}@"$HOST"@g $flake_path
     sed -i s@{{homedir}}@"$HOME"@g $flake_path
+
+    if [ "$NO_HOME_MANAGER" ]; then
+        echo skipping home-manager
+        exit 0
+    fi
 
     echo nix shell home-manager/master nixpkgs#jq --command sh -c ''
     nix shell home-manager/master nixpkgs#jq --command sh -c "

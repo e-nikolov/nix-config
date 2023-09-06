@@ -23,7 +23,7 @@
     ...
   }:
     flake-utils.lib.eachDefaultSystem
-    (system: let
+    system: let
       pkgs-stable = import nixpkgs-stable {
         inherit system;
         config = {allowUnfree = true;};
@@ -75,5 +75,5 @@
           ./home.nix # Add your customizations to the home.nix file
         ];
       };
-    });
+    };
 }

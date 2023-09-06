@@ -16,12 +16,15 @@
   home.sessionVariables = {
     NODE_PATH = "$HOME/.npm-packages/lib/node_modules";
     PATH = "$HOME/.local/bin:$HOME/.npm-packages/bin:$PATH";
+    HOME_MANAGER_CONFIG = "$HOME/nix-config";
   };
 
   home.sessionPath = [
     "$HOME/.local/bin"
     "$HOME/.npm-packages/bin"
   ];
+
+  home.priority = 4;
 
   home.shellAliases = {
     hm = "home-manager --flake ~/nix-config ";
@@ -48,6 +51,7 @@
       pkgs.age
       pkgs.nixos-option
       pkgs.nix-doc
+      pkgs.git
 
       # pkgs.cachix
       # pkgs.devenv

@@ -92,7 +92,13 @@
 
   programs.git = {
     enable = true;
-    difftastic.enable = true;
+    difftastic = {
+      enable = true;
+      background = "dark";
+      color = "always";
+      display = "side-by-side-show-both";
+    };
+
     extraConfig = {
       core = {
         editor = "micro";
@@ -176,6 +182,7 @@
     COPY_COMMAND = "xc";
     NODE_PATH = "$HOME/.npm-packages/lib/node_modules";
     PATH = "$GOBIN:$HOME/.local/bin:$HOME/.npm-packages/bin:$PATH";
+    HOME_MANAGER_CONFIG = "$HOME/nix-config";
   };
 
   home.sessionPath = [
