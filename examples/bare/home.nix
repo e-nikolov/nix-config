@@ -24,7 +24,7 @@
     "$HOME/.npm-packages/bin"
   ];
 
-  home.priority = 4;
+  home.profilePriority = 4;
 
   home.shellAliases = {
     hm = "home-manager --flake ~/nix-config ";
