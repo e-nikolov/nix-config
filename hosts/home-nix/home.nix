@@ -5,10 +5,13 @@
   inputs,
   ...
 }: {
+  imports = [
+    ../../modules/common/home.nix
+  ];
+
   home.packages = [
-    pkgs.libsForQt5.kate
-    pkgs.xdg-utils
-    pkgs.emanote
+    # pkgs.libsForQt5.kate
+    # pkgs.emanote
   ];
 
   programs.bash.initExtra = ''

@@ -61,9 +61,9 @@
     POST_SUCCESS=""
 
     if [ "$FLAKE_TEMPLATE" = "minimal" ] || [ "$FLAKE_TEMPLATE" = "" ]; then
-        FLAKE_TEMPLATE=github:e-nikolov/nix-config/master?dir=modules/minimal#minimal
+        FLAKE_TEMPLATE=github:e-nikolov/nix-config/master#minimal
     elif [ "$FLAKE_TEMPLATE" = "bare" ]; then
-        FLAKE_TEMPLATE=github:e-nikolov/nix-config/master?dir=modules/bare#bare
+        FLAKE_TEMPLATE=github:e-nikolov/nix-config/master#bare
     elif [ "$FLAKE_TEMPLATE" = "full" ]; then
         FLAKE_TEMPLATE=github:e-nikolov/nix-config/master#full
     fi
@@ -176,7 +176,7 @@
         eval $POST_SUCCESS
     fi
 
-    if [ $FLAKE_TEMPLATE == "github:e-nikolov/nix-config/master?dir=modules/minimal#minimal" ]; then
+    if [ $FLAKE_TEMPLATE == "github:e-nikolov/nix-config/master#minimal" ]; then
         echo setting zsh as the default shell
         command -v zsh | sudo tee -a /etc/shells
         sudo chsh -s "$(command -v zsh)" "${USER}"

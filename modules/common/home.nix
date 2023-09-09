@@ -5,45 +5,46 @@
   inputs,
   ...
 }: {
+  imports = [
+    ../minimal/home.nix
+  ];
+
   home.packages =
     [
-      ## THESIS ##
+      # THESIS ##
 
-      pkgs.haskellPackages.pandoc
-      pkgs.haskellPackages.pandoc-crossref
-      pkgs.pandoc
-      pkgs.python3
-      pkgs.python310Packages.pygments
+      # pkgs.haskellPackages.pandoc
+      # pkgs.haskellPackages.pandoc-crossref
+      # pkgs.pandoc
+      # pkgs.python310Packages.pygments
 
-      ## EDITORS ##
-      pkgs.inkscape
-      pkgs.librsvg
-      pkgs.drawio
-      pkgs.obsidian
-      pkgs.evince
+      # EDITORS ##
+      # pkgs.inkscape
+      # pkgs.librsvg
+      # pkgs.drawio
+      # pkgs.obsidian
+      # pkgs.evince
 
-      ## MPYC ##
-      pkgs.stuntman
-      pkgs.libnatpmp
-      pkgs.miniupnpc
+      # MPYC ##
+      # pkgs.stuntman
+      # pkgs.libnatpmp
+      # pkgs.miniupnpc
       pkgs.wireguard-tools
       pkgs.wireguard-go
       pkgs.coturn
-      pkgs.terraform
-      pkgs.nebula
-      pkgs.python3Packages.autopep8
+      # pkgs.terraform
+      # pkgs.nebula
+      # pkgs.python3Packages.autopep8
 
-      ## NETWORKING ##
+      # NETWORKING ##
       pkgs.tailscale
       pkgs.strongswan
       pkgs.nmap-unfree
-      pkgs.sofia_sip
+      # pkgs.sofia_sip
       pkgs.inetutils
       pkgs.host.dnsutils
 
-      ## DEV ##
-      pkgs.cachix
-      pkgs.devenv
+      # # DEV ##
       # pkgs.devbox
       # pkgs.asdf-vm
 
@@ -53,47 +54,46 @@
       pkgs.runc
 
       pkgs.patchelf
-      pkgs.steam-run
+      # # ? pkgs.steam-run
       pkgs.nix-ld
-      pkgs.nix-alien
+      # # ? pkgs.nix-alien
 
-      ## CLOUD ##
-      pkgs.kubernetes-helm
-      pkgs.awscli2
-      pkgs.doctl
-      pkgs.vault
-      pkgs.kubectl
-      pkgs.kubectx
+      # # CLOUD ##
+      # pkgs.kubernetes-helm
+      # pkgs.awscli2
+      # pkgs.doctl
+      # pkgs.vault
+      # pkgs.kubectl
+      # pkgs.kubectx
 
-      ## LANGUAGES ##
-      pkgs.gcc
-      pkgs.ent-go
-      pkgs.elixir
-      pkgs.R
-      pkgs.rstudio
+      # LANGUAGES ##
+      pkgs.go
+      # pkgs.gcc
+      # pkgs.ent-go
+      # pkgs.rustc
+      # pkgs.python3
+      # pkgs.nodejs
+      # pkgs.elixir
+      # pkgs.R
+      # pkgs.rstudio
 
       ## UTILS ##
       pkgs.git-filter-repo
       pkgs.inotify-tools
-      pkgs.qrencode
+      # pkgs.qrencode
       pkgs.screen
       pkgs.cacert
-      pkgs.zotero
-      pkgs.cmctl
-      pkgs.udisks2
+      # pkgs.cmctl
+      # pkgs.udisks2
       pkgs.pam_mount
-      pkgs.rc2nix
-      pkgs.killall
-      pkgs.nixos-install-tools
-      pkgs.kmod
+      # pkgs.killall
+      # pkgs.nixos-install-tools
+      # pkgs.kmod
       pkgs.alejandra
       pkgs.deadnix
       pkgs.statix
       pkgs.manix
-      pkgs.niv
-      pkgs.go
-      pkgs.python3
-      pkgs.nodejs
+      pkgs.nb
 
       # pkgs.fortune
       # pkgs.hello
@@ -123,15 +123,12 @@
     '';
 
     initExtra = ''
-      command -v wg > /dev/null && . ~/.nix-profile/share/bash-completion/completions/wg
-      command -v wg-quick > /dev/null && . ~/.nix-profile/share/bash-completion/completions/wg-quick
+      command -v wg > /dev/null && . ${config.home.profileDirectory}/share/bash-completion/completions/wg
+      command -v wg-quick > /dev/null && . ${config.home.profileDirectory}/share/bash-completion/completions/wg-quick
     '';
   };
 
   programs.git = {
-    userName = "${values.gitUsername}";
-    userEmail = "${values.email}";
-
     signing = {
       signByDefault = true;
       gpgPath = "${pkgs.openssh}/bin/ssh-keygen";

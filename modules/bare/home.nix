@@ -1,1 +1,1 @@
-../../examples/bare/home.nix
+../../templates/bare/home.nix

@@ -12,7 +12,6 @@
 
     nix-index-database.url = "github:nix-community/nix-index-database/main";
     nix-index-database.inputs.nixpkgs.follows = "nixpkgs";
-    # devenv.url = "github:cachix/devenv/latest";
   };
 
   outputs = inputs @ {
@@ -36,35 +35,29 @@
         config = {allowUnfree = true;};
         overlays = [
           (self: super: {
-            # inherit (inputs.devenv.packages.${system}) devenv;
-            inherit (pkgs-stable) ripgrep-all;
           })
         ];
       };
 
-      mkHome = {extraModules ? []}:
-        home-manager.lib.homeManagerConfiguration {
-          inherit pkgs;
-
-          modules =
-            [
-              inputs.nix-index-database.hmModules.nix-index
-
-              # You can remove the line below if you don't want to use the minimal flake from github.com/e-nikolov/nix-config
-              nix-config-minimal.homeModule
-
-              # You can uncomment the line below if you want to switch to a local copy of the minimal flake from github.com/e-nikolov/nix-config
-              # ./modules/minimal/home.nix
-            ]
-            ++ extraModules;
-
-          extraSpecialArgs = {
-            inherit inputs;
-          };
-        };
+      mkHome = {modules, ...} @ args: let
+        modules =
+          [
+            nix-config-minimal.homeModule
+            ({config, ...}: {
+              home.stateVersion = "23.05";
+            })
+          ]
+          ++ args.modules;
+        extraSpecialArgs = {inherit inputs;} // args.extraSpecialArgs or {};
+      in (home-manager.lib.homeManagerConfiguration (
+        args
+        // {
+          inherit modules pkgs extraSpecialArgs;
+        }
+      ));
     in {
       packages.homeConfigurations."{{username}}@{{hostname}}" = mkHome {
-        extraModules = [
+        modules = [
           {
             home.username = "{{username}}";
             home.homeDirectory = "{{homedir}}";

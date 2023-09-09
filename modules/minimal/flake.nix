@@ -11,7 +11,6 @@
 
     nix-index-database.url = "github:nix-community/nix-index-database/main";
     nix-index-database.inputs.nixpkgs.follows = "nixpkgs";
-    # devenv.url = "github:cachix/devenv/latest";
   };
 
   outputs =
@@ -31,7 +30,7 @@
           description = ''
             A minimal flake template with a home-manager configuration that adds zsh + customizations
           '';
-          path = ../../examples/minimal;
+          path = ../../templates/minimal;
         };
       };
       homeModule = ./home.nix;

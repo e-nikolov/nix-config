@@ -8,9 +8,10 @@
   ...
 }:
 with lib; {
-  # imports = [
-  #   "${pkgs.sops-nix}/modules/sops"
-  # ];
+  imports = [
+    inputs.sops-nix.nixosModules.sops
+  ];
+
   sops.defaultSopsFile = ../../secrets/secrets.yaml;
   sops.secrets."services/golink/auth_key" = {
     owner = config.services.golink.user;
@@ -47,13 +48,13 @@ with lib; {
       }))
   ];
   # Enable nix flakes
-  nix.package = pkgs.nixFlakes;
+  # nix.package = pkgs.nixFlakes;
   nix.extraOptions = ''
     experimental-features = nix-command flakes repl-flake ca-derivations
   '';
 
   # https://github.com/nix-community/nix-index/issues/212
-  nix.nixPath = ["nixpkgs=${inputs.nixpkgs.outPath}"];
+  nix.nixPath = ["nixpkgs=${inputs.nixpkgs.outPath}" "nixpkgs-stable=${inputs.nixpkgs-stable.outPath}"];
   # https://discourse.nixos.org/t/problems-after-switching-to-flake-system/24093/7
   # nix.registry.nixpkgs.flake = "${inputs.nixpkgs}";
   # nix.registry.nixpkgs.flake = inputs.nixpkgs;

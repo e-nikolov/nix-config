@@ -31,10 +31,10 @@
         system,
         ...
       }: let
-        pkgs-stable = import nixpkgs-stable {
+        pkgs-stable = import nixpkgs {
           inherit system;
           config = {
-            allowUnfree = true;
+            allowUnfree = false;
           };
         };
         pkgs = import nixpkgs {
@@ -48,15 +48,14 @@
 
             (final: prev: {
               inherit (inputs.plasma-manager.packages.${system}) rc2nix;
-              inherit (inputs.devenv.packages.${system}) devenv;
-              inherit (pkgs-stable) emanote;
-              inherit (pkgs-stable) ripgrep-all;
             })
           ];
         };
       in {
         # Provides the pkgs to all flake modules and to withSystem calls
-        _module.args.pkgs = pkgs;
+        _module.args = {
+          inherit pkgs pkgs-stable;
+        };
 
         devShells.default = pkgs.mkShell {
           NIX_CONFIG = "extra-experimental-features = nix-command flakes repl-flake";
@@ -81,87 +80,87 @@
         # inherit (flake-parts-lib) importApply;
         # flakeModules.default = importApply ./flake-module.nix { inherit withSystem; };
         mkHome = {
-          modules ? [
-            {
-              # nix.package = pkgs.nix;
-              home.username = values.username;
-              home.homeDirectory = "/home/${values.username}";
-              home.stateVersion = "23.05";
-            }
-            nix-index-database.hmModules.nix-index
-            ./modules/minimal/home.nix
-            ./modules/common/home.nix
-          ],
-          extraModules ? [],
           system ? "x86_64-linux",
-        }:
-          withSystem system ({
-            config,
-            inputs',
-            pkgs,
-            ...
-          }: (home-manager.lib.homeManagerConfiguration {
-            inherit pkgs;
+          modules,
+          ...
+        } @ args:
+          withSystem system (
+            {
+              config,
+              inputs',
+              pkgs,
+              pkgs-stable,
+              ...
+            } @ sysargs: let
+              pkgs =
+                if args ? pkgs
+                then args.pkgs
+                else sysargs.pkgs;
+              modules =
+                [
+                  ({config, ...}: {
+                    nix.package = pkgs.nixFlakes;
+                    home.username = values.username;
+                    home.homeDirectory = "/home/${values.username}";
+                    programs.git.userName = "${values.gitUsername}";
+                    programs.git.userEmail = "${values.email}";
 
-            modules = modules ++ extraModules;
-
-            extraSpecialArgs = {
-              inherit inputs values;
-            };
-          }));
+                    home.stateVersion = "23.05";
+                  })
+                ]
+                ++ args.modules;
+              extraSpecialArgs = {inherit inputs values pkgs-stable;} // args.extraSpecialArgs or {};
+            in (home-manager.lib.homeManagerConfiguration (
+              (pkgs.lib.filterAttrs (k: v: k != "system") args) # "system" is used to set pkgs, but it is not a valid home-manager option
+              // {
+                inherit modules pkgs extraSpecialArgs;
+              }
+            ))
+          );
 
         mkSystem = {
-          modules ? [
-            inputs.golink.nixosModules.default
-            inputs.sops-nix.nixosModules.sops
-            ./modules/common/configuration.nix
-          ],
-          extraModules ? [],
           system ? "x86_64-linux",
-          username ? values.username,
-        }:
+          modules,
+          ...
+        } @ args:
           withSystem system
           ({
-            config,
-            inputs',
-            pkgs,
-            ...
-          }: (nixpkgs.lib.nixosSystem {
-            inherit pkgs;
-            modules = modules ++ extraModules;
-            specialArgs = {
-              inherit inputs values;
-            };
-          }));
+              config,
+              inputs',
+              pkgs,
+              ...
+            } @ sysargs: let
+              pkgs =
+                if args ? pkgs
+                then args.pkgs
+                else sysargs.pkgs;
+              specialArgs = {inherit inputs values;} // args.specialArgs or {};
+            in (nixpkgs.lib.nixosSystem (args
+              // {
+                inherit pkgs specialArgs;
+              })));
       in {
         homeConfigurations = {
-          "${values.username}@nixps" = mkHome {
-            extraModules = [
-              inputs.plasma-manager.homeManagerModules.plasma-manager
-              ./hosts/nixps/home.nix
-            ];
-          };
           "${values.username}@home-nix" = mkHome {
-            extraModules = [./hosts/home-nix/home.nix];
+            modules = [./hosts/home-nix/home.nix];
+          };
+          "${values.username}@nixps" = mkHome {
+            modules = [./hosts/nixps/home.nix];
           };
         };
         nixosConfigurations = {
           home-nix = mkSystem {
-            extraModules = [
+            modules = [
+              {wsl.defaultUser = values.username;}
               ./hosts/home-nix/configuration.nix
-              inputs.nixos-wsl.nixosModules.wsl
-              inputs.vscode-server.nixosModules.default
             ];
           };
           nixps = mkSystem {
-            extraModules = [
-              ./hosts/nixps/configuration.nix
-              inputs.nixos-hardware.nixosModules.dell-xps-15-9560-intel
-            ];
+            modules = [./hosts/nixps/configuration.nix];
           };
           rpi1 = mkSystem {
             system = "armv7l-linux";
-            extraModules = [./hosts/rpi1/configuration.nix];
+            modules = [./hosts/rpi1/configuration.nix];
           };
         };
         templates = {
@@ -169,13 +168,13 @@
             description = ''
               A bare flake template with a home-manager configuration that only manages itself and the nix package manager
             '';
-            path = ./examples/bare;
+            path = ./templates/bare;
           };
           minimal = {
             description = ''
               A minimal flake template with a home-manager configuration that adds zsh + customizations
             '';
-            path = ./examples/minimal;
+            path = ./templates/minimal;
           };
           full = {
             path = ./.;
@@ -234,8 +233,8 @@
 
     sops-nix.url = "github:Mic92/sops-nix";
     sops-nix.inputs.nixpkgs.follows = "nixpkgs";
+    sops-nix.inputs.nixpkgs-stable.follows = "nixpkgs-stable";
 
-    devenv.url = "github:cachix/devenv/latest";
     flake-parts.url = "github:hercules-ci/flake-parts";
   };
 }

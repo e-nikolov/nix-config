@@ -11,7 +11,6 @@
 
     nix-index-database.url = "github:nix-community/nix-index-database/main";
     nix-index-database.inputs.nixpkgs.follows = "nixpkgs";
-    # devenv.url = "github:cachix/devenv/latest";
   };
 
   outputs = inputs @ {
@@ -30,7 +29,7 @@
         description = ''
           A bare flake template with a home-manager configuration that only manages itself and the nix package manager
         '';
-        path = ../../examples/bare;
+        path = ../../templates/bare;
       };
     };
     homeModule = ./home.nix;

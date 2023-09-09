@@ -1,42 +1,29 @@
 {
+  lib,
   config,
+  options,
   pkgs,
   inputs,
   ...
 }: {
-  nix.package = pkgs.nix;
+  imports = [
+    inputs.nix-index-database.hmModules.nix-index
+  ];
+
+  nix.package = lib.mkDefault pkgs.nixFlakes;
   nix.settings.experimental-features = ["flakes" "nix-command" "repl-flake" "ca-derivations" "auto-allocate-uids"];
   nix.settings.keep-derivations = true;
   nix.settings.keep-outputs = true;
   nix.settings.auto-optimise-store = true;
+  nix.settings.use-xdg-base-directories = true;
   targets.genericLinux.enable = true;
+  xdg.enable = true;
 
   programs.home-manager.enable = true;
-
-  home.sessionVariables = {
-    NODE_PATH = "$HOME/.npm-packages/lib/node_modules";
-    PATH = "$HOME/.local/bin:$HOME/.npm-packages/bin:$PATH";
-    HOME_MANAGER_CONFIG = "$HOME/nix-config";
-  };
-
-  home.sessionPath = [
-    "$HOME/.local/bin"
-    "$HOME/.npm-packages/bin"
-  ];
-
-  home.profilePriority = 4;
-
-  home.shellAliases = {
-    hm = "home-manager --flake ~/nix-config ";
-    hme = "$EDITOR ~/nix-config/ ";
-    hmu = "nix flake update ~/nix-config  ";
-    hms = "home-manager switch --flake ~/nix-config ";
-    xc = "xclip -selection clipboard ";
-    gst = "git status ";
-  };
-  programs.bash.enable = true;
-  programs.direnv.enable = true;
-  programs.direnv.nix-direnv.enable = true;
+  programs.direnv.enable = lib.mkDefault true;
+  programs.direnv.nix-direnv.enable = lib.mkDefault true;
+  programs.nix-index.enable = lib.mkDefault true;
+  programs.nix-index-database.comma.enable = lib.mkDefault true;
 
   home.packages =
     [
@@ -52,19 +39,58 @@
       pkgs.nixos-option
       pkgs.nix-doc
       pkgs.git
-
-      # pkgs.cachix
-      # pkgs.devenv
-
-      # pkgs.comma
       # pkgs.fortune
       # pkgs.hello
       # pkgs.cowsay
     ]
     ++ [];
 
-  programs.nix-index.enable = true;
-  programs.nix-index-database.comma.enable = true;
+  home.sessionVariables = {
+    NODE_PATH = lib.mkDefault "$HOME/.npm-packages/lib/node_modules";
+    HOME_MANAGER_CONFIG = lib.mkDefault "$HOME/nix-config";
+  };
+
+  home.sessionPath = lib.mkDefault [
+    "$HOME/.local/bin"
+    "$HOME/.npm-packages/bin"
+  ];
+
+  # meta.priority = 4;
+
+  home.shellAliases = {
+    ne = lib.mkDefault "$EDITOR ~/nix-config/ ";
+    nu = lib.mkDefault "nix flake update ~/nix-config ";
+    nh = lib.mkDefault "home-manager --flake ~/nix-config ";
+    ns = lib.mkDefault "nix shell ";
+    # nd = lib.mkDefault "nix develop ";
+    gst = lib.mkDefault "git status ";
+    gc = lib.mkDefault "git commit ";
+    sudo = lib.mkDefault ''sudo -E env "PATH=$PATH" '';
+  };
+
+  programs.bash = {
+    enable = lib.mkDefault true;
+
+    initExtra = ''
+      ### Functions ###
+
+      xc() {
+          xclip -selection clipboard
+      }
+
+      nhs() {
+        home-manager switch --flake ~/nix-config $@ && exec bash
+      }
+
+      nrs() {
+        sudo nixos-rebuild switch --flake ~/nix-config/ $@ && exec bash
+      }
+
+      nd() {
+        nix develop "$@"
+      }
+    '';
+  };
 
   # programs.ssh = {
   #   forwardAgent = true;

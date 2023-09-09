@@ -12,6 +12,11 @@
     srcPrefix = "org.kde.";
   };
 in {
+  imports = [
+    inputs.plasma-manager.homeManagerModules.plasma-manager
+    ../../modules/common/home.nix
+  ];
+
   home.packages = [
     pkgs.chromium
     pkgs.slack
@@ -52,6 +57,7 @@ in {
     pkgs.popcorntime
 
     pkgs.rc2nix
+    pkgs.zotero
 
     yakuake_autostart
   ];

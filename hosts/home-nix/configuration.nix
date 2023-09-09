@@ -9,13 +9,16 @@
 }:
 with lib; {
   imports = [
+    ../../modules/common/configuration.nix
+    inputs.golink.nixosModules.default
+    inputs.nixos-wsl.nixosModules.wsl
+    inputs.vscode-server.nixosModules.default
     "${modulesPath}/profiles/minimal.nix"
   ];
 
   wsl = {
     enable = true;
     wslConf.automount.root = "/mnt";
-    defaultUser = values.username;
     nativeSystemd = true;
     # Enable native Docker support
     docker-native.enable = true;

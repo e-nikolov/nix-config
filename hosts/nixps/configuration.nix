@@ -10,6 +10,8 @@
 }: {
   imports = [
     # Include the results of the hardware scan.
+    ../../modules/common/configuration.nix
+    inputs.nixos-hardware.nixosModules.dell-xps-15-9560-intel
     ./hardware-configuration.nix
   ];
 
