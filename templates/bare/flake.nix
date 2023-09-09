@@ -21,8 +21,7 @@
     home-manager,
     ...
   }:
-    flake-utils.lib.eachDefaultSystem
-    system: let
+    flake-utils.lib.eachDefaultSystem (system: let
       pkgs-stable = import nixpkgs-stable {
         inherit system;
         config = {allowUnfree = true;};
@@ -68,5 +67,5 @@
           }
         ];
       };
-    };
+    });
 }

@@ -22,7 +22,11 @@
     initExtra = ''
       export PATH=/bin:$PATH
       ### Windows WSL2 ###
-      if grep -qEi "(Microsoft|WSL)" /proc/sys/kernel/osrelease &> /dev/null ; then
+          if grep -qEi "(Microsoft|WSL)" /proc/sys/kernel/osrelease &> /dev/null ; then
+              keep_current_path() {
+            printf "\e]9;9;%s\e\\" "$(wslpath -w "$PWD")"
+          }
+          precmd_functions+=(keep_current_path)
           # bindkey '^[[3;5~' kill-word
 
           # if [ ! $VSCODE_GIT_ASKPASS_MAIN ]; then
