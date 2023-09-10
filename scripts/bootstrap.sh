@@ -242,7 +242,7 @@ EOF
         echo . $___NIX_USER_SHELL_PROFILE_PATH
     fi
 
-    parent_shell=$(ps -o comm= -p $PPID)
+    parent_shell=$(ps -o comm= -p $PPID) || ""
     ${SHELL:=$parent_shell}
     ${SHELL:=bash}
 
