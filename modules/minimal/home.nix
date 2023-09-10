@@ -108,11 +108,6 @@
         helper = "cache --timeout=3600";
       };
 
-      url = {
-        "git@github.com:" = {insteadOf = "https://github.com/";};
-        "ssh://git@bitbucket.org/" = {insteadOf = "https://bitbucket.org/";};
-      };
-
       pull = {
         ff = "only";
       };

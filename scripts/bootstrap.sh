@@ -14,11 +14,6 @@ extra-experimental-features = flakes nix-command auto-allocate-uids
 use-xdg-base-directories = true
 EOF
     )
-    echo "------------------------------------------"
-    printf "$NIX_CONFIG\n"
-    echo "------------------------------------------"
-    echo "$NIX_CONFIG"
-    echo "------------------------------------------"
 
     # export NIX_CONFIG="extra-experimental-features = flakes nix-command auto-allocate-uids use-xdg-base-directories = true"
     export HOME_CONFIG_PATH="$HOME/nix-config"
@@ -39,7 +34,7 @@ export NIX_CONFIG=\$(cat <<EOF
         use-xdg-base-directories = true
 EOF
 )"
-        if [ -e ___NIX_DAEMON_SHELL_PROFILE_PATH ]; then
+        if [ -e $___NIX_DAEMON_SHELL_PROFILE_PATH ]; then
             echo . $___NIX_DAEMON_SHELL_PROFILE_PATH
         fi
 
@@ -47,21 +42,15 @@ EOF
             echo . $___NIX_USER_SHELL_PROFILE_PATH
         fi
 
-        echo ".........................  asd........................."
         kill -INT $$
-        return
-        # exec -l "$SHELL"
     }
 
-    if [ -e ___NIX_DAEMON_SHELL_PROFILE_PATH ]; then
+    if [ -e $___NIX_DAEMON_SHELL_PROFILE_PATH ]; then
         . $___NIX_DAEMON_SHELL_PROFILE_PATH
     fi
 
     if [ -e $___NIX_USER_SHELL_PROFILE_PATH ]; then
-        echo . $___NIX_USER_SHELL_PROFILE_PATH
-        cat $___NIX_USER_SHELL_PROFILE_PATH
-        # . $___NIX_USER_SHELL_PROFILE_PATH
-        echo "=========================================="
+        . $___NIX_USER_SHELL_PROFILE_PATH
     fi
     export HOST=$(hostname)
 
@@ -130,7 +119,7 @@ EOF
         echo installing nix via $nix_installer_type installer
         if [ "$nix_installer_type" == "multi-user" ]; then
             curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install
-            if [ -e ___NIX_DAEMON_SHELL_PROFILE_PATH ]; then
+            if [ -e $___NIX_DAEMON_SHELL_PROFILE_PATH ]; then
                 . $___NIX_DAEMON_SHELL_PROFILE_PATH
             fi
             nix profile list ## * Avoids ERROR: Could not find suitable profile directory
@@ -242,12 +231,16 @@ EOF
         echo . $___NIX_USER_SHELL_PROFILE_PATH
     fi
 
-    parent_shell=$(ps -o comm= -p $PPID) || ""
-    ${SHELL:=$parent_shell}
-    ${SHELL:=bash}
+    if [ "$0" = "$BASH_SOURCE" ]; then
+        echo "Scripted"
+        parent_shell=$(ps -o comm= -p $PPID)
+        ${SHELL:=$parent_shell}
+        ${SHELL:=bash}
+        echo exec $SHELL
+        exec $SHELL -l
 
-    echo exec $SHELL
-
-    exec $SHELL -l
+    else
+        echo "Sourced"
+    fi
 
 } # End of wrapping

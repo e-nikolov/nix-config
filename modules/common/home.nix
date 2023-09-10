@@ -135,6 +135,10 @@
       key = "${config.home.homeDirectory}/.ssh/id_rsa.pub";
     };
     extraConfig = {
+      url = {
+        "git@github.com:" = {insteadOf = "https://github.com/";};
+        "ssh://git@bitbucket.org/" = {insteadOf = "https://bitbucket.org/";};
+      };
       gpg = {
         format = "ssh";
         ssh.program = "${pkgs.openssh}/bin/ssh-keygen";
