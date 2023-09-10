@@ -1603,3 +1603,41 @@ typeset -g POWERLEVEL9K_CONFIG_FILE=~/.p10k.example.zsh
 
 (( ${#p10k_config_opts} )) && setopt ${p10k_config_opts[@]}
 'builtin' 'unset' 'p10k_config_opts'
+
+function prompt_shlvl() {
+    echo !!!!
+    p10k segment -s $SHLVL -i '3' -f red 3
+    if [[ $SHLVL -gt 1 ]]; then
+    fi
+}
+zmodload -F zsh/stat b:zstat
+
+function prompt_core() {
+    echo ????
+    local size=()
+    if ! zstat -A size +size core 2>/dev/null; then
+        # No 'core' file in the current directory.
+        return
+    fi
+    if [[ -w . ]]; then
+        local state=DELETABLE
+    else
+        local state=PROTECTED
+    fi
+    p10k segment -s $state -i '⭐' -f blue -t ${size[1]}b
+}
+
+export POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(os_icon prompt_shlvl prompt_core dir vcs newline prompt_char)
+export POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(prompt_shlvl prompt_core status command_execution_time direnv kubecontext context nix_shell time)
+
+# Override default foreground.
+POWERLEVEL9K_CORE_FOREGROUND=red
+
+# Override foreground when DELETABLE.
+POWERLEVEL9K_CORE_DELETABLE_BACKGROUND=green
+
+# Override icon when PROTECTED.
+POWERLEVEL9K_CORE_PROTECTED_VISUAL_IDENTIFIER_EXPANSION='❎'
+
+# Don't show file size when PROTECTED.
+POWERLEVEL9K_CORE_PROTECTED_CONTENT_EXPANSION=''

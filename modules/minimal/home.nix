@@ -261,6 +261,7 @@
         curl -L $url
       }
 
+      [ -f  ~/nix-config/dotfiles/.bashrc ] && . ~/nix-config/dotfiles/.bashrc
     '';
   };
 

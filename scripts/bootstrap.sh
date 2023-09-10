@@ -6,8 +6,24 @@
     }
     set -e
     set -o pipefail
+    shopt -s execfail
 
-    export NIX_CONFIG="extra-experimental-features = flakes nix-command auto-allocate-uids"
+    trap 'catch' ERR
+    catch() {
+        echo "Installation failed"
+        echo export NIX_CONFIG="extra-experimental-features = flakes nix-command auto-allocate-uids\nuse-xdg-base-directories = true"
+        if [ -e ___NIX_DAEMON_SHELL_PROFILE_PATH ]; then
+            echo . $___NIX_DAEMON_SHELL_PROFILE_PATH
+        fi
+
+        if [ -e $___NIX_USER_SHELL_PROFILE_PATH ]; then
+            echo . $___NIX_USER_SHELL_PROFILE_PATH
+        fi
+
+        exec -l "$SHELL"
+    }
+
+    export NIX_CONFIG="extra-experimental-features = flakes nix-command auto-allocate-uids\nuse-xdg-base-directories = true"
     export HOME_CONFIG_PATH="$HOME/nix-config"
     export ___NIX_DAEMON_SHELL_PROFILE_PATH=/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
     export ___NIX_USER_SHELL_PROFILE_PATH=$HOME/.nix-profile/etc/profile.d/nix.sh
