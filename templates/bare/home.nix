@@ -15,7 +15,9 @@
   nix.settings.keep-derivations = true;
   nix.settings.keep-outputs = true;
   nix.settings.auto-optimise-store = true;
+  nix.settings.nix-path = ["nixpkgs=${inputs.nixpkgs.outPath}" "nixpkgs-stable=${inputs.nixpkgs-stable.outPath}"];
   nix.settings.use-xdg-base-directories = true;
+  nix.settings.log-lines = 20;
   targets.genericLinux.enable = true;
   xdg.enable = true;
 

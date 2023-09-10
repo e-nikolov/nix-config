@@ -38,6 +38,7 @@ with lib; {
   #users.users."${values.username}".extraGroups = [ "wheel" "docker" "onepassword-cli" "onepassword" ];
   programs.git.enable = true;
   environment.systemPackages = with pkgs; [
+    man-pages
     vim
     git
     wget
@@ -47,6 +48,11 @@ with lib; {
         __contentAddressable = true;
       }))
   ];
+  documentation.dev.enable = true;
+  documentation.man.enable = true;
+  documentation.enable = true;
+  documentation.man.mandoc.enable = true;
+  documentation.man.man-db.enable = false;
   # Enable nix flakes
   # nix.package = pkgs.nixFlakes;
   nix.extraOptions = ''
