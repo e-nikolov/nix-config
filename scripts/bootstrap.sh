@@ -134,7 +134,6 @@ EOF
                 . $___NIX_DAEMON_SHELL_PROFILE_PATH
             fi
             nix profile list ## * Avoids ERROR: Could not find suitable profile directory
-            ln -s $HOME/.local/state/nix/profile $HOME/.nix-profile
         else
             curl -L https://nixos.org/nix/install | sh
             if [ -e $___NIX_USER_SHELL_PROFILE_PATH ]; then
@@ -157,6 +156,11 @@ EOF
         echo installing nix... done
     else
         echo nix is present
+    fi
+
+    if [ ! -e $HOME/.nix-profile ]; then
+        echo ln -s $HOME/.local/state/nix/profile $HOME/.nix-profile
+        ln -s $HOME/.local/state/nix/profile $HOME/.nix-profile
     fi
 
     if [ $(command -v home-manager) ]; then

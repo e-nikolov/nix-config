@@ -121,7 +121,7 @@
 
   programs.gitui.enable = true;
 
-  programs.exa = {
+  programs.eza = {
     enable = true;
   };
 
@@ -143,8 +143,8 @@
 
     gct = "git commit -am 'tmp'";
 
-    ls = "exa -alh --group-directories-first --color always --icons ";
-    tree = "exa --tree -alh --group-directories-first --color always --icons ";
+    ls = "eza -alh --group-directories-first --color always --icons ";
+    tree = "eza --tree -alh --group-directories-first --color always --icons ";
     grep = "grep --color --ignore-case --line-number --context=3 ";
     df = "df -h ";
 
@@ -215,7 +215,7 @@
           done < <(which "$@")
 
           if [[ ! ''${#paths[@]} -eq 0 ]]; then
-              realpath $paths | xargs exa -alh --group-directories-first --color always --icons
+              realpath $paths | xargs eza -alh --group-directories-first --color always --icons
           fi
 
           for i in $lines; do
@@ -286,9 +286,12 @@
     enableVteIntegration = true;
 
     initExtraFirst = ''
-      # p10k instant prompt
-      local P10K_INSTANT_PROMPT="${config.xdg.cacheHome}/p10k-instant-prompt-''${(%):-%n}.zsh"
-      [[ ! -r "$P10K_INSTANT_PROMPT" ]] || source "$P10K_INSTANT_PROMPT"
+      # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+      # Initialization code that may require console input (password prompts, [y/n]
+      # confirmations, etc.) must go above this block; everything else may go below.
+      if [[ -r "${config.xdg.cacheHome}/p10k-instant-prompt-''${(%):-%n}.zsh" ]]; then
+        source "${config.xdg.cacheHome}/p10k-instant-prompt-''${(%):-%n}.zsh"
+      fi
 
       export GPG_TTY=$TTY
 
@@ -436,7 +439,7 @@
           done < <(which "$@")
 
           if [[ ! ''${#paths[@]} -eq 0 ]]; then
-              realpath $paths | xargs exa -alh --group-directories-first --color always --icons
+              realpath $paths | xargs eza -alh --group-directories-first --color always --icons
           fi
 
           for i in $lines; do
@@ -604,7 +607,7 @@
           done < <(which "$@");
 
           if [[ ! ''${#paths[@]} -eq 0 ]]; then
-              realpath $paths | xargs exa -alh --group-directories-first --color always --icons
+              realpath $paths | xargs eza -alh --group-directories-first --color always --icons
           fi
 
           for i in $lines; do
