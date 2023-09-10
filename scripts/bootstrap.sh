@@ -152,11 +152,6 @@ EOF
         ln -s $HOME/.local/state/nix/profile $HOME/.nix-profile
     fi
 
-    if [ $(command -v home-manager) ]; then
-        echo home-manager is present
-        exit 0
-    fi
-
     if [ -d "$HOME_CONFIG_PATH" ]; then
         echo $HOME_CONFIG_PATH already exists
         rand=$(od -An -N2 -i /dev/urandom)
@@ -182,11 +177,14 @@ EOF
 
     if [ "$NO_HOME_MANAGER" ]; then
         echo skipping home-manager
-        exit 0
     fi
 
-    echo nix shell home-manager/master nixpkgs#jq --command sh -c ''
-    nix shell home-manager/master nixpkgs#jq --command sh -c "
+    if [ $(command -v home-manager) ]; then
+        echo home-manager is present
+        home-manager switch --flake $HOME_CONFIG_PATH -b backup
+    else
+        echo nix shell home-manager/master nixpkgs#jq --command sh -c ''
+        nix shell home-manager/master nixpkgs#jq --command sh -c "
         ## * There is no easy way to find the original nix package in the current profile
         ## * We use jq to find the index of the package that has priority 5 and a store path that contains *-nix-[digit]*
         i=\$(nix profile list --json | jq '.elements | map(
@@ -209,9 +207,9 @@ EOF
         echo installing home-manager
         home-manager init --switch $HOME_CONFIG_PATH -b backup
     "
-    ## TODO remove the second nix
-    # exec $SHELL -l
-
+        ## TODO remove the second nix
+        # exec $SHELL -l
+    fi
     echo $POST_SUCCESS
 
     if [ "$POST_SUCCESS" ]; then
@@ -235,12 +233,12 @@ EOF
         echo "Scripted"
         parent_shell=$(ps -o comm= -p $PPID)
         ${SHELL:=$parent_shell}
-        ${SHELL:=bash}
-        echo exec $SHELL
-        exec $SHELL -l
 
     else
         echo "Sourced"
     fi
+    ${SHELL:=bash}
+    echo exec $SHELL
+    exec $SHELL -l
 
 } # End of wrapping

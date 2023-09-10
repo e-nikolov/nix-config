@@ -266,6 +266,8 @@
   # nix.settings.auto-optimise-store = true;
   nix.settings.use-xdg-base-directories = true;
 
+  services.ssh-agent.enable = true;
+
   programs.zsh = let
     omzp = name: {
       inherit name;
