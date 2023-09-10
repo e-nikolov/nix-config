@@ -8,10 +8,37 @@
     set -o pipefail
     shopt -s execfail
 
+    export NIX_CONFIG=$(
+        cat <<EOF
+extra-experimental-features = flakes nix-command auto-allocate-uids
+use-xdg-base-directories = true
+EOF
+    )
+    echo "------------------------------------------"
+    printf "$NIX_CONFIG\n"
+    echo "------------------------------------------"
+    echo "$NIX_CONFIG"
+    echo "------------------------------------------"
+
+    # export NIX_CONFIG="extra-experimental-features = flakes nix-command auto-allocate-uids use-xdg-base-directories = true"
+    export HOME_CONFIG_PATH="$HOME/nix-config"
+    export ___NIX_DAEMON_SHELL_PROFILE_PATH=/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
+    # export ___NIX_USER_SHELL_PROFILE_PATH=$HOME/.nix-profile/etc/profile.d/nix.sh
+    export ___NIX_USER_SHELL_PROFILE_PATH=$HOME/.local/state/nix/profile/etc/profile.d/nix.sh
+
+    # trap 'trap - ERR RETURN; kill -INT $$ ; return' ERR RETURN
     trap 'catch' ERR
     catch() {
+        trap - ERR
+        echo $1
+
         echo "Installation failed"
-        echo export NIX_CONFIG="extra-experimental-features = flakes nix-command auto-allocate-uids\nuse-xdg-base-directories = true"
+        echo "
+export NIX_CONFIG=\$(cat <<EOF
+        extra-experimental-features = flakes nix-command auto-allocate-uids
+        use-xdg-base-directories = true
+EOF
+)"
         if [ -e ___NIX_DAEMON_SHELL_PROFILE_PATH ]; then
             echo . $___NIX_DAEMON_SHELL_PROFILE_PATH
         fi
@@ -20,20 +47,21 @@
             echo . $___NIX_USER_SHELL_PROFILE_PATH
         fi
 
-        exec -l "$SHELL"
+        echo ".........................  asd........................."
+        kill -INT $$
+        return
+        # exec -l "$SHELL"
     }
-
-    export NIX_CONFIG="extra-experimental-features = flakes nix-command auto-allocate-uids\nuse-xdg-base-directories = true"
-    export HOME_CONFIG_PATH="$HOME/nix-config"
-    export ___NIX_DAEMON_SHELL_PROFILE_PATH=/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
-    export ___NIX_USER_SHELL_PROFILE_PATH=$HOME/.nix-profile/etc/profile.d/nix.sh
 
     if [ -e ___NIX_DAEMON_SHELL_PROFILE_PATH ]; then
         . $___NIX_DAEMON_SHELL_PROFILE_PATH
     fi
 
     if [ -e $___NIX_USER_SHELL_PROFILE_PATH ]; then
-        . $___NIX_USER_SHELL_PROFILE_PATH
+        echo . $___NIX_USER_SHELL_PROFILE_PATH
+        cat $___NIX_USER_SHELL_PROFILE_PATH
+        # . $___NIX_USER_SHELL_PROFILE_PATH
+        echo "=========================================="
     fi
     export HOST=$(hostname)
 
@@ -102,11 +130,16 @@
         echo installing nix via $nix_installer_type installer
         if [ "$nix_installer_type" == "multi-user" ]; then
             curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install
-            . $___NIX_DAEMON_SHELL_PROFILE_PATH
+            if [ -e ___NIX_DAEMON_SHELL_PROFILE_PATH ]; then
+                . $___NIX_DAEMON_SHELL_PROFILE_PATH
+            fi
             nix profile list ## * Avoids ERROR: Could not find suitable profile directory
+            ln -s $HOME/.local/state/nix/profile $HOME/.nix-profile
         else
             curl -L https://nixos.org/nix/install | sh
-            . $___NIX_USER_SHELL_PROFILE_PATH
+            if [ -e $___NIX_USER_SHELL_PROFILE_PATH ]; then
+                . $___NIX_USER_SHELL_PROFILE_PATH
+            fi
 
             ## * There are some issues with bootstrapping nix and home-manager on single user installs
             ## * After we are done we want home-manager to manage the nix installation
