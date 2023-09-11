@@ -299,6 +299,7 @@
       zstyle :omz:plugins:ssh-agent helper ksshaskpass
       zstyle :omz:plugins:ssh-agent lazy yes
       zstyle :omz:plugins:ssh-agent lifetime 300m
+      zstyle :omz:plugins:ssh-agent identities id_rsa
     '';
 
     defaultKeymap = "emacs";
