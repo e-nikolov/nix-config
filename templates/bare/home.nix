@@ -29,7 +29,6 @@
   programs.nix-index-database.comma.enable = lib.mkDefault true;
 
   home.packages =
-    lib.mkDefault
     [
       ## * Add Packages here
 
