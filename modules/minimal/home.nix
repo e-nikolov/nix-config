@@ -331,10 +331,10 @@
       # active. Only then are the values from $terminfo valid.
       if (( ''${+terminfo[smkx]} )) && (( ''${+terminfo[rmkx]} )); then
           function zle-line-init () {
-              printf '%s' "''${terminfo [smkx]}"
+              printf '%s' "''${terminfo[smkx]}"
           }
           function zle-line-finish () {
-              printf '%s' "''${terminfo [rmkx]}"
+              printf '%s' "''${terminfo[rmkx]}"
           }
           zle -N zle-line-init
           zle -N zle-line-finish
