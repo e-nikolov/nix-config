@@ -8,10 +8,15 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     flake-utils.url = "github:numtide/flake-utils";
-    nix-config.url = "github:e-nikolov/nix-config/master";
-
     nix-index-database.url = "github:nix-community/nix-index-database/main";
     nix-index-database.inputs.nixpkgs.follows = "nixpkgs";
+
+    nix-config.url = "github:e-nikolov/nix-config/master";
+    nix-config.inputs.nixpkgs.follows = "nixpkgs";
+    nix-config.inputs.nixpkgs-stable.follows = "nixpkgs-stable";
+    nix-config.inputs.home-manager.follows = "home-manager";
+    nix-config.inputs.flake-utils.follows = "flake-utils";
+    nix-config.inputs.nix-index-database.follows = "nix-index-database";
   };
 
   outputs = inputs @ {

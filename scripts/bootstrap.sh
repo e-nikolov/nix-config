@@ -175,14 +175,14 @@ EOF
 
     if [ "$NO_HOME_MANAGER" ]; then
         echo skipping home-manager
-    fi
-
-    if [ $(command -v home-manager) ]; then
-        echo home-manager is present
-        home-manager switch --flake $HOME_CONFIG_PATH -b backup
     else
-        echo nix shell home-manager/master nixpkgs#jq --command sh -c ''
-        nix shell home-manager/master nixpkgs#jq --command sh -c "
+        if [ $(command -v home-manager) ]; then
+            echo home-manager is present
+            home-manager switch --flake $HOME_CONFIG_PATH -b backup
+        else
+            echo Installing home-manager
+
+            nix shell home-manager/master nixpkgs#jq --command sh -c "
         ## * There is no easy way to find the original nix package in the current profile
         ## * We use jq to find the index of the package that has priority 5 and a store path that contains *-nix-[digit]*
         i=\$(nix profile list --json | jq '.elements | map(
@@ -205,20 +205,20 @@ EOF
         echo installing home-manager
         home-manager init --switch $HOME_CONFIG_PATH -b backup
     "
-        ## TODO remove the second nix
-        # exec $SHELL -l
-    fi
-    echo $POST_SUCCESS
+            ## TODO remove the second nix
+        fi
+        echo $POST_SUCCESS
 
-    if [ "$POST_SUCCESS" ]; then
-        eval $POST_SUCCESS
-    fi
+        if [ "$POST_SUCCESS" ]; then
+            eval $POST_SUCCESS
+        fi
 
-    if [ $FLAKE_TEMPLATE == "github:e-nikolov/nix-config/master#minimal" ]; then
-        echo setting zsh as the default shell
-        command -v zsh | sudo tee -a /etc/shells
-        sudo chsh -s "$(command -v zsh)" "${USER}"
-        SHELL=$(command -v zsh)
+        if [ $FLAKE_TEMPLATE == "github:e-nikolov/nix-config/master#minimal" ]; then
+            echo setting zsh as the default shell
+            command -v zsh | sudo tee -a /etc/shells
+            sudo chsh -s "$(command -v zsh)" "${USER}"
+            SHELL=$(command -v zsh)
+        fi
     fi
 
     if [ "$nix_installer_type" == "multi-user" ]; then
@@ -237,7 +237,6 @@ EOF
         echo
     fi
     ${SHELL:=bash}
-    echo exec $SHELL
     exec $SHELL -l
 
 } # End of wrapping
