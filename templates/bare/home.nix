@@ -13,11 +13,11 @@
   nix.package = lib.mkDefault pkgs.nixFlakes;
 
   nix.settings.experimental-features = ["flakes" "nix-command" "repl-flake" "auto-allocate-uids"];
-  nix.settings.keep-derivations = lib.mkDefaulttrue;
-  nix.settings.keep-outputs = lib.mkDefaulttrue;
-  nix.settings.auto-optimise-store = lib.mkDefaulttrue;
+  nix.settings.keep-derivations = lib.mkDefault true;
+  nix.settings.keep-outputs = lib.mkDefault true;
+  nix.settings.auto-optimise-store = lib.mkDefault true;
   nix.settings.nix-path = ["nixpkgs=${inputs.nixpkgs.outPath}" "nixpkgs-stable=${inputs.nixpkgs-stable.outPath}"];
-  nix.settings.use-xdg-base-directories = lib.mkDefaulttrue;
+  nix.settings.use-xdg-base-directories = lib.mkDefault true;
   nix.settings.log-lines = lib.mkDefault 20;
   targets.genericLinux.enable = lib.mkDefault true;
   xdg.enable = lib.mkDefault true;
