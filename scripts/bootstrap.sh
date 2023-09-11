@@ -169,7 +169,6 @@ EOF
     echo Configuring the flake for "$USER"@"$HOST" with home "$HOME"
 
     flake_path=$HOME_CONFIG_PATH/flake.nix
-    echo sed -i s@{{username}}@"$USER"@g $flake_path
     sed -i s@{{username}}@"$USER"@g $flake_path
     sed -i s@{{hostname}}@"$HOST"@g $flake_path
     sed -i s@{{homedir}}@"$HOME"@g $flake_path
@@ -229,12 +228,12 @@ EOF
     fi
 
     if [ "$0" = "$BASH_SOURCE" ]; then
-        echo "Scripted"
+        # echo "Scripted"
         parent_shell=$(ps -o comm= -p $PPID)
         ${SHELL:=$parent_shell}
 
     else
-        echo "Sourced"
+        # echo "Sourced"
     fi
     ${SHELL:=bash}
     echo exec $SHELL
