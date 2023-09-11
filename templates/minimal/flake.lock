@@ -87,11 +87,11 @@
       },
       "locked": {
         "dir": "modules/minimal",
-        "lastModified": 1694410715,
-        "narHash": "sha256-0lYu9UaGwe7iIQ7NAi0h8HbJpESdvWWSGKnQrr2A+EY=",
+        "lastModified": 1694417673,
+        "narHash": "sha256-u8U/pCwFuwdh3ZMFNo18gfkD4RI27x7q9BVFmQYH1rY=",
         "owner": "e-nikolov",
         "repo": "nix-config",
-        "rev": "88011eba90db1ca49ddd0e93d20572d6fe2b2494",
+        "rev": "cbc61c8e3bc46ca1099aaac13b9948e8ab1fddf9",
         "type": "github"
       },
       "original": {
