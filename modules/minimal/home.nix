@@ -295,10 +295,11 @@
 
       export GPG_TTY=$TTY
 
-      zstyle :omz:plugins:ssh-agent agent-forwarding on
+      zstyle :omz:plugins:ssh-agent agent-forwarding yes
       zstyle :omz:plugins:ssh-agent helper ksshaskpass
       zstyle :omz:plugins:ssh-agent lazy yes
-      zstyle :omz:plugins:ssh-agent lifetime 300m
+      zstyle :omz:plugins:ssh-agent quiet yes
+      zstyle :omz:plugins:ssh-agent lifetime 5h
       zstyle :omz:plugins:ssh-agent identities id_rsa
     '';
 
