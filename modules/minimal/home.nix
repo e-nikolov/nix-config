@@ -115,7 +115,8 @@
   };
 
   programs.gitui.enable = true;
-
+  programs.pls.enable = true;
+  # programs.carapace.enable = true;
   programs.eza = {
     enable = true;
   };
@@ -138,7 +139,9 @@
 
     gct = "git commit -am 'tmp'";
 
-    ls = "eza -alh --group-directories-first --color always --icons ";
+    l = "eza";
+    ls = "eza -lh --group-directories-first --color always --icons --classify --time-style relative --created --changed";
+    lsa = "ls -a ";
     tree = "eza --tree -alh --group-directories-first --color always --icons ";
     grep = "grep --color --ignore-case --line-number --context=3 ";
     df = "df -h ";
