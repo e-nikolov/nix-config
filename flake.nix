@@ -176,6 +176,12 @@
             '';
             path = ./templates/minimal;
           };
+          minimal2 = {
+            description = ''
+              A minimal flake template with a home-manager configuration that adds zsh + customizations
+            '';
+            path = ./templates/minimal2;
+          };
           full = {
             path = ./.;
             description = ''

@@ -234,6 +234,7 @@ EOF
 
     else
         # echo "Sourced"
+        echo
     fi
     ${SHELL:=bash}
     echo exec $SHELL
