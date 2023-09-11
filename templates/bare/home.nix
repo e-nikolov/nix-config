@@ -11,23 +11,25 @@
   ];
 
   nix.package = lib.mkDefault pkgs.nixFlakes;
-  nix.settings.experimental-features = ["flakes" "nix-command" "repl-flake" "ca-derivations" "auto-allocate-uids"];
-  nix.settings.keep-derivations = true;
-  nix.settings.keep-outputs = true;
-  nix.settings.auto-optimise-store = true;
-  nix.settings.nix-path = ["nixpkgs=${inputs.nixpkgs.outPath}" "nixpkgs-stable=${inputs.nixpkgs-stable.outPath}"];
-  nix.settings.use-xdg-base-directories = true;
-  nix.settings.log-lines = 20;
-  targets.genericLinux.enable = true;
-  xdg.enable = true;
 
-  programs.home-manager.enable = true;
+  nix.settings.experimental-features = ["flakes" "nix-command" "repl-flake" "auto-allocate-uids"];
+  nix.settings.keep-derivations = lib.mkDefaulttrue;
+  nix.settings.keep-outputs = lib.mkDefaulttrue;
+  nix.settings.auto-optimise-store = lib.mkDefaulttrue;
+  nix.settings.nix-path = ["nixpkgs=${inputs.nixpkgs.outPath}" "nixpkgs-stable=${inputs.nixpkgs-stable.outPath}"];
+  nix.settings.use-xdg-base-directories = lib.mkDefaulttrue;
+  nix.settings.log-lines = lib.mkDefault 20;
+  targets.genericLinux.enable = lib.mkDefault true;
+  xdg.enable = lib.mkDefault true;
+
+  programs.home-manager.enable = lib.mkDefault true;
   programs.direnv.enable = lib.mkDefault true;
   programs.direnv.nix-direnv.enable = lib.mkDefault true;
   programs.nix-index.enable = lib.mkDefault true;
   programs.nix-index-database.comma.enable = lib.mkDefault true;
 
   home.packages =
+    lib.mkDefault
     [
       ## * Add Packages here
 
@@ -73,7 +75,7 @@
   programs.bash = {
     enable = lib.mkDefault true;
 
-    initExtra = ''
+    initExtra = lib.mkDefault ''
       ### Functions ###
 
       xc() {

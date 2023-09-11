@@ -263,12 +263,6 @@
     '';
   };
 
-  nix.settings.experimental-features = ["flakes" "nix-command" "repl-flake" "ca-derivations" "auto-allocate-uids"];
-  nix.settings.keep-derivations = true;
-  nix.settings.keep-outputs = true;
-  # nix.settings.auto-optimise-store = true;
-  nix.settings.use-xdg-base-directories = true;
-
   services.ssh-agent.enable = true;
 
   programs.zsh = let
