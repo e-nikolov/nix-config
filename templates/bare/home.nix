@@ -67,6 +67,7 @@
     ns = lib.mkDefault "nix shell ";
     # nd = lib.mkDefault "nix develop ";
     gst = lib.mkDefault "git status ";
+    gcl = lib.mkDefault "git clone --recurse-submodules ";
     gc = lib.mkDefault "git commit ";
     sudo = lib.mkDefault ''sudo -E env "PATH=$PATH" '';
   };

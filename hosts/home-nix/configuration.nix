@@ -80,7 +80,7 @@ with lib; {
   # Set your time zone.
   time.timeZone = "Europe/Amsterdam";
 
-  services.gnome.gnome-keyring.enable = true;
+  # services.gnome.gnome-keyring.enable = true;
   # services.gnome-keyring.enable = true;
   environment.systemPackages = with pkgs; [
     vim
@@ -88,6 +88,7 @@ with lib; {
     wget
     pciutils
     waybar
+
     dunst
     kmod
     mako

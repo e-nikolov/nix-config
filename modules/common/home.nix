@@ -1,111 +1,121 @@
-{
-  config,
-  pkgs,
-  values,
-  inputs,
-  ...
-}: {
+{ config, pkgs, lib, values, inputs, outputs, ... }:
+let
+  inherit (inputs.nix-colors) colorSchemes;
+  inherit (inputs.nix-colors.lib-contrib { inherit pkgs; })
+    colorschemeFromPicture nixWallpaperFromScheme;
+in {
   imports = [
     ../minimal/home.nix
+    ../home-manager/nvim
+    inputs.nix-colors.homeManagerModule
   ];
 
-  home.packages =
-    [
-      # THESIS ##
-
-      # pkgs.haskellPackages.pandoc
-      # pkgs.haskellPackages.pandoc-crossref
-      # pkgs.pandoc
-      # pkgs.python310Packages.pygments
-
-      # EDITORS ##
-      # pkgs.inkscape
-      # pkgs.librsvg
-      # pkgs.drawio
-      # pkgs.obsidian
-      # pkgs.evince
-
-      # MPYC ##
-      # pkgs.stuntman
-      # pkgs.libnatpmp
-      # pkgs.miniupnpc
-      pkgs.wireguard-tools
-      pkgs.wireguard-go
-      pkgs.coturn
-      # pkgs.terraform
-      # pkgs.nebula
-      # pkgs.python3Packages.autopep8
-
-      # NETWORKING ##
-      pkgs.tailscale
-      pkgs.strongswan
-      pkgs.nmap-unfree
-      # pkgs.sofia_sip
-      pkgs.inetutils
-      pkgs.host.dnsutils
-
-      # # DEV ##
-      # pkgs.devbox
-      # pkgs.asdf-vm
-
-      pkgs.docker
-      pkgs.docker-compose
-      pkgs.containerd
-      pkgs.runc
-
-      pkgs.patchelf
-      # # ? pkgs.steam-run
-      pkgs.nix-ld
-      # # ? pkgs.nix-alien
-
-      # # CLOUD ##
-      # pkgs.kubernetes-helm
-      # pkgs.awscli2
-      # pkgs.doctl
-      # pkgs.vault
-      # pkgs.kubectl
-      # pkgs.kubectx
-
-      # LANGUAGES ##
-      pkgs.go
-      # pkgs.gcc
-      # pkgs.ent-go
-      # pkgs.rustc
-      # pkgs.python3
-      # pkgs.nodejs
-      # pkgs.elixir
-      # pkgs.R
-      # pkgs.rstudio
-
-      ## UTILS ##
-      pkgs.git-filter-repo
-      pkgs.inotify-tools
-      # pkgs.qrencode
-      pkgs.screen
-      pkgs.cacert
-      # pkgs.cmctl
-      # pkgs.udisks2
-      pkgs.pam_mount
-      # pkgs.killall
-      # pkgs.nixos-install-tools
-      # pkgs.kmod
-      pkgs.alejandra
-      pkgs.deadnix
-      pkgs.statix
-      pkgs.manix
-      pkgs.nb
-
-      # pkgs.fortune
-      # pkgs.hello
-      # pkgs.cowsay
-    ]
-    ++ [];
-
-  programs.texlive = {
-    enable = true;
+  nixpkgs = {
+    overlays = builtins.attrValues outputs.overlays;
+    config = { allowUnfree = true; };
   };
 
-  nix.settings.extra-platforms = ["armv7l-linux" "armv7l-hf-multiplatform" "armv7l-multiplatform" "aarch64-linux" "i686-linux"];
+  colorscheme = lib.mkDefault colorSchemes.dracula;
+
+  home.packages = [
+    # THESIS ##
+
+    # pkgs.haskellPackages.pandoc
+    # pkgs.haskellPackages.pandoc-crossref
+    # pkgs.pandoc
+    # pkgs.python310Packages.pygments
+
+    # EDITORS ##
+    # pkgs.inkscape
+    # pkgs.librsvg
+    # pkgs.drawio
+    # pkgs.obsidian
+    # pkgs.evince
+
+    # MPYC ##
+    # pkgs.stuntman
+    # pkgs.libnatpmp
+    # pkgs.miniupnpc
+    pkgs.wireguard-tools
+    pkgs.wireguard-go
+    pkgs.coturn
+    # pkgs.terraform
+    # pkgs.nebula
+    # pkgs.python3Packages.autopep8
+
+    # NETWORKING ##
+    pkgs.tailscale
+    pkgs.strongswan
+    pkgs.nmap-unfree
+    # pkgs.sofia_sip
+    pkgs.inetutils
+    pkgs.host.dnsutils
+
+    # # DEV ##
+    # pkgs.devbox
+    # pkgs.asdf-vm
+
+    pkgs.docker
+    pkgs.docker-compose
+    pkgs.containerd
+    pkgs.runc
+
+    pkgs.patchelf
+    # # ? pkgs.steam-run
+    pkgs.nix-ld
+    # # ? pkgs.nix-alien
+
+    # # CLOUD ##
+    # pkgs.kubernetes-helm
+    # pkgs.awscli2
+    # pkgs.doctl
+    # pkgs.vault
+    # pkgs.kubectl
+    # pkgs.kubectx
+
+    # LANGUAGES ##
+    pkgs.go
+    # pkgs.gcc
+    # pkgs.ent-go
+    # pkgs.rustc
+    # pkgs.python3
+    # pkgs.nodejs
+    # pkgs.elixir
+    # pkgs.R
+    # pkgs.rstudio
+
+    ## UTILS ##
+    pkgs.git-filter-repo
+    pkgs.inotify-tools
+    # pkgs.qrencode
+    pkgs.screen
+    pkgs.cacert
+    # pkgs.cmctl
+    # pkgs.udisks2
+    pkgs.pam_mount
+    # pkgs.killall
+    # pkgs.nixos-install-tools
+    # pkgs.kmod
+    pkgs.alejandra
+    pkgs.deadnix
+    pkgs.statix
+    pkgs.manix
+    pkgs.nb
+
+    # pkgs.fortune
+    # pkgs.hello
+    # pkgs.cowsay
+  ] ++ [ ];
+
+  programs.texlive = { enable = true; };
+
+  nix.settings.extra-platforms = [
+    "armv7l-linux"
+    "armv7l-hf-multiplatform"
+    "armv7l-multiplatform"
+    "aarch64-linux"
+    "i686-linux"
+  ];
   nix.settings.cores = 6;
   home.shellAliases = {
     k = "kubectl";
@@ -115,8 +125,7 @@
   programs.zsh = {
     enable = true;
 
-    completionInit = ''
-    '';
+    completionInit = "";
 
     initExtraFirst = ''
       # eval "$(zellij setup --generate-auto-start zsh)"
@@ -211,6 +220,7 @@
       # nd = lib.mkDefault "nix develop ";
       gst = "git status ";
       gc = "git commit ";
+      gcl = "git clone --recurse-submodules ";
       sudo = ''sudo -E env "PATH=$PATH" '';
 
       xargs = "xargs ";
@@ -218,9 +228,11 @@
       gct = "git commit -am 'tmp'";
 
       l = "eza";
-      ls = "eza -lh --group-directories-first --color always --icons --classify --time-style relative --created --changed";
+      ls =
+        "eza -lh --group-directories-first --color always --icons --classify --time-style relative --created --changed";
       lsa = "ls -a ";
-      tree = "eza --tree -alh --group-directories-first --color always --icons ";
+      tree =
+        "eza --tree -alh --group-directories-first --color always --icons ";
       grep = "grep --color --ignore-case --line-number --context=3 ";
       df = "df -h ";
 
@@ -245,6 +257,13 @@
     };
   };
 
+  programs.neovim.enable = true;
+  programs.neovim.coc.enable = true;
+  programs.neovim.viAlias = true;
+  programs.neovim.vimdiffAlias = true;
+  programs.neovim.withPython3 = true;
+  programs.neovim.withNodeJs = true;
+
   programs.git = {
     signing = {
       signByDefault = true;
@@ -253,8 +272,8 @@
     };
     extraConfig = {
       url = {
-        "git@github.com:" = {insteadOf = "https://github.com/";};
-        "ssh://git@bitbucket.org/" = {insteadOf = "https://bitbucket.org/";};
+        "git@github.com:" = { insteadOf = "https://github.com/"; };
+        "ssh://git@bitbucket.org/" = { insteadOf = "https://bitbucket.org/"; };
       };
       gpg = {
         format = "ssh";

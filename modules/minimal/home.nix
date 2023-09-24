@@ -1,60 +1,50 @@
-{
-  config,
-  pkgs,
-  pkgs-stable,
-  inputs,
-  ...
-} @ args: {
-  imports = [
-    ../bare/home.nix
-  ];
+{ config, pkgs, pkgs-stable, inputs, ... }@args: {
+  imports = [ ../bare/home.nix ];
   programs.home-manager.enable = true;
 
-  home.packages =
-    [
-      pkgs.nix
-      pkgs.micro
-      pkgs.htop
-      pkgs.nixfmt
-      pkgs.curl
-      pkgs.git
-      # pkgs-stable.ripgrep-all
-      # pkgs.ripgrep-all
-      pkgs.websocat
-      # pkgs.file
-      pkgs.tldr
-      pkgs.rsync
-      pkgs.direnv
-      pkgs.rnix-lsp
-      pkgs.gnupg
-      pkgs.gnumake
-      pkgs.bc
-      pkgs.xclip
-      pkgs.lsof
-      pkgs.bash-completion
-      pkgs.oh-my-zsh
-      pkgs.zsh-fzf-tab
-      # pkgs.zsh-z
-      pkgs.zsh-autosuggestions
-      pkgs.zsh-fast-syntax-highlighting
-      pkgs.zsh-powerlevel10k
-      pkgs.zsh-autopair
-      pkgs.zsh-you-should-use
-      pkgs.zsh-completions
-      pkgs.meslo-lgs-nf
-      pkgs.neofetch
-      pkgs.sops
-      pkgs.age
-      pkgs.xxh
-      pkgs.nixos-option
-      pkgs.nix-doc
-      pkgs.xdg-utils
+  home.packages = [
+    pkgs.nix
+    pkgs.micro
+    pkgs.htop
+    pkgs.nixfmt
+    pkgs.curl
+    pkgs.git
+    # pkgs-stable.ripgrep-all
+    # pkgs.ripgrep-all
+    pkgs.websocat
+    # pkgs.file
+    pkgs.tldr
+    pkgs.rsync
+    pkgs.direnv
+    pkgs.rnix-lsp
+    pkgs.gnupg
+    pkgs.gnumake
+    pkgs.bc
+    pkgs.xclip
+    pkgs.lsof
+    pkgs.bash-completion
+    pkgs.oh-my-zsh
+    pkgs.zsh-fzf-tab
+    # pkgs.zsh-z
+    pkgs.zsh-autosuggestions
+    pkgs.zsh-fast-syntax-highlighting
+    pkgs.zsh-powerlevel10k
+    pkgs.zsh-autopair
+    pkgs.zsh-you-should-use
+    pkgs.zsh-completions
+    pkgs.meslo-lgs-nf
+    pkgs.neofetch
+    pkgs.sops
+    pkgs.age
+    pkgs.xxh
+    pkgs.nixos-option
+    pkgs.nix-doc
+    pkgs.xdg-utils
 
-      # pkgs.fortune
-      # pkgs.hello
-      # pkgs.cowsay
-    ]
-    ++ [];
+    # pkgs.fortune
+    # pkgs.hello
+    # pkgs.cowsay
+  ] ++ [ ];
   targets.genericLinux.enable = true;
   xdg.enable = true;
 
@@ -70,26 +60,28 @@
     default_layout = "compact";
 
     keybinds = {
-      unbind = ["Alt Left" "Alt Right" "Ctrl 1" "Ctrl 3" "Ctrl 5" "Ctrl 2" "Ctrl h" "Alt ["];
+      unbind = [
+        "Alt Left"
+        "Alt Right"
+        "Ctrl 1"
+        "Ctrl 3"
+        "Ctrl 5"
+        "Ctrl 2"
+        "Ctrl h"
+        "Alt ["
+      ];
       normal = {
-        "bind \"Ctrl 1\"" = {MoveFocusOrTab = "Left";};
-        "bind \"Ctrl 3\"" = {MoveFocusOrTab = "Right";};
-        "bind \"Ctrl 5\"" = {MoveFocus = "Down";};
-        "bind \"Ctrl 2\"" = {MoveFocus = "Up";};
-        "bind \"Ctrl e\"" = {SwitchToMode = "Tab";};
-        "bind \"Alt t\"" = {NewTab = "";};
-        "bind \"Ctrl [\"" = {PreviousSwapLayout = "";};
-        "bind \"Ctrl ]\"" = {NextSwapLayout = "";};
+        "bind \"Ctrl 1\"" = { MoveFocusOrTab = "Left"; };
+        "bind \"Ctrl 3\"" = { MoveFocusOrTab = "Right"; };
+        "bind \"Ctrl 5\"" = { MoveFocus = "Down"; };
+        "bind \"Ctrl 2\"" = { MoveFocus = "Up"; };
+        "bind \"Ctrl e\"" = { SwitchToMode = "Tab"; };
+        "bind \"Alt t\"" = { NewTab = ""; };
+        "bind \"Ctrl [\"" = { PreviousSwapLayout = ""; };
+        "bind \"Ctrl ]\"" = { NextSwapLayout = ""; };
       };
     };
   };
-
-  # programs.neovim.enable = true;
-  # programs.neovim.coc.enable = true;
-  # programs.neovim.viAlias = true;
-  # programs.neovim.vimdiffAlias = true;
-  # programs.neovim.withPython3 = true;
-  # programs.neovim.withNodeJs = true;
 
   programs.git = {
     enable = true;
@@ -101,25 +93,17 @@
     };
 
     extraConfig = {
-      core = {
-        editor = "micro";
-      };
-      credential = {
-        helper = "cache --timeout=3600";
-      };
+      core = { editor = "micro"; };
+      credential = { helper = "cache --timeout=3600"; };
 
-      pull = {
-        ff = "only";
-      };
+      pull = { ff = "only"; };
     };
   };
 
   programs.gitui.enable = true;
   programs.pls.enable = true;
   # programs.carapace.enable = true;
-  programs.eza = {
-    enable = true;
-  };
+  programs.eza = { enable = true; };
 
   programs.ssh = {
     forwardAgent = true;
@@ -140,7 +124,8 @@
     gct = "git commit -am 'tmp'";
 
     l = "eza";
-    ls = "eza -lh --group-directories-first --color always --icons --classify --time-style relative --created --changed";
+    ls =
+      "eza -lh --group-directories-first --color always --icons --classify --time-style relative --created --changed";
     lsa = "ls -a ";
     tree = "eza --tree -alh --group-directories-first --color always --icons ";
     grep = "grep --color --ignore-case --line-number --context=3 ";
@@ -150,7 +135,8 @@
     src = "source ~/.zshrc";
 
     port = "sudo lsof -i -P -n | fzf";
-    pp = "ps axww -o pid,user,%cpu,%mem,start,time,command | fzf | sed 's/^ *//' | cut -f1 -d' '";
+    pp =
+      "ps axww -o pid,user,%cpu,%mem,start,time,command | fzf | sed 's/^ *//' | cut -f1 -d' '";
 
     gi = "go install ./...";
     gomt = "go mod tidy";
@@ -180,9 +166,7 @@
     HOME_MANAGER_CONFIG = "$HOME/nix-config";
   };
 
-  home.sessionPath = [
-    "$GOBIN"
-  ];
+  home.sessionPath = [ "$GOBIN" ];
 
   programs.bash = {
     enable = true;
