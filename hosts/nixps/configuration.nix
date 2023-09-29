@@ -1,12 +1,11 @@
 # Edit this configuration file to define what should be installed on
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
-{
-  config,
-  pkgs,
-  inputs,
-  values,
-  ...
+{ config
+, pkgs
+, inputs
+, values
+, ...
 }: {
   imports = [
     # Include the results of the hardware scan.
@@ -16,10 +15,10 @@
   ];
 
   # boot.blacklistedKernelModules = [ "nouveau" "nvidia" ];
-  boot.blacklistedKernelModules = ["snd_pcsp"];
+  boot.blacklistedKernelModules = [ "snd_pcsp" ];
   # boot.kernelParams = [ "acpi_rev_override=1" "nomodeset" ];
-  boot.kernelParams = ["acpi_rev_override=1"];
-  boot.binfmt.emulatedSystems = ["armv7l-linux" "aarch64-linux"];
+  boot.kernelParams = [ "acpi_rev_override=1" ];
+  boot.binfmt.emulatedSystems = [ "armv7l-linux" "aarch64-linux" ];
   boot.loader = {
     systemd-boot = {
       enable = true;
@@ -51,7 +50,7 @@
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.${values.username} = {
     isNormalUser = true;
-    extraGroups = ["wheel" "podman" "audio"]; # Enable ‘sudo’ for the user.
+    extraGroups = [ "wheel" "podman" "audio" ]; # Enable ‘sudo’ for the user.
     packages = with pkgs; [
     ];
   };
@@ -81,7 +80,7 @@
   };
 
   # Enable the X11 windowing system.
-  services.xserver.videoDrivers = ["intel"];
+  services.xserver.videoDrivers = [ "intel" ];
   services.xserver.displayManager.defaultSession = "plasma";
   services.xserver.enable = true;
   services.xserver.layout = "us,bg";
@@ -143,7 +142,7 @@
   programs.git.enable = true;
   programs._1password.enable = true;
   programs._1password-gui.enable = true;
-  programs._1password-gui.polkitPolicyOwners = [values.username];
+  programs._1password-gui.polkitPolicyOwners = [ values.username ];
   # programs._1password-gui.package = (pkgs._1password-gui-beta.overrideAttrs
   #   (oldAttrs: {
   #     postInstall = ''
@@ -161,7 +160,9 @@
 
   services.tailscale.enable = true;
   networking.firewall.checkReversePath = "loose";
-  networking.firewall.allowedTCPPorts = [12345];
+  networking.firewall.allowedTCPPorts = [ 12345 ];
+
+  # nix.settings.trusted-users = [ "root" "enikolov" ];
 
   # Copy the NixOS configuration file and link it from the resulting system
   # (/run/current-system/configuration.nix). This is useful in case you

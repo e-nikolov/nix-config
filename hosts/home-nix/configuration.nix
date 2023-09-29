@@ -44,6 +44,9 @@ with lib; {
     enable = true;
   };
 
+  sops.secrets."services/golink/auth_key" = {
+    owner = config.services.golink.user;
+  };
   services.golink = {
     enable = true;
     tailscaleAuthKeyFile = "/run/secrets/services/golink/auth_key";

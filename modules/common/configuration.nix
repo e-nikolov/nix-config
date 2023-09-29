@@ -1,11 +1,10 @@
-{
-  lib,
-  pkgs,
-  config,
-  modulesPath,
-  inputs,
-  values,
-  ...
+{ lib
+, pkgs
+, config
+, modulesPath
+, inputs
+, values
+, ...
 }:
 with lib; {
   imports = [
@@ -13,13 +12,10 @@ with lib; {
   ];
 
   sops.defaultSopsFile = ../../secrets/secrets.yaml;
-  sops.secrets."services/golink/auth_key" = {
-    owner = config.services.golink.user;
-  };
 
   sops.age.generateKey = true;
   sops.age.keyFile = "/var/lib/sops-nix/key.txt";
-  boot.binfmt.emulatedSystems = ["armv7l-linux" "aarch64-linux"];
+  boot.binfmt.emulatedSystems = [ "armv7l-linux" "aarch64-linux" ];
 
   networking.firewall.checkReversePath = "loose";
   services.tailscale.enable = true;
@@ -60,7 +56,7 @@ with lib; {
   '';
 
   # https://github.com/nix-community/nix-index/issues/212
-  nix.nixPath = ["nixpkgs=${inputs.nixpkgs.outPath}" "nixpkgs-stable=${inputs.nixpkgs-stable.outPath}"];
+  nix.nixPath = [ "nixpkgs=${inputs.nixpkgs.outPath}" "nixpkgs-stable=${inputs.nixpkgs-stable.outPath}" ];
   # https://discourse.nixos.org/t/problems-after-switching-to-flake-system/24093/7
   # nix.registry.nixpkgs.flake = "${inputs.nixpkgs}";
   # nix.registry.nixpkgs.flake = inputs.nixpkgs;

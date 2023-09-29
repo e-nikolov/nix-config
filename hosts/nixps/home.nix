@@ -257,6 +257,10 @@ in {
       terminal.integrated.tabs.enabled = true;
       workbench.colorTheme = "One Dark Pro Darker";
       workbench.iconTheme = "material-icon-theme";
+      "livePreview.httpHeaders" = {
+        Cross-Origin-Opener-Policy = "same-origin";
+        Cross-Origin-Embedder-Policy = "require-corp";
+      };
       workbench.editor.wrapTabs = true;
       workbench.editor.decorations.colors = true;
       local-history.path = "~/.vscode-history";
