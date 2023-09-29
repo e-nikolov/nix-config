@@ -1,17 +1,18 @@
-{
-  config,
-  pkgs,
-  id,
-  inputs,
-  lib,
-  ...
-}: let
+{ config
+, pkgs
+, id
+, inputs
+, lib
+, ...
+}:
+let
   yakuake_autostart = pkgs.makeAutostartItem {
     name = "yakuake";
     package = pkgs.yakuake;
     srcPrefix = "org.kde.";
   };
-in {
+in
+{
   imports = [
     inputs.plasma-manager.homeManagerModules.plasma-manager
     ../../modules/common/home.nix
@@ -226,7 +227,7 @@ in {
           downloadPage = "https://marketplace.visualstudio.com/items?itemName=k--kato.intellij-idea-keybindings";
           homepage = "https://github.com/kasecato/vscode-intellij-idea-keybindings#readme";
           license = licenses.mit;
-          maintainers = with maintainers; [];
+          maintainers = with maintainers; [ ];
         };
       })
     ];
@@ -448,141 +449,143 @@ in {
       };
     };
 
-    files."kglobalshortcutsrc" = {
-      "ksmserver"."Log Out" = "Meta+F4,Meta+F4,Log Out";
-      "kwin"."Window Maximize" = "Meta+Up,Meta+Up,Maximize Window";
-      "kwin"."Expose" = "Meta+F,,Expose";
-      "kwin"."Toggle Overview" = "Meta+F,Meta+F,Toggle Overview";
-      "yakuake".toggle-window-state = "Alt+\\\\\tAlt+„,F12,Open/Retract Yakuake";
-    };
-    files."kxkbrc" = {
-      Layout = {
-        Options = "caps:escape";
-        ResetOldOptions = true;
-        SwitchMode = "WinClass";
+    configFile = {
+      "kglobalshortcutsrc" = {
+        "ksmserver"."Log Out" = "Meta+F4,Meta+F4,Log Out";
+        "kwin"."Window Maximize" = "Meta+Up,Meta+Up,Maximize Window";
+        "kwin"."Expose" = "Meta+F,,Expose";
+        "kwin"."Toggle Overview" = "Meta+F,Meta+F,Toggle Overview";
+        "yakuake".toggle-window-state = "Alt+\\\\\tAlt+„,F12,Open/Retract Yakuake";
       };
-    };
-    files."plasmarc" = {
-      Theme.name = "breeze-dark";
-    };
+      "kxkbrc" = {
+        Layout = {
+          Options = "caps:escape";
+          ResetOldOptions = true;
+          SwitchMode = "WinClass";
+        };
+      };
+      "plasmarc" = {
+        Theme.name = "breeze-dark";
+      };
 
-    files."kwinrc" = {
-      TabBox = {
-        ActivitiesMode = "1";
-        ApplicationsMode = "0";
-        BorderActivate = "9";
-        BorderAlternativeActivate = "9";
-        DesktopMode = "1";
-        HighlightWindows = "true";
-        LayoutName = "thumbnail_grid";
-        MinimizedMode = "0";
-        MultiScreenMode = "0";
-        ShowDesktopMode = "0";
-        ShowTabBox = "true";
-        SwitchingMode = "0";
+      "kwinrc" = {
+        TabBox = {
+          ActivitiesMode = "1";
+          ApplicationsMode = "0";
+          BorderActivate = "9";
+          BorderAlternativeActivate = "9";
+          DesktopMode = "1";
+          HighlightWindows = "true";
+          LayoutName = "thumbnail_grid";
+          MinimizedMode = "0";
+          MultiScreenMode = "0";
+          ShowDesktopMode = "0";
+          ShowTabBox = "true";
+          SwitchingMode = "0";
+        };
+        TabBoxAlternative = {
+          ActivitiesMode = "1";
+          ApplicationsMode = "0";
+          DesktopMode = "1";
+          HighlightWindows = "true";
+          LayoutName = "thumbnails";
+          MinimizedMode = "0";
+          MultiScreenMode = "0";
+          ShowDesktopMode = "0";
+          ShowTabBox = "true";
+          SwitchingMode = "0";
+        };
       };
-      TabBoxAlternative = {
-        ActivitiesMode = "1";
-        ApplicationsMode = "0";
-        DesktopMode = "1";
-        HighlightWindows = "true";
-        LayoutName = "thumbnails";
-        MinimizedMode = "0";
-        MultiScreenMode = "0";
-        ShowDesktopMode = "0";
-        ShowTabBox = "true";
-        SwitchingMode = "0";
+      "plasma-org.kde.plasma.desktop-appletsrc" = {
+        "Containments.23.Applets.45" = {
+          immutability = "1";
+          plugin = "org.kde.plasma.taskmanager";
+        };
+        "Containments.23.Applets.45.Configuration.General" = {
+          middleClickAction = "ToggleGrouping";
+          showOnlyCurrentDesktop = true;
+          sortingStrategy = "1";
+        };
       };
-    };
-    files."plasma-org.kde.plasma.desktop-appletsrc" = {
-      "Containments.23.Applets.45" = {
-        immutability = "1";
-        plugin = "org.kde.plasma.taskmanager";
+      konsolerc = {
+        "Desktop Entry" = {
+          DefaultProfile = "termix.profile";
+        };
       };
-      "Containments.23.Applets.45.Configuration.General" = {
-        middleClickAction = "ToggleGrouping";
-        showOnlyCurrentDesktop = true;
-        sortingStrategy = "1";
+      yakuakerc = {
+        "Appearance" = {
+          HideSkinBorders = true;
+          TerminalHighlightOnManualActivation = true;
+        };
+        "Audio Preview Settings" = {
+          Autoplay = false;
+        };
+        "Behavior" = {
+          FocusFollowsMouse = true;
+          OpenAfterStart = true;
+          RememberFullscreen = true;
+        };
+        "Shortcuts" = {
+          close-session = "Ctrl+W";
+          edit-profile = "Ctrl+Alt+Shift+D";
+          new-session-quad = "Alt+]";
+          next-session = "Alt+Right";
+          next-terminal = "Ctrl+Shift+Down";
+          options_configure_keybinding = "Ctrl+Alt+S";
+          previous-session = "Alt+Left";
+          previous-terminal = "Ctrl+Shift+Up";
+          rename-session = "F2";
+          new-session = "Ctrl+Shift+T; Ctrl+T";
+        };
+        "Desktop Entry" = {
+          DefaultProfile = "termix.profile";
+        };
+        "Window" = {
+          DynamicTabTitles = true;
+          Height = 100;
+          KeepAbove = false;
+          KeepOpen = false;
+          KeepOpenAfterLastSessionCloses = true;
+          Width = 100;
+        };
       };
-    };
-    files.konsolerc = {
-      "Desktop Entry" = {
-        DefaultProfile = "termix.profile";
+      kscreenlockerrc = {
+        Daemon = {
+          Autolock = false;
+        };
       };
-    };
-    files.yakuakerc = {
-      "Appearance" = {
-        HideSkinBorders = true;
-        TerminalHighlightOnManualActivation = true;
-      };
-      "Audio Preview Settings" = {
-        Autoplay = false;
-      };
-      "Behavior" = {
-        FocusFollowsMouse = true;
-        OpenAfterStart = true;
-        RememberFullscreen = true;
-      };
-      "Shortcuts" = {
-        close-session = "Ctrl+W";
-        edit-profile = "Ctrl+Alt+Shift+D";
-        new-session-quad = "Alt+]";
-        next-session = "Alt+Right";
-        next-terminal = "Ctrl+Shift+Down";
-        options_configure_keybinding = "Ctrl+Alt+S";
-        previous-session = "Alt+Left";
-        previous-terminal = "Ctrl+Shift+Up";
-        rename-session = "F2";
-        new-session = "Ctrl+Shift+T; Ctrl+T";
-      };
-      "Desktop Entry" = {
-        DefaultProfile = "termix.profile";
-      };
-      "Window" = {
-        DynamicTabTitles = true;
-        Height = 100;
-        KeepAbove = false;
-        KeepOpen = false;
-        KeepOpenAfterLastSessionCloses = true;
-        Width = 100;
-      };
-    };
-    files.kscreenlockerrc = {
-      Daemon = {
-        Autolock = false;
-      };
-    };
-    files.powermanagementprofilesrc = {
-      "AC.DPMSControl" = {
-        idleTime = 3600;
-        lockBeforeTurnOff = 0;
-      };
-      "AC.DimDisplay" = {
-        idleTime = 3600000;
-      };
-      "AC.HandleButtonEvents" = {
-        lidAction = 32;
-        powerButtonAction = 16;
-        powerDownAction = 16;
-        triggerLidActionWhenExternalMonitorPresent = false;
-      };
-      "Battery.DPMSControl" = {
-        idleTime = 1500;
-        lockBeforeTurnOff = 0;
-      };
-      "Battery.DimDisplay" = {
-        idleTime = 900000;
-      };
-      "Battery.HandleButtonEvents" = {
-        lidAction = 1;
-        powerButtonAction = 16;
-        powerDownAction = 16;
-        triggerLidActionWhenExternalMonitorPresent = false;
-      };
-      "Battery.SuspendSession" = {
-        idleTime = 1800000;
-        suspendThenHibernate = false;
-        suspendType = 1;
+      powermanagementprofilesrc = {
+        "AC.DPMSControl" = {
+          idleTime = 3600;
+          lockBeforeTurnOff = 0;
+        };
+        "AC.DimDisplay" = {
+          idleTime = 3600000;
+        };
+        "AC.HandleButtonEvents" = {
+          lidAction = 32;
+          powerButtonAction = 16;
+          powerDownAction = 16;
+          triggerLidActionWhenExternalMonitorPresent = false;
+        };
+        "Battery.DPMSControl" = {
+          idleTime = 1500;
+          lockBeforeTurnOff = 0;
+        };
+        "Battery.DimDisplay" = {
+          idleTime = 900000;
+        };
+        "Battery.HandleButtonEvents" = {
+          lidAction = 1;
+          powerButtonAction = 16;
+          powerDownAction = 16;
+          triggerLidActionWhenExternalMonitorPresent = false;
+        };
+        "Battery.SuspendSession" = {
+          idleTime = 1800000;
+          suspendThenHibernate = false;
+          suspendType = 1;
+        };
       };
     };
   };

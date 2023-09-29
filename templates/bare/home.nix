@@ -1,10 +1,9 @@
-{
-  lib,
-  config,
-  options,
-  pkgs,
-  inputs,
-  ...
+{ lib
+, config
+, options
+, pkgs
+, inputs
+, ...
 }: {
   imports = [
     inputs.nix-index-database.hmModules.nix-index
@@ -12,11 +11,11 @@
 
   nix.package = lib.mkDefault pkgs.nixFlakes;
 
-  nix.settings.experimental-features = ["flakes" "nix-command" "repl-flake" "auto-allocate-uids"];
+  nix.settings.experimental-features = [ "flakes" "nix-command" "repl-flake" "auto-allocate-uids" ];
   nix.settings.keep-derivations = lib.mkDefault true;
   nix.settings.keep-outputs = lib.mkDefault true;
   nix.settings.auto-optimise-store = lib.mkDefault true;
-  nix.settings.nix-path = ["nixpkgs=${inputs.nixpkgs.outPath}" "nixpkgs-stable=${inputs.nixpkgs-stable.outPath}"];
+  nix.settings.nix-path = [ "nixpkgs=${inputs.nixpkgs.outPath}" "nixpkgs-stable=${inputs.nixpkgs-stable.outPath}" ];
   nix.settings.use-xdg-base-directories = lib.mkDefault true;
   nix.settings.log-lines = lib.mkDefault 20;
   targets.genericLinux.enable = lib.mkDefault true;
@@ -46,7 +45,7 @@
       # pkgs.hello
       # pkgs.cowsay
     ]
-    ++ [];
+    ++ [ ];
 
   home.sessionVariables = {
     NODE_PATH = lib.mkDefault "$HOME/.npm-packages/lib/node_modules";
