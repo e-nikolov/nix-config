@@ -1,21 +1,17 @@
-{ lib
-, config
-, options
-, pkgs
-, inputs
-, ...
-}: {
-  imports = [
-    inputs.nix-index-database.hmModules.nix-index
-  ];
+{ lib, config, options, pkgs, inputs, ... }: {
+  imports = [ inputs.nix-index-database.hmModules.nix-index ];
 
   nix.package = lib.mkDefault pkgs.nixFlakes;
 
-  nix.settings.experimental-features = [ "flakes" "nix-command" "repl-flake" "auto-allocate-uids" ];
+  nix.settings.experimental-features =
+    [ "flakes" "nix-command" "repl-flake" "auto-allocate-uids" ];
   nix.settings.keep-derivations = lib.mkDefault true;
   nix.settings.keep-outputs = lib.mkDefault true;
   nix.settings.auto-optimise-store = lib.mkDefault true;
-  nix.settings.nix-path = [ "nixpkgs=${inputs.nixpkgs.outPath}" "nixpkgs-stable=${inputs.nixpkgs-stable.outPath}" ];
+  nix.settings.nix-path = [
+    "nixpkgs=${inputs.nixpkgs.outPath}"
+    "nixpkgs-stable=${inputs.nixpkgs-stable.outPath}"
+  ];
   nix.settings.use-xdg-base-directories = lib.mkDefault true;
   nix.settings.log-lines = lib.mkDefault 20;
   targets.genericLinux.enable = lib.mkDefault true;
@@ -27,35 +23,32 @@
   programs.nix-index.enable = lib.mkDefault true;
   programs.nix-index-database.comma.enable = lib.mkDefault true;
 
-  home.packages =
-    [
-      ## * Add Packages here
+  home.packages = [
+    ## * Add Packages here
 
-      pkgs.nix
-      pkgs.jq
-      pkgs.direnv
-      pkgs.xclip
-      pkgs.bash-completion
-      pkgs.sops
-      pkgs.age
-      pkgs.nixos-option
-      pkgs.nix-doc
-      pkgs.git
-      # pkgs.fortune
-      # pkgs.hello
-      # pkgs.cowsay
-    ]
-    ++ [ ];
+    pkgs.nix
+    pkgs.jq
+    pkgs.direnv
+    pkgs.xclip
+    pkgs.bash-completion
+    pkgs.sops
+    pkgs.age
+    pkgs.nixos-option
+    pkgs.nix-doc
+    pkgs.git
+    pkgs.tmux
+    # pkgs.fortune
+    # pkgs.hello
+    # pkgs.cowsay
+  ] ++ [ ];
 
   home.sessionVariables = {
     NODE_PATH = lib.mkDefault "$HOME/.npm-packages/lib/node_modules";
     HOME_MANAGER_CONFIG = lib.mkDefault "$HOME/nix-config";
   };
 
-  home.sessionPath = lib.mkDefault [
-    "$HOME/.local/bin"
-    "$HOME/.npm-packages/bin"
-  ];
+  home.sessionPath =
+    lib.mkDefault [ "$HOME/.local/bin" "$HOME/.npm-packages/bin" ];
 
   # meta.priority = 4;
 

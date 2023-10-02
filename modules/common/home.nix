@@ -3,8 +3,7 @@ let
   inherit (inputs.nix-colors) colorSchemes;
   inherit (inputs.nix-colors.lib-contrib { inherit pkgs; })
     colorschemeFromPicture nixWallpaperFromScheme;
-in
-{
+in {
   imports = [
     ../minimal/home.nix
     ../home-manager/nvim
@@ -117,6 +116,9 @@ in
     "aarch64-linux"
     "i686-linux"
   ];
+
+  home.sessionVariables = { EDITOR = "code"; };
+
   nix.settings.cores = 6;
   home.shellAliases = {
     k = "kubectl";
