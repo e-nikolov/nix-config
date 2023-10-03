@@ -655,6 +655,7 @@
       bindkey '^G' fzf-file-widget
       bindkey '^P' fzf-process-widget
       bindkey '^O' fzf-port-widget
+      bindkey '^H' backward-kill-word
 
       autoload -U select-word-style
       select-word-style bash
