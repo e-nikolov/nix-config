@@ -54,6 +54,7 @@ in
     pkgs.libsForQt5.kaccounts-integration
     pkgs.obsidian
     pkgs.vivaldi
+    pkgs.microsoft-edge-beta
     pkgs.microsoft-edge
     pkgs.popcorntime
 
@@ -254,7 +255,8 @@ in
       bracket-pair-colorizer-2.highlightActiveScope = true;
       editor.mouseWheelZoom = true;
 
-      terminal.integrated.fontFamily = "'MesloLGS NF'";
+      # terminal.integrated.fontFamily = "'MesloLGS NF'";
+      terminal.integrated.fontFamily = "'Fira Code'";
       terminal.integrated.tabs.enabled = true;
       workbench.colorTheme = "One Dark Pro Darker";
       workbench.iconTheme = "material-icon-theme";

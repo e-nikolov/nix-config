@@ -3,7 +3,8 @@ let
   inherit (inputs.nix-colors) colorSchemes;
   inherit (inputs.nix-colors.lib-contrib { inherit pkgs; })
     colorschemeFromPicture nixWallpaperFromScheme;
-in {
+in
+{
   imports = [
     ../minimal/home.nix
     ../home-manager/nvim
@@ -135,6 +136,7 @@ in {
     '';
 
     initExtra = ''
+      # export EDITOR="code"
       command -v wg > /dev/null && . ${config.home.profileDirectory}/share/bash-completion/completions/wg
       command -v wg-quick > /dev/null && . ${config.home.profileDirectory}/share/bash-completion/completions/wg-quick
 
