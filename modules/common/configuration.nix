@@ -1,15 +1,6 @@
-{ lib
-, pkgs
-, config
-, modulesPath
-, inputs
-, values
-, ...
-}:
+{ lib, pkgs, config, modulesPath, inputs, values, ... }:
 with lib; {
-  imports = [
-    inputs.sops-nix.nixosModules.sops
-  ];
+  imports = [ inputs.sops-nix.nixosModules.sops ];
 
   sops.defaultSopsFile = ../../secrets/secrets.yaml;
 
@@ -39,16 +30,14 @@ with lib; {
     git
     wget
     golink
-    (cowsay.overrideAttrs
-      (old: {
-        __contentAddressable = true;
-      }))
+    (cowsay.overrideAttrs (old: { __contentAddressable = true; }))
   ];
   documentation.dev.enable = true;
   documentation.man.enable = true;
   documentation.enable = true;
   documentation.man.mandoc.enable = true;
   documentation.man.man-db.enable = false;
+  programs.ssh.enableAskPassword = true;
   # Enable nix flakes
   # nix.package = pkgs.nixFlakes;
   nix.extraOptions = ''
@@ -56,7 +45,10 @@ with lib; {
   '';
 
   # https://github.com/nix-community/nix-index/issues/212
-  nix.nixPath = [ "nixpkgs=${inputs.nixpkgs.outPath}" "nixpkgs-stable=${inputs.nixpkgs-stable.outPath}" ];
+  nix.nixPath = [
+    "nixpkgs=${inputs.nixpkgs.outPath}"
+    "nixpkgs-stable=${inputs.nixpkgs-stable.outPath}"
+  ];
   # https://discourse.nixos.org/t/problems-after-switching-to-flake-system/24093/7
   # nix.registry.nixpkgs.flake = "${inputs.nixpkgs}";
   # nix.registry.nixpkgs.flake = inputs.nixpkgs;

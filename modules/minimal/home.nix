@@ -516,7 +516,8 @@
       zle -N fzf-port-widget
 
       WORDCHARS=""
-      STATEMENTCHARS="@:\"'~=#$%^&*+_-;."
+      STATEMENTCHARS="@\,:\"'~=!#$%^&*?+_-/;."
+      # STATEMENTCHARS="@\,:\"'~=!#$%^&*?+_-/;.(){}[]<>"
 
       backward-delete-statement () {
           local WORDCHARS=$STATEMENTCHARS
