@@ -9,6 +9,7 @@
 }: {
   imports = [
     # Include the results of the hardware scan.
+    ../../modules/nixos/keyd
     ../../modules/common/configuration.nix
     inputs.nixos-hardware.nixosModules.dell-xps-15-9560-intel
     ./hardware-configuration.nix
@@ -44,16 +45,56 @@
     jack.enable = true;
   };
 
-  programs.zsh.enable = true;
-  users.defaultUserShell = pkgs.zsh;
+  services.keyd2.enable = true;
+  services.keyd2.keyboards = {
+    default = {
+      ids = [ "*" ];
+      settings = {
+        main = {
+          capslock = "overload(control, esc)";
+          # o = "macro(321)";
+          # n = "command(ydotool type 321)";
+        };
+
+        control = { };
+        alt = { };
+        "control+alt" = { };
+
+        # alt = {
+        #   "4" = "command(/home/enikolov/.local/state/nix/profile/bin/xkblayout-state set +1)";
+        #   "5" = "macro(321)";
+        # };
+
+        # "microsoft-edge-beta" = {
+        #   "ctrl.alt.left" = "C-S-k";
+        #   "ctrl.alt.right" = "C-S-l";
+        # };
+      };
+    };
+    # externalKeyboard = {
+    #   ids = [ "1ea7:0907" ];
+    #   settings = {
+    #     main = {
+    #       esc = capslock;
+    #     };
+    #   };
+    # };
+  };
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.${values.username} = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "podman" "audio" ]; # Enable ‘sudo’ for the user.
+    extraGroups = [
+      "wheel" # Enable ‘sudo’ for the user.
+      "podman"
+      "audio"
+      "keyd"
+    ];
     packages = with pkgs; [
     ];
   };
+
+  # users.groups.keyd = { gid = 33201; };
 
   hardware.bluetooth.enable = true;
   services.blueman.enable = true;
@@ -90,6 +131,12 @@
   services.xserver.displayManager.sddm.enable = true;
   services.xserver.desktopManager.plasma5.runUsingSystemd = true;
   # services.xserver.xkbOptions = "caps:escape";
+
+
+  programs.hyprland = {
+    enable = true;
+    xwayland.enable = true;
+  };
 
   programs.partition-manager.enable = true;
 
@@ -131,7 +178,17 @@
     micro
     yakuake
     konsole
+    keyd
     plymouth
+
+    pciutils
+    waybar
+
+    dunst
+    kmod
+    mako
+    ydotool
+    xdotool
 
     miraclecast
     gnome-network-displays

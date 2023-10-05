@@ -39,6 +39,8 @@
                 allowUnfree = true;
               };
               overlays = [
+                (import ./overlays { inherit inputs outputs; }).additions
+
                 inputs.nix-alien.overlays.default
                 inputs.golink.overlay
 
@@ -116,7 +118,6 @@
                   (args // { inherit pkgs specialArgs; })));
           in
           {
-            overlays = import ./overlays { inherit inputs outputs; };
 
             homeConfigurations = {
               "${values.username}@home-nix" =

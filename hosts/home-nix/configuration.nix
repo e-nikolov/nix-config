@@ -39,10 +39,6 @@ with lib; {
   networking.hostName = "home-nix";
   services.tailscale.enable = true;
   # programs.ssh.startAgent = true;
-  programs.zsh = {
-    # enableBashCompletion = true;
-    enable = true;
-  };
 
   sops.secrets."services/golink/auth_key" = {
     owner = config.services.golink.user;
@@ -77,7 +73,6 @@ with lib; {
   programs.mosh.enable = true;
   programs._1password.enable = true;
   programs._1password-gui.enable = true;
-  users.defaultUserShell = pkgs.zsh;
   users.users.${values.username}.extraGroups = ["wheel" "docker" "onepassword-cli" "onepassword"];
   programs.git.enable = true;
   # Set your time zone.

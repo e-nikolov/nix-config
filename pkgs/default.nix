@@ -3,4 +3,5 @@
 { pkgs }:
 {
   # example = pkgs.callPackage ./example { };
+  swhkd = pkgs.callPackage ./swhkd.nix { };
 }

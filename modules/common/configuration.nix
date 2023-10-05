@@ -14,6 +14,7 @@ with lib; {
     # enableBashCompletion = true;
     enable = true;
   };
+  users.defaultUserShell = pkgs.zsh;
 
   security.polkit.enable = true;
   #programs._1password-gui.polkitPolicyOwners = [ values.username ];
@@ -21,7 +22,6 @@ with lib; {
   programs.mosh.enable = true;
   programs._1password.enable = true;
   programs._1password-gui.enable = true;
-  users.defaultUserShell = pkgs.zsh;
   #users.users."${values.username}".extraGroups = [ "wheel" "docker" "onepassword-cli" "onepassword" ];
   programs.git.enable = true;
   environment.systemPackages = with pkgs; [

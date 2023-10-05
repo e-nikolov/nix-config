@@ -47,8 +47,8 @@
     HOME_MANAGER_CONFIG = lib.mkDefault "$HOME/nix-config";
   };
 
-  home.sessionPath =
-    lib.mkDefault [ "$HOME/.local/bin" "$HOME/.npm-packages/bin" ];
+  # FIXME: This is not working for zsh
+  home.sessionPath = [ "$HOME/.local/bin" "$HOME/.npm-packages/bin" ];
 
   # meta.priority = 4;
 
