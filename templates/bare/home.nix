@@ -53,6 +53,7 @@
   # meta.priority = 4;
 
   home.shellAliases = {
+    nfe = lib.mkDefault "$EDITOR ~/nix-config/ ";
     ne = lib.mkDefault "$EDITOR ~/nix-config/ ";
     nfu = lib.mkDefault "nix flake update ~/nix-config ";
     nh = lib.mkDefault "home-manager --flake ~/nix-config ";
