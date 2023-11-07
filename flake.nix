@@ -20,7 +20,10 @@
         let
           pkgs-stable = import nixpkgs-stable {
             inherit system;
-            config = { allowUnfree = false; };
+            config = {
+              permittedInsecurePackages = [ "openssl-1.1.1w" ];
+              allowUnfree = false;
+            };
           };
           pkgs = import nixpkgs {
             inherit system;

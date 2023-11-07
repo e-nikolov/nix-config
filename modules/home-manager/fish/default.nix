@@ -104,8 +104,8 @@
         src = pkgs.fetchFromGitHub {
           owner = "PatrickF1";
           repo = "fzf.fish";
-          rev = "main";
-          sha256 = "sha256-nTiFD8vWjafYE4HNemyoUr+4SgsqN3lIJlNX6IGk+aQ=";
+          rev = "85503fbc4b6026c616dd5dc8ebb4cfb82e1ef16c";
+          sha256 = "sha256-1/MLKkUHe4c9YLDrH+cnL+pLiSOSERbIZSM4FTG3wF0=";
         };
       }
       {
@@ -113,7 +113,7 @@
         src = pkgs.fetchFromGitHub {
           owner = "jorgebucaran";
           repo = "autopair.fish";
-          rev = "main";
+          rev = "4d1752ff5b39819ab58d7337c69220342e9de0e2";
           sha256 = "sha256-qt3t1iKRRNuiLWiVoiAYOu+9E7jsyECyIqZJ/oRIT1A=";
         };
       }
@@ -122,7 +122,7 @@
         src = pkgs.fetchFromGitHub {
           owner = "Gazorby";
           repo = "fish-abbreviation-tips";
-          rev = "master";
+          rev = "8ed76a62bb044ba4ad8e3e6832640178880df485";
           sha256 = "sha256-F1t81VliD+v6WEWqj1c1ehFBXzqLyumx5vV46s/FZRU=";
         };
       }
@@ -131,7 +131,7 @@
         src = pkgs.fetchFromGitHub {
           owner = "oh-my-fish";
           repo = "plugin-fasd";
-          rev = "master";
+          rev = "98c4c729780d8bd0a86031db7d51a97d55025cf5";
           sha256 = "sha256-8JASaNylXAGnWd2IV88juk73b8eJJlVrpyiRZUwHGFQ=";
         };
       }
