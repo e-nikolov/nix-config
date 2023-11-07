@@ -558,8 +558,10 @@
 
       PROMPT_EOL_MARK=""
       POWERLEVEL9K_TERM_SHELL_INTEGRATION=true
-      POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(os_icon shell_level nix_shell dir vcs newline prompt_char)
-      POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(newline status root_indicator command_execution_time background_jobs history direnv goenv nodeenv fvm kubecontext terraform context nordvpn nnn midnight_commander time newline go_version)
+      POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(os_icon context root_indicator direnv shell_level nix_shell dir vcs newline prompt_char)
+      POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(newline status command_execution_time background_jobs history  goenv nodeenv fvm kubecontext terraform nordvpn nnn midnight_commander time go_version newline)
+
+
       # POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status command_execution_time direnv kubecontext context nix_shell time)
 
       export ZSH_WEB_SEARCH_ENGINES=(nixpkgs "https://search.nixos.org/packages?channel=unstable&from=0&size=50&sort=relevance&type=packages&query=")
