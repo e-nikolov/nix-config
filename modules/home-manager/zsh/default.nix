@@ -1,4 +1,6 @@
 { config, pkgs, lib, pkgs-stable, inputs, ... }@args: {
+  imports = [ ./extra.nix ];
+
   home.packages = [
     pkgs.direnv
     pkgs.xclip
@@ -13,14 +15,23 @@
     pkgs.zsh-you-should-use
     pkgs.zsh-completions
   ] ++ [ ];
-  programs.fzf.enable = true;
-  programs.yazi.enable = true;
-  programs.yazi.enableZshIntegration = true;
-  programs.zoxide.enable = true;
-  programs.zoxide.enableZshIntegration = true;
+  programs.fzf = {
+    enable = true;
+    historyWidgetOptions = [ "--reverse" ];
+    fileWidgetOptions = [
+      "--height=80% --preview='[[ -d {} ]] && eza -lh --group-directories-first --color always --icons --classify --time-style relative --created --changed {} || bat {} --color=always' "
+    ];
+    tmux.enableShellIntegration = true;
+    # defaultOptions = [ "--ansi" "--height=60%" ];
+    defaultOptions = [ "--ansi" ];
+    colors = {
+      bg = "#1e1e1e";
+      "bg+" = "#1e1e1e";
+      fg = "#d4d4d4";
+      "fg+" = "#d4d4d4";
+    };
 
-  programs.direnv.enable = true;
-  programs.direnv.nix-direnv.enable = true;
+  };
 
   home.shellAliases = {
     xargs = "xargs ";
@@ -86,6 +97,13 @@
     enable = true;
     enableAutosuggestions = true;
     enableVteIntegration = true;
+
+    history = {
+      size = 10000;
+      path = "$HOME/.zsh_history";
+      ignoreAllDups = true;
+      ignoreSpace = true;
+    };
 
     initExtraFirst = ''
       command -v direnv > /dev/null && eval "$(${config.programs.direnv.package}/bin/direnv export zsh)"
@@ -231,8 +249,8 @@
         src = pkgs.fetchFromGitHub {
           owner = "trystan2k";
           repo = "zsh-tab-title";
-          rev = "6e532a48e46ae56daec18255512dd8d0597f4aa6";
-          sha256 = "sha256-nlumBGteG4RcQI0xLLFk6AZbz1TsBc2naTMlPdTCpEk=";
+          rev = "3b247abde7a7e776833423f5316d357952450025";
+          sha256 = "sha256-bSj2172LVXUPLE9YEQoNWIkCck3TbuVYXL5u3uySeZY=";
         };
       }
       (omzp "sudo")
@@ -264,7 +282,6 @@
       setopt ALWAYS_TO_END
       setopt NO_LIST_BEEP
       setopt LIST_PACKED
-      setopt HIST_IGNORE_ALL_DUPS
     '';
 
     initExtra = ''
@@ -541,19 +558,15 @@
 
       PROMPT_EOL_MARK=""
       POWERLEVEL9K_TERM_SHELL_INTEGRATION=true
-      POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(shell_level os_icon dir vcs newline prompt_char)
-      POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(newline status root_indicator command_execution_time background_jobs history direnv goenv nodeenv fvm kubecontext terraform context nordvpn nnn midnight_commander nix_shell time newline go_version)
+      POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(os_icon shell_level nix_shell dir vcs newline prompt_char)
+      POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(newline status root_indicator command_execution_time background_jobs history direnv goenv nodeenv fvm kubecontext terraform context nordvpn nnn midnight_commander time newline go_version)
       # POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status command_execution_time direnv kubecontext context nix_shell time)
 
       export ZSH_WEB_SEARCH_ENGINES=(nixpkgs "https://search.nixos.org/packages?channel=unstable&from=0&size=50&sort=relevance&type=packages&query=")
 
       [ -f  ~/nix-config/dotfiles/.zshrc ] && source ~/nix-config/dotfiles/.zshrc
-    '';
 
-    history = {
-      size = 10000;
-      path = "$HOME/.zsh_history";
-      ignoreDups = true;
-    };
+      export ZSH_AUTOSUGGEST_USE_ASYNC=on
+    '';
   };
 }

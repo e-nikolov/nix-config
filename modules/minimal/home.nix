@@ -1,5 +1,11 @@
 { config, pkgs, lib, pkgs-stable, inputs, ... }@args: {
-  imports = [ ../bare/home.nix ../home-manager/zsh ../home-manager/bash ];
+  imports = [
+    ../bare/home.nix
+    ../home-manager/zsh
+    ../home-manager/fish
+    ../home-manager/bash
+    ../home-manager/zellij
+  ];
   programs.home-manager.enable = true;
 
   home.packages = [
@@ -22,6 +28,7 @@
     pkgs.lsof
     pkgs.meslo-lgs-nf
     pkgs.fira-code
+    pkgs.jetbrains-mono
     pkgs.neofetch
     pkgs.sops
     pkgs.age
@@ -29,6 +36,10 @@
     pkgs.nixos-option
     pkgs.nix-doc
     pkgs.xdg-utils
+    pkgs.delta
+    pkgs.most
+    pkgs.readline
+    pkgs.fasd
 
     # pkgs.fortune
     # pkgs.hello
@@ -38,43 +49,17 @@
   xdg.enable = true;
 
   programs.htop.enable = true;
-  programs.zellij.enable = true;
-  programs.zellij.settings = {
-    # copy_on_select = false;
-    default_layout = "compact";
-
-    keybinds = {
-      unbind = [
-        "Alt Left"
-        "Alt Right"
-        "Ctrl 1"
-        "Ctrl 3"
-        "Ctrl 5"
-        "Ctrl 2"
-        "Ctrl h"
-        "Alt ["
-      ];
-      normal = {
-        "bind \"Ctrl 1\"" = { MoveFocusOrTab = "Left"; };
-        "bind \"Ctrl 3\"" = { MoveFocusOrTab = "Right"; };
-        "bind \"Ctrl 5\"" = { MoveFocus = "Down"; };
-        "bind \"Ctrl 2\"" = { MoveFocus = "Up"; };
-        "bind \"Ctrl e\"" = { SwitchToMode = "Tab"; };
-        "bind \"Alt t\"" = { NewTab = ""; };
-        "bind \"Ctrl [\"" = { PreviousSwapLayout = ""; };
-        "bind \"Ctrl ]\"" = { NextSwapLayout = ""; };
-      };
-    };
-  };
 
   programs.git = {
     enable = true;
-    difftastic = {
-      enable = true;
-      background = "dark";
-      color = "always";
-      display = "side-by-side-show-both";
-    };
+    # difftastic = {
+    #   enable = true;
+    #   background = "dark";
+    #   color = "always";
+    #   display = "side-by-side-show-both";
+    # };
+
+    delta.enable = true;
 
     extraConfig = {
       core = { editor = lib.mkDefault "micro"; };
@@ -84,11 +69,7 @@
     };
   };
 
-  programs.gitui.enable = true;
-  programs.pls.enable = true;
-  # programs.carapace.enable = true;
-  programs.eza = { enable = true; };
-
+  services.ssh-agent.enable = true;
   programs.ssh = {
     forwardAgent = lib.mkDefault true;
     enable = lib.mkDefault true;
@@ -97,9 +78,28 @@
     '';
   };
 
-  fonts.fontconfig.enable = true;
+  programs.starship.enable = true;
+  programs.starship.enableTransience = true;
+  programs.starship.enableZshIntegration = false;
+  programs.ion.enable = true;
 
-  services.ssh-agent.enable = true;
+  programs.yazi.enable = true;
+  programs.yazi.enableZshIntegration = true;
+  programs.yazi.enableBashIntegration = true;
+  programs.yazi.enableNushellIntegration = true;
+  programs.yazi.enableFishIntegration = true;
+  programs.zoxide.enable = true;
+  programs.zoxide.enableZshIntegration = true;
+
+  programs.direnv.enable = true;
+  programs.direnv.nix-direnv.enable = true;
+  # programs.readline.enable = true;
+  # programs.gitui.enable = true;
+  # programs.pls.enable = true;
+  # programs.carapace.enable = true;
+  programs.eza = { enable = true; };
+
+  fonts.fontconfig.enable = true;
 
   # This value determines the Home Manager release that your
   # configuration is compatible with. This helps avoid breakage

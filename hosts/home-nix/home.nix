@@ -1,13 +1,5 @@
-{
-  config,
-  pkgs,
-  id,
-  inputs,
-  ...
-}: {
-  imports = [
-    ../../modules/common/home.nix
-  ];
+{ config, pkgs, id, inputs, ... }: {
+  imports = [ ../../modules/common/home.nix ];
 
   home.packages = [
     # pkgs.libsForQt5.kate
@@ -20,46 +12,24 @@
 
   programs.zsh = {
     initExtra = ''
-      export PATH=/bin:$PATH
       ### Windows WSL2 ###
-          if grep -qEi "(Microsoft|WSL)" /proc/sys/kernel/osrelease &> /dev/null ; then
-              keep_current_path() {
-            printf "\e]9;9;%s\e\\" "$(wslpath -w "$PWD")"
-          }
-          precmd_functions+=(keep_current_path)
-          # bindkey '^[[3;5~' kill-word
+      if grep -qEi "(Microsoft|WSL)" /proc/sys/kernel/osrelease &> /dev/null ; then
+        keep_current_path() {
+          printf "\e]9;9;%s\e\\" "$(wslpath -w "$PWD")"
+        }
+        precmd_functions+=(keep_current_path)
 
-          # if [ ! $VSCODE_GIT_ASKPASS_MAIN ]; then
-          #     bindkey '^H' backward-kill-word
-          # fi
+        e() {
+          explorer.exe $(wslpath -w $*)
+        }
 
-          e() {
-              explorer.exe $(wslpath -w $*)
-          }
+        subl() {
+          subl.exe $(wp $*)
+        }
 
-          subl() {
-              subl.exe $(wp $*)
-          }
-
-          wp() {
-              wslpath -w $* | sed s/wsl.localhost/wsl$/g
-          }
-
-          goland() {
-              powershell.exe -Command "cd C:/; goland.cmd $(wp $*)"
-          }
-
-          # test() {
-          #     cmd.exe /C echo $(wslpath -w . | sed s/wsl.localhost/wsl$/g)
-          # }
-
-          # xc() {
-          #     clip.exe
-          # }
-
-          # xco() {
-          #     powershell.exe -command "Get-Clipboard"
-          # }
+        wp() {
+          wslpath -w $* | sed s/wsl.localhost/wsl$/g
+        }
       fi
     '';
   };

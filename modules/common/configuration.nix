@@ -11,8 +11,12 @@ with lib; {
   networking.firewall.checkReversePath = "loose";
   services.tailscale.enable = true;
   programs.zsh = {
-    # enableBashCompletion = true;
     enable = true;
+    enableBashCompletion = true;
+  };
+  programs.bash = {
+    vteIntegration = true;
+    # blesh.enable = true; # bugged
   };
   users.defaultUserShell = pkgs.zsh;
 

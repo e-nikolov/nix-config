@@ -6,6 +6,9 @@
       inherit (self) outputs;
     in flake-parts.lib.mkFlake { inherit inputs; }
     ({ withSystem, flake-parts-lib, ... }: {
+
+      imports = [ inputs.devenv.flakeModule ];
+
       systems = [
         "aarch64-darwin"
         "aarch64-linux"
@@ -32,6 +35,7 @@
               inputs.golink.overlay
 
               (final: prev: {
+                inherit (inputs.devenv.packages.${system}) devenv;
                 inherit (inputs.plasma-manager.packages.${system}) rc2nix;
               })
             ];
@@ -166,6 +170,8 @@
       url = "github:edolstra/flake-compat";
       flake = false;
     };
+
+    devenv.url = "github:cachix/devenv";
 
     plasma-manager.url = "github:pjones/plasma-manager";
     plasma-manager.inputs.nixpkgs.follows = "nixpkgs";

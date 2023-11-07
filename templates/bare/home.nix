@@ -20,7 +20,6 @@
   programs.home-manager.enable = lib.mkDefault true;
   programs.direnv.enable = lib.mkDefault true;
   programs.direnv.nix-direnv.enable = lib.mkDefault true;
-  programs.nix-index.enable = lib.mkDefault true;
   programs.nix-index-database.comma.enable = lib.mkDefault true;
 
   home.packages = [
@@ -37,6 +36,17 @@
     pkgs.nix-doc
     pkgs.git
     pkgs.tmux
+    pkgs.skim
+    pkgs.fzy
+    (pkgs.stdenv.mkDerivation {
+      name = "nix-index";
+      buildInputs = [ pkgs.nix-index-unwrapped ];
+      buildCommand = ''
+        mkdir -p $out/bin
+        cp ${pkgs.nix-index-unwrapped}/bin/nix-index $out/bin/
+      '';
+    })
+    # pkgs.nix-index
     # pkgs.fortune
     # pkgs.hello
     # pkgs.cowsay
