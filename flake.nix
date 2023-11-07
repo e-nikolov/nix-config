@@ -29,6 +29,7 @@
             inherit system;
             config = {
               permittedInsecurePackages = [ "openssl-1.1.1w" ];
+              allowInsecure = true;
               allowUnfree = true;
             };
             overlays = [
