@@ -7,6 +7,7 @@
     ../home-manager/zellij
   ];
   programs.home-manager.enable = true;
+  nixpkgs.config.permittedInsecurePackages = [ pkgs.openssl.name ];
 
   home.packages = [
     pkgs.nix
