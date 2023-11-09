@@ -20,18 +20,11 @@
         let
           pkgs-stable = import nixpkgs-stable {
             inherit system;
-            config = {
-              permittedInsecurePackages = [ "openssl-1.1.1w" ];
-              allowUnfree = false;
-            };
+            config = { allowUnfree = false; };
           };
           pkgs = import nixpkgs {
             inherit system;
-            config = {
-              permittedInsecurePackages = [ "openssl-1.1.1w" ];
-              allowInsecure = true;
-              allowUnfree = true;
-            };
+            config = { allowUnfree = true; };
             overlays = [
               (import ./overlays { inherit inputs outputs; }).additions
 
