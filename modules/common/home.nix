@@ -4,6 +4,12 @@ let
   inherit (inputs.nix-colors.lib-contrib { inherit pkgs; })
     colorschemeFromPicture nixWallpaperFromScheme;
 in {
+  news.display = "silent";
+
+  # disabledModules = [
+  #   "misc/news.nix" # https://github.com/nix-community/home-manager/issues/2033
+  # ];
+
   imports = [
     ../minimal/home.nix
     ../home-manager/nvim
@@ -16,12 +22,13 @@ in {
     overlays = builtins.attrValues outputs.overlays;
     config = { allowUnfree = true; };
   };
-
   colorscheme = lib.mkDefault colorSchemes.dracula;
 
   home.packages = [
+    pkgs.bashInteractiveFHS
+    pkgs.nil
+    pkgs.nixd
     # THESIS ##
-
 
     # EDITORS ##
     # pkgs.inkscape
@@ -38,6 +45,7 @@ in {
     pkgs.wireguard-go
     pkgs.coturn
     pkgs.devenv
+    pkgs.bun2
     # pkgs.terraform
     # pkgs.nebula
     # pkgs.python3Packages.autopep8
@@ -54,7 +62,7 @@ in {
     # pkgs.devbox
     # pkgs.asdf-vm
 
-    pkgs.docker
+    # pkgs.docker
     pkgs.docker-compose
     pkgs.containerd
     pkgs.runc
@@ -118,10 +126,11 @@ in {
     "i686-linux"
   ];
 
-  home.sessionVariables = { EDITOR = "code"; };
+  home.sessionVariables = { EDITOR = "code-insiders"; };
 
-  nix.settings.cores = 6;
+  nix.settings.cores = 4;
   home.shellAliases = {
+    code = "code-insiders ";
     k = "kubectl";
     kx = "kubectx";
     kn = "kubens";
@@ -135,7 +144,6 @@ in {
   programs.neovim.vimdiffAlias = true;
   programs.neovim.withPython3 = true;
   programs.neovim.withNodeJs = true;
-
   programs.git = {
     signing = {
       signByDefault = true;

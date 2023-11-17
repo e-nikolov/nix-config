@@ -30,8 +30,11 @@
 
               inputs.nix-alien.overlays.default
               inputs.golink.overlay
+              # inputs.nil.overlays.default
+              # inputs.nixd.overlays.default
 
               (final: prev: {
+                # inherit (inputs.nil.packages.${system}) nil;
                 inherit (inputs.devenv.packages.${system}) devenv;
                 inherit (inputs.plasma-manager.packages.${system}) rc2nix;
               })
@@ -157,6 +160,8 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-23.05";
+    # nil.url = "github:oxalica/nil/main";
+    # nixd.url = "github:nix-community/nixd";
 
     home-manager = {
       url = "github:nix-community/home-manager/master";
@@ -164,7 +169,7 @@
     };
     flake-utils.url = "github:numtide/flake-utils";
     flake-compat = {
-      url = "github:edolstra/flake-compat";
+      url = "github:inclyc/flake-compat";
       flake = false;
     };
 

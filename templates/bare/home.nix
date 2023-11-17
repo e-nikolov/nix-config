@@ -10,7 +10,7 @@
   nix.settings.auto-optimise-store = lib.mkDefault true;
   nix.settings.nix-path = [
     "nixpkgs=${inputs.nixpkgs.outPath}"
-    "nixpkgs-stable=${inputs.nixpkgs-stable.outPath}"
+    # "nixpkgs-stable=${inputs.nixpkgs-stable.outPath}"
   ];
   nix.settings.use-xdg-base-directories = lib.mkDefault true;
   nix.settings.log-lines = lib.mkDefault 20;

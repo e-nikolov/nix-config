@@ -21,7 +21,7 @@
     fileWidgetOptions = [
       "--height=80% --preview='[[ -d {} ]] && eza -lh --group-directories-first --color always --icons --classify --time-style relative --created --changed {} || bat {} --color=always' "
     ];
-    tmux.enableShellIntegration = true;
+    # tmux.enableShellIntegration = true;
     # defaultOptions = [ "--ansi" "--height=60%" ];
     defaultOptions = [ "--ansi" ];
     colors = {
@@ -117,12 +117,12 @@
 
       export GPG_TTY=$TTY
 
-      zstyle :omz:plugins:ssh-agent agent-forwarding yes
-      zstyle :omz:plugins:ssh-agent helper ksshaskpass
-      zstyle :omz:plugins:ssh-agent lazy yes
-      zstyle :omz:plugins:ssh-agent quiet yes
-      zstyle :omz:plugins:ssh-agent lifetime 5h
-      zstyle :omz:plugins:ssh-agent identities id_rsa
+      # zstyle :omz:plugins:ssh-agent agent-forwarding yes
+      # zstyle :omz:plugins:ssh-agent helper ksshaskpass
+      # zstyle :omz:plugins:ssh-agent lazy yes
+      # zstyle :omz:plugins:ssh-agent quiet yes
+      # zstyle :omz:plugins:ssh-agent lifetime 5h
+      # zstyle :omz:plugins:ssh-agent identities id_rsa
 
       # Stolen from ArchWiki
 
@@ -260,7 +260,7 @@
       (omzp "golang")
       (omzl "git-lib" "git.zsh")
       (omzp "git")
-      (omzp "ssh-agent")
+      # (omzp "ssh-agent")
       (omzp "colored-man-pages")
     ];
 
@@ -569,6 +569,8 @@
       [ -f  ~/nix-config/dotfiles/.zshrc ] && source ~/nix-config/dotfiles/.zshrc
 
       export ZSH_AUTOSUGGEST_USE_ASYNC=on
+
+      export PATH=$PATH:$HOME/.local/bin
     '';
   };
 }

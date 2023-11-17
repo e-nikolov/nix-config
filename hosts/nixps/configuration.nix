@@ -1,12 +1,7 @@
 # Edit this configuration file to define what should be installed on
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
-{ config
-, pkgs
-, inputs
-, values
-, ...
-}: {
+{ config, pkgs, inputs, values, ... }: {
   imports = [
     # Include the results of the hardware scan.
     ../../modules/nixos/keyd
@@ -31,9 +26,7 @@
         '';
       };
     };
-    efi = {
-      canTouchEfiVariables = true;
-    };
+    efi = { canTouchEfiVariables = true; };
   };
   security.rtkit.enable = true;
   services.pipewire = {
@@ -90,8 +83,7 @@
       "audio"
       "keyd"
     ];
-    packages = with pkgs; [
-    ];
+    packages = with pkgs; [ ];
   };
 
   # users.groups.keyd = { gid = 33201; };
@@ -101,7 +93,8 @@
 
   networking.hostName = "nixps"; # Define your hostname.
   networking.hostId = "a96153f9";
-  networking.networkmanager.enable = true; # Easiest to use and most distros use this by default.
+  networking.networkmanager.enable =
+    true; # Easiest to use and most distros use this by default.
 
   # Set your time zone.
   time.timeZone = "Europe/Amsterdam";
@@ -131,7 +124,6 @@
   services.xserver.displayManager.sddm.enable = true;
   services.xserver.desktopManager.plasma5.runUsingSystemd = true;
   # services.xserver.xkbOptions = "caps:escape";
-
 
   programs.hyprland = {
     enable = true;
@@ -186,7 +178,7 @@
 
     dunst
     kmod
-    mako
+    # mako
     ydotool
     xdotool
 

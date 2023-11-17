@@ -1,0 +1,12 @@
+{
+    "options": {
+        "enable": true,
+        "target": {
+            "args": [
+                "-f",
+                "default.nix"
+            ],
+            "installable": "homeConfigurations"
+        }
+    }
+}

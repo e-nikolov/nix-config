@@ -6,7 +6,8 @@ with lib; {
 
   sops.age.generateKey = true;
   sops.age.keyFile = "/var/lib/sops-nix/key.txt";
-  boot.binfmt.emulatedSystems = [ "armv7l-linux" "aarch64-linux" ];
+  boot.binfmt.emulatedSystems = [ "armv7l-linux" ];
+  # boot.binfmt.emulatedSystems = [ "armv7l-linux" "aarch64-linux" ];
 
   networking.firewall.checkReversePath = "loose";
   services.tailscale.enable = true;
@@ -15,26 +16,32 @@ with lib; {
     enableBashCompletion = true;
   };
   programs.bash = {
-    vteIntegration = true;
+    # vteIntegration = true;
     # blesh.enable = true; # bugged
   };
   users.defaultUserShell = pkgs.zsh;
+  programs.mosh.enable = true;
+
+  virtualisation.docker.enable = false;
+  virtualisation.podman.enable = true;
+  virtualisation.podman.dockerSocket.enable = true;
+  virtualisation.podman.dockerCompat = true;
 
   security.polkit.enable = true;
   #programs._1password-gui.polkitPolicyOwners = [ values.username ];
-
-  programs.mosh.enable = true;
-  programs._1password.enable = true;
-  programs._1password-gui.enable = true;
-  #users.users."${values.username}".extraGroups = [ "wheel" "docker" "onepassword-cli" "onepassword" ];
+  # programs._1password.enable = true;
+  # programs._1password-gui.enable = true;
+  users.users."${values.username}".extraGroups = [ "wheel" "podman" "docker" ];
   programs.git.enable = true;
-  environment.systemPackages = with pkgs; [
-    man-pages
-    vim
-    git
-    wget
-    golink
-    (cowsay.overrideAttrs (old: { __contentAddressable = true; }))
+  environment.systemPackages = [
+    # pkgs.bashInteractiveFHS
+    pkgs.man-pages
+    pkgs.vim
+    pkgs.git
+    pkgs.wget
+    pkgs.golink
+    # pkgs.steam-run
+    (pkgs.cowsay.overrideAttrs (old: { __contentAddressable = true; }))
   ];
   documentation.dev.enable = true;
   documentation.man.enable = true;
@@ -51,7 +58,7 @@ with lib; {
   # https://github.com/nix-community/nix-index/issues/212
   nix.nixPath = [
     "nixpkgs=${inputs.nixpkgs.outPath}"
-    "nixpkgs-stable=${inputs.nixpkgs-stable.outPath}"
+    # "nixpkgs-stable=${inputs.nixpkgs-stable.outPath}"
   ];
   # https://discourse.nixos.org/t/problems-after-switching-to-flake-system/24093/7
   # nix.registry.nixpkgs.flake = "${inputs.nixpkgs}";

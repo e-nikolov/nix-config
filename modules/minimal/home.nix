@@ -70,6 +70,9 @@
       pull = { ff = lib.mkDefault "only"; };
     };
   };
+  # services.gpg-agent.enable = true;
+  # services.gpg-agent.enableSshSupport = true;
+  # services.gpg-agent.defaultCacheTtl = 3600;
 
   services.ssh-agent.enable = true;
   programs.ssh = {
