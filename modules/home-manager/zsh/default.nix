@@ -69,7 +69,8 @@
 
   home.sessionVariables = {
     TERM = "xterm-256color";
-    ZSH_AUTOSUGGEST_USE_ASYNC = "on";
+    COLORTERM = "truecolor";
+    # ZSH_AUTOSUGGEST_USE_ASYNC = "on";
     ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE = "fg=12";
     EDITOR = lib.mkDefault "vi";
     GOBIN = "$HOME/go/bin";
@@ -556,11 +557,21 @@
           fi
       }
 
-      PROMPT_EOL_MARK=""
-      POWERLEVEL9K_TERM_SHELL_INTEGRATION=true
-      POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(os_icon context root_indicator direnv shell_level nix_shell dir vcs newline prompt_char)
-      POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(newline status command_execution_time background_jobs history  goenv nodeenv fvm kubecontext terraform nordvpn nnn midnight_commander time go_version newline)
+      typeset -g PROMPT_EOL_MARK=""
+      typeset -g POWERLEVEL9K_TERM_SHELL_INTEGRATION=true
+      typeset -g POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(os_icon context root_indicator direnv shell_level nix_shell dir vcs newline prompt_char)
+      typeset -g POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(newline status command_execution_time background_jobs history  goenv nodeenv fvm kubecontext terraform nordvpn nnn midnight_commander time go_version newline)
+      typeset -g POWERLEVEL9K_DIR_FOREGROUND=5
+      typeset -g POWERLEVEL9K_DIR_ANCHOR_FOREGROUND=14
+      typeset -g POWERLEVEL9K_NIX_SHELL_FOREGROUND=3
+      typeset -g POWERLEVEL9K_VCS_CLEAN_FOREGROUND=22
+      typeset -g POWERLEVEL9K_VCS_MODIFIED_FOREGROUND=22
+      typeset -g POWERLEVEL9K_VCS_VISUAL_IDENTIFIER_COLOR=22
+      typeset -g POWERLEVEL9K_VCS_UNTRACKED_FOREGROUND=22
+      typeset -g POWERLEVEL9K_VCS_LOADING_VISUAL_IDENTIFIER_COLOR=22
+      typeset -g POWERLEVEL9K_PROMPT_CHAR_OK_VIINS_FOREGROUND=22
 
+      # p10k reload
 
       # POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status command_execution_time direnv kubecontext context nix_shell time)
 
@@ -568,7 +579,8 @@
 
       [ -f  ~/nix-config/dotfiles/.zshrc ] && source ~/nix-config/dotfiles/.zshrc
 
-      export ZSH_AUTOSUGGEST_USE_ASYNC=on
+      #export ZSH_AUTOSUGGEST_USE_ASYNC=on
+      unset ZSH_AUTOSUGGEST_USE_ASYNC
 
       export PATH=$PATH:$HOME/.local/bin
     '';
