@@ -126,11 +126,8 @@ in {
     "i686-linux"
   ];
 
-  home.sessionVariables = { EDITOR = "code-insiders"; };
-
   nix.settings.cores = 4;
   home.shellAliases = {
-    code = "code-insiders ";
     k = "kubectl";
     kx = "kubectx";
     kn = "kubens";

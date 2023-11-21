@@ -208,6 +208,7 @@
 
     flake-parts.url = "github:hercules-ci/flake-parts";
 
+    # nur.url = "github:nix-community/NUR";
     nix-colors.url = "github:misterio77/nix-colors";
   };
 }

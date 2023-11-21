@@ -5,6 +5,9 @@
     # pkgs.libsForQt5.kate
     # pkgs.emanote
   ];
+  home.sessionVariables = { EDITOR = "code-insiders"; };
+
+  home.shellAliases = { code = "code-insiders "; };
 
   programs.bash.initExtra = ''
     source ~/nix-config/dotfiles/.bashrc

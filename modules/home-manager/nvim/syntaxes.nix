@@ -1,7 +1,19 @@
-{ pkgs, config, lib, ... }: {
+{ pkgs, config, lib, ... }:
+let
+  nvim-treesitter =
+    pkgs.vimPlugins.nvim-treesitter.withAllGrammars.overrideAttrs (oldAttrs: {
+      postPatch = "";
+      src = pkgs.fetchFromGitHub {
+        owner = "nvim-treesitter";
+        repo = "nvim-treesitter";
+        rev = "49e71322db582147ce8f4df1853d9dab08da0826";
+        hash = "sha256-i7/YKin/AuUgzKvGgAzNTEGXlrejtucJacFXh8t/uFs=";
+      };
+    });
+in {
   programs.neovim = {
-    extraConfig = # vim
-      lib.mkAfter ''
+    extraConfig = lib.mkAfter # vim
+      ''
         function! SetCustomKeywords()
           syn match Todo  /TODO/
           syn match Done  /DONE/
@@ -31,17 +43,17 @@
 
       {
         plugin = vimtex;
-        config = let
-          method =
-            if config.programs.zathura.enable then "zathura" else "general";
-        in ''
-          let g:vimtex_view_method = '${method}'
-        '';
+        config = # vim
+          ''
+            let g:vimtex_view_method = '${
+              if config.programs.zathura.enable then "zathura" else "general"
+            }'
+          '';
       }
 
       # Tree sitter
       {
-        plugin = nvim-treesitter.withAllGrammars;
+        plugin = nvim-treesitter;
         type = "lua";
         config = # lua
           ''

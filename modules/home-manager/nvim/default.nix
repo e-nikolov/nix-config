@@ -1,8 +1,8 @@
-{ config, pkgs, lib, ... }:
+{ config, pkgs, ... }:
 let color = pkgs.writeText "color.vim" (import ./theme.nix config.colorscheme);
 in {
-  imports = [ ./lsp.nix ./syntaxes.nix ./ui.nix ];
-  home.sessionVariables.EDITOR = lib.mkDefault "nvim";
+  imports = [ ./lsp.nix ./syntaxes.nix ./ui.nix ./copilot.nix ];
+  home.sessionVariables.EDITOR = "nvim";
 
   programs.neovim = {
     enable = true;
@@ -136,12 +136,13 @@ in {
     ];
   };
 
-  xdg.configFile."nvim/init.lua".onChange = ''
-    XDG_RUNTIME_DIR=''${XDG_RUNTIME_DIR:-/run/user/$(id -u)}
-    for server in $XDG_RUNTIME_DIR/nvim.*; do
-      nvim --server $server --remote-send ':source $MYVIMRC<CR>' &
-    done
-  '';
+  xdg.configFile."nvim/init.lua".onChange = # bash
+    ''
+      XDG_RUNTIME_DIR=''${XDG_RUNTIME_DIR:-/run/user/$(id -u)}
+      for server in $XDG_RUNTIME_DIR/nvim.*; do
+        nvim --server $server --remote-send ':source $MYVIMRC<CR>' &
+      done
+    '';
 
   xdg.desktopEntries = {
     nvim = {

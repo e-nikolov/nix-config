@@ -100,7 +100,7 @@
   time.timeZone = "Europe/Amsterdam";
 
   # NVIDIA drivers are unfree.
-  nixpkgs.config.allowUnfree = true;
+  # nixpkgs.config.allowUnfree = true;
 
   hardware.opengl.enable = true;
 

@@ -35,6 +35,7 @@ with lib; {
   programs.git.enable = true;
   environment.systemPackages = [
     # pkgs.bashInteractiveFHS
+    pkgs.wgnord
     pkgs.man-pages
     pkgs.vim
     pkgs.git
