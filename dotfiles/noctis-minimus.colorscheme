@@ -1,11 +1,17 @@
 [Background]
 Color=27,41,50
+RandomHueRange=360
+RandomSaturationRange=100
 
 [BackgroundFaint]
 Color=73,109,131
+RandomHueRange=360
+RandomSaturationRange=100
 
 [BackgroundIntense]
 Color=73,109,131
+RandomHueRange=360
+RandomSaturationRange=100
 
 [Color0]
 Color=252,135,79
@@ -88,13 +94,14 @@ Color=132,84,0
 [ForegroundIntense]
 Color=172,124,37
 
+
 [General]
 Anchor=0.5,0.5
 Blur=true
-ColorRandomization=false
+ColorRandomization=true
 Description=Noctis Minimus
 FillStyle=Tile
-Opacity=1
-Wallpaper=
+Opacity=0.9
 WallpaperFlipType=NoFlip
-WallpaperOpacity=1
+Wallpaper=/home/enikolov/.local/share/konsole/termix-bg.png
+WallpaperOpacity=0.9

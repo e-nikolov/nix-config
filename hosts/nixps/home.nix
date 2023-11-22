@@ -107,114 +107,111 @@ in {
   home.file.".local/bin/zotero.sh".source = ../../dotfiles/zotero.sh;
   home.file.".local/share/konsole/termix.colorscheme".text = ''
     [Background]
-    Color=35,38,39
+    Color=27,41,50
     RandomHueRange=360
     RandomSaturationRange=100
 
     [BackgroundFaint]
-    Color=49,54,59
+    Color=73,109,131
     RandomHueRange=360
     RandomSaturationRange=100
 
     [BackgroundIntense]
-    Color=0,0,0
+    Color=73,109,131
     RandomHueRange=360
     RandomSaturationRange=100
 
     [Color0]
-    Color=35,38,39
+    Color=252,135,79
 
     [Color0Faint]
-    Color=49,54,59
+    Color=232,115,59
 
     [Color0Intense]
-    Color=127,140,141
+    Color=66,88,102
 
     [Color1]
-    Color=237,21,21
+    Color=221,41,29
 
     [Color1Faint]
-    Color=120,50,40
+    Color=59,95,203
 
     [Color1Intense]
-    Color=192,57,43
+    Color=202,132,104
 
     [Color2]
-    Color=17,209,22
+    Color=68,204,50
 
     [Color2Faint]
-    Color=23,162,98
+    Color=55,89,191
 
     [Color2Intense]
-    Color=28,220,154
+    Color=132,200,171
 
     [Color3]
-    Color=246,116,0
+    Color=200,169,132
 
     [Color3Faint]
-    Color=182,86,25
+    Color=0,171,171
 
     [Color3Intense]
-    Color=253,188,75
+    Color=209,170,123
 
     [Color4]
-    Color=29,153,243
+    Color=85,170,81
 
     [Color4Faint]
-    Color=27,102,143
+    Color=3,94,139
 
     [Color4Intense]
-    Color=61,174,233
+    Color=104,164,202
 
     [Color5]
-    Color=155,89,182
+    Color=187,38,39
 
     [Color5Faint]
-    Color=97,74,115
+    Color=221,61,125
 
     [Color5Intense]
-    Color=142,68,173
+    Color=252,135,79
 
     [Color6]
-    Color=26,188,156
+    Color=255,170,68
 
     [Color6Faint]
-    Color=24,108,96
+    Color=0,163,200
 
     [Color6Intense]
-    Color=22,160,133
+    Color=252,135,79
 
     [Color7]
-    Color=252,252,252
+    Color=197,205,211
 
     [Color7Faint]
-    Color=99,104,109
+    Color=255,179,128
 
     [Color7Intense]
-    Color=255,255,255
+    Color=197,209,211
 
     [Foreground]
-    Color=252,252,252
-    RandomHueRange=360
-    RandomSaturationRange=100
+    Color=152,104,17
 
     [ForegroundFaint]
-    Color=239,240,241
-    RandomHueRange=360
-    RandomSaturationRange=100
+    Color=132,84,0
 
     [ForegroundIntense]
-    Color=255,255,255
-    RandomHueRange=360
-    RandomSaturationRange=100
+    Color=172,124,37
+
 
     [General]
     Anchor=0.5,0.5
     Blur=true
     ColorRandomization=true
-    Description=Breeze
+    Description=Noctis Minimus
     FillStyle=Tile
     Opacity=0.9
+    WallpaperFlipType=NoFlip
+
     Wallpaper=${config.home.homeDirectory}/.local/share/konsole/termix-bg.png
     WallpaperOpacity=0.9
   '';
