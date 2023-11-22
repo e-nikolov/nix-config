@@ -1,7 +1,7 @@
 [Appearance]
 ColorScheme=termix
 # Font=MesloLGS NF,10,-1,5,50,0,0,0,0,0
-Font=Fira Code,14,-1,5,50,0,0,0,0,0
+Font=JetBrains Mono,14,-1,5,50,0,0,0,0,0
 UseFontLineChararacters=true
 
 [Cursor Options]
