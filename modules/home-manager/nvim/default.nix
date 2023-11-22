@@ -50,7 +50,8 @@ in {
         augroup END
 
         "Line numbers
-        set number relativenumber
+        set nornu nu
+
 
         "Scroll up and down
         nmap <C-j> <C-e>

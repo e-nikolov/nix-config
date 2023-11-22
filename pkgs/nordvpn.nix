@@ -1,16 +1,17 @@
-{ stdenv, lib, fetchurl, openvpn, libxml2, autoPatchelfHook, dpkg, libidn2 }:
+{ stdenv, lib, fetchurl, openvpn, libxml2, autoPatchelfHook, wrapGAppsHook, dpkg
+, libidn2 }:
 
 stdenv.mkDerivation rec {
   pname = "nordvpn";
-  version = "3.16.1";
+  version = "3.16.8";
 
   src = fetchurl {
     url =
       "https://repo.nordvpn.com/deb/nordvpn/debian/pool/main/nordvpn_${version}_amd64.deb";
-    sha256 = "sha256-rj1QuCOztgVmReCn24HIEDAyLR7GlsUDJK0GZl+ERXM=";
+    sha256 = "sha256-IpyaWUqxGp/RBC48hjsheqErxHSiQ7HMHMuJlpHl8ZU=";
   };
 
-  nativeBuildInputs = [ libidn2 libxml2 autoPatchelfHook dpkg ];
+  nativeBuildInputs = [ libidn2 libxml2 wrapGAppsHook autoPatchelfHook dpkg ];
 
   unpackPhase = ''
     dpkg -x $src unpacked

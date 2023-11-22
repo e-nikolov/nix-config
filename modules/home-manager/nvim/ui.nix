@@ -2,7 +2,7 @@
   programs.neovim.plugins = with pkgs.vimPlugins; [
     # UI
     vim-illuminate
-    vim-numbertoggle
+    # vim-numbertoggle
     # vim-markology
     {
       plugin = vim-fugitive;

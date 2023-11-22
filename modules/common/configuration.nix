@@ -36,11 +36,14 @@ with lib; {
   environment.systemPackages = [
     # pkgs.bashInteractiveFHS
     pkgs.wgnord
+    pkgs.neovim
+    pkgs.nordvpn
     pkgs.man-pages
     pkgs.vim
     pkgs.git
     pkgs.wget
     pkgs.golink
+
     # pkgs.steam-run
     (pkgs.cowsay.overrideAttrs (old: { __contentAddressable = true; }))
   ];
