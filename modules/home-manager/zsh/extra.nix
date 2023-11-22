@@ -26,7 +26,7 @@ in {
       export PATH=$PATH:"$HOME/.cargo/bin"
 
       _nar() {
-          store_path=$1
+        store_path=$1
           cache=$2
           quiet=$3
 
