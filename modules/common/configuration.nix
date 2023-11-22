@@ -1,6 +1,10 @@
 { lib, pkgs, config, modulesPath, inputs, values, ... }:
 with lib; {
-  imports = [ inputs.sops-nix.nixosModules.sops ];
+  imports = [
+    inputs.sops-nix.nixosModules.sops
+
+    ../../modules/nixos/nordvpn
+  ];
 
   sops.defaultSopsFile = ../../secrets/secrets.yaml;
 
@@ -31,7 +35,8 @@ with lib; {
   #programs._1password-gui.polkitPolicyOwners = [ values.username ];
   # programs._1password.enable = true;
   # programs._1password-gui.enable = true;
-  users.users."${values.username}".extraGroups = [ "wheel" "podman" "docker" ];
+  users.users."${values.username}".extraGroups =
+    [ "wheel" "podman" "docker" "nordvpn" ];
   programs.git.enable = true;
   environment.systemPackages = [
     # pkgs.bashInteractiveFHS
@@ -47,6 +52,7 @@ with lib; {
     # pkgs.steam-run
     (pkgs.cowsay.overrideAttrs (old: { __contentAddressable = true; }))
   ];
+  services.nordvpn.enable = true;
   documentation.dev.enable = true;
   documentation.man.enable = true;
   documentation.enable = true;

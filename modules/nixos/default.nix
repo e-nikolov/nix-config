@@ -3,4 +3,5 @@
 {
   # List your module files here
   keyd = import ./keyd;
+  nordvpn = import ./nordvpn;
 }
