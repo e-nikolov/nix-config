@@ -2,7 +2,7 @@
 let color = pkgs.writeText "color.vim" (import ./theme.nix config.colorscheme);
 in {
   imports = [ ./lsp.nix ./syntaxes.nix ./ui.nix ./copilot.nix ];
-  home.sessionVariables.EDITOR = "nvim";
+  home.sessionVariables.EDITOR = pkgs.lib.mkDefault "nvim";
 
   programs.neovim = {
     enable = true;

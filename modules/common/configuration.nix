@@ -32,6 +32,12 @@ with lib; {
   virtualisation.podman.dockerCompat = true;
 
   security.polkit.enable = true;
+  security.pam.services.kwallet.enableKwallet = true;
+
+  programs._1password.enable = true;
+  programs._1password-gui.enable = true;
+  programs._1password-gui.polkitPolicyOwners = [ values.username ];
+
   #programs._1password-gui.polkitPolicyOwners = [ values.username ];
   # programs._1password.enable = true;
   # programs._1password-gui.enable = true;
