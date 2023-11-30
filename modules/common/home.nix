@@ -24,6 +24,14 @@ in {
   };
   colorscheme = lib.mkDefault colorSchemes.dracula;
 
+  programs.ssh = {
+    forwardAgent = lib.mkDefault true;
+    enable = lib.mkDefault true;
+    extraConfig = ''
+      Host *
+            IdentityAgent ~/.1password/agent.sock
+    '';
+  };
   home.packages = [
     pkgs.bashInteractiveFHS
     pkgs.nil
@@ -147,6 +155,7 @@ in {
       gpgPath = "${pkgs.openssh}/bin/ssh-keygen";
       key = "${config.home.homeDirectory}/.ssh/id_rsa.pub";
     };
+
     extraConfig = {
       url = {
         "git@github.com:" = { insteadOf = "https://github.com/"; };
@@ -154,7 +163,7 @@ in {
       };
       gpg = {
         format = "ssh";
-        ssh.program = "${pkgs.openssh}/bin/ssh-keygen";
+        ssh.program = "${pkgs._1password-gui}/share/1password/op-ssh-sign";
       };
     };
   };

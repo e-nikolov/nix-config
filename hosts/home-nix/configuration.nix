@@ -10,18 +10,18 @@ with lib; {
 
   wsl = {
     enable = true;
-    wslConf.automount.root = "/mnt";
+    defaultUser = values.username;
+    startMenuLaunchers = true;
     nativeSystemd = true;
-    # Enable native Docker support
-
-    # Enable integration with Docker Desktop (needs to be installed)
-    # docker-desktop.enable = true;
-    # interop.preserveArgvZero = false;
-    interop.register = true;
     wslConf.boot.systemd = true;
+    interop.register = true;
     wslConf.network.generateResolvConf = true;
     wslConf.network.generateHosts = false;
-    startMenuLaunchers = true;
+
+    # wslConf.automount.root = "/mnt";
+    # interop.preserveArgvZero = false;
+    # wslConf.interop.enabled = true;
+    # wslConf.interop.appendWindowsPath = true;
   };
   boot.binfmt.emulatedSystems = [ "armv7l-linux" "aarch64-linux" ];
   security.sudo.wheelNeedsPassword = true;
@@ -59,11 +59,13 @@ with lib; {
   ];
 
   services.vscode-server.enable = true;
+  services.vscode-server.nodejsPackage = pkgs.nodejs_20;
+  services.vscode-server.enableFHS = true;
   services.vscode-server.installPath = "~/.vscode-server-insiders";
   # fonts.fontconfig.enable = pkgs.lib.mkForce true;
   users.users.${values.username}.extraGroups =
     # [ "wheel" "docker" "onepassword-cli" "onepassword" ];
-    [ "wheel" "docker" ];
+    [ "wheel" "docker" "onepassword" "onepassword-cli" ];
   # Set your time zone.
   time.timeZone = "Europe/Amsterdam";
 
