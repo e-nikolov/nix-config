@@ -70,7 +70,8 @@ with lib; {
   time.timeZone = "Europe/Amsterdam";
 
   services.gnome.gnome-keyring.enable = true;
-  environment.systemPackages = [ pkgs.vim pkgs.git pkgs.wget pkgs.pciutils ];
+  environment.systemPackages =
+    [ pkgs.vim pkgs.git pkgs.wget pkgs.pciutils pkgs.konsole pkgs.obsidian ];
   # environment.noXlibs = false;
   nix.settings.trusted-users = [ "root" values.username ];
 
