@@ -4,7 +4,11 @@ let
   inherit (inputs.nix-colors.lib-contrib { inherit pkgs; })
     colorschemeFromPicture nixWallpaperFromScheme;
 in {
-  news.display = "silent";
+  #   disableHomeManagerNews = {
+  #   # disabledModules = [ "misc/news.nix" ];
+  #   config = {
+  #   };
+  # };
 
   # disabledModules = [
   #   "misc/news.nix" # https://github.com/nix-community/home-manager/issues/2033

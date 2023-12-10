@@ -74,6 +74,16 @@
             let
               pkgs = if args ? pkgs then args.pkgs else sysargs.pkgs;
               modules = [
+
+                # https://github.com/nix-community/home-manager/issues/2033#issuecomment-1848326144
+                {
+                  config = {
+                    news.display = "silent";
+                    news.json = pkgs.lib.mkForce { };
+                    news.entries = pkgs.lib.mkForce [ ];
+                  };
+                }
+
                 ({ config, ... }: {
                   nix.package = pkgs.nixFlakes;
                   home.username = values.username;

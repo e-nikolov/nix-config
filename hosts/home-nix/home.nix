@@ -22,7 +22,7 @@ in {
     _1password_gui_autostart = {
       Unit = {
         Description = "1Password GUI Autostart";
-        After = [ "network.target" ];
+        # After = [ "network.target" ];
       };
 
       Service = {
@@ -31,7 +31,10 @@ in {
         ExecStart = "${pkgs._1password-gui}/bin/1password";
         Restart = "always";
       };
-      Install.WantedBy = [ "graphical-session.target" ];
+      # Install.WantedBy = [ "graphical-session.target" ];
+      # Install.WantedBy = [ "graphical.target" ];
+      # Install.WantedBy = [ "multi-user.target" ];
+      Install.WantedBy = [ "default.target" ];
     };
   };
 

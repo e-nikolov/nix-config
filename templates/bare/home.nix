@@ -38,6 +38,7 @@
     pkgs.tmux
     pkgs.skim
     pkgs.fzy
+    pkgs.sd-switch
     (pkgs.stdenv.mkDerivation {
       name = "nix-index";
       buildInputs = [ pkgs.nix-index-unwrapped ];
@@ -51,7 +52,7 @@
     # pkgs.hello
     # pkgs.cowsay
   ] ++ [ ];
-
+  systemd.user.startServices = "sd-switch";
   home.sessionVariables = {
     NODE_PATH = lib.mkDefault "$HOME/.npm-packages/lib/node_modules";
     HOME_MANAGER_CONFIG = lib.mkDefault "$HOME/nix-config";
