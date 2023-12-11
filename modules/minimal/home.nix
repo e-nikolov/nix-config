@@ -93,8 +93,6 @@
   programs.yazi.enableBashIntegration = true;
   programs.yazi.enableNushellIntegration = true;
   programs.yazi.enableFishIntegration = true;
-  programs.zoxide.enable = true;
-  programs.zoxide.enableZshIntegration = true;
 
   programs.direnv.enable = true;
   programs.direnv.nix-direnv.enable = true;

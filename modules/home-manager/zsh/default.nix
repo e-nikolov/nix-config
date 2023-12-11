@@ -1,5 +1,5 @@
 { config, pkgs, lib, pkgs-stable, inputs, ... }@args: {
-  imports = [ ./extra.nix ];
+  imports = [ ./extra.nix ./after.nix ./zoxide.nix ];
 
   home.packages = [
     pkgs.direnv
@@ -108,6 +108,7 @@
     };
 
     initExtraFirst = ''
+      # zmodload zsh/zprof
       command -v direnv > /dev/null && eval "$(${config.programs.direnv.package}/bin/direnv export zsh)"
 
       # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
@@ -268,22 +269,46 @@
 
     completionInit = ''
       zstyle :compinstall filename '~/.zshrc'
+      # disable sort when completing `git checkout`
+      zstyle ':completion:*:git-checkout:*' sort false
+      # set descriptions format to enable group support
+      zstyle ':completion:*:descriptions' format '[%d]'
+      # set list-colors to enable filename colorizing
+      zstyle ':completion:*' list-colors ''${(s.:.)LS_COLORS}
+      # preview directory's content with exa when completing cd
+      zstyle ':fzf-tab:complete:cd:*' fzf-preview 'exa -1 --color=always $realpath'
+      # switch group using `,` and `.`
+      zstyle ':fzf-tab:*' switch-group ',' '.'
+      zstyle ':completion:*' insert-tab pending
       zstyle ':completion:*:default' menu select=1
       zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|=*' 'l:|=* r:|=*'
-      zstyle ':completion:*' list-colors ""
       zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#) ([0-9a-z-]#)*=01;34=0=01'
 
       zmodload -i zsh/complist
-      autoload -U compinit && compinit
-      autoload bashcompinit && bashcompinit
 
-      unsetopt MENU_COMPLETE
-      unsetopt FLOW_CONTROL
-      setopt AUTO_MENU
-      setopt COMPLETE_IN_WORD
-      setopt ALWAYS_TO_END
-      setopt NO_LIST_BEEP
-      setopt LIST_PACKED
+      setopt extended_glob
+
+      autoload -Uz compinit bashcompinit
+      # https://gist.github.com/ctechols/ca1035271ad134841284
+      if [[ -e ''${ZDOTDIR:-$HOME}/.zcompdump(#qNmh-24) ]]; then
+          # .zcompdump exists and is newer than 24 hours
+          compinit -C
+      else
+          # .zcompdump does not exist or is older than 24 hours
+          compinit
+      fi
+
+      # https://htr3n.github.io/2018/07/faster-zsh/
+      # Execute code in the background to not affect the current session
+      {
+        # Compile zcompdump, if modified, to increase startup speed.
+        zcompdump="''${ZDOTDIR:-$HOME}/.zcompdump"
+        if [[ -s "$zcompdump" && (! -s "''${zcompdump}.zwc" || "$zcompdump" -nt "''${zcompdump}.zwc") ]]; then
+          zcompile "$zcompdump"
+        fi
+      } &!
+
+      bashcompinit
     '';
 
     initExtra = ''
@@ -579,11 +604,68 @@
       # POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status command_execution_time direnv kubecontext context nix_shell time)
 
       export ZSH_WEB_SEARCH_ENGINES=(nixpkgs "https://search.nixos.org/packages?channel=unstable&from=0&size=50&sort=relevance&type=packages&query=")
+      export ZSH_AUTOSUGGEST_USE_ASYNC=on
+      # unset ZSH_AUTOSUGGEST_USE_ASYNC
 
-      [ -f  ~/nix-config/dotfiles/.zshrc ] && source ~/nix-config/dotfiles/.zshrc
 
-      #export ZSH_AUTOSUGGEST_USE_ASYNC=on
-      unset ZSH_AUTOSUGGEST_USE_ASYNC
+      # Usage: time-n-cmd TIMES CMD
+      #
+      time-n-cmd() {
+
+        # params
+        #
+        local times=$1
+        local command=$2
+
+        # Time the command by running multiple times
+        #
+        time (
+        for run in {1..$times}
+        do
+          sh -c $command 2>&1 > /dev/null
+        done
+        )
+
+      }
+
+      # Set shell options: http://zsh.sourceforge.net/Doc/Release/Options.html.
+      # unsetopt MENU_COMPLETE
+      # unsetopt FLOW_CONTROL
+      # setopt AUTO_MENU
+      setopt COMPLETE_IN_WORD
+      setopt ALWAYS_TO_END
+      setopt NO_LIST_BEEP
+      setopt LIST_PACKED
+
+
+      setopt glob_dots     # no special treatment for file names with a leading dot
+      setopt no_auto_menu  # require an extra TAB press to open the completion menu
+      setopt alwaystoend
+      setopt autocd
+      setopt noautomenu
+      setopt autopushd
+      setopt noautoremoveslash
+      setopt nobeep
+      setopt nobgnice
+      setopt cbases
+      setopt extendedglob
+      setopt extendedhistory
+      setopt noflowcontrol
+      setopt noglobalrcs
+      setopt globdots
+      setopt histexpiredupsfirst
+      setopt histfcntllock
+      setopt histfindnodups
+      setopt histignoredups
+      setopt histignorespace
+      setopt histsavenodups
+      setopt histverify
+      setopt interactive
+      setopt interactivecomments
+      setopt nolisttypes
+      setopt promptsubst
+      setopt sharehistory
+      setopt typesetsilent
 
       export PATH=$PATH:$HOME/.local/bin
     '';

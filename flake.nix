@@ -198,9 +198,9 @@
 
     nix-index-database.url = "github:nix-community/nix-index-database/main";
     nix-index-database.inputs.nixpkgs.follows = "nixpkgs";
-    vscode-server.url = "github:nix-community/nixos-vscode-server";
-    vscode-server.inputs.flake-utils.follows = "flake-utils";
-    vscode-server.inputs.nixpkgs.follows = "nixpkgs";
+    # vscode-server.url = "github:nix-community/nixos-vscode-server";
+    # vscode-server.inputs.flake-utils.follows = "flake-utils";
+    # vscode-server.inputs.nixpkgs.follows = "nixpkgs";
 
     nix-alien.url = "github:thiagokokada/nix-alien";
     nix-alien.inputs.nixpkgs.follows = "nixpkgs";
@@ -217,6 +217,9 @@
     sops-nix.inputs.nixpkgs-stable.follows = "nixpkgs-stable";
 
     flake-parts.url = "github:hercules-ci/flake-parts";
+
+    nix-ld-rs.url = "github:nix-community/nix-ld-rs";
+    nix-ld-rs.inputs.nixpkgs.follows = "nixpkgs";
 
     # nur.url = "github:nix-community/NUR";
     nix-colors.url = "github:misterio77/nix-colors";

@@ -4,7 +4,7 @@ with lib; {
     ../../modules/common/configuration.nix
     inputs.golink.nixosModules.default
     inputs.nixos-wsl.nixosModules.wsl
-    inputs.vscode-server.nixosModules.default
+    # inputs.vscode-server.nixosModules.default
     # "${modulesPath}/profiles/minimal.nix"
   ];
 
@@ -58,10 +58,10 @@ with lib; {
       })
   ];
 
-  services.vscode-server.enable = true;
-  services.vscode-server.nodejsPackage = pkgs.nodejs_20;
-  services.vscode-server.enableFHS = true;
-  services.vscode-server.installPath = "~/.vscode-server-insiders";
+  # services.vscode-server.enable = true;
+  # services.vscode-server.nodejsPackage = pkgs.nodejs_20;
+  # services.vscode-server.enableFHS = true;
+  # services.vscode-server.installPath = "~/.vscode-server";
   # fonts.fontconfig.enable = pkgs.lib.mkForce true;
   users.users.${values.username}.extraGroups =
     # [ "wheel" "docker" "onepassword-cli" "onepassword" ];
@@ -71,7 +71,7 @@ with lib; {
 
   services.gnome.gnome-keyring.enable = true;
   environment.systemPackages =
-    [ pkgs.vim pkgs.git pkgs.wget pkgs.pciutils pkgs.konsole pkgs.obsidian ];
+    [ pkgs.vim pkgs.git pkgs.wget pkgs.pciutils pkgs.konsole pkgs.obsidian pkgs.nodejs_20];
   # environment.noXlibs = false;
   nix.settings.trusted-users = [ "root" values.username ];
 

@@ -13,11 +13,14 @@ with lib; {
   boot.binfmt.emulatedSystems = [ "armv7l-linux" ];
   # boot.binfmt.emulatedSystems = [ "armv7l-linux" "aarch64-linux" ];
 
+  programs.nix-ld.enable = true;
+  programs.nix-ld.package = inputs.nix-ld-rs.packages.${pkgs.system}.nix-ld-rs;
   networking.firewall.checkReversePath = "loose";
   services.tailscale.enable = true;
   programs.zsh = {
     enable = true;
-    enableBashCompletion = true;
+    enableCompletion = false;
+    # enableBashCompletion = true;
   };
   programs.bash = {
     # vteIntegration = true;
@@ -58,6 +61,7 @@ with lib; {
     # pkgs.steam-run
     (pkgs.cowsay.overrideAttrs (old: { __contentAddressable = true; }))
   ];
+
   services.nordvpn.enable = true;
   documentation.dev.enable = true;
   documentation.man.enable = true;
