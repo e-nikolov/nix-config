@@ -298,6 +298,8 @@
           compinit
       fi
 
+      unsetopt extended_glob
+
       # https://htr3n.github.io/2018/07/faster-zsh/
       # Execute code in the background to not affect the current session
       {
