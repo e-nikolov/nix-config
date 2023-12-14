@@ -286,7 +286,7 @@
 
       zmodload -i zsh/complist
 
-      setopt extended_glob
+      setopt extendedglob
 
       autoload -Uz compinit bashcompinit
       # https://gist.github.com/ctechols/ca1035271ad134841284
@@ -298,7 +298,7 @@
           compinit
       fi
 
-      unsetopt extended_glob
+      unsetopt extendedglob
 
       # https://htr3n.github.io/2018/07/faster-zsh/
       # Execute code in the background to not affect the current session
@@ -650,7 +650,6 @@
       setopt nobeep
       setopt nobgnice
       setopt cbases
-      setopt extendedglob
       setopt extendedhistory
       setopt noflowcontrol
       setopt noglobalrcs
