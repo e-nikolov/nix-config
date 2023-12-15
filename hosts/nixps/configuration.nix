@@ -124,6 +124,7 @@
   services.xserver.displayManager.sddm.enable = true;
   services.xserver.desktopManager.plasma5.runUsingSystemd = true;
   # services.xserver.xkbOptions = "caps:escape";
+  programs.xwayland.enable = true;
 
   programs.hyprland = {
     enable = true;

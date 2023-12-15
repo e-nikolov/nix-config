@@ -316,9 +316,15 @@
     initExtra = ''
       ### Functions ###
 
-      xc() {
-          xclip -selection clipboard
-      }
+      if [[ $XDG_SESSION_TYPE == "wayland" ]]; then
+        xc() {
+            wl-copy
+        }
+      else
+        xc() {
+            xclip -selection clipboard
+        }
+      fi
 
       nhs() {
         home-manager switch --flake ~/nix-config $@ && exec zsh

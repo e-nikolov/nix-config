@@ -8,7 +8,10 @@
   ];
   programs.home-manager.enable = true;
 
-  nixpkgs.config.permittedInsecurePackages = [ pkgs.openssl_1_1.name ];
+  nixpkgs.config.permittedInsecurePackages = [
+    pkgs.openssl_1_1.name
+    "electron-25.9.0" # obsidian https://github.com/NixOS/nixpkgs/issues/273611
+  ];
 
   home.packages = [
     pkgs.nix
@@ -99,7 +102,7 @@
   # programs.readline.enable = true;
   # programs.gitui.enable = true;
   # programs.pls.enable = true;
-  # programs.carapace.enable = true;
+  programs.carapace.enable = true;
   programs.eza = { enable = true; };
 
   fonts.fontconfig.enable = true;

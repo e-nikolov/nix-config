@@ -5,6 +5,18 @@ let
     package = pkgs.yakuake;
     srcPrefix = "org.kde.";
   };
+
+  vscode-insiders = ((pkgs.vscode.override { isInsiders = true; }).overrideAttrs
+    (oldAttrs: rec {
+      src = (builtins.fetchTarball {
+        url =
+          "https://code.visualstudio.com/sha/download?build=insider&os=linux-x64";
+        sha256 = "sha256:023ryfx9zj7d7ghh41xixsz3yyngc2y6znkvfsrswcij67jqm8cd";
+      });
+      version = "latest";
+
+      buildInputs = oldAttrs.buildInputs ++ [ pkgs.krb5 ];
+    }));
 in {
   imports = [
     inputs.plasma-manager.homeManagerModules.plasma-manager
@@ -24,8 +36,8 @@ in {
     pkgs.pamix
     pkgs.viber
     pkgs.unrar
-    pkgs.vscode
-    pkgs.vscode
+    # pkgs.vscode
+    # vscode-insiders
     pkgs.firefox
     pkgs.yakuake
     pkgs.konsole
@@ -224,6 +236,7 @@ in {
   programs.vscode = {
     enable = true;
     # enableUpdateCheck = false;
+    package = vscode-insiders;
 
     extensions = with pkgs.vscode-extensions; [
       hashicorp.terraform

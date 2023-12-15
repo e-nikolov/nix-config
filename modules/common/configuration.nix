@@ -39,9 +39,10 @@ with lib; {
     flags = [
       "--update-input"
       "nixpkgs"
+      # "--commit-lock-file"
       "-L" # print build logs
     ];
-    dates = "07:00";
+    dates = "08:37";
     # randomizedDelaySec = "45min";
   };
   security.polkit.enable = true;
