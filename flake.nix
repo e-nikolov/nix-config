@@ -24,7 +24,12 @@
           };
           pkgs = import nixpkgs {
             inherit system;
-            config = { allowUnfree = true; };
+            config = {
+              allowUnfree = true;
+              permittedInsecurePackages = [ # nixos-rebuild switch
+                "electron-25.9.0" # obsidian https://github.com/NixOS/nixpkgs/issues/273611
+              ];
+            };
             overlays = [
               (import ./overlays { inherit inputs outputs; }).additions
 
@@ -102,6 +107,7 @@
                 args) # "system" is used to set pkgs, but it is not a valid home-manager option
                 // {
                   inherit modules pkgs extraSpecialArgs;
+
                 })));
 
         mkSystem = { system ? "x86_64-linux", modules, ... }@args:
@@ -125,6 +131,7 @@
           home-nix = mkSystem {
             modules = [
               { wsl.defaultUser = values.username; }
+
               ./hosts/home-nix/configuration.nix
             ];
           };

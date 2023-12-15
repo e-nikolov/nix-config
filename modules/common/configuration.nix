@@ -80,6 +80,7 @@ with lib; {
   documentation.man.mandoc.enable = true;
   documentation.man.man-db.enable = false;
   programs.ssh.enableAskPassword = true;
+
   # Enable nix flakes
   # nix.package = pkgs.nixFlakes;
   nix.extraOptions = ''

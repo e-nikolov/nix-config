@@ -7,6 +7,7 @@
     ../../modules/nixos/keyd
     ../../modules/common/configuration.nix
     inputs.nixos-hardware.nixosModules.dell-xps-15-9560-intel
+
     ./hardware-configuration.nix
   ];
 

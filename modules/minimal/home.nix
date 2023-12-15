@@ -8,7 +8,7 @@
   ];
   programs.home-manager.enable = true;
 
-  nixpkgs.config.permittedInsecurePackages = [
+  nixpkgs.config.permittedInsecurePackages = [ # home-manager
     pkgs.openssl_1_1.name
     "electron-25.9.0" # obsidian https://github.com/NixOS/nixpkgs/issues/273611
   ];
