@@ -41,7 +41,7 @@
 
     l = "eza";
     ls =
-      "eza -lh --group-directories-first --color always --icons --classify --time-style relative --created --changed";
+      "eza -olh --group-directories-first --color always --icons --classify --time-style relative --created --changed";
     lsa = "ls -a ";
     tree = "eza --tree -alh --group-directories-first --color always --icons ";
     grep = "grep --color --ignore-case --line-number --context=3 ";
@@ -73,7 +73,7 @@
     COLORTERM = "truecolor";
     # ZSH_AUTOSUGGEST_USE_ASYNC = "on";
     ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE = "fg=12";
-    EDITOR = lib.mkDefault "vi";
+    # EDITOR = lib.mkDefault "vi";
     GOBIN = "$HOME/go/bin";
     GOMODCACHE = "$HOME/go/pkg/mod";
     GOPATH = "$HOME/go";

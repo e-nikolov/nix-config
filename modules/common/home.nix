@@ -137,6 +137,8 @@ in {
     "aarch64-linux"
     "i686-linux"
   ];
+  services.home-manager.autoUpgrade.enable = true;
+  services.home-manager.autoUpgrade.frequency = "*-*-* 07:05:00";
 
   nix.settings.cores = 4;
   home.shellAliases = {

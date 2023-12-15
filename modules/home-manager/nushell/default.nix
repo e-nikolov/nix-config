@@ -91,7 +91,7 @@
 
       l = "eza";
       ls =
-        "eza -lh --group-directories-first --color always --icons --classify --time-style relative --created --changed";
+        "eza -o -lh --group-directories-first --color always --icons --classify --time-style relative --created --changed";
       lsa = "ls -a ";
       tree =
         "eza --tree -alh --group-directories-first --color always --icons ";

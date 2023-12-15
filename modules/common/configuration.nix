@@ -33,7 +33,17 @@ with lib; {
   virtualisation.podman.enable = true;
   virtualisation.podman.dockerSocket.enable = true;
   virtualisation.podman.dockerCompat = true;
-
+  system.autoUpgrade = {
+    enable = true;
+    flake = inputs.self.outPath;
+    flags = [
+      "--update-input"
+      "nixpkgs"
+      "-L" # print build logs
+    ];
+    dates = "07:00";
+    # randomizedDelaySec = "45min";
+  };
   security.polkit.enable = true;
   security.pam.services.kwallet.enableKwallet = true;
 

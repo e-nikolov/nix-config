@@ -29,6 +29,7 @@
     pkgs.jq
     pkgs.direnv
     pkgs.xclip
+    pkgs.wl-clipboard
     pkgs.bash-completion
     pkgs.sops
     pkgs.age
@@ -82,9 +83,15 @@
     initExtra = lib.mkDefault ''
       ### Functions ###
 
-      xc() {
-          xclip -selection clipboard
-      }
+      if [[ $XDG_SESSION_TYPE == "wayland" ]]; then
+        xc() {
+            wl-copy
+        }
+      else
+        xc() {
+            xclip -selection clipboard
+        }
+      fi
 
       nhs() {
         home-manager switch --flake ~/nix-config $@ && exec bash
