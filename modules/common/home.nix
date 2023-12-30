@@ -63,7 +63,6 @@ in {
     # pkgs.python3Packages.autopep8
 
     # NETWORKING ##
-    pkgs.tailscale
     pkgs.strongswan
     pkgs.nmap-unfree
     # pkgs.sofia_sip
