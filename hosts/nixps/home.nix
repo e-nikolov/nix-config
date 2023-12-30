@@ -8,6 +8,7 @@ let
 
   vscode-insiders = ((pkgs.vscode.override { isInsiders = true; }).overrideAttrs
     (oldAttrs: rec {
+      meta.priority = 4;
       src = (builtins.fetchTarball {
         url =
           "https://code.visualstudio.com/sha/download?build=insider&os=linux-x64";
@@ -23,6 +24,7 @@ in {
     ../../modules/home-manager/keyd-application-mapper
     ../../modules/common/home.nix
   ];
+  xdg.mimeApps.enable = true;
 
   home.packages = [
     pkgs.chromium
@@ -36,8 +38,8 @@ in {
     pkgs.pamix
     pkgs.viber
     pkgs.unrar
-    # pkgs.vscode
-    # vscode-insiders
+    pkgs.vscode
+    vscode-insiders
     pkgs.firefox
     pkgs.yakuake
     pkgs.konsole
