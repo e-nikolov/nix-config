@@ -24,7 +24,7 @@ in {
     ../../modules/home-manager/keyd-application-mapper
     ../../modules/common/home.nix
   ];
-  xdg.mimeApps.enable = true;
+  # xdg.mimeApps.enable = true; # TODO
 
   home.packages = [
     pkgs.chromium
