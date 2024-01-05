@@ -31,9 +31,13 @@
     pkgs.gnumake
     pkgs.bc
     pkgs.lsof
+
+    # * FONTS
     pkgs.meslo-lgs-nf
     pkgs.fira-code
     pkgs.jetbrains-mono
+    pkgs.noto-fonts-monochrome-emoji
+
     pkgs.neofetch
     pkgs.sops
     pkgs.age

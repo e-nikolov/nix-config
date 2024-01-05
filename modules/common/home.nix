@@ -40,6 +40,8 @@ in {
     pkgs.bashInteractiveFHS
     pkgs.nil
     pkgs.nixd
+    pkgs.asciinema
+    pkgs.asciinema-agg
     # THESIS ##
 
     # EDITORS ##
