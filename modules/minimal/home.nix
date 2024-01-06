@@ -2,7 +2,6 @@
   config,
   pkgs,
   lib,
-  pkgs-stable,
   inputs,
   ...
 } @ args: {
@@ -30,7 +29,7 @@
       pkgs.nixpkgs-fmt
       pkgs.curl
       pkgs.git
-      # pkgs-stable.ripgrep-all
+      # pkgs.stable.ripgrep-all
       # pkgs.ripgrep-all
       pkgs.websocat
       # pkgs.file

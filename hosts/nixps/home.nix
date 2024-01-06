@@ -79,6 +79,10 @@ in {
     pkgs.swhkd
     pkgs.keyd
 
+    pkgs.mesa-demos
+    pkgs.vulkan-tools
+    pkgs.clinfo
+
     yakuake_autostart
   ];
 

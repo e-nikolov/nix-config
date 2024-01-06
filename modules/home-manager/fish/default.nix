@@ -1,5 +1,10 @@
-{ config, pkgs, lib, pkgs-stable, inputs, ... }@args: {
-
+{
+  config,
+  pkgs,
+  lib,
+  inputs,
+  ...
+} @ args: {
   programs.fish = {
     enable = true;
     interactiveShellInit = ''
@@ -65,11 +70,9 @@
       gct = "git commit -am 'tmp'";
 
       l = "eza";
-      ls =
-        "eza -o -lh --group-directories-first --color always --icons --classify --time-style relative --created --changed";
+      ls = "eza -o -lh --group-directories-first --color always --icons --classify --time-style relative --created --changed";
       lsa = "ls -a ";
-      tree =
-        "eza --tree -alh --group-directories-first --color always --icons ";
+      tree = "eza --tree -alh --group-directories-first --color always --icons ";
       grep = "grep --color --ignore-case --line-number --context=3 ";
       df = "df -h ";
 
@@ -136,6 +139,5 @@
         };
       }
     ];
-
   };
 }

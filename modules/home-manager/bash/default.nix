@@ -1,4 +1,10 @@
-{ config, pkgs, lib, pkgs-stable, inputs, ... }@args: {
+{
+  config,
+  pkgs,
+  lib,
+  inputs,
+  ...
+} @ args: {
   programs.bash = {
     enable = true;
 

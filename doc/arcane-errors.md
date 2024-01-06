@@ -31,6 +31,13 @@ error:
 Caused by setting nix.nixPath = ["nixpkgs=${inputs.nixpkgs.outPath}" "nixpkgs-stable=${inputs.nixpkgs-stable.outPath}" "pkgs=${pkgs}"];
 
 # Broken Haskell Package
+
     - Allow broken
     - see what depends on the broken package
     - use the stable version of the dependent package
+
+# 1Pasword graphical glitches
+
+1password --disable-gpu-driver-bug-workarounds
+
+Disable hardware acceleration

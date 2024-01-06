@@ -2,7 +2,6 @@
   config,
   pkgs,
   lib,
-  pkgs-stable,
   inputs,
   ...
 } @ args: {

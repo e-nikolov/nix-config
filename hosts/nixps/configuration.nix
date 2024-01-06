@@ -12,7 +12,8 @@
     # Include the results of the hardware scan.
     ../../modules/nixos/keyd
     ../../modules/common/configuration.nix
-    inputs.nixos-hardware.nixosModules.dell-xps-15-9560-intel
+    inputs.nixos-hardware.nixosModules.dell-xps-15-9560
+    # inputs.nixos-hardware.nixosModules.dell-xps-15-9560-intel
 
     ./hardware-configuration.nix
   ];
@@ -100,14 +101,14 @@
 
   networking.hostName = "nixps"; # Define your hostname.
   networking.hostId = "a96153f9";
-  networking.networkmanager.enable =
-    true; # Easiest to use and most distros use this by default.
+  networking.networkmanager.enable = true; # Easiest to use and most distros use this by default.
 
   # Set your time zone.
   time.timeZone = "Europe/Amsterdam";
 
   # NVIDIA drivers are unfree.
   # nixpkgs.config.allowUnfree = true;
+  # nixpkgs.config.nvidia.acceptLicense = true;
 
   hardware.opengl.enable = true;
 

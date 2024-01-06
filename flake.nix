@@ -1,15 +1,25 @@
 {
-  outputs = inputs@{ self, flake-parts, nixpkgs, nixpkgs-stable, flake-utils
-    , nix-index-database, home-manager, ... }:
-    let
-      values = import ./values.nix;
-      inherit (self) outputs;
-      overlays = import ./overlays { inherit inputs outputs; };
-
-    in flake-parts.lib.mkFlake { inherit inputs; }
-    ({ withSystem, flake-parts-lib, ... }: {
-
-      imports = [ inputs.devenv.flakeModule ];
+  outputs = inputs @ {
+    self,
+    flake-parts,
+    nixpkgs,
+    nixpkgs-stable,
+    flake-utils,
+    nix-index-database,
+    home-manager,
+    ...
+  }: let
+    values = import ./values.nix;
+    inherit (self) outputs;
+    overlays = import ./overlays {inherit inputs outputs;};
+  in
+    flake-parts.lib.mkFlake {inherit inputs;}
+    ({
+      withSystem,
+      flake-parts-lib,
+      ...
+    }: {
+      imports = [inputs.devenv.flakeModule];
 
       systems = [
         "aarch64-darwin"
@@ -18,138 +28,169 @@
         "x86_64-linux"
         "armv7l-linux"
       ];
-      perSystem = { config, self', inputs', pkgs, system, ... }:
-        let
-
-          pkgs-stable = import nixpkgs-stable {
-            inherit system;
-            config = { allowUnfree = false; };
-          };
-
-          pkgs = import nixpkgs {
-            inherit system;
-            config = {
-              allowUnfree = true;
-              permittedInsecurePackages = [
-                # nixos-rebuild switch
-                "electron-25.9.0" # obsidian https://github.com/NixOS/nixpkgs/issues/273611
-              ];
-            };
-
-            overlays = builtins.attrValues overlays;
-            # overlays = import ./overlays { inherit inputs outputs; };
-            # overlays = [
-            #   (import ./overlays { inherit inputs outputs; }).additions
-
-            #   inputs.nix-alien.overlays.default
-            #   inputs.golink.overlay
-            #   # inputs.nil.overlays.default
-            #   # inputs.nixd.overlays.default
-
-            #   (final: prev: {
-            #     # inherit (inputs.nil.packages.${system}) nil;
-            #     inherit (inputs.devenv.packages.${system}) devenv;
-            #     inherit (inputs.plasma-manager.packages.${system}) rc2nix; 
-            #   })
-            # ];
-          };
-        in {
-          # Provides the pkgs to all flake modules and to withSystem calls
-          _module.args = { inherit pkgs pkgs-stable; };
-
-          formatter = (system: nixpkgs.legacyPackages.${system}.alejandra);
-
-          devShells.default = pkgs.mkShell {
-            NIX_CONFIG =
-              "extra-experimental-features = nix-command flakes repl-flake ";
-            nativeBuildInputs = [
-              pkgs.home-manager
-              pkgs.nix
-              pkgs.zsh
-              pkgs.git
-
-              pkgs.sops
-              pkgs.gnupg
-              pkgs.age
+      perSystem = {
+        config,
+        self',
+        inputs',
+        pkgs,
+        system,
+        ...
+      }: let
+        # pkgs-stable = import nixpkgs-stable {
+        #   inherit system;
+        #   config = {allowUnfree = false;};
+        # };
+        pkgs = import nixpkgs {
+          inherit system;
+          config = {
+            allowUnfree = true;
+            nvidia.acceptLicense = true;
+            permittedInsecurePackages = [
+              # nixos-rebuild switch
+              "electron-25.9.0" # obsidian https://github.com/NixOS/nixpkgs/issues/273611
             ];
-            shellHook = ''
-              zsh
-            '';
           };
+
+          overlays = builtins.attrValues overlays;
+          # overlays = import ./overlays { inherit inputs outputs; };
+          # overlays = [
+          #   (import ./overlays { inherit inputs outputs; }).additions
+
+          #   inputs.nix-alien.overlays.default
+          #   inputs.golink.overlay
+          #   # inputs.nil.overlays.default
+          #   # inputs.nixd.overlays.default
+
+          #   (final: prev: {
+          #     # inherit (inputs.nil.packages.${system}) nil;
+          #     inherit (inputs.devenv.packages.${system}) devenv;
+          #     inherit (inputs.plasma-manager.packages.${system}) rc2nix;
+          #   })
+          # ];
         };
+      in {
+        # Provides the pkgs to all flake modules and to withSystem calls
+        # _module.args = {inherit pkgs pkgs-stable;};
+        _module.args = {inherit pkgs;};
+
+        formatter = system: nixpkgs.legacyPackages.${system}.alejandra;
+
+        devShells.default = pkgs.mkShell {
+          NIX_CONFIG = "extra-experimental-features = nix-command flakes repl-flake ";
+          nativeBuildInputs = [
+            pkgs.home-manager
+            pkgs.nix
+            pkgs.zsh
+            pkgs.git
+
+            pkgs.sops
+            pkgs.gnupg
+            pkgs.age
+          ];
+          shellHook = ''
+            zsh
+          '';
+        };
+      };
       ## * End of perSystem() ##
 
       flake = let
-
         # inherit (flake-parts-lib) importApply;
         # flakeModules.default = importApply ./flake-module.nix { inherit withSystem; };
-        mkHome = { system ? "x86_64-linux", modules, ... }@args:
+        mkHome = {
+          system ? "x86_64-linux",
+          modules,
+          ...
+        } @ args:
           withSystem system
-          ({ config, inputs', pkgs, pkgs-stable, ... }@sysargs:
-            let
-              pkgs = if args ? pkgs then args.pkgs else sysargs.pkgs;
-              modules = [
+          ({
+              config,
+              inputs',
+              pkgs,
+              # pkgs-stable,
+              ...
+            } @ sysargs: let
+              pkgs =
+                if args ? pkgs
+                then args.pkgs
+                else sysargs.pkgs;
+              modules =
+                [
+                  # https://github.com/nix-community/home-manager/issues/2033#issuecomment-1848326144
+                  {
+                    config = {
+                      news.display = "silent";
+                      news.json = pkgs.lib.mkForce {};
+                      news.entries = pkgs.lib.mkForce [];
+                    };
+                  }
 
-                # https://github.com/nix-community/home-manager/issues/2033#issuecomment-1848326144
+                  ({config, ...}: {
+                    nix.package = pkgs.nixFlakes;
+                    home.username = values.username;
+                    home.homeDirectory = "/home/${values.username}";
+                    programs.git.userName = "${values.gitUsername}";
+                    programs.git.userEmail = "${values.email}";
+
+                    home.stateVersion = "23.05";
+                  })
+                ]
+                ++ args.modules;
+              extraSpecialArgs =
                 {
-                  config = {
-                    news.display = "silent";
-                    news.json = pkgs.lib.mkForce { };
-                    news.entries = pkgs.lib.mkForce [ ];
-                  };
+                  inherit inputs outputs values; # pkgs-stable;
                 }
-
-                ({ config, ... }: {
-                  nix.package = pkgs.nixFlakes;
-                  home.username = values.username;
-                  home.homeDirectory = "/home/${values.username}";
-                  programs.git.userName = "${values.gitUsername}";
-                  programs.git.userEmail = "${values.email}";
-
-                  home.stateVersion = "23.05";
-                })
-              ] ++ args.modules;
-              extraSpecialArgs = {
-                inherit inputs outputs values pkgs-stable;
-              } // args.extraSpecialArgs or { };
+                // args.extraSpecialArgs or {};
             in (home-manager.lib.homeManagerConfiguration
               ((pkgs.lib.filterAttrs (k: v: k != "system")
-                args) # "system" is used to set pkgs, but it is not a valid home-manager option
+                  args) # "system" is used to set pkgs, but it is not a valid home-manager option
                 // {
                   inherit modules pkgs extraSpecialArgs;
-
                 })));
 
-        mkSystem = { system ? "x86_64-linux", modules, ... }@args:
-          withSystem system ({ config, inputs', pkgs, ... }@sysargs:
-            let
-              pkgs = if args ? pkgs then args.pkgs else sysargs.pkgs;
-              specialArgs = {
-                inherit inputs values;
-              } // args.specialArgs or { };
+        mkSystem = {
+          system ? "x86_64-linux",
+          modules,
+          ...
+        } @ args:
+          withSystem system ({
+              config,
+              inputs',
+              pkgs,
+              ...
+            } @ sysargs: let
+              pkgs =
+                if args ? pkgs
+                then args.pkgs
+                else sysargs.pkgs;
+              specialArgs =
+                {
+                  inherit inputs values;
+                }
+                // args.specialArgs or {};
             in (nixpkgs.lib.nixosSystem
-              (args // { inherit pkgs specialArgs; })));
+              (args // {inherit pkgs specialArgs;})));
       in {
         inherit overlays;
 
         homeConfigurations = {
           "${values.username}@home-nix" =
-            mkHome { modules = [ ./hosts/home-nix/home.nix ]; };
+            mkHome {modules = [./hosts/home-nix/home.nix];};
           "${values.username}@nixps" =
-            mkHome { modules = [ ./hosts/nixps/home.nix ]; };
+            mkHome {modules = [./hosts/nixps/home.nix];};
         };
         nixosConfigurations = {
           home-nix = mkSystem {
             modules = [
-              { wsl.defaultUser = values.username; }
+              {wsl.defaultUser = values.username;}
 
               ./hosts/home-nix/configuration.nix
             ];
           };
-          nixps = mkSystem { modules = [ ./hosts/nixps/configuration.nix ]; };
+          nixps = mkSystem {modules = [./hosts/nixps/configuration.nix];};
           rpi1 = mkSystem {
             system = "armv7l-linux";
-            modules = [ ./hosts/rpi1/configuration.nix ];
+            modules = [./hosts/rpi1/configuration.nix];
           };
         };
         templates = {
@@ -182,7 +223,6 @@
         homeModules.bare = ./modules/bare/home.nix;
         homeModules.minimal = ./modules/minimal/home.nix;
         flakeModules.full = self;
-
       };
     });
 
