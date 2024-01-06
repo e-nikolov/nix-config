@@ -1,23 +1,26 @@
-{ config, lib, pkgs, ... }:
-with lib;
-let
-  cfg = config.services.keyd2;
-  settingsFormat = pkgs.formats.ini { };
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
+with lib; let
+  cfg = config.custom.services.keyd;
 
-  keyboardOptions = { ... }: {
+  keyboardOptions = {...}: {
     options = {
       ids = mkOption {
         type = types.listOf types.str;
-        default = [ "*" ];
-        example = [ "*" "-0123:0456" ];
+        default = ["*"];
+        example = ["*" "-0123:0456"];
         description = lib.mdDoc ''
           Device identifiers, as shown by {manpage}`keyd(1)`.
         '';
       };
 
       settings = mkOption {
-        type = settingsFormat.type;
-        default = { };
+        type = (pkgs.formats.ini {}).type;
+        default = {};
         example = {
           main = {
             capslock = "overload(control, esc)";
@@ -37,23 +40,36 @@ let
           See <https://github.com/rvaiya/keyd> how to configure.
         '';
       };
+
+      extraConfig = mkOption {
+        type = types.lines;
+        default = "";
+        example = ''
+          [control+shift]
+          h = left
+        '';
+        description = lib.mdDoc ''
+          Extra configuration that is appended to the end of the file.
+          **Do not** write `ids` section here, use a separate option for it.
+          You can use this option to define compound layers that must always be defined after the layer they are comprised.
+        '';
+      };
     };
   };
-in
-{
+in {
   imports = [
-    (mkRemovedOptionModule [ "services" "keyd2" "ids" ]
-      ''Use keyboards.<filename>.ids instead. If you don't need a multi-file configuration, just add keyboards.default before the ids. See https://github.com/NixOS/nixpkgs/pull/243271.'')
-    (mkRemovedOptionModule [ "services" "keyd2" "settings" ]
-      ''Use keyboards.<filename>.settings instead. If you don't need a multi-file configuration, just add keyboards.default before the settings. See https://github.com/NixOS/nixpkgs/pull/243271.'')
+    (mkRemovedOptionModule ["custom" "services" "keyd" "ids"]
+      "Use keyboards.<filename>.ids instead. If you don't need a multi-file configuration, just add keyboards.default before the ids. See https://github.com/NixOS/nixpkgs/pull/243271.")
+    (mkRemovedOptionModule ["custom" "services" "keyd" "settings"]
+      "Use keyboards.<filename>.settings instead. If you don't need a multi-file configuration, just add keyboards.default before the settings. See https://github.com/NixOS/nixpkgs/pull/243271.")
   ];
 
-  options.services.keyd2 = {
+  options.custom.services.keyd = {
     enable = mkEnableOption (lib.mdDoc "keyd, a key remapping daemon");
 
     keyboards = mkOption {
       type = types.attrsOf (types.submodule keyboardOptions);
-      default = { };
+      default = {};
       example = literalExpression ''
         {
           default = {
@@ -82,35 +98,30 @@ in
 
   config = mkIf cfg.enable {
     # Creates separate files in the `/etc/keyd/` directory for each key in the dictionary
-    environment.etc = mapAttrs'
-      (name: options:
-        nameValuePair "keyd/${name}.conf" {
-          source = pkgs.runCommand "${name}.conf"
-            {
-              ids = ''
-                [ids]
-                ${concatStringsSep "\n" options.ids}
-              '';
-              passAsFile = [ "ids" ];
-            } ''
-            cat $idsPath <(echo) ${settingsFormat.generate "keyd-${name}.conf" options.settings} >$out
-          '';
-        })
-      cfg.keyboards;
+    environment.etc = mapAttrs' (name: options:
+      nameValuePair "keyd/${name}.conf" {
+        text = ''
+          [ids]
+          ${concatStringsSep "\n" options.ids}
+
+          ${generators.toINI {} options.settings}
+          ${options.extraConfig}
+        '';
+      })
+    cfg.keyboards;
 
     hardware.uinput.enable = lib.mkDefault true;
-    users.groups.keyd = { };
+    users.groups.keyd = {};
 
-    systemd.services.keyd2 = {
+    systemd.services.keyd = {
       description = "Keyd remapping daemon";
-      documentation = [ "man:keyd(1)" ];
+      documentation = ["man:keyd(1)"];
 
-      wantedBy = [ "multi-user.target" ];
+      wantedBy = ["multi-user.target"];
 
-      restartTriggers = mapAttrsToList
-        (name: options:
-          config.environment.etc."keyd/${name}.conf".source
-        )
+      restartTriggers =
+        mapAttrsToList
+        (name: options: config.environment.etc."keyd/${name}.conf".source)
         cfg.keyboards;
 
       # this is configurable in 2.4.2, later versions seem to remove this option.
@@ -127,24 +138,18 @@ in
         # TODO investigate why it doesn't work propeprly with DynamicUser
         # See issue: https://github.com/NixOS/nixpkgs/issues/226346
         # DynamicUser = true;
-        SupplementaryGroups = [
-          config.users.groups.input.name
-          config.users.groups.uinput.name
-        ];
+        SupplementaryGroups = [config.users.groups.input.name config.users.groups.uinput.name];
 
         RuntimeDirectory = "keyd";
 
         # Hardening
-
-        DeviceAllow = [
-          "char-input rw"
-          "/dev/uinput rw"
-        ];
+        CapabilityBoundingSet = ["CAP_SYS_NICE"];
+        DeviceAllow = ["char-input rw" "/dev/uinput rw"];
         ProtectClock = true;
         PrivateNetwork = true;
         ProtectHome = true;
         ProtectHostname = true;
-        PrivateUsers = true;
+        PrivateUsers = false;
         PrivateMounts = true;
         PrivateTmp = true;
         RestrictNamespaces = true;
@@ -156,14 +161,10 @@ in
         RestrictRealtime = true;
         LockPersonality = true;
         ProtectProc = "invisible";
-        SystemCallFilter = [
-          "@system-service"
-          "~@privileged"
-          "~@resources"
-        ];
-        RestrictAddressFamilies = [ "AF_UNIX" ];
+        SystemCallFilter = ["nice" "@system-service" "~@privileged"];
+        RestrictAddressFamilies = ["AF_UNIX"];
         RestrictSUIDSGID = true;
-        IPAddressDeny = [ "any" ];
+        IPAddressDeny = ["any"];
         NoNewPrivileges = true;
         ProtectSystem = "strict";
         ProcSubset = "pid";

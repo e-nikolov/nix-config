@@ -4,6 +4,8 @@
     let
       values = import ./values.nix;
       inherit (self) outputs;
+      overlays = import ./overlays { inherit inputs outputs; };
+
     in flake-parts.lib.mkFlake { inherit inputs; }
     ({ withSystem, flake-parts-lib, ... }: {
 
@@ -18,36 +20,44 @@
       ];
       perSystem = { config, self', inputs', pkgs, system, ... }:
         let
+
           pkgs-stable = import nixpkgs-stable {
             inherit system;
             config = { allowUnfree = false; };
           };
+
           pkgs = import nixpkgs {
             inherit system;
             config = {
               allowUnfree = true;
-              permittedInsecurePackages = [ # nixos-rebuild switch
+              permittedInsecurePackages = [
+                # nixos-rebuild switch
                 "electron-25.9.0" # obsidian https://github.com/NixOS/nixpkgs/issues/273611
               ];
             };
-            overlays = [
-              (import ./overlays { inherit inputs outputs; }).additions
 
-              inputs.nix-alien.overlays.default
-              inputs.golink.overlay
-              # inputs.nil.overlays.default
-              # inputs.nixd.overlays.default
+            overlays = builtins.attrValues overlays;
+            # overlays = import ./overlays { inherit inputs outputs; };
+            # overlays = [
+            #   (import ./overlays { inherit inputs outputs; }).additions
 
-              (final: prev: {
-                # inherit (inputs.nil.packages.${system}) nil;
-                inherit (inputs.devenv.packages.${system}) devenv;
-                inherit (inputs.plasma-manager.packages.${system}) rc2nix;
-              })
-            ];
+            #   inputs.nix-alien.overlays.default
+            #   inputs.golink.overlay
+            #   # inputs.nil.overlays.default
+            #   # inputs.nixd.overlays.default
+
+            #   (final: prev: {
+            #     # inherit (inputs.nil.packages.${system}) nil;
+            #     inherit (inputs.devenv.packages.${system}) devenv;
+            #     inherit (inputs.plasma-manager.packages.${system}) rc2nix; 
+            #   })
+            # ];
           };
         in {
           # Provides the pkgs to all flake modules and to withSystem calls
           _module.args = { inherit pkgs pkgs-stable; };
+
+          formatter = (system: nixpkgs.legacyPackages.${system}.alejandra);
 
           devShells.default = pkgs.mkShell {
             NIX_CONFIG =
@@ -120,6 +130,7 @@
             in (nixpkgs.lib.nixosSystem
               (args // { inherit pkgs specialArgs; })));
       in {
+        inherit overlays;
 
         homeConfigurations = {
           "${values.username}@home-nix" =
@@ -171,6 +182,7 @@
         homeModules.bare = ./modules/bare/home.nix;
         homeModules.minimal = ./modules/minimal/home.nix;
         flakeModules.full = self;
+
       };
     });
 

@@ -1,16 +1,21 @@
-{ lib, config, options, pkgs, inputs, ... }: {
-  imports = [ inputs.nix-index-database.hmModules.nix-index ];
+{
+  lib,
+  config,
+  options,
+  pkgs,
+  inputs,
+  ...
+}: {
+  imports = [inputs.nix-index-database.hmModules.nix-index];
 
   nix.package = lib.mkDefault pkgs.nixFlakes;
 
-  nix.settings.experimental-features =
-    [ "flakes" "nix-command" "repl-flake" "auto-allocate-uids" ];
+  nix.settings.experimental-features = ["flakes" "nix-command" "repl-flake" "auto-allocate-uids"];
   nix.settings.keep-derivations = lib.mkDefault true;
   nix.settings.keep-outputs = lib.mkDefault true;
   nix.settings.auto-optimise-store = lib.mkDefault true;
   nix.settings.nix-path = [
     "nixpkgs=${inputs.nixpkgs.outPath}"
-    # "nixpkgs-stable=${inputs.nixpkgs-stable.outPath}"
   ];
   nix.settings.use-xdg-base-directories = lib.mkDefault true;
   nix.settings.log-lines = lib.mkDefault 20;
@@ -22,37 +27,39 @@
   programs.direnv.nix-direnv.enable = lib.mkDefault true;
   programs.nix-index-database.comma.enable = lib.mkDefault true;
 
-  home.packages = [
-    ## * Add Packages here
+  home.packages =
+    [
+      ## * Add Packages here
 
-    pkgs.nix
-    pkgs.jq
-    pkgs.direnv
-    pkgs.xclip
-    pkgs.wl-clipboard
-    pkgs.bash-completion
-    pkgs.sops
-    pkgs.age
-    pkgs.nixos-option
-    pkgs.nix-doc
-    pkgs.git
-    pkgs.tmux
-    pkgs.skim
-    pkgs.fzy
-    pkgs.sd-switch
-    (pkgs.stdenv.mkDerivation {
-      name = "nix-index";
-      buildInputs = [ pkgs.nix-index-unwrapped ];
-      buildCommand = ''
-        mkdir -p $out/bin
-        cp ${pkgs.nix-index-unwrapped}/bin/nix-index $out/bin/
-      '';
-    })
-    # pkgs.nix-index
-    # pkgs.fortune
-    # pkgs.hello
-    # pkgs.cowsay
-  ] ++ [ ];
+      pkgs.nix
+      pkgs.jq
+      pkgs.direnv
+      pkgs.xclip
+      pkgs.wl-clipboard
+      pkgs.bash-completion
+      pkgs.sops
+      pkgs.age
+      pkgs.nixos-option
+      pkgs.nix-doc
+      pkgs.git
+      pkgs.tmux
+      pkgs.skim
+      pkgs.fzy
+      pkgs.sd-switch
+      (pkgs.stdenv.mkDerivation {
+        name = "nix-index";
+        buildInputs = [pkgs.nix-index-unwrapped];
+        buildCommand = ''
+          mkdir -p $out/bin
+          cp ${pkgs.nix-index-unwrapped}/bin/nix-index $out/bin/
+        '';
+      })
+      # pkgs.nix-index
+      # pkgs.fortune
+      # pkgs.hello
+      # pkgs.cowsay
+    ]
+    ++ [];
   systemd.user.startServices = "sd-switch";
   home.sessionVariables = {
     NODE_PATH = lib.mkDefault "$HOME/.npm-packages/lib/node_modules";
@@ -60,7 +67,7 @@
   };
 
   # FIXME: This is not working for zsh
-  home.sessionPath = [ "$HOME/.local/bin" "$HOME/.npm-packages/bin" ];
+  home.sessionPath = ["$HOME/.local/bin" "$HOME/.npm-packages/bin"];
 
   # meta.priority = 4;
 

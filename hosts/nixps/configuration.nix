@@ -1,7 +1,13 @@
 # Edit this configuration file to define what should be installed on
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
-{ config, pkgs, inputs, values, ... }: {
+{
+  config,
+  pkgs,
+  inputs,
+  values,
+  ...
+}: {
   imports = [
     # Include the results of the hardware scan.
     ../../modules/nixos/keyd
@@ -12,10 +18,10 @@
   ];
 
   # boot.blacklistedKernelModules = [ "nouveau" "nvidia" ];
-  boot.blacklistedKernelModules = [ "snd_pcsp" ];
+  boot.blacklistedKernelModules = ["snd_pcsp"];
   # boot.kernelParams = [ "acpi_rev_override=1" "nomodeset" ];
-  boot.kernelParams = [ "acpi_rev_override=1" ];
-  boot.binfmt.emulatedSystems = [ "armv7l-linux" "aarch64-linux" ];
+  boot.kernelParams = ["acpi_rev_override=1"];
+  boot.binfmt.emulatedSystems = ["armv7l-linux" "aarch64-linux"];
   boot.loader = {
     systemd-boot = {
       enable = true;
@@ -27,7 +33,7 @@
         '';
       };
     };
-    efi = { canTouchEfiVariables = true; };
+    efi = {canTouchEfiVariables = true;};
   };
   security.rtkit.enable = true;
   services.pipewire = {
@@ -39,10 +45,10 @@
     jack.enable = true;
   };
 
-  services.keyd2.enable = true;
-  services.keyd2.keyboards = {
+  custom.services.keyd.enable = true;
+  custom.services.keyd.keyboards = {
     default = {
-      ids = [ "*" ];
+      ids = ["*"];
       settings = {
         main = {
           capslock = "overload(control, esc)";
@@ -50,9 +56,9 @@
           # n = "command(ydotool type 321)";
         };
 
-        control = { };
-        alt = { };
-        "control+alt" = { };
+        control = {};
+        alt = {};
+        "control+alt" = {};
 
         # alt = {
         #   "4" = "command(/home/enikolov/.local/state/nix/profile/bin/xkblayout-state set +1)";
@@ -84,7 +90,7 @@
       "audio"
       "keyd"
     ];
-    packages = with pkgs; [ ];
+    packages = with pkgs; [];
   };
 
   # users.groups.keyd = { gid = 33201; };
@@ -115,7 +121,7 @@
   };
 
   # Enable the X11 windowing system.
-  services.xserver.videoDrivers = [ "intel" ];
+  services.xserver.videoDrivers = ["intel"];
   services.xserver.displayManager.defaultSession = "plasma";
   services.xserver.enable = true;
   services.xserver.layout = "us,bg";
@@ -193,7 +199,7 @@
   programs.git.enable = true;
   programs._1password.enable = true;
   programs._1password-gui.enable = true;
-  programs._1password-gui.polkitPolicyOwners = [ values.username ];
+  programs._1password-gui.polkitPolicyOwners = [values.username];
   # programs._1password-gui.package = (pkgs._1password-gui-beta.overrideAttrs
   #   (oldAttrs: {
   #     postInstall = ''
@@ -211,7 +217,7 @@
 
   services.tailscale.enable = true;
   networking.firewall.checkReversePath = "loose";
-  networking.firewall.allowedTCPPorts = [ 12345 ];
+  networking.firewall.allowedTCPPorts = [12345];
 
   # nix.settings.trusted-users = [ "root" "enikolov" ];
 

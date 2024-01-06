@@ -1,23 +1,29 @@
-{ config, pkgs, id, inputs, lib, ... }:
-let
+{
+  config,
+  pkgs,
+  id,
+  inputs,
+  lib,
+  ...
+}: let
   yakuake_autostart = pkgs.makeAutostartItem {
     name = "yakuake";
     package = pkgs.yakuake;
     srcPrefix = "org.kde.";
   };
 
-  vscode-insiders = ((pkgs.vscode.override { isInsiders = true; }).overrideAttrs
+  vscode-insiders =
+    (pkgs.vscode.override {isInsiders = true;}).overrideAttrs
     (oldAttrs: rec {
       meta.priority = 4;
-      src = (builtins.fetchTarball {
-        url =
-          "https://code.visualstudio.com/sha/download?build=insider&os=linux-x64";
+      src = builtins.fetchTarball {
+        url = "https://code.visualstudio.com/sha/download?build=insider&os=linux-x64";
         sha256 = "sha256:023ryfx9zj7d7ghh41xixsz3yyngc2y6znkvfsrswcij67jqm8cd";
-      });
+      };
       version = "latest";
 
-      buildInputs = oldAttrs.buildInputs ++ [ pkgs.krb5 ];
-    }));
+      buildInputs = oldAttrs.buildInputs ++ [pkgs.krb5];
+    });
 in {
   imports = [
     inputs.plasma-manager.homeManagerModules.plasma-manager
@@ -258,15 +264,12 @@ in {
           sha256 = "sha256-3RNwOQtq/4R13LB6MPYVI4liAT5yXcmCKlb8TBRP5fg=";
         };
         meta = with lib; {
-          changelog =
-            "https://github.com/kasecato/vscode-intellij-idea-keybindings/blob/master/CHANGELOG.md";
+          changelog = "https://github.com/kasecato/vscode-intellij-idea-keybindings/blob/master/CHANGELOG.md";
           description = "Port of IntelliJ IDEA key bindings for VS Code.";
-          downloadPage =
-            "https://marketplace.visualstudio.com/items?itemName=k--kato.intellij-idea-keybindings";
-          homepage =
-            "https://github.com/kasecato/vscode-intellij-idea-keybindings#readme";
+          downloadPage = "https://marketplace.visualstudio.com/items?itemName=k--kato.intellij-idea-keybindings";
+          homepage = "https://github.com/kasecato/vscode-intellij-idea-keybindings#readme";
           license = licenses.mit;
-          maintainers = with maintainers; [ ];
+          maintainers = with maintainers; [];
         };
       })
     ];
@@ -446,21 +449,21 @@ in {
     #       key = "ctrl+b";
     #       command = "editor.action.openLink";
     #     }
-    #   ];  
+    #   ];
   };
   programs.kitty.enable = true;
   programs.alacritty.enable = true;
   services.polybar.enable = true;
   services.polybar.script = ''
-    polybar bar &
+    # polybar bar &
   '';
   services.polybar.extraConfig = ''
-    [bar/mybar]
-    modules-right = date
+    # [bar/mybar]
+    # modules-right = date
 
-    [module/date]
-    type = internal/date
-    date = %Y-%m-%d%
+    # [module/date]
+    # type = internal/date
+    # date = %Y-%m-%d%
 
   '';
   programs.feh.enable = true;
@@ -495,8 +498,7 @@ in {
         "kwin"."Window Maximize" = "Meta+Up,Meta+Up,Maximize Window";
         "kwin"."Expose" = "Meta+F,,Expose";
         "kwin"."Toggle Overview" = "Meta+F,Meta+F,Toggle Overview";
-        "yakuake".toggle-window-state =
-          "Alt+\\\\	Meta+`,F12,Open/Retract Yakuake";
+        "yakuake".toggle-window-state = "Alt+\\\\	Meta+`,F12,Open/Retract Yakuake";
       };
       "kxkbrc" = {
         Layout = {
@@ -505,7 +507,7 @@ in {
           SwitchMode = "WinClass";
         };
       };
-      "plasmarc" = { Theme.name = "breeze-dark"; };
+      "plasmarc" = {Theme.name = "breeze-dark";};
 
       "kwinrc" = {
         TabBox = {
@@ -546,14 +548,14 @@ in {
           sortingStrategy = "1";
         };
       };
-      konsolerc = { "Desktop Entry" = { DefaultProfile = "termix.profile"; }; };
+      konsolerc = {"Desktop Entry" = {DefaultProfile = "termix.profile";};};
 
       yakuakerc = {
         "Appearance" = {
           HideSkinBorders = true;
           TerminalHighlightOnManualActivation = true;
         };
-        "Audio Preview Settings" = { Autoplay = false; };
+        "Audio Preview Settings" = {Autoplay = false;};
         "Behavior" = {
           FocusFollowsMouse = true;
           OpenAfterStart = true;
@@ -577,7 +579,7 @@ in {
           edit_paste = "Ctrl+Shift+V; Ctrl+V";
           edit_copy = "Ctrl+Shift+C; Ctrl+C";
         };
-        "Desktop Entry" = { DefaultProfile = "termix.profile"; };
+        "Desktop Entry" = {DefaultProfile = "termix.profile";};
         "Window" = {
           DynamicTabTitles = true;
           Height = 100;
@@ -587,13 +589,13 @@ in {
           Width = 100;
         };
       };
-      kscreenlockerrc = { Daemon = { Autolock = false; }; };
+      kscreenlockerrc = {Daemon = {Autolock = false;};};
       powermanagementprofilesrc = {
         "AC.DPMSControl" = {
           idleTime = 3600;
           lockBeforeTurnOff = 0;
         };
-        "AC.DimDisplay" = { idleTime = 3600000; };
+        "AC.DimDisplay" = {idleTime = 3600000;};
         "AC.HandleButtonEvents" = {
           lidAction = 32;
           powerButtonAction = 16;
@@ -604,7 +606,7 @@ in {
           idleTime = 1500;
           lockBeforeTurnOff = 0;
         };
-        "Battery.DimDisplay" = { idleTime = 900000; };
+        "Battery.DimDisplay" = {idleTime = 900000;};
         "Battery.HandleButtonEvents" = {
           lidAction = 1;
           powerButtonAction = 16;

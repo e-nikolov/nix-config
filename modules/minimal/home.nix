@@ -18,6 +18,7 @@
     pkgs.micro
     pkgs.htop
     pkgs.nixfmt
+    pkgs.nixpkgs-fmt
     pkgs.curl
     pkgs.git
     # pkgs-stable.ripgrep-all
