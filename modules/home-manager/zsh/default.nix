@@ -1,36 +1,44 @@
-{ config, pkgs, lib, pkgs-stable, inputs, ... }@args: {
-  imports = [ ./extra.nix ./after.nix ./zoxide.nix ];
+{
+  config,
+  pkgs,
+  lib,
+  pkgs-stable,
+  inputs,
+  ...
+} @ args: {
+  imports = [./extra.nix ./after.nix ./zoxide.nix];
 
-  home.packages = [
-    pkgs.direnv
-    pkgs.xclip
-    pkgs.bash-completion
-    pkgs.oh-my-zsh
-    pkgs.zsh-fzf-tab
-    # pkgs.zsh-z
-    pkgs.zsh-autosuggestions
-    pkgs.zsh-fast-syntax-highlighting
-    pkgs.zsh-powerlevel10k
-    pkgs.zsh-autopair
-    pkgs.zsh-you-should-use
-    pkgs.zsh-completions
-  ] ++ [ ];
+  home.packages =
+    [
+      pkgs.direnv
+      pkgs.xclip
+      pkgs.bash-completion
+      pkgs.oh-my-zsh
+      pkgs.zsh-fzf-tab
+      # pkgs.zsh-z
+      pkgs.zsh-autosuggestions
+      pkgs.zsh-fast-syntax-highlighting
+      pkgs.zsh-powerlevel10k
+      pkgs.zsh-autopair
+      pkgs.zsh-you-should-use
+      pkgs.zsh-completions
+    ]
+    ++ [];
   programs.fzf = {
     enable = true;
-    historyWidgetOptions = [ "--reverse" ];
+    historyWidgetOptions = ["--reverse"];
     fileWidgetOptions = [
       "--height=80% --preview='[[ -d {} ]] && eza -lh --group-directories-first --color always --icons --classify --time-style relative --created --changed {} || bat {} --color=always' "
     ];
     # tmux.enableShellIntegration = true;
     # defaultOptions = [ "--ansi" "--height=60%" ];
-    defaultOptions = [ "--ansi" ];
+    defaultOptions = ["--ansi"];
     colors = {
       bg = "#1e1e1e";
       "bg+" = "#1e1e1e";
       fg = "#d4d4d4";
       "fg+" = "#d4d4d4";
     };
-
   };
 
   home.shellAliases = {
@@ -40,8 +48,7 @@
     gct = "git commit -am 'tmp'";
 
     l = "eza";
-    ls =
-      "eza -olh --group-directories-first --color always --icons --classify --time-style relative --created --changed";
+    ls = "eza -olh --group-directories-first --color always --icons --classify --time-style relative --created --changed";
     lsa = "ls -a ";
     tree = "eza --tree -alh --group-directories-first --color always --icons ";
     grep = "grep --color --ignore-case --line-number --context=3 ";
@@ -51,8 +58,7 @@
     src = "source ~/.zshrc";
 
     port = "sudo lsof -i -P -n | fzf";
-    pp =
-      "ps axww -o pid,user,%cpu,%mem,start,time,command | fzf | sed 's/^ *//' | cut -f1 -d' '";
+    pp = "ps axww -o pid,user,%cpu,%mem,start,time,command | fzf | sed 's/^ *//' | cut -f1 -d' '";
 
     gi = "go install ./...";
     gomt = "go mod tidy";
@@ -84,7 +90,7 @@
     KEYTIMEOUT = "10";
   };
 
-  home.sessionPath = [ "$GOBIN" "$HOME/.local/bin" ];
+  home.sessionPath = ["$GOBIN" "$HOME/.local/bin"];
 
   programs.zsh = let
     omzp = name: {
@@ -167,16 +173,17 @@
           }
           zle -N zle-line-init
           zle -N zle-line-finish
-        
+
       fi
 
 
       ${config.lib.shell.exportAll config.home.sessionVariables}
-      ${lib.optionalString (config.home.sessionPath != [ ]) ''
-        export PATH="$PATH''${PATH:+:}${
-          builtins.concatStringsSep ":" config.home.sessionPath
-        }"
-      '' + config.home.sessionVariablesExtra}
+      ${lib.optionalString (config.home.sessionPath != []) ''
+          export PATH="$PATH''${PATH:+:}${
+            builtins.concatStringsSep ":" config.home.sessionPath
+          }"
+        ''
+        + config.home.sessionVariablesExtra}
     '';
 
     defaultKeymap = "emacs";
@@ -268,13 +275,16 @@
     ];
 
     completionInit = ''
+      eval "$(dircolors -b)"
       zstyle :compinstall filename '~/.zshrc'
       # disable sort when completing `git checkout`
       zstyle ':completion:*:git-checkout:*' sort false
       # set descriptions format to enable group support
       zstyle ':completion:*:descriptions' format '[%d]'
       # set list-colors to enable filename colorizing
+      zstyle ':completion:*:default' list-colors ''${(s.:.)LS_COLORS}
       zstyle ':completion:*' list-colors ''${(s.:.)LS_COLORS}
+
       # preview directory's content with exa when completing cd
       zstyle ':fzf-tab:complete:cd:*' fzf-preview 'exa -1 --color=always $realpath'
       # switch group using `,` and `.`
@@ -283,6 +293,8 @@
       zstyle ':completion:*:default' menu select=1
       zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|=*' 'l:|=* r:|=*'
       zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#) ([0-9a-z-]#)*=01;34=0=01'
+      zstyle ':fzf-tab:*' query-string "" # https://github.com/Aloxaf/fzf-tab/issues/32#issuecomment-1519639800
+
 
       zmodload -i zsh/complist
 
@@ -392,7 +404,7 @@
       }
       zle -N fzf-port-widget
 
-      WORDCHARS=""
+      WORDCHARS="*?_-.[]~=/&;!#$%^(){}<>"
       STATEMENTCHARS="@\,:\"'~=!#$%^&*?+_-/;."
       # STATEMENTCHARS="@\,:\"'~=!#$%^&*?+_-/;.(){}[]<>"
 
@@ -526,7 +538,7 @@
         # bindkey '^[[H' beginning-of-line
         # bindkey '^[[F' end-of-line
         # bindkey '^[]Z' redo
-        
+
       # Alt+Backspace
       bindkey '^[^?' backward-delete-statement
 

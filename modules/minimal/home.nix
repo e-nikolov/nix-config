@@ -1,4 +1,11 @@
-{ config, pkgs, lib, pkgs-stable, inputs, ... }@args: {
+{
+  config,
+  pkgs,
+  lib,
+  pkgs-stable,
+  inputs,
+  ...
+} @ args: {
   imports = [
     ../bare/home.nix
     ../home-manager/zsh
@@ -8,53 +15,56 @@
   ];
   programs.home-manager.enable = true;
 
-  nixpkgs.config.permittedInsecurePackages = [ # home-manager
+  nixpkgs.config.permittedInsecurePackages = [
+    # home-manager
     pkgs.openssl_1_1.name
     "electron-25.9.0" # obsidian https://github.com/NixOS/nixpkgs/issues/273611
   ];
 
-  home.packages = [
-    pkgs.nix
-    pkgs.micro
-    pkgs.htop
-    pkgs.nixfmt
-    pkgs.nixpkgs-fmt
-    pkgs.curl
-    pkgs.git
-    # pkgs-stable.ripgrep-all
-    # pkgs.ripgrep-all
-    pkgs.websocat
-    # pkgs.file
-    pkgs.tldr
-    pkgs.rsync
-    pkgs.rnix-lsp
-    pkgs.gnupg
-    pkgs.gnumake
-    pkgs.bc
-    pkgs.lsof
+  home.packages =
+    [
+      pkgs.nix
+      pkgs.micro
+      pkgs.htop
+      pkgs.nixfmt
+      pkgs.nixpkgs-fmt
+      pkgs.curl
+      pkgs.git
+      # pkgs-stable.ripgrep-all
+      # pkgs.ripgrep-all
+      pkgs.websocat
+      # pkgs.file
+      pkgs.tldr
+      pkgs.rsync
+      pkgs.rnix-lsp
+      pkgs.gnupg
+      pkgs.gnumake
+      pkgs.bc
+      pkgs.lsof
 
-    # * FONTS
-    pkgs.meslo-lgs-nf
-    pkgs.fira-code
-    pkgs.jetbrains-mono
-    pkgs.noto-fonts-monochrome-emoji
+      # * FONTS
+      pkgs.meslo-lgs-nf
+      pkgs.fira-code
+      pkgs.jetbrains-mono
+      pkgs.noto-fonts-monochrome-emoji
 
-    pkgs.neofetch
-    pkgs.sops
-    pkgs.age
-    pkgs.xxh
-    pkgs.nixos-option
-    pkgs.nix-doc
-    pkgs.xdg-utils
-    pkgs.delta
-    pkgs.most
-    pkgs.readline
-    pkgs.fasd
+      pkgs.neofetch
+      pkgs.sops
+      pkgs.age
+      pkgs.xxh
+      pkgs.nixos-option
+      pkgs.nix-doc
+      pkgs.xdg-utils
+      pkgs.delta
+      pkgs.most
+      pkgs.readline
+      pkgs.fasd
 
-    # pkgs.fortune
-    # pkgs.hello
-    # pkgs.cowsay
-  ] ++ [ ];
+      # pkgs.fortune
+      # pkgs.hello
+      # pkgs.cowsay
+    ]
+    ++ [];
   targets.genericLinux.enable = true;
   xdg.enable = true;
 
@@ -72,10 +82,10 @@
     delta.enable = true;
 
     extraConfig = {
-      core = { editor = lib.mkDefault "micro"; };
-      credential = { helper = lib.mkDefault "cache --timeout=3600"; };
+      core = {editor = lib.mkDefault "micro";};
+      credential = {helper = lib.mkDefault "cache --timeout=3600";};
 
-      pull = { ff = lib.mkDefault "only"; };
+      pull = {ff = lib.mkDefault "only";};
     };
   };
   # services.gpg-agent.enable = true;
@@ -107,8 +117,8 @@
   # programs.readline.enable = true;
   # programs.gitui.enable = true;
   # programs.pls.enable = true;
-  # programs.carapace.enable = true;
-  programs.eza = { enable = true; };
+  programs.carapace.enable = true;
+  programs.eza = {enable = true;};
 
   fonts.fontconfig.enable = true;
 

@@ -1,5 +1,10 @@
-{ config, pkgs, id, inputs, ... }:
-let
+{
+  config,
+  pkgs,
+  id,
+  inputs,
+  ...
+}: let
   # _1password_desktopItem = pkgs.makeDesktopItem {
   #   name = "_1password-gui";
   #   exec = "_1password-gui";
@@ -10,13 +15,12 @@ let
   #   desktopName = "1Password";
   #   categories = [ "Video" "AudioVideo" ];
   # };
-
   _1password_autostart = pkgs.makeAutostartItem {
     name = "1password";
     package = pkgs._1password-gui;
   };
 in {
-  imports = [ ../../modules/common/home.nix ];
+  imports = [../../modules/common/home.nix];
 
   systemd.user.services = {
     _1password_gui_autostart = {
@@ -34,7 +38,7 @@ in {
       # Install.WantedBy = [ "graphical-session.target" ];
       # Install.WantedBy = [ "graphical.target" ];
       # Install.WantedBy = [ "multi-user.target" ];
-      Install.WantedBy = [ "default.target" ];
+      Install.WantedBy = ["default.target"];
     };
   };
 
@@ -43,9 +47,6 @@ in {
     # pkgs.libsForQt5.kate
     # pkgs.emanote
   ];
-  home.sessionVariables = { EDITOR = "code-insiders"; };
-
-  home.shellAliases = { code = "code-insiders "; };
 
   programs.bash.initExtra = ''
     source ~/nix-config/dotfiles/.bashrc
