@@ -6,8 +6,6 @@
   inputs,
   ...
 }: {
-  imports = [inputs.nix-index-database.hmModules.nix-index];
-
   nix.package = lib.mkDefault pkgs.nixFlakes;
 
   nix.settings.experimental-features = ["flakes" "nix-command" "repl-flake" "auto-allocate-uids"];
@@ -25,44 +23,32 @@
   programs.home-manager.enable = lib.mkDefault true;
   programs.direnv.enable = lib.mkDefault true;
   programs.direnv.nix-direnv.enable = lib.mkDefault true;
-  programs.nix-index-database.comma.enable = lib.mkDefault true;
 
-  home.packages =
-    [
-      ## * Add Packages here
+  home.packages = [
+    ## * Add Packages here
 
-      pkgs.nix
-      pkgs.jq
-      pkgs.direnv
-      pkgs.xclip
-      pkgs.wl-clipboard
-      pkgs.bash-completion
-      pkgs.sops
-      pkgs.age
-      pkgs.nixos-option
-      pkgs.nix-doc
-      pkgs.git
-      pkgs.tmux
-      pkgs.skim
-      pkgs.fzy
-      pkgs.sd-switch
-      (pkgs.stdenv.mkDerivation {
-        name = "nix-index";
-        buildInputs = [pkgs.nix-index-unwrapped];
-        buildCommand = ''
-          mkdir -p $out/bin
-          cp ${pkgs.nix-index-unwrapped}/bin/nix-index $out/bin/
-        '';
-      })
-      # pkgs.nix-index
-      # pkgs.fortune
-      # pkgs.hello
-      # pkgs.cowsay
-    ]
-    ++ [];
+    pkgs.jq
+    pkgs.direnv
+    pkgs.devenv
+    pkgs.sops
+    pkgs.age
+    pkgs.file
+    pkgs.nix-doc
+    pkgs.xdg-utils
+    pkgs.micro
+    pkgs.htop
+    pkgs.curl
+    pkgs.git
+    pkgs.tldr
+    pkgs.sd-switch
+
+    # pkgs.fortune
+    # pkgs.hello
+    # pkgs.cowsay
+  ];
   systemd.user.startServices = "sd-switch";
   home.sessionVariables = {
-    NODE_PATH = lib.mkDefault "$HOME/.npm-packages/lib/node_modules";
+    # NODE_PATH = lib.mkDefault "$HOME/.npm-packages/lib/node_modules";
     HOME_MANAGER_CONFIG = lib.mkDefault "$HOME/nix-config";
   };
 
@@ -84,35 +70,25 @@
     sudo = lib.mkDefault ''sudo -E env "PATH=$PATH" '';
   };
 
-  programs.bash = {
-    enable = lib.mkDefault true;
+  # programs.bash = {
+  #   enable = lib.mkDefault true;
 
-    initExtra = lib.mkDefault ''
-      ### Functions ###
+  #   initExtra = lib.mkDefault ''
+  #     ### Functions ###
 
-      if [[ $XDG_SESSION_TYPE == "wayland" ]]; then
-        xc() {
-            wl-copy
-        }
-      else
-        xc() {
-            xclip -selection clipboard
-        }
-      fi
+  #     nhs() {
+  #       home-manager switch --flake ~/nix-config $@ && exec bash
+  #     }
 
-      nhs() {
-        home-manager switch --flake ~/nix-config $@ && exec bash
-      }
+  #     nrs() {
+  #       sudo nixos-rebuild switch --flake ~/nix-config/ $@ && exec bash
+  #     }
 
-      nrs() {
-        sudo nixos-rebuild switch --flake ~/nix-config/ $@ && exec bash
-      }
-
-      nd() {
-        nix develop "$@"
-      }
-    '';
-  };
+  #     nd() {
+  #       nix develop "$@"
+  #     }
+  #   '';
+  # };
 
   # programs.ssh = {
   #   forwardAgent = true;

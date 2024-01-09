@@ -22,7 +22,6 @@
   boot.blacklistedKernelModules = ["snd_pcsp"];
   # boot.kernelParams = [ "acpi_rev_override=1" "nomodeset" ];
   boot.kernelParams = ["acpi_rev_override=1"];
-  boot.binfmt.emulatedSystems = ["armv7l-linux" "aarch64-linux"];
   boot.loader = {
     systemd-boot = {
       enable = true;
@@ -45,6 +44,7 @@
     # If you want to use JACK applications, uncomment this
     jack.enable = true;
   };
+  sound.enable = true;
 
   custom.services.keyd.enable = true;
   custom.services.keyd.keyboards = {
@@ -86,18 +86,13 @@
   users.users.${personal-info.username} = {
     isNormalUser = true;
     extraGroups = [
-      "wheel" # Enable ‘sudo’ for the user.
-      "podman"
       "audio"
       "keyd"
     ];
-    packages = with pkgs; [];
   };
 
-  # users.groups.keyd = { gid = 33201; };
-
   hardware.bluetooth.enable = true;
-  services.blueman.enable = true;
+  # services.blueman.enable = true;
 
   networking.hostName = "nixps"; # Define your hostname.
   networking.hostId = "a96153f9";
@@ -105,15 +100,6 @@
 
   # Set your time zone.
   time.timeZone = "Europe/Amsterdam";
-
-  # NVIDIA drivers are unfree.
-  # nixpkgs.config.allowUnfree = true;
-  # nixpkgs.config.nvidia.acceptLicense = true;
-
-  hardware.opengl.enable = true;
-
-  # Optionally, you may need to select the appropriate driver version for your specific GPU.
-  # hardware.nvidia.package = config.boot.kernelPackages.nvidiaPackages.stable;
 
   i18n.defaultLocale = "en_IE.UTF-8";
   console = {
@@ -139,6 +125,14 @@
     xwayland.enable = true;
   };
 
+  # NVIDIA drivers are unfree.
+  # nixpkgs.config.allowUnfree = true;
+  # nixpkgs.config.nvidia.acceptLicense = true;
+
+  hardware.opengl.enable = true;
+
+  # Optionally, you may need to select the appropriate driver version for your specific GPU.
+  # hardware.nvidia.package = config.boot.kernelPackages.nvidiaPackages.stable;
   programs.partition-manager.enable = true;
 
   services.xserver.libinput = {
@@ -160,14 +154,7 @@
   # Enable CUPS to print documents.
   # services.printing.enable = true;
 
-  sound.enable = true;
-  # hardware.pulseaudio.enable = true;
   programs.dconf.enable = true;
-
-  virtualisation.docker.enable = false;
-  virtualisation.podman.enable = true;
-  virtualisation.podman.dockerSocket.enable = true;
-  # virtualisation.podman.defaultNetwork.dnsname.enable = true;
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
@@ -177,7 +164,6 @@
     git
     firefox # use programs.firefox.enable = true; ?
     micro
-    yakuake
     konsole
     keyd
     plymouth
@@ -191,13 +177,12 @@
     ydotool
     xdotool
 
-    miraclecast
-    gnome-network-displays
+    # miraclecast
+    # gnome-network-displays
     libsForQt5.kcalc
   ];
 
   services.openssh.enable = true;
-  programs.git.enable = true;
   programs._1password.enable = true;
   programs._1password-gui.enable = true;
   programs._1password-gui.polkitPolicyOwners = [personal-info.username];
@@ -208,19 +193,14 @@
   #     '';
   #   }));
 
-  programs.gnupg.agent = {
-    enable = true;
-    enableSSHSupport = false;
-  };
+  # programs.gnupg.agent = {
+  #   enable = true;
+  #   enableSSHSupport = false;
+  # };
+
   # boot.zfs.requestEncryptionCredentials = false;
-  security.pam.services.kwallet.enableKwallet = true;
-  security.polkit.enable = true;
 
-  services.tailscale.enable = true;
-  networking.firewall.checkReversePath = "loose";
   networking.firewall.allowedTCPPorts = [12345];
-
-  # nix.settings.trusted-users = [ "root" "enikolov" ];
 
   # Copy the NixOS configuration file and link it from the resulting system
   # (/run/current-system/configuration.nix). This is useful in case you

@@ -14,19 +14,17 @@ with lib; {
     ../../modules/nixos/nordvpn
   ];
 
-  sops.defaultSopsFile = ../../secrets/secrets.yaml;
-
-  sops.age.generateKey = true;
-  sops.age.keyFile = "/var/lib/sops-nix/key.txt";
-  boot.binfmt.emulatedSystems = ["armv7l-linux"];
-  # boot.binfmt.emulatedSystems = [ "armv7l-linux" "aarch64-linux" ];
-  security.sudo.extraConfig = ''
-    Defaults        timestamp_timeout=30
-  '';
-  programs.nix-ld.enable = true;
-  programs.nix-ld.package = inputs.nix-ld-rs.packages.${pkgs.system}.nix-ld-rs;
   networking.firewall.checkReversePath = "loose";
   services.tailscale.enable = true;
+  services.nordvpn.enable = true;
+
+  documentation.dev.enable = true;
+  documentation.man.enable = true;
+  documentation.enable = true;
+  documentation.man.mandoc.enable = true;
+  documentation.man.man-db.enable = false;
+  programs.ssh.enableAskPassword = true;
+  programs.git.enable = true;
   programs.zsh = {
     enable = true;
     enableCompletion = false;
@@ -39,10 +37,15 @@ with lib; {
   users.defaultUserShell = pkgs.zsh;
   programs.mosh.enable = true;
 
+  boot.binfmt.emulatedSystems = ["armv7l-linux" "aarch64-linux"];
+  programs.nix-ld.enable = true;
+  programs.nix-ld.package = inputs.nix-ld-rs.packages.${pkgs.system}.nix-ld-rs;
   virtualisation.docker.enable = false;
   virtualisation.podman.enable = true;
   virtualisation.podman.dockerSocket.enable = true;
   virtualisation.podman.dockerCompat = true;
+  # virtualisation.podman.defaultNetwork.dnsname.enable = true;
+
   system.autoUpgrade = {
     enable = true;
     flake = inputs.self.outPath;
@@ -55,18 +58,22 @@ with lib; {
     dates = "06:55";
     # randomizedDelaySec = "45min";
   };
-  security.polkit.enable = true;
-  security.pam.services.kwallet.enableKwallet = true;
-
   programs._1password.enable = true;
   programs._1password-gui.enable = true;
   programs._1password-gui.polkitPolicyOwners = [personal-info.username];
+  sops.defaultSopsFile = ../../secrets/secrets.yaml;
 
-  #programs._1password-gui.polkitPolicyOwners = [ personal-info.username ];
-  # programs._1password.enable = true;
-  # programs._1password-gui.enable = true;
-  users.users."${personal-info.username}".extraGroups = ["wheel" "podman" "docker" "nordvpn"];
-  programs.git.enable = true;
+  sops.age.generateKey = true;
+  sops.age.keyFile = "/var/lib/sops-nix/key.txt";
+  security.sudo.extraConfig = ''
+    Defaults        timestamp_timeout=30
+  '';
+  security.polkit.enable = true;
+  security.pam.services.kwallet.enableKwallet = true;
+  nix.settings.trusted-users = ["root" personal-info.username];
+
+  users.users.${personal-info.username}.extraGroups = ["wheel" "podman" "docker" "nordvpn" "onepassword" "onepassword-cli"];
+
   environment.systemPackages = [
     # pkgs.bashInteractiveFHS
     pkgs.wgnord
@@ -81,14 +88,6 @@ with lib; {
     # pkgs.steam-run
     (pkgs.cowsay.overrideAttrs (old: {__contentAddressable = true;}))
   ];
-
-  services.nordvpn.enable = true;
-  documentation.dev.enable = true;
-  documentation.man.enable = true;
-  documentation.enable = true;
-  documentation.man.mandoc.enable = true;
-  documentation.man.man-db.enable = false;
-  programs.ssh.enableAskPassword = true;
 
   # Enable nix flakes
   # nix.package = pkgs.nixFlakes;

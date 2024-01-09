@@ -37,10 +37,8 @@
     };
 
     inherit (self) outputs;
-
-    lib = nixpkgs.lib // home-manager.lib // flake-parts.lib;
   in
-    lib.mkFlake {inherit inputs;} {
+    flake-parts.lib.mkFlake {inherit inputs;} {
       inherit personal-info;
       imports = [inputs.devenv.flakeModule ./lib];
 
@@ -145,11 +143,11 @@
           };
         };
 
-        nixosModules = import ./modules/nixos;
-        homeManagerModules = import ./modules/home-manager;
+        # nixosModules = import ./modules/nixos;
+        # homeManagerModules = import ./modules/home-manager;
         # homeManagerModules.bare = ./modules/bare/home.nix;
         # homeManagerModules.minimal = ./modules/minimal/home.nix;
-        flakeModules.full = self;
+        # flakeModules.full = self;
       };
     };
 

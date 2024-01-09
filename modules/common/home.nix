@@ -6,20 +6,9 @@
   inputs,
   outputs,
   ...
-}: let
-  inherit (inputs.nix-colors) colorSchemes;
-  inherit
-    (inputs.nix-colors.lib-contrib {inherit pkgs;})
-    colorschemeFromPicture
-    nixWallpaperFromScheme
-    ;
-in {
+}: {
   imports = [
     ../minimal/home.nix
-    ../home-manager/nvim
-    ../home-manager/nushell
-
-    inputs.nix-colors.homeManagerModule
   ];
 
   # https://github.com/nix-community/home-manager/issues/2033#issuecomment-1848326144
@@ -35,7 +24,6 @@ in {
     overlays = builtins.attrValues outputs.overlays;
     config = {allowUnfree = true;};
   };
-  colorscheme = lib.mkDefault colorSchemes.dracula;
 
   programs.ssh = {
     forwardAgent = lib.mkDefault true;
@@ -47,13 +35,6 @@ in {
   };
   home.packages =
     [
-      pkgs.bashInteractiveFHS
-      pkgs.nil
-      pkgs.nixd
-      pkgs.asciinema
-      pkgs.asciinema-agg
-      # THESIS ##
-
       # EDITORS ##
       # pkgs.inkscape
       # pkgs.librsvg
@@ -68,11 +49,9 @@ in {
       pkgs.wireguard-tools
       pkgs.wireguard-go
       pkgs.coturn
-      pkgs.devenv
       pkgs.bun2
       # pkgs.terraform
       # pkgs.nebula
-      # pkgs.python3Packages.autopep8
 
       # NETWORKING ##
       pkgs.strongswan
@@ -81,17 +60,11 @@ in {
       pkgs.inetutils
       pkgs.host.dnsutils
 
-      # # DEV ##
-      # pkgs.devbox
-      # pkgs.asdf-vm
-
-      # pkgs.docker
       pkgs.docker-compose
       pkgs.containerd
       pkgs.runc
 
       pkgs.patchelf
-      # # ?
       pkgs.steam-run
       pkgs.nix-ld
       # # ? pkgs.nix-alien
@@ -118,7 +91,6 @@ in {
       ## UTILS ##
       pkgs.git-filter-repo
       pkgs.inotify-tools
-      # pkgs.qrencode
       pkgs.screen
       pkgs.cacert
       # pkgs.cmctl
@@ -127,12 +99,9 @@ in {
       # pkgs.killall
       # pkgs.nixos-install-tools
       # pkgs.kmod
-      pkgs.alejandra
-      pkgs.deadnix
-      pkgs.statix
-      pkgs.manix
-      pkgs.nb
-      pkgs.bat
+      pkgs.bashInteractiveFHS
+      pkgs.asciinema
+      pkgs.asciinema-agg
 
       # pkgs.fortune
       # pkgs.hello
@@ -165,13 +134,6 @@ in {
   };
   programs.zsh.extra.enable = true;
 
-  programs.bat.enable = true;
-  programs.neovim.enable = true;
-  programs.neovim.coc.enable = true;
-  programs.neovim.viAlias = true;
-  programs.neovim.vimdiffAlias = true;
-  programs.neovim.withPython3 = true;
-  programs.neovim.withNodeJs = true;
   programs.git = {
     signing = {
       signByDefault = true;

@@ -1,13 +1,22 @@
-{ config, pkgs, ... }:
-let color = pkgs.writeText "color.vim" (import ./theme.nix config.colorscheme);
+{
+  config,
+  pkgs,
+  ...
+}: let
+  color = pkgs.writeText "color.vim" (import ./theme.nix config.colorscheme);
 in {
-  imports = [ ./lsp.nix ./syntaxes.nix ./ui.nix ./copilot.nix ];
+  imports = [./lsp.nix ./syntaxes.nix ./ui.nix ./copilot.nix];
   home.sessionVariables.EDITOR = pkgs.lib.mkDefault "nvim";
 
   programs.neovim = {
     enable = true;
-
-    extraConfig = # vim
+    coc.enable = true;
+    withNodeJs = true;
+    withPython3 = true;
+    vimdiffAlias = true;
+    viAlias = true;
+    extraConfig =
+      # vim
       ''
         "Use system clipboard
         set clipboard=unnamedplus
@@ -96,7 +105,8 @@ in {
         "Sudo save
         cmap w!! w !sudo tee > /dev/null %
       '';
-    extraLuaConfig = # lua
+    extraLuaConfig =
+      # lua
       ''
         vim.keymap.set("n", "gD", vim.lsp.buf.declaration, { desc = "Go to declaration" })
         vim.keymap.set("n", "gd", vim.lsp.buf.definition, { desc = "Go to definition" })
@@ -129,7 +139,8 @@ in {
       {
         plugin = nvim-autopairs;
         type = "lua";
-        config = # lua
+        config =
+          # lua
           ''
             require('nvim-autopairs').setup{}
           '';
@@ -137,7 +148,8 @@ in {
     ];
   };
 
-  xdg.configFile."nvim/init.lua".onChange = # bash
+  xdg.configFile."nvim/init.lua".onChange =
+    # bash
     ''
       XDG_RUNTIME_DIR=''${XDG_RUNTIME_DIR:-/run/user/$(id -u)}
       for server in $XDG_RUNTIME_DIR/nvim.*; do
@@ -171,7 +183,7 @@ in {
       ];
       terminal = true;
       type = "Application";
-      categories = [ "Utility" "TextEditor" ];
+      categories = ["Utility" "TextEditor"];
     };
   };
 }

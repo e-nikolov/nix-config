@@ -6,9 +6,9 @@
   ...
 } @ args: {
   programs.bash = {
-    enable = true;
+    enable = lib.mkDefault true;
 
-    initExtra = ''
+    initExtra = lib.mkDefault ''
       ### Functions ###
 
       if [[ $XDG_SESSION_TYPE == "wayland" ]]; then
