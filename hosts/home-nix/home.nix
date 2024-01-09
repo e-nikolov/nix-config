@@ -1,8 +1,8 @@
 {
   config,
   pkgs,
-  id,
   inputs,
+  self,
   ...
 }: let
   # _1password_desktopItem = pkgs.makeDesktopItem {
@@ -21,15 +21,6 @@
   };
 in {
   imports = [../../modules/common/home.nix];
-
-  home.file."nix-config/.tmp/debug.log".text = ''
-    ${
-      if inputs.self ? rev
-      then toString inputs.self.rev
-      else "no rev"
-    }
-    ${inputs.self.outPath}
-  '';
 
   systemd.user.services = {
     _1password_gui_autostart = {

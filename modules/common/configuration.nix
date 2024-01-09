@@ -4,7 +4,7 @@
   config,
   modulesPath,
   inputs,
-  values,
+  personal-info,
   ...
 }:
 with lib; {
@@ -60,12 +60,12 @@ with lib; {
 
   programs._1password.enable = true;
   programs._1password-gui.enable = true;
-  programs._1password-gui.polkitPolicyOwners = [values.username];
+  programs._1password-gui.polkitPolicyOwners = [personal-info.username];
 
-  #programs._1password-gui.polkitPolicyOwners = [ values.username ];
+  #programs._1password-gui.polkitPolicyOwners = [ personal-info.username ];
   # programs._1password.enable = true;
   # programs._1password-gui.enable = true;
-  users.users."${values.username}".extraGroups = ["wheel" "podman" "docker" "nordvpn"];
+  users.users."${personal-info.username}".extraGroups = ["wheel" "podman" "docker" "nordvpn"];
   programs.git.enable = true;
   environment.systemPackages = [
     # pkgs.bashInteractiveFHS

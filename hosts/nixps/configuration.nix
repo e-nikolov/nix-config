@@ -5,7 +5,7 @@
   config,
   pkgs,
   inputs,
-  values,
+  personal-info,
   ...
 }: {
   imports = [
@@ -83,7 +83,7 @@
   };
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.${values.username} = {
+  users.users.${personal-info.username} = {
     isNormalUser = true;
     extraGroups = [
       "wheel" # Enable ‘sudo’ for the user.
@@ -200,7 +200,7 @@
   programs.git.enable = true;
   programs._1password.enable = true;
   programs._1password-gui.enable = true;
-  programs._1password-gui.polkitPolicyOwners = [values.username];
+  programs._1password-gui.polkitPolicyOwners = [personal-info.username];
   # programs._1password-gui.package = (pkgs._1password-gui-beta.overrideAttrs
   #   (oldAttrs: {
   #     postInstall = ''

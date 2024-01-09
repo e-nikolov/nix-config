@@ -116,8 +116,8 @@
   # programs.readline.enable = true;
   # programs.gitui.enable = true;
   # programs.pls.enable = true;
-  programs.carapace.enable = true;
-  programs.eza = {enable = true;};
+  programs.carapace.enable = lib.mkAfter true;
+  programs.eza.enable = true;
 
   fonts.fontconfig.enable = true;
 

@@ -1,4 +1,12 @@
-{ config, pkgs, lib, values, inputs, outputs, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  personal-info,
+  inputs,
+  outputs,
+  ...
+}:
 with lib; {
   programs.zoxide.enable = true;
   programs.zoxide.enableZshIntegration = true;
@@ -15,7 +23,7 @@ with lib; {
       then
               __zoxide_cd "$1"
       elif [[ "$@[-1]" == "''${__zoxide_z_prefix}"?* ]]
-      then 
+      then
               \builtin local result="''${@[-1]}"
               __zoxide_cd "''${result:''${#__zoxide_z_prefix}}"
       else

@@ -293,6 +293,8 @@
       zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|=*' 'l:|=* r:|=*'
       zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#) ([0-9a-z-]#)*=01;34=0=01'
       zstyle ':fzf-tab:*' query-string "" # https://github.com/Aloxaf/fzf-tab/issues/32#issuecomment-1519639800
+      export CARAPACE_MATCH=CASE_INSENSITIVE
+      # zstyle ':completion:*:git:*' group-order 'main commands' 'alias commands' 'external commands'
 
 
       zmodload -i zsh/complist
@@ -403,7 +405,7 @@
       }
       zle -N fzf-port-widget
 
-      WORDCHARS="*?_-.[]~=/&;!#$%^(){}<>"
+      WORDCHARS="*?_-.[]~=&;!#$%^(){}<>"
       STATEMENTCHARS="@\,:\"'~=!#$%^&*?+_-/;."
       # STATEMENTCHARS="@\,:\"'~=!#$%^&*?+_-/;.(){}[]<>"
 

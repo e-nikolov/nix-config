@@ -1,8 +1,15 @@
-{ config, pkgs, lib, values, inputs, outputs, ... }:
-with lib;
-let cfg = config.programs.zsh.extra;
+{
+  config,
+  pkgs,
+  lib,
+  personal-info,
+  inputs,
+  outputs,
+  ...
+}:
+with lib; let
+  cfg = config.programs.zsh.extra;
 in {
-
   options.programs.zsh.extra = {
     enable = mkOption {
       default = false;

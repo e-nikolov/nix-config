@@ -2,7 +2,7 @@
   config,
   pkgs,
   lib,
-  values,
+  personal-info,
   inputs,
   outputs,
   ...
@@ -14,16 +14,6 @@
     nixWallpaperFromScheme
     ;
 in {
-  #   disableHomeManagerNews = {
-  #   # disabledModules = [ "misc/news.nix" ];
-  #   config = {
-  #   };
-  # };
-
-  # disabledModules = [
-  #   "misc/news.nix" # https://github.com/nix-community/home-manager/issues/2033
-  # ];
-
   imports = [
     ../minimal/home.nix
     ../home-manager/nvim
@@ -31,6 +21,15 @@ in {
 
     inputs.nix-colors.homeManagerModule
   ];
+
+  # https://github.com/nix-community/home-manager/issues/2033#issuecomment-1848326144
+  news.display = "silent";
+  news.json = lib.mkForce {};
+  news.entries = lib.mkForce [];
+
+  # disabledModules = [
+  #   "misc/news.nix" # https://github.com/nix-community/home-manager/issues/2033
+  # ];
 
   nixpkgs = {
     overlays = builtins.attrValues outputs.overlays;
