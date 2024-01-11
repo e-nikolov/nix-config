@@ -9,7 +9,7 @@
   imports = [
     ../../presets/base/home.nix
     ../../preferences/home/keyboard.nix
-    ../../preferences/home/wm/plasma
+    ../../preferences/home/plasma.nix
     ../../preferences/home/cli/term
     ../../preferences/home/vscode
   ];

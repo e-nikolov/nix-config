@@ -10,8 +10,8 @@
     ./x11.nix
     ./nvidia.nix
     ./wayland.nix
-    ./wm/hyprland
-    ./wm/plasma
+    ./hyprland.nix
+    ./plasma.nix
   ];
 
   boot.plymouth.enable = true;
