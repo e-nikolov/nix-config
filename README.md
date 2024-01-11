@@ -4,10 +4,10 @@ nix-bootstrap is a very experimental script that automatically installs nix and 
 
 ## Usage
 
-Bare flake - a home-manager configuration with nix and some very basic utilities:
+starter flake - a home-manager configuration with nix and some very basic utilities:
 
 ```sh
-bash <(curl https://e-nikolov.github.io/nix-bootstrap) --template bare
+bash <(curl https://e-nikolov.github.io/nix-bootstrap) --template starter
 ```
 
 Minimal flake - a home-manager configuration with zsh and a number of customizations:

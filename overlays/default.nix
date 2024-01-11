@@ -7,15 +7,16 @@
   # Third party overlays
   nix-alien = inputs.nix-alien.overlays.default;
   golink = inputs.golink.overlay;
+  vscode-insiders = inputs.code-insiders.overlays.default;
   # nil = inputs.nil.overlays.default;
   # nixd = inputs.nixd.overlays.default;
 
-  # This one brings our custom packages from the 'pkgs' directory
+  # This one brings our custom packages from the 'packages' directory
   additions = final: prev:
-    import ../pkgs {pkgs = final;}
+    import ../packages {pkgs = final;}
     // {
-      # formats = prev.formats // import ../pkgs/formats { pkgs = final; };
-      # vimPlugins = prev.vimPlugins // final.callPackage ../pkgs/vim-plugins { };
+      # formats = prev.formats // import ../packages/formats { pkgs = final; };
+      # vimPlugins = prev.vimPlugins // final.callPackage ../packages/vim-plugins { };
     };
 
   # This one contains whatever you want to overlay

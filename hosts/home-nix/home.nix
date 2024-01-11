@@ -1,8 +1,8 @@
 {
   config,
   pkgs,
-  id,
   inputs,
+  self,
   ...
 }: let
   # _1password_desktopItem = pkgs.makeDesktopItem {
@@ -20,16 +20,10 @@
     package = pkgs._1password-gui;
   };
 in {
-  imports = [../../modules/common/home.nix];
-
-  home.file."nix-config/.tmp/debug.log".text = ''
-    ${
-      if inputs.self ? rev
-      then toString inputs.self.rev
-      else "no rev"
-    }
-    ${inputs.self.outPath}
-  '';
+  imports = [
+    ../../presets/base/home.nix
+    ../../presets/wsl/home.nix
+  ];
 
   systemd.user.services = {
     _1password_gui_autostart = {
@@ -49,39 +43,5 @@ in {
       # Install.WantedBy = [ "multi-user.target" ];
       Install.WantedBy = ["default.target"];
     };
-  };
-
-  home.packages = [
-    # _1password_autostart
-    # pkgs.libsForQt5.kate
-    # pkgs.emanote
-  ];
-
-  programs.bash.initExtra = ''
-    source ~/nix-config/dotfiles/.bashrc
-  '';
-
-  programs.zsh = {
-    initExtra = ''
-      ### Windows WSL2 ###
-      if grep -qEi "(Microsoft|WSL)" /proc/sys/kernel/osrelease &> /dev/null ; then
-        keep_current_path() {
-          printf "\e]9;9;%s\e\\" "$(wslpath -w "$PWD")"
-        }
-        precmd_functions+=(keep_current_path)
-
-        e() {
-          explorer.exe $(wslpath -w $*)
-        }
-
-        subl() {
-          subl.exe $(wp $*)
-        }
-
-        wp() {
-          wslpath -w $* | sed s/wsl.localhost/wsl$/g
-        }
-      fi
-    '';
   };
 }
