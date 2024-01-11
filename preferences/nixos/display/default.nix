@@ -14,7 +14,7 @@
     ./plasma.nix
   ];
 
-  boot.plymouth.enable = true;
+  # boot.plymouth.enable = true;
 
   hardware = {
     # smooth backlight control
