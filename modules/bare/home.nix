@@ -1,1 +1,0 @@
-../../templates/bare/home.nix

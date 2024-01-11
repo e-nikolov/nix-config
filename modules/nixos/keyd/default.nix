@@ -97,6 +97,10 @@ in {
   };
 
   config = mkIf cfg.enable {
+    environment.systemPackages = [
+      pkgs.keyd
+    ];
+
     # Creates separate files in the `/etc/keyd/` directory for each key in the dictionary
     environment.etc = mapAttrs' (name: options:
       nameValuePair "keyd/${name}.conf" {

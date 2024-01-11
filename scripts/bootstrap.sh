@@ -73,7 +73,7 @@ EOF
 
                 echo "Choose installation flavor."
                 echo ""
-                echo " --template: [bare|minimal|full|<flake-template-url>]; Defaults to minimal"
+                echo " --template: [starter|minimal|full|<flake-template-url>]; Defaults to minimal"
                 echo " --no-home-manager: Skips the home-manager installation"
                 echo " path:  Location to install to; Defaults to ~/nix-config"
                 echo ""
@@ -94,8 +94,8 @@ EOF
 
     if [ "$FLAKE_TEMPLATE" = "minimal" ] || [ "$FLAKE_TEMPLATE" = "" ]; then
         FLAKE_TEMPLATE=github:e-nikolov/nix-config/master#minimal
-    elif [ "$FLAKE_TEMPLATE" = "bare" ]; then
-        FLAKE_TEMPLATE=github:e-nikolov/nix-config/master#bare
+    elif [ "$FLAKE_TEMPLATE" = "starter" ]; then
+        FLAKE_TEMPLATE=github:e-nikolov/nix-config/master#starter
     elif [ "$FLAKE_TEMPLATE" = "full" ]; then
         FLAKE_TEMPLATE=github:e-nikolov/nix-config/master#full
     fi

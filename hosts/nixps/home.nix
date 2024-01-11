@@ -7,11 +7,11 @@
   ...
 }: {
   imports = [
-    ../../modules/common/home.nix
-    ../../modules/home-manager/keyboard
-    ../../modules/home-manager/wm/plasma
-    ../../modules/home-manager/cli/term
-    ../../modules/home-manager/vscode
+    ../../presets/base/home.nix
+    ../../preferences/home/peripherals
+    ../../preferences/home/wm/plasma
+    ../../preferences/home/cli/term
+    ../../preferences/home/vscode
   ];
   # xdg.mimeApps.enable = true; # TODO
 

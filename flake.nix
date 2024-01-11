@@ -116,23 +116,17 @@
         };
 
         templates = {
-          bare = {
+          starter = {
             description = ''
-              A bare flake template with a home-manager configuration that only manages itself and the nix package manager
+              A starter flake template with a home-manager configuration that only manages itself and the nix package manager
             '';
-            path = ./templates/bare;
+            path = ./templates/starter;
           };
           minimal = {
             description = ''
               A minimal flake template with a home-manager configuration that adds zsh + customizations
             '';
             path = ./templates/minimal;
-          };
-          minimal2 = {
-            description = ''
-              A minimal flake template with a home-manager configuration that adds zsh + customizations
-            '';
-            path = ./templates/minimal2;
           };
           full = {
             path = ./.;
@@ -143,11 +137,8 @@
           };
         };
 
-        # nixosModules = import ./modules/nixos;
-        # homeManagerModules = import ./modules/home-manager;
-        # homeManagerModules.bare = ./modules/bare/home.nix;
-        # homeManagerModules.minimal = ./modules/minimal/home.nix;
-        # flakeModules.full = self;
+        modules = import ./modules;
+        presets = import ./presets;
       };
     };
 
@@ -207,5 +198,7 @@
 
     # nur.url = "github:nix-community/NUR";
     nix-colors.url = "github:misterio77/nix-colors";
+
+    nix-gaming.url = "github:fufexan/nix-gaming";
   };
 }

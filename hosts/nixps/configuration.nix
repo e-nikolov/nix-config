@@ -10,12 +10,14 @@
 }: {
   imports = [
     # Include the results of the hardware scan.
-    ../../modules/nixos/keyd
-    ../../modules/common/configuration.nix
+    ./hardware-configuration.nix
     inputs.nixos-hardware.nixosModules.dell-xps-15-9560
     # inputs.nixos-hardware.nixosModules.dell-xps-15-9560-intel
 
-    ./hardware-configuration.nix
+    ../../presets/base/configuration.nix
+    ../../preferences/nixos/audio
+    ../../preferences/nixos/peripherals/touchpad.nix
+    ../../preferences/nixos/peripherals/keyboard.nix
   ];
 
   # boot.blacklistedKernelModules = [ "nouveau" "nvidia" ];
@@ -35,64 +37,6 @@
     };
     efi = {canTouchEfiVariables = true;};
   };
-  security.rtkit.enable = true;
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    alsa.support32Bit = true;
-    pulse.enable = true;
-    # If you want to use JACK applications, uncomment this
-    jack.enable = true;
-  };
-  sound.enable = true;
-
-  custom.services.keyd.enable = true;
-  custom.services.keyd.keyboards = {
-    default = {
-      ids = ["*"];
-      settings = {
-        main = {
-          capslock = "overload(control, esc)";
-          # o = "macro(321)";
-          # n = "command(ydotool type 321)";
-        };
-
-        control = {};
-        alt = {};
-        "control+alt" = {};
-
-        # alt = {
-        #   "4" = "command(/home/enikolov/.local/state/nix/profile/bin/xkblayout-state set +1)";
-        #   "5" = "macro(321)";
-        # };
-
-        # "microsoft-edge-beta" = {
-        #   "ctrl.alt.left" = "C-S-k";
-        #   "ctrl.alt.right" = "C-S-l";
-        # };
-      };
-    };
-    # externalKeyboard = {
-    #   ids = [ "1ea7:0907" ];
-    #   settings = {
-    #     main = {
-    #       esc = capslock;
-    #     };
-    #   };
-    # };
-  };
-
-  # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.${personal-info.username} = {
-    isNormalUser = true;
-    extraGroups = [
-      "audio"
-      "keyd"
-    ];
-  };
-
-  hardware.bluetooth.enable = true;
-  # services.blueman.enable = true;
 
   networking.hostName = "nixps"; # Define your hostname.
   networking.hostId = "a96153f9";
@@ -107,49 +51,10 @@
     useXkbConfig = true;
   };
 
-  # Enable the X11 windowing system.
-  services.xserver.videoDrivers = ["intel"];
-  services.xserver.displayManager.defaultSession = "plasma";
-  services.xserver.enable = true;
-  services.xserver.layout = "us,bg";
-  services.xserver.desktopManager.xterm.enable = false;
-  services.xserver.displayManager.startx.enable = true;
-  services.xserver.desktopManager.plasma5.enable = true;
-  services.xserver.displayManager.sddm.enable = true;
-  services.xserver.desktopManager.plasma5.runUsingSystemd = true;
-  # services.xserver.xkbOptions = "caps:escape";
-  programs.xwayland.enable = true;
+  hardware.bluetooth.enable = true;
+  # services.blueman.enable = true;
 
-  programs.hyprland = {
-    enable = true;
-    xwayland.enable = true;
-  };
-
-  # NVIDIA drivers are unfree.
-  # nixpkgs.config.allowUnfree = true;
-  # nixpkgs.config.nvidia.acceptLicense = true;
-
-  hardware.opengl.enable = true;
-
-  # Optionally, you may need to select the appropriate driver version for your specific GPU.
-  # hardware.nvidia.package = config.boot.kernelPackages.nvidiaPackages.stable;
   programs.partition-manager.enable = true;
-
-  services.xserver.libinput = {
-    enable = true;
-    touchpad.clickMethod = "buttonareas";
-    touchpad.naturalScrolling = false;
-    touchpad.scrollMethod = "twofinger";
-    touchpad.disableWhileTyping = true;
-    touchpad.middleEmulation = true;
-    touchpad.tapping = true;
-    touchpad.tappingDragLock = false;
-
-    touchpad.additionalOptions = ''
-      Option "PalmDetection" "on"
-      Option "TappingButtonMap" "lmr"
-    '';
-  };
 
   # Enable CUPS to print documents.
   # services.printing.enable = true;
@@ -159,16 +64,8 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-    wget
-    git
-    firefox # use programs.firefox.enable = true; ?
-    micro
     konsole
-    keyd
-    plymouth
 
-    pciutils
     waybar
 
     dunst
