@@ -16,6 +16,26 @@
         "type": "github"
       }
     },
+    "code-insiders": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1705013115,
+        "narHash": "sha256-6bWGl08TkcxSsIMQ36Auc00+J8NkknrqTAhv73pl4N4=",
+        "owner": "e-nikolov",
+        "repo": "code-insiders-flake",
+        "rev": "9671abef53af1c32237f76426a377afcc63c1c07",
+        "type": "github"
+      },
+      "original": {
+        "owner": "e-nikolov",
+        "repo": "code-insiders-flake",
+        "type": "github"
+      }
+    },
     "devenv": {
       "inputs": {
         "flake-compat": "flake-compat",
@@ -437,11 +457,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1704993455,
-        "narHash": "sha256-Nrnlj63LH8PIfZNGAR8zZsre63SKGreiScws7nXw2Gw=",
+        "lastModified": 1705003621,
+        "narHash": "sha256-bnQKeNbNYyKfmJN2/KD+t8gDKA0uU8Ak4/sV4gvlA2E=",
         "owner": "nix-community",
         "repo": "nixos-wsl",
-        "rev": "2aacfeaa9073ba0442e7067f0a38c70ff0c3fa21",
+        "rev": "0fa9268bf9a903498cb567e6d4d01eb945f36f6e",
         "type": "github"
       },
       "original": {
@@ -552,16 +572,16 @@
     },
     "nixpkgs-stable_2": {
       "locked": {
-        "lastModified": 1704290814,
-        "narHash": "sha256-LWvKHp7kGxk/GEtlrGYV68qIvPHkU9iToomNFGagixU=",
+        "lastModified": 1704874635,
+        "narHash": "sha256-YWuCrtsty5vVZvu+7BchAxmcYzTMfolSPP5io8+WYCg=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "70bdadeb94ffc8806c0570eb5c2695ad29f0e421",
+        "rev": "3dc440faeee9e889fe2d1b4d25ad0f430d449356",
         "type": "github"
       },
       "original": {
         "owner": "nixos",
-        "ref": "nixos-23.05",
+        "ref": "nixos-23.11",
         "repo": "nixpkgs",
         "type": "github"
       }
@@ -651,6 +671,7 @@
     },
     "root": {
       "inputs": {
+        "code-insiders": "code-insiders",
         "devenv": "devenv",
         "flake-compat": "flake-compat_2",
         "flake-parts": "flake-parts",
@@ -667,8 +688,7 @@
         "nixpkgs": "nixpkgs_3",
         "nixpkgs-stable": "nixpkgs-stable_2",
         "plasma-manager": "plasma-manager",
-        "sops-nix": "sops-nix",
-        "vscode-insiders": "vscode-insiders"
+        "sops-nix": "sops-nix"
       }
     },
     "sops-nix": {
@@ -737,18 +757,6 @@
         "owner": "nix-systems",
         "repo": "default",
         "type": "github"
-      }
-    },
-    "vscode-insiders": {
-      "flake": false,
-      "locked": {
-        "narHash": "sha256-BAO4rBtgHoPhnDn5voFcqwW3zYBNEDy9o/q+a1gGtMI=",
-        "type": "file",
-        "url": "https://code.visualstudio.com/sha/download?build=insider&os=linux-x64"
-      },
-      "original": {
-        "type": "file",
-        "url": "https://code.visualstudio.com/sha/download?build=insider&os=linux-x64"
       }
     }
   },

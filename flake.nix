@@ -138,7 +138,7 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-23.05";
+    nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-23.11";
     # nil.url = "github:oxalica/nil/main";
     # nixd.url = "github:nix-community/nixd";
 
@@ -146,8 +146,10 @@
     #   url = "https://code.visualstudio.com/sha/download?build=insider&os=linux-x64";
     #   sha256 = "sha256:023ryfx9zj7d7ghh41xixsz3yyngc2y6znkvfsrswcij67jqm8cd";
     # };
-    vscode-insiders.url = "https://code.visualstudio.com/sha/download?build=insider&os=linux-x64";
-    vscode-insiders.flake = false;
+    # vscode-insiders.url = "https://code.visualstudio.com/sha/download?build=insider&os=linux-x64";
+    # vscode-insiders.flake = false;
+    code-insiders.url = "github:e-nikolov/code-insiders-flake";
+    code-insiders.inputs.nixpkgs.follows = "nixpkgs";
 
     home-manager = {
       url = "github:nix-community/home-manager/master";

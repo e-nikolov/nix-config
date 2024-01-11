@@ -7,6 +7,7 @@
   # Third party overlays
   nix-alien = inputs.nix-alien.overlays.default;
   golink = inputs.golink.overlay;
+  vscode-insiders = inputs.code-insiders.overlays.default;
   # nil = inputs.nil.overlays.default;
   # nixd = inputs.nixd.overlays.default;
 
