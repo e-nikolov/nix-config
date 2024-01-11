@@ -17,6 +17,7 @@ with lib; {
   networking.firewall.checkReversePath = "loose";
   services.tailscale.enable = true;
   services.nordvpn.enable = true;
+  services.openssh.enable = true;
 
   documentation.dev.enable = true;
   documentation.man.enable = true;
@@ -61,6 +62,21 @@ with lib; {
   programs._1password.enable = true;
   programs._1password-gui.enable = true;
   programs._1password-gui.polkitPolicyOwners = [personal-info.username];
+  # programs._1password-gui.package = (pkgs._1password-gui-beta.overrideAttrs
+  #   (oldAttrs: {
+  #     postInstall = ''
+  #       ln -s $out/share/1password/op-ssh-sign $out/bin/op-ssh-sign
+  #     '';
+  #   }));
+
+  # Enable CUPS to print documents.
+  # services.printing.enable = true;
+
+  # programs.gnupg.agent = {
+  #   enable = true;
+  #   enableSSHSupport = false;
+  # };
+
   sops.defaultSopsFile = ../../secrets/secrets.yaml;
 
   sops.age.generateKey = true;

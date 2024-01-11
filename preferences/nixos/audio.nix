@@ -5,7 +5,12 @@
   inputs,
   personal-info,
   ...
-}: {
+}:
+with lib; {
+  imports = [
+    inputs.nix-gaming.nixosModules.pipewireLowLatency
+  ];
+
   nix = {
     settings = {
       substituters = [
@@ -16,6 +21,11 @@
       ];
     };
   };
+
+  hardware.pulseaudio.enable = mkForce false;
+
+  # realtime kit for low latency audio
+  security.rtkit.enable = true;
 
   services.pipewire = {
     enable = true;

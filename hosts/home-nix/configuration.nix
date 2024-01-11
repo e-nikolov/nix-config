@@ -10,6 +10,8 @@
 with lib; {
   imports = [
     ../../presets/base/configuration.nix
+    ../../presets/wsl/configuration.nix
+
     inputs.golink.nixosModules.default
     inputs.nixos-wsl.nixosModules.wsl
   ];

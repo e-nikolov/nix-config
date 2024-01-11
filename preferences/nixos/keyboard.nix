@@ -7,7 +7,7 @@
   ...
 }: {
   imports = [
-    ../../../modules/nixos/keyd
+    ../../modules/nixos/keyd
   ];
 
   custom.services.keyd.enable = true;

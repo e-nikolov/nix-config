@@ -8,7 +8,7 @@
 }: {
   imports = [
     ../../presets/base/home.nix
-    ../../preferences/home/peripherals
+    ../../preferences/home/keyboard.nix
     ../../preferences/home/wm/plasma
     ../../preferences/home/cli/term
     ../../preferences/home/vscode
@@ -50,7 +50,6 @@
     pkgs.unrar
     pkgs.ark
     pkgs.parted
-    pkgs.xdotool
     pkgs.xorg.xev
 
     #* Media

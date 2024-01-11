@@ -5,7 +5,7 @@
   ...
 }: {
   imports = [
-    ./keyd-application-mapper
+    ../../modules/home/keyd-application-mapper
   ];
 
   home.packages = [

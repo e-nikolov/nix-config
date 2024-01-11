@@ -15,9 +15,7 @@
     # inputs.nixos-hardware.nixosModules.dell-xps-15-9560-intel
 
     ../../presets/base/configuration.nix
-    ../../preferences/nixos/audio
-    ../../preferences/nixos/peripherals/touchpad.nix
-    ../../preferences/nixos/peripherals/keyboard.nix
+    ../../presets/desktop/configuration.nix
   ];
 
   # boot.blacklistedKernelModules = [ "nouveau" "nvidia" ];
@@ -55,49 +53,9 @@
   # services.blueman.enable = true;
 
   programs.partition-manager.enable = true;
-
-  # Enable CUPS to print documents.
-  # services.printing.enable = true;
-
-  programs.dconf.enable = true;
-
-  # List packages installed in system profile. To search, run:
-  # $ nix search wget
-  environment.systemPackages = with pkgs; [
-    konsole
-
-    waybar
-
-    dunst
-    kmod
-    # mako
-    ydotool
-    xdotool
-
-    # miraclecast
-    # gnome-network-displays
-    libsForQt5.kcalc
-  ];
-
-  services.openssh.enable = true;
-  programs._1password.enable = true;
-  programs._1password-gui.enable = true;
-  programs._1password-gui.polkitPolicyOwners = [personal-info.username];
-  # programs._1password-gui.package = (pkgs._1password-gui-beta.overrideAttrs
-  #   (oldAttrs: {
-  #     postInstall = ''
-  #       ln -s $out/share/1password/op-ssh-sign $out/bin/op-ssh-sign
-  #     '';
-  #   }));
-
-  # programs.gnupg.agent = {
-  #   enable = true;
-  #   enableSSHSupport = false;
-  # };
+  networking.firewall.allowedTCPPorts = [12345];
 
   # boot.zfs.requestEncryptionCredentials = false;
-
-  networking.firewall.allowedTCPPorts = [12345];
 
   # Copy the NixOS configuration file and link it from the resulting system
   # (/run/current-system/configuration.nix). This is useful in case you

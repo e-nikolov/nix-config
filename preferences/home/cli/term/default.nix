@@ -26,10 +26,10 @@ in {
   ];
 
   home.file.".local/share/konsole/default.keytab".source =
-    ../../dotfiles/default.keytab;
+    ./default.keytab;
   home.file.".local/share/konsole/termix.profile".source =
-    ../../dotfiles/termix.profile;
-  home.file.".local/bin/zotero.sh".source = ../../dotfiles/zotero.sh;
+    ./termix.profile;
+  home.file.".local/bin/zotero.sh".source = ./zotero.sh;
   home.file.".local/share/konsole/termix.colorscheme".text = ''
     [Background]
     Color=27,41,50
@@ -141,7 +141,7 @@ in {
     WallpaperOpacity=0.9
   '';
   home.file.".local/share/konsole/termix-bg.png".source =
-    ../../images/termix-bg.png;
+    ./termix-bg.png;
   home.file.".npmrc".text = ''
     prefix = ${config.home.homeDirectory}/.npm-packages
   '';
