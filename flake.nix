@@ -101,13 +101,7 @@
         };
 
         nixosConfigurations = {
-          home-nix = self.lib.mkSystem {
-            modules = [
-              {wsl.defaultUser = personal-info.username;}
-
-              ./hosts/home-nix/configuration.nix
-            ];
-          };
+          home-nix = self.lib.mkSystem {modules = [./hosts/home-nix/configuration.nix];};
           nixps = self.lib.mkSystem {modules = [./hosts/nixps/configuration.nix];};
           rpi1 = self.lib.mkSystem {
             system = "armv7l-linux";
@@ -147,6 +141,13 @@
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-23.05";
     # nil.url = "github:oxalica/nil/main";
     # nixd.url = "github:nix-community/nixd";
+
+    # src = builtins.fetchTarball {
+    #   url = "https://code.visualstudio.com/sha/download?build=insider&os=linux-x64";
+    #   sha256 = "sha256:023ryfx9zj7d7ghh41xixsz3yyngc2y6znkvfsrswcij67jqm8cd";
+    # };
+    vscode-insiders.url = "https://code.visualstudio.com/sha/download?build=insider&os=linux-x64";
+    vscode-insiders.flake = false;
 
     home-manager = {
       url = "github:nix-community/home-manager/master";

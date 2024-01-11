@@ -9,10 +9,7 @@
     (pkgs.vscode.override {isInsiders = true;}).overrideAttrs
     (oldAttrs: {
       meta.priority = 4;
-      src = builtins.fetchTarball {
-        url = "https://code.visualstudio.com/sha/download?build=insider&os=linux-x64";
-        sha256 = "sha256:023ryfx9zj7d7ghh41xixsz3yyngc2y6znkvfsrswcij67jqm8cd";
-      };
+      src = inputs.vscode-insiders;
       version = "latest";
 
       buildInputs = oldAttrs.buildInputs ++ [pkgs.krb5];

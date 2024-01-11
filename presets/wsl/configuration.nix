@@ -3,6 +3,7 @@
   pkgs,
   config,
   modulesPath,
+  personal-info,
   ...
 }:
 with lib; {
@@ -14,6 +15,7 @@ with lib; {
     interop.register = true;
     wslConf.network.generateResolvConf = true;
     wslConf.network.generateHosts = false;
+    defaultUser = personal-info.username;
 
     # wslConf.automount.root = "/mnt";
     # interop.preserveArgvZero = false;

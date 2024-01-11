@@ -667,7 +667,8 @@
         "nixpkgs": "nixpkgs_3",
         "nixpkgs-stable": "nixpkgs-stable_2",
         "plasma-manager": "plasma-manager",
-        "sops-nix": "sops-nix"
+        "sops-nix": "sops-nix",
+        "vscode-insiders": "vscode-insiders"
       }
     },
     "sops-nix": {
@@ -736,6 +737,18 @@
         "owner": "nix-systems",
         "repo": "default",
         "type": "github"
+      }
+    },
+    "vscode-insiders": {
+      "flake": false,
+      "locked": {
+        "narHash": "sha256-BAO4rBtgHoPhnDn5voFcqwW3zYBNEDy9o/q+a1gGtMI=",
+        "type": "file",
+        "url": "https://code.visualstudio.com/sha/download?build=insider&os=linux-x64"
+      },
+      "original": {
+        "type": "file",
+        "url": "https://code.visualstudio.com/sha/download?build=insider&os=linux-x64"
       }
     }
   },
