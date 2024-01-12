@@ -27,8 +27,7 @@ jobs:
         with:
           pr-title: "Update flake.lock" # Title of PR to be created
           pr-labels: | # Labels to be set on the PR
-            dependencies
-            automated
+            merge-queue
       # - name: Update flake.lock
       #   uses: stefanzweifel/git-auto-commit-action@v4
       #   with:

@@ -1,0 +1,21 @@
+
+queue_rules:
+  - name: default
+    merge_conditions:
+      - check-success=check-flake
+      - check-success=build-home-nix-system
+      - check-success=build-home-nix-home
+      - check-success=build-nixps-system
+      - check-success=build-nixps-home
+defaults:
+  actions:
+    queue:
+      allow_merging_configuration_change: true
+      method: rebase
+pull_request_rules:
+  - name: merge using the merge queue
+    conditions:
+      - "base=master"
+      - label~=merge-queue|dependencies
+    actions:
+      queue:
