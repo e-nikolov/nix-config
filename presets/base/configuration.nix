@@ -57,6 +57,7 @@ with lib; {
     # randomizedDelaySec = "45min";
   };
   systemd.services.nixos-upgrade = lib.mkIf config.system.autoUpgrade.enable {
+    path = [pkgs.git pkgs.openssh];
     serviceConfig.ExecCondition = lib.getExe (
       pkgs.writeShellScriptBin "check-date" ''
         if [[ ! -d ${personal-info.flake-path} ]]; then
@@ -74,10 +75,10 @@ with lib; {
             echo 'Dirty working tree, skipping update'
             exit 1
         fi
-        if [[ ! $(${pkgs.git}/bin/git log HEAD..origin/master --oneline) ]]; then
-            echo "Up-to-date"
-            exit 1
-        fi
+        # if [[ ! $(${pkgs.git}/bin/git log HEAD..origin/master --oneline) ]]; then
+        #     echo "Up-to-date"
+        #     exit 1
+        # fi
 
         if [[ $(${pkgs.git}/bin/git log origin/master..HEAD --oneline) ]]; then
             echo "Unpushed commits, skipping update"
