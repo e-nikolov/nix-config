@@ -63,6 +63,11 @@ EOF
             shift
             ;;
 
+        --no-confirm)
+            NO_CONFIRM_FLAG="--no-confirm "
+            shift
+            ;;
+
         --no-home-manager)
             NO_HOME_MANAGER=1
             shift
@@ -117,7 +122,7 @@ EOF
 
         echo installing nix via $nix_installer_type installer
         if [ "$nix_installer_type" == "multi-user" ]; then
-            curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install
+            curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install $NO_CONFIRM_FLAG
             if [ -e $___NIX_DAEMON_SHELL_PROFILE_PATH ]; then
                 . $___NIX_DAEMON_SHELL_PROFILE_PATH
             fi
