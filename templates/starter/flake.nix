@@ -11,6 +11,8 @@
 
     nix-index-database.url = "github:nix-community/nix-index-database/main";
     nix-index-database.inputs.nixpkgs.follows = "nixpkgs";
+
+    devenv.url = "github:cachix/devenv";
   };
 
   outputs = inputs @ {
@@ -31,7 +33,9 @@
         inherit system;
         config = {allowUnfree = true;};
         overlays = [
-          (self: super: {
+          (final: prev: {
+            inherit (inputs.devenv.packages.${final.system}) devenv;
+
             # inherit (pkgs-stable) ripgrep-all;
           })
         ];
