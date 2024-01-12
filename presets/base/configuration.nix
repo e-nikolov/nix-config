@@ -68,6 +68,8 @@ in {
         lastModified() {
           nix flake metadata "$1" --refresh --json | ${lib.getExe pkgs.jq} '.lastModified'
         }
+        echo remote flake: $(lastModified "${config.system.autoUpgrade.flake}")
+        echo local flake: $(lastModified "${inputs.self.outPath}")
         test "$(lastModified "${config.system.autoUpgrade.flake}")"  -gt "$(lastModified "${inputs.self.outPath}")"
       ''
     );
