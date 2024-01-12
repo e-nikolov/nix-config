@@ -13,7 +13,7 @@
       username = "enikolov";
       gitUsername = "e-nikolov";
       email = "emil.e.nikolov@gmail.com";
-      flake-path = "/home/${personal-info.username}/nix-configs";
+      flake-path = "/home/${personal-info.username}/nix-config";
     };
     default-module = {pkgs, ...}: {
       nix.package = pkgs.nixFlakes;
