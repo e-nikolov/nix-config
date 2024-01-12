@@ -33,7 +33,7 @@ jobs:
       - run: nix flake check
       - name: Update flake.lock
         # uses: DeterminateSystems/update-flake-lock@main
-        uses: stefanzweifel/git-auto-commit-action@v4
+        uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "flake.lock: Update"
           branch: master
