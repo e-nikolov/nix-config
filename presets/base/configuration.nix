@@ -64,21 +64,22 @@ with lib; {
             exit 1
         fi
         cd ${personal-info.flake-path}
-        branch_name="$(git symbolic-ref HEAD 2>/dev/null)"
-        if [ "$branch_name" != "refs/heads/master" ]; then
+        branch_name="$(${pkgs.git}/bin/git rev-parse --abbrev-ref HEAD)"
+
+        if [ "$branch_name" != "master" ]; then
             echo "Current branch $branch_name is not master, skipping update"
             exit 1
         fi
-        if [[ $(git diff --stat) != "" ]]; then
+        if [[ $(${pkgs.git}/bin/git diff --stat) != "" ]]; then
             echo 'Dirty working tree, skipping update'
             exit 1
         fi
-        if [[ $(git log HEAD..origin/master --oneline) ]]; then
+        if [[ $(${pkgs.git}/bin/git log HEAD..origin/master --oneline) ]]; then
             echo "Up-to-date"
             exit 1
         fi
 
-        if [[ $(git log origin/master..HEAD --oneline) ]]; then
+        if [[ $(${pkgs.git}/bin/git log origin/master..HEAD --oneline) ]]; then
             echo "Unpushed commits, skipping update"
             exit 1
         fi
