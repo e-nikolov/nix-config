@@ -5,7 +5,7 @@
   inputs,
   ...
 } @ args: {
-  imports = [./extra.nix ./after.nix ./zoxide.nix];
+  imports = [./extra.nix ./after.nix];
 
   home.packages =
     [
@@ -275,27 +275,24 @@
 
     completionInit = ''
       eval "$(dircolors -b)"
+      export CARAPACE_MATCH=CASE_INSENSITIVE
+      export LS_COLORS=$(vivid generate dracula)
       zstyle :compinstall filename '~/.zshrc'
-      # disable sort when completing `git checkout`
-      zstyle ':completion:*:git-checkout:*' sort false
-      # set descriptions format to enable group support
-      zstyle ':completion:*:descriptions' format '[%d]'
-      # set list-colors to enable filename colorizing
-      zstyle ':completion:*:default' list-colors ''${(s.:.)LS_COLORS}
-      zstyle ':completion:*' list-colors ''${(s.:.)LS_COLORS}
 
-      # preview directory's content with exa when completing cd
-      zstyle ':fzf-tab:complete:cd:*' fzf-preview 'exa -1 --color=always $realpath'
-      # switch group using `,` and `.`
-      zstyle ':fzf-tab:*' switch-group ',' '.'
+      zstyle ':completion:*:git-checkout:*' sort false # disable sort when completing `git checkout`
+      zstyle ':completion:*' format $'\e[2;37mCompleting %d\e[m' # set descriptions format to enable group support
+      zstyle ':completion:*:descriptions' format '[%d]'
+
+      zstyle ':completion:*:default' list-colors ''${(s.:.)LS_COLORS} # set list-colors to enable filename colorizing
+      zstyle ':completion:*' list-colors ''${(s.:.)LS_COLORS}
+      zstyle ':fzf-tab:complete:cd:*' fzf-preview 'exa -1 --color=always $realpath' # preview directory's content with exa when completing cd
+      zstyle ':fzf-tab:*' switch-group ',' '.' # switch group using `,` and `.`
       zstyle ':completion:*' insert-tab pending
       zstyle ':completion:*:default' menu select=1
       zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|=*' 'l:|=* r:|=*'
       zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#) ([0-9a-z-]#)*=01;34=0=01'
       zstyle ':fzf-tab:*' query-string "" # https://github.com/Aloxaf/fzf-tab/issues/32#issuecomment-1519639800
-      export CARAPACE_MATCH=CASE_INSENSITIVE
-      # zstyle ':completion:*:git:*' group-order 'main commands' 'alias commands' 'external commands'
-
+      zstyle ':completion:*:git:*' group-order 'main commands' 'alias commands' 'external commands'
 
       zmodload -i zsh/complist
 
@@ -405,7 +402,7 @@
       }
       zle -N fzf-port-widget
 
-      WORDCHARS="*?_-.[]~=&;!#$%^(){}<>"
+      WORDCHARS="*?_-[]~=&;!$%^(){}<>"
       STATEMENTCHARS="@\,:\"'~=!#$%^&*?+_-/;."
       # STATEMENTCHARS="@\,:\"'~=!#$%^&*?+_-/;.(){}[]<>"
 

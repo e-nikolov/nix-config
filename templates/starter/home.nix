@@ -17,6 +17,7 @@
   ];
   nix.settings.use-xdg-base-directories = lib.mkDefault true;
   nix.settings.log-lines = lib.mkDefault 20;
+  nix.settings.show-trace = lib.mkDefault true;
   targets.genericLinux.enable = lib.mkDefault true;
   xdg.enable = lib.mkDefault true;
 
@@ -28,6 +29,11 @@
     ## * Add Packages here
 
     pkgs.jq
+
+    (pkgs.nixUnstable.overrideAttrs (prev: {
+      meta.priority = 4;
+    }))
+
     pkgs.direnv
     pkgs.devenv
     pkgs.sops

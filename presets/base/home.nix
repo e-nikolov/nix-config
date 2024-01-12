@@ -15,6 +15,7 @@
   news.display = "silent";
   news.json = lib.mkForce {};
   news.entries = lib.mkForce [];
+  # targets.genericLinux.enable = lib.mkForce false;
 
   # disabledModules = [
   #   "misc/news.nix" # https://github.com/nix-community/home-manager/issues/2033

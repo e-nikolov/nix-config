@@ -1,12 +1,13 @@
-{ config, lib, pkgs, ... }:
-
-with lib;
-
-let
-
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
+with lib; let
   cfg = config.services.keyd-application-mapper;
 
-  settingsFormat = pkgs.formats.ini { };
+  settingsFormat = pkgs.formats.ini {};
 
   settingsStr = concatStringsSep "\n" (mapAttrsToList
     (hotkey: command:
@@ -15,9 +16,7 @@ let
           ${command}
       '')
     cfg.settings);
-
-in
-{
+in {
   imports = [
   ];
 
@@ -39,14 +38,14 @@ in
 
     extraOptions = mkOption {
       type = types.listOf types.str;
-      default = [ ];
+      default = [];
       description = "Command line arguments to invoke {command}`keyd-application-mapper` with.";
       example = literalExpression ''[ "--quiet" ]'';
     };
 
     settings = mkOption {
       type = settingsFormat.type;
-      default = { };
+      default = {};
       example = {
         main = {
           capslock = "overload(control, esc)";
@@ -84,7 +83,7 @@ in
         lib.platforms.linux)
     ];
 
-    home.packages = [ cfg.package ];
+    home.packages = [cfg.package];
 
     xdg.configFile."keyd/app.conf".source =
       settingsFormat.generate "app.conf" cfg.settings;
@@ -93,11 +92,10 @@ in
     systemd.user.services = mkIf cfg.enable {
       keyd-application-mapper = {
         Unit = {
-          Description =
-            "Keyd application specific remapping daemon";
+          Description = "Keyd application specific remapping daemon";
           Documentation = "man:keyd-application-mapper";
-          PartOf = [ "graphical-session.target" ];
-          After = [ "graphical-session.target" ];
+          PartOf = ["graphical-session.target"];
+          After = ["graphical-session.target"];
         };
 
         Service = {
@@ -108,7 +106,7 @@ in
           OOMPolicy = "continue";
         };
 
-        Install = { WantedBy = [ "graphical-session.target" ]; };
+        Install = {WantedBy = ["graphical-session.target"];};
       };
     };
   };

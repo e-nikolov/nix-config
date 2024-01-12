@@ -1,8 +1,8 @@
-{ lib
-, fetchFromGitHub
-, rustPlatform
+{
+  lib,
+  fetchFromGitHub,
+  rustPlatform,
 }:
-
 rustPlatform.buildRustPackage rec {
   pname = "swhkd";
   version = "1.2.2";
@@ -24,7 +24,7 @@ rustPlatform.buildRustPackage rec {
       Attempts to be a drop-in replacement of sxhkd, meaning your sxhkd config file should be compatible with swhkd.
     '';
     license = licenses.bsd2;
-    maintainers = with maintainers; [ mib ];
+    maintainers = with maintainers; [mib];
     platforms = platforms.linux;
   };
 }

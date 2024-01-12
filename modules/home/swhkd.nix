@@ -1,9 +1,10 @@
-{ config, lib, pkgs, ... }:
-
-with lib;
-
-let
-
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
+with lib; let
   cfg = config.services.swhkd;
 
   keybindingsStr = concatStringsSep "\n" (mapAttrsToList
@@ -13,11 +14,9 @@ let
           ${command}
       '')
     cfg.keybindings);
-
-in
-{
+in {
   imports = [
-    (mkRemovedOptionModule [ "services" "swhkd" "extraPath" ]
+    (mkRemovedOptionModule ["services" "swhkd" "extraPath"]
       "This option is no longer needed and can be removed.")
   ];
 
@@ -33,15 +32,15 @@ in
 
     extraOptions = mkOption {
       type = types.listOf types.str;
-      default = [ ];
+      default = [];
       description = "Command line arguments to invoke {command}`sxhkd` with.";
       example = literalExpression ''[ "-m 1" ]'';
     };
 
     keybindings = mkOption {
       type =
-        types.attrsOf (types.nullOr (types.oneOf [ types.str types.path ]));
-      default = { };
+        types.attrsOf (types.nullOr (types.oneOf [types.str types.path]));
+      default = {};
       description = "An attribute set that assigns hotkeys to commands.";
       example = literalExpression ''
         {
@@ -69,18 +68,16 @@ in
         lib.platforms.linux)
     ];
 
-    home.packages = [ cfg.package ];
+    home.packages = [cfg.package];
 
     xdg.configFile."sxhkd/sxhkdrc".text =
-      concatStringsSep "\n" [ keybindingsStr cfg.extraConfig ];
+      concatStringsSep "\n" [keybindingsStr cfg.extraConfig];
 
-    xsession.initExtra =
-      let
-        sxhkdCommand = "${cfg.package}/bin/sxhkd ${toString cfg.extraOptions}";
-      in
-      ''
-        systemctl --user stop sxhkd.scope 2> /dev/null || true
-        systemd-cat -t sxhkd systemd-run --user --scope -u sxhkd ${sxhkdCommand} &
-      '';
+    xsession.initExtra = let
+      sxhkdCommand = "${cfg.package}/bin/sxhkd ${toString cfg.extraOptions}";
+    in ''
+      systemctl --user stop sxhkd.scope 2> /dev/null || true
+      systemd-cat -t sxhkd systemd-run --user --scope -u sxhkd ${sxhkdCommand} &
+    '';
   };
 }

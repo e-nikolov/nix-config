@@ -92,6 +92,7 @@ with lib; {
 
   environment.systemPackages = [
     # pkgs.bashInteractiveFHS
+    pkgs.nixUnstable
     pkgs.wgnord
     pkgs.neovim
     pkgs.nordvpn

@@ -14,7 +14,9 @@ in {
     ./shells/bash
     ./shells/nushell
     ./nvim
-    ./zellij
+    ./zellij.nix
+    ./zoxide.nix
+    ./carapace.nix
     inputs.nix-index-database.hmModules.nix-index
   ];
 
@@ -76,6 +78,7 @@ in {
     pkgs.manix
     pkgs.nb
     pkgs.bat
+    pkgs.vivid
   ];
   systemd.user.startServices = "sd-switch";
 
@@ -88,7 +91,6 @@ in {
 
   colorscheme = lib.mkDefault colorSchemes.dracula;
   programs.bat.enable = true;
-  programs.carapace.enable = lib.mkAfter true;
   programs.htop.enable = true;
   programs.eza.enable = true;
   programs.git = {
