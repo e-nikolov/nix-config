@@ -14,6 +14,7 @@
       gitUsername = "e-nikolov";
       email = "emil.e.nikolov@gmail.com";
       flake-path = "/home/${personal-info.username}/nix-config";
+      flake-url = "github:e-nikolov/nix-config/master";
     };
     default-module = {pkgs, ...}: {
       nix.package = pkgs.nixFlakes;
