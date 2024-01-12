@@ -1,0 +1,22 @@
+name: Bootstrap Flake
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - "**.nix"
+      - "**.lock"
+      - ".github/workflows/build.yml"
+
+jobs:
+  bootstrap:
+    name: Bootstrap Flake
+    runs-on: "ubuntu-latest"
+    steps:
+      - uses: easimon/maximize-build-space@v10
+        with:
+          overprovision-lvm: true
+          remove-android: true
+          remove-dotnet: true
+          remove-haskell: true
+      - run: bash <(curl https://e-nikolov.github.io/nix-bootstrap) --template github:e-nikolov/nix-config/${GITHUB_REF##*/}#starter
