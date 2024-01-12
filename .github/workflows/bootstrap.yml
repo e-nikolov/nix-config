@@ -9,16 +9,10 @@ jobs:
     name: Bootstrap Flake
     runs-on: "ubuntu-latest"
     steps:
-      - uses: easimon/maximize-build-space@v10
-        with:
-          overprovision-lvm: true
-          remove-android: true
-          remove-dotnet: true
-          remove-haskell: true
-      - run: echo github.head_ref ${{ github.head_ref }}
-      - run: echo github.ref_name ${{ github.ref_name }}
-      - run: echo github.base_ref ${{ github.base_ref }}
-      - run: echo GITHUB_REF_NAME $GITHUB_REF_NAME
-      - run: echo GITHUB_REF $GITHUB_REF
-      - run: echo GITHUB_HEAD_REF $GITHUB_HEAD_REF
+      # - uses: easimon/maximize-build-space@v10
+      #   with:
+      #     overprovision-lvm: true
+      #     remove-android: true
+      #     remove-dotnet: true
+      #     remove-haskell: true
       - run: bash <(curl https://e-nikolov.github.io/nix-bootstrap) --template github:e-nikolov/nix-config/${{ github.head_ref }}#starter --no-confirm
