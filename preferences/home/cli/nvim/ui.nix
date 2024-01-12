@@ -1,4 +1,4 @@
-{ pkgs, ... }: {
+{pkgs, ...}: {
   programs.neovim.plugins = with pkgs.vimPlugins; [
     # UI
     vim-illuminate
@@ -7,7 +7,8 @@
     {
       plugin = vim-fugitive;
       type = "viml";
-      config = # vim
+      config =
+        # vim
         ''
           nmap <space>G :Git<CR>
         '';
@@ -15,7 +16,8 @@
     {
       plugin = nvim-bqf;
       type = "lua";
-      config = # lua
+      config =
+        # lua
         ''
           require('bqf').setup{}
         '';
@@ -23,7 +25,8 @@
     {
       plugin = alpha-nvim;
       type = "lua";
-      config = # lua
+      config =
+        # lua
         ''
           local alpha = require("alpha")
           local dashboard = require("alpha.themes.dashboard")
@@ -55,7 +58,8 @@
     {
       plugin = bufferline-nvim;
       type = "lua";
-      config = # lua
+      config =
+        # lua
         ''
           require('bufferline').setup{}
         '';
@@ -63,7 +67,8 @@
     {
       plugin = scope-nvim;
       type = "lua";
-      config = # lua
+      config =
+        # lua
         ''
           require('scope').setup{}
         '';
@@ -71,7 +76,8 @@
     {
       plugin = which-key-nvim;
       type = "lua";
-      config = # lua
+      config =
+        # lua
         ''
           require('which-key').setup{}
         '';
@@ -79,7 +85,8 @@
     {
       plugin = range-highlight-nvim;
       type = "lua";
-      config = # lua
+      config =
+        # lua
         ''
           require('range-highlight').setup{}
         '';
@@ -87,7 +94,8 @@
     {
       plugin = indent-blankline-nvim;
       type = "lua";
-      config = # lua
+      config =
+        # lua
         ''
           require('ibl').setup{
             scope = { highlight = {"IndentBlankLine"} },
@@ -98,7 +106,8 @@
     {
       plugin = nvim-web-devicons;
       type = "lua";
-      config = # lua
+      config =
+        # lua
         ''
           require('nvim-web-devicons').setup{}
         '';
@@ -106,7 +115,8 @@
     {
       plugin = gitsigns-nvim;
       type = "lua";
-      config = # lua
+      config =
+        # lua
         ''
           require('gitsigns').setup{
             signs = {
@@ -122,7 +132,8 @@
     {
       plugin = nvim-colorizer-lua;
       type = "lua";
-      config = # lua
+      config =
+        # lua
         ''
           require('colorizer').setup{}
         '';
@@ -130,7 +141,8 @@
     {
       plugin = fidget-nvim;
       type = "lua";
-      config = # lua
+      config =
+        # lua
         ''
           require('fidget').setup{
             text = {

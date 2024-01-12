@@ -1,0 +1,49 @@
+#* Modified version of https://github.com/reckenrode/nixos-configs/blob/main/.github/workflows/main.yml
+
+name: "Update flake"
+
+on:
+  schedule:
+    - cron: "0 * * * *"
+
+  repository_dispatch:
+  workflow_dispatch:
+
+jobs:
+  update-flake:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: easimon/maximize-build-space@v10
+        with:
+          overprovision-lvm: true
+          remove-android: true
+          remove-dotnet: true
+          remove-haskell: true
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: DeterminateSystems/nix-installer-action@main
+        with:
+          logger: pretty
+      - uses: DeterminateSystems/magic-nix-cache-action@main
+      - uses: cachix/cachix-action@master
+        with:
+          name: e-nikolov-nix-config
+          authToken: "${{ secrets.CACHIX_AUTH_TOKEN }}"
+      - name: Update flake.lock PR
+        uses: DeterminateSystems/update-flake-lock@main
+      # - name: Update flake.lock
+      #   uses: stefanzweifel/git-auto-commit-action@v4
+      #   with:
+      #     commit_message: "flake.lock: Update"
+      #     branch: master
+      #     # commit_options: "--no-verify --signoff"
+      #     commit_options: "--signoff"
+      #     file_pattern: flake.lock
+      #     commit_user_name: Flake Bot # defaults to "GitHub Actions"
+      #     #commit_user_email: my-github-actions-bot@example.org # defaults to "actions@github.com"
+      #     commit_author: Flake Bot <actions@github.com> # defaults to author of the commit that triggered the run
+      #     skip_dirty_check: false
+      #     skip_fetch: true

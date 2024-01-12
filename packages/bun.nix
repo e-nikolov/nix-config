@@ -1,17 +1,30 @@
-{ lib, stdenvNoCC, fetchurl, autoPatchelfHook, unzip, installShellFiles, openssl
-, writeShellScript, curl, jq, common-updater-scripts }:
-
+{
+  lib,
+  stdenvNoCC,
+  fetchurl,
+  autoPatchelfHook,
+  unzip,
+  installShellFiles,
+  openssl,
+  writeShellScript,
+  curl,
+  jq,
+  common-updater-scripts,
+}:
 stdenvNoCC.mkDerivation rec {
   version = "1.0.11";
   pname = "bun";
 
-  src = passthru.sources.${stdenvNoCC.hostPlatform.system} or (throw
-    "Unsupported system: ${stdenvNoCC.hostPlatform.system}");
+  src =
+    passthru.sources.${stdenvNoCC.hostPlatform.system}
+    or (throw
+      "Unsupported system: ${stdenvNoCC.hostPlatform.system}");
 
   strictDeps = true;
-  nativeBuildInputs = [ unzip installShellFiles ]
-    ++ lib.optionals stdenvNoCC.isLinux [ autoPatchelfHook ];
-  buildInputs = [ openssl ];
+  nativeBuildInputs =
+    [unzip installShellFiles]
+    ++ lib.optionals stdenvNoCC.isLinux [autoPatchelfHook];
+  buildInputs = [openssl];
 
   dontConfigure = true;
   dontBuild = true;
@@ -25,8 +38,9 @@ stdenvNoCC.mkDerivation rec {
     runHook postInstall
   '';
 
-  postPhases = [ "postPatchelf" ];
-  postPatchelf = lib.optionalString
+  postPhases = ["postPatchelf"];
+  postPatchelf =
+    lib.optionalString
     (stdenvNoCC.buildPlatform.canExecute stdenvNoCC.hostPlatform) ''
       completions_dir=$(mktemp -d)
 
@@ -43,29 +57,25 @@ stdenvNoCC.mkDerivation rec {
   passthru = {
     sources = {
       "aarch64-darwin" = fetchurl {
-        url =
-          "https://github.com/oven-sh/bun/releases/download/bun-v${version}/bun-darwin-aarch64.zip";
+        url = "https://github.com/oven-sh/bun/releases/download/bun-v${version}/bun-darwin-aarch64.zip";
         hash = "sha256-yZp/AFlOVRtZ60865utrtVv0zlerwFMhpqBh26WnfL8=";
       };
       "aarch64-linux" = fetchurl {
-        url =
-          "https://github.com/oven-sh/bun/releases/download/bun-v${version}/bun-linux-aarch64.zip";
+        url = "https://github.com/oven-sh/bun/releases/download/bun-v${version}/bun-linux-aarch64.zip";
         hash = "sha256-/9MKD2iRogrOIiKlCCPUX5KoDD0rM7K8+jVLx9xxs5s=";
       };
       "x86_64-darwin" = fetchurl {
-        url =
-          "https://github.com/oven-sh/bun/releases/download/bun-v${version}/bun-darwin-x64.zip";
+        url = "https://github.com/oven-sh/bun/releases/download/bun-v${version}/bun-darwin-x64.zip";
         hash = "sha256-9wE3GL+EGvPHtVgfMx09Jn+WU/VoUf5x/QrrdlhePa8=";
       };
       "x86_64-linux" = fetchurl {
-        url =
-          "https://github.com/oven-sh/bun/releases/download/bun-v${version}/bun-linux-x64.zip";
+        url = "https://github.com/oven-sh/bun/releases/download/bun-v${version}/bun-linux-x64.zip";
         hash = "sha256-pT9+GchNC3vmeFgTF0GzzyLzWBrCQcR/DFRVK2CnHCw=";
       };
     };
     updateScript = writeShellScript "update-bun" ''
       set -o errexit
-      export PATH="${lib.makeBinPath [ curl jq common-updater-scripts ]}"
+      export PATH="${lib.makeBinPath [curl jq common-updater-scripts]}"
       NEW_VERSION=$(curl --silent https://api.github.com/repos/oven-sh/bun/releases/latest | jq '.tag_name | ltrimstr("bun-v")' --raw-output)
       if [[ "${version}" = "$NEW_VERSION" ]]; then
           echo "The new version same as the old version."
@@ -80,9 +90,8 @@ stdenvNoCC.mkDerivation rec {
   meta = with lib; {
     homepage = "https://bun.sh";
     changelog = "https://bun.sh/blog/bun-v${version}";
-    description =
-      "Incredibly fast JavaScript runtime, bundler, transpiler and package manager – all in one";
-    sourceProvenance = with sourceTypes; [ binaryNativeCode ];
+    description = "Incredibly fast JavaScript runtime, bundler, transpiler and package manager – all in one";
+    sourceProvenance = with sourceTypes; [binaryNativeCode];
     longDescription = ''
       All in one fast & easy-to-use tool. Instead of 1,000 node_modules for development, you only need bun.
     '';

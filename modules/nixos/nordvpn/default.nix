@@ -1,5 +1,9 @@
-{ config, lib, pkgs, ... }:
-
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 with lib; {
   options.services.nordvpn.enable = mkOption {
     type = types.bool;
@@ -13,9 +17,9 @@ with lib; {
   };
 
   config = mkIf config.services.nordvpn.enable {
-    environment.systemPackages = [ pkgs.nordvpn ];
+    environment.systemPackages = [pkgs.nordvpn];
 
-    users.groups.nordvpn = { };
+    users.groups.nordvpn = {};
     systemd = {
       services.nordvpn = {
         description = "NordVPN daemon.";
@@ -36,9 +40,9 @@ with lib; {
           RuntimeDirectoryMode = "0750";
           Group = "nordvpn";
         };
-        wantedBy = [ "multi-user.target" ];
-        after = [ "network-online.target" ];
-        wants = [ "network-online.target" ];
+        wantedBy = ["multi-user.target"];
+        after = ["network-online.target"];
+        wants = ["network-online.target"];
       };
     };
   };

@@ -1,5 +1,4 @@
-scheme:
-let
+scheme: let
   c = scheme.colors;
   # vim
 in ''
