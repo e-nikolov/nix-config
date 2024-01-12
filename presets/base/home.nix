@@ -119,8 +119,6 @@
     "aarch64-linux"
     "i686-linux"
   ];
-  services.home-manager.autoUpgrade.enable = true;
-  services.home-manager.autoUpgrade.frequency = "*-*-* 08:56:00";
 
   home.sessionVariables = {
     EDITOR = "code-insiders";
@@ -154,6 +152,63 @@
     };
   };
 
+  systemd.user = {
+    timers.custom-home-manager-auto-upgrade = {
+      Unit.Description = "Home Manager upgrade timer";
+
+      Install.WantedBy = ["timers.target"];
+
+      Timer = {
+        OnCalendar = "*-*-* 08:56:00";
+        Unit = "home-manager-auto-upgrade.service";
+        Persistent = true;
+      };
+    };
+
+    services.custom-home-manager-auto-upgrade = {
+      Unit.Description = "Home Manager upgrade";
+
+      Service.ExecStart =
+        toString
+        (pkgs.writeShellScript "home-manager-auto-upgrade" ''
+          if [[ ! -d ${personal-info.flake-path} ]]; then
+              echo "${personal-info.flake-path} does not exist, skipping update"
+              exit 0
+          fi
+
+          cd ${personal-info.flake-path}
+          branch_name="$(git symbolic-ref HEAD 2>/dev/null)"
+
+          if [ "$branch_name" != "refs/heads/master" ]; then
+              echo "Not on master, skipping update"
+              exit 0
+          fi
+          if [[ $(git diff --stat) != "" ]]; then
+              echo 'Dirty working tree, skipping update'
+              exit 0
+          fi
+
+          echo "Fetching latest changes"
+          git fetch
+
+          if [[ $(git log HEAD..origin/master --oneline) ]]; then
+              echo "Up-to-date"
+              exit 0
+          fi
+
+          if [[ $(git log origin/master..HEAD --oneline) ]]; then
+              echo "Unpushed commits, skipping update"
+              exit 0
+          fi
+
+          echo "Pulling latest changes"
+          git pull
+
+          echo "Upgrading home environment"
+          ${pkgs.home-manager}/bin/home-manager switch --flake ${personal-info.flake-path}
+        '');
+    };
+  };
   # This value determines the Home Manager release that your
   # configuration is compatible with. This helps avoid breakage
   # when a new Home Manager release introduces backwards

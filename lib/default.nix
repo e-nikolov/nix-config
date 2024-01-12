@@ -35,6 +35,7 @@ with lib; {
             {
               inherit inputs;
               inherit (self) outputs;
+              inherit (config) personal-info;
             }
             // extraSpecialArgs;
         })));
