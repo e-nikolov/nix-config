@@ -171,8 +171,7 @@
       Service.ExecStart =
         toString
         (pkgs.writeShellScript "home-manager-auto-upgrade" ''
-          echo PATH: $PATH
-          export PATH=$PATH:${pkgs.openssh}/bin:${pkgs.git}/bin
+          export PATH=$PATH:${pkgs.openssh}/bin:${pkgs.git}/bin:${pkgs.nixUnstable}/bin
           echo PATH: $PATH
           if [[ ! -d ${personal-info.flake-path} ]]; then
               echo "${personal-info.flake-path} does not exist, skipping update"
