@@ -15,9 +15,9 @@ jobs:
     name: Update flake.lock
 
     steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
+      # - uses: actions/checkout@v4
+      #   with:
+      #     fetch-depth: 0
 
       - uses: DeterminateSystems/nix-installer-action@main
         with:
@@ -27,7 +27,7 @@ jobs:
         with:
           pr-title: "Update flake.lock" # Title of PR to be created
           pr-labels: | # Labels to be set on the PR
-            merge-queue
+            dependencies
       # - name: Update flake.lock
       #   uses: stefanzweifel/git-auto-commit-action@v4
       #   with:
