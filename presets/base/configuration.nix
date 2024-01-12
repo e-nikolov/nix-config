@@ -74,7 +74,7 @@ with lib; {
             echo 'Dirty working tree, skipping update'
             exit 1
         fi
-        if [[ $(${pkgs.git}/bin/git log HEAD..origin/master --oneline) ]]; then
+        if [[ ! $(${pkgs.git}/bin/git log HEAD..origin/master --oneline) ]]; then
             echo "Up-to-date"
             exit 1
         fi
@@ -89,6 +89,7 @@ with lib; {
   programs._1password.enable = true;
   programs._1password-gui.enable = true;
   programs._1password-gui.polkitPolicyOwners = [personal-info.username];
+
   # programs._1password-gui.package = (pkgs._1password-gui-beta.overrideAttrs
   #   (oldAttrs: {
   #     postInstall = ''

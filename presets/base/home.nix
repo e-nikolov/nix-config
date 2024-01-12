@@ -132,7 +132,7 @@
     kn = "kubens";
   };
   programs.zsh.extra.enable = true;
-
+  services.ssh-agent.enable = false;
   programs.git = {
     signing = {
       signByDefault = true;
@@ -193,7 +193,7 @@
           echo "Fetching latest changes"
           ${pkgs.git}/bin/git fetch
 
-          if [[ $(${pkgs.git}/bin/git log HEAD..origin/master --oneline) ]]; then
+          if [[ ! $(${pkgs.git}/bin/git log HEAD..origin/master --oneline) ]]; then
               echo "Up-to-date"
               exit 0
           fi

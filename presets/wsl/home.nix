@@ -4,6 +4,8 @@
   lib,
   ...
 }: {
+  # programs.git.gpg.ssh.program = "${pkgs._1password-gui}/share/1password/op-ssh-sign";
+
   programs.zsh = {
     initExtra = ''
       ### Windows WSL2 ###

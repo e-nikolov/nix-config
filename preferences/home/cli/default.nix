@@ -115,7 +115,7 @@ in {
   # services.gpg-agent.enableSshSupport = true;
   # services.gpg-agent.defaultCacheTtl = 3600;
 
-  services.ssh-agent.enable = true;
+  services.ssh-agent.enable = lib.mkDefault true;
   programs.ssh = {
     forwardAgent = lib.mkDefault true;
     enable = lib.mkDefault true;
