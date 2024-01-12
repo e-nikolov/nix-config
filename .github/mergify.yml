@@ -1,17 +1,4 @@
 pull_request_rules:
-  - name: Auto Merge
-    conditions:
-      - check-success=check-flake
-      - check-success=build-home-nix-system
-      - check-success=build-home-nix-home
-      - check-success=build-nixps-system
-      - check-success=build-nixps-home
-      - base=master
-      - label=dependencies
-    actions:
-      merge:
-        method: rebase
-      
   - name: Run Workflows
     conditions:
       - label=dependencies
@@ -19,5 +6,12 @@ pull_request_rules:
       github_actions:
         workflow:
           dispatch:
-            - workflow: build.yml
-            - workflow: check.yml
+            - workflow: check-flake
+  - name: Auto Merge
+    conditions:
+      - check-success=check-flake 
+      - label=dependencies
+    actions:
+      merge:
+        method: rebase
+      
