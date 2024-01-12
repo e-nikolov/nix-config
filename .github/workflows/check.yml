@@ -6,8 +6,8 @@ on:
     branches: [master]
 
 jobs:
-  check:
-    name: Flake checker
+  check-flake:
+    name: Check Flake
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
