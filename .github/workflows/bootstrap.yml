@@ -3,10 +3,11 @@ name: Bootstrap Flake
 on:
   pull_request:
   workflow_dispatch:
+  push:
+    branches: [master]
 
 jobs:
   bootstrap:
-    name: Bootstrap Flake
     runs-on: "ubuntu-latest"
     steps:
       - run: bash <(curl https://e-nikolov.github.io/nix-bootstrap) --template github:e-nikolov/nix-config/${{ github.head_ref }}#starter --no-confirm
