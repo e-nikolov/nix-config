@@ -129,7 +129,7 @@
     code = "code-insiders ";
     k = "kubectl";
     kx = "kubectx";
-    kn = "kubens";
+    kn = "kubens ";
   };
   programs.zsh.extra.enable = true;
   services.ssh-agent.enable = false;
