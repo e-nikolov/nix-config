@@ -19,6 +19,8 @@ jobs:
           logger: pretty
       - name: Nix Magic Cache
         uses: DeterminateSystems/magic-nix-cache-action@main
+        with:
+          upstream-cache: https://e-nikolov-nix-config.cachix.org
       - name: Check Flake Format
         run: nix run nixpkgs#alejandra -- -c .
       - name: Check Flake Validity
