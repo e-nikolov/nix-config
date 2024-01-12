@@ -1,6 +1,6 @@
 #* Modified version of https://github.com/reckenrode/nixos-configs/blob/main/.github/workflows/main.yml
 
-name: "Update flake"
+name: "Update flake.lock"
 
 on:
   schedule:
@@ -12,6 +12,7 @@ on:
 jobs:
   update-flake:
     runs-on: ubuntu-latest
+    name: Update flake.lock
 
     steps:
       - uses: actions/checkout@v4
