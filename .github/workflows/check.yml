@@ -1,28 +1,20 @@
 name: "Check Flake"
 
 on:
-  workflow_dispatch:
   pull_request:
+  workflow_dispatch:
   push:
     branches: [master]
 
 jobs:
   check-flake:
-    name: Check Flake
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Check Nix flake inputs
-        uses: DeterminateSystems/flake-checker-action@v4
-      - name: Install Nix
-        uses: DeterminateSystems/nix-installer-action@main
-        with:
-          logger: pretty
-      - name: Nix Magic Cache
-        uses: DeterminateSystems/magic-nix-cache-action@main
+      - uses: DeterminateSystems/flake-checker-action@v4
+      - uses: DeterminateSystems/nix-installer-action@main
+      - uses: DeterminateSystems/magic-nix-cache-action@main
         with:
           upstream-cache: https://e-nikolov-nix-config.cachix.org
-      - name: Check Flake Format
-        run: nix run nixpkgs#alejandra -- -c .
-      - name: Check Flake Validity
-        run: nix flake check --accept-flake-config
+      - run: nix run nixpkgs#alejandra -- -c .
+      - run: nix flake check --accept-flake-config
