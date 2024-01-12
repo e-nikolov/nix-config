@@ -10,28 +10,24 @@ on:
 
 jobs:
   build-home-nix-system:
-    name: Build home-nix/system
     uses: ./.github/workflows/prelude.yml
     secrets:
       GH_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
     with:
       command: nix build .#nixosConfigurations.home-nix.config.system.build.toplevel --accept-flake-config
   build-home-nix-home:
-    name: Build home-nix/home
     uses: ./.github/workflows/prelude.yml
     secrets:
       GH_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
     with:
       command: nix build .#homeConfigurations.enikolov@home-nix.activationPackage --accept-flake-config
   build-nixps-system:
-    name: Build nixps/system
     uses: ./.github/workflows/prelude.yml
     secrets:
       GH_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
     with:
       command: nix build .#nixosConfigurations.nixps.config.system.build.toplevel --accept-flake-config
   build-home-nixps-home:
-    name: Build nixps/home
     uses: ./.github/workflows/prelude.yml
     secrets:
       GH_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
