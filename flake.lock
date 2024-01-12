@@ -372,11 +372,11 @@
         "nixpkgs": "nixpkgs_2"
       },
       "locked": {
-        "lastModified": 1705022355,
-        "narHash": "sha256-HT8n7YhRAqHWcXUu+6DbaH21Ht3PxIFgOCtomdSwmaU=",
+        "lastModified": 1705077102,
+        "narHash": "sha256-W2A5S7HnpBKw3Bbb5aBtAcmvDiMBttAtHZiR/mOTq74=",
         "owner": "fufexan",
         "repo": "nix-gaming",
-        "rev": "f3cc421ff3d0be4e7693bc0d9a4ae6c421d2bbf1",
+        "rev": "842da943122721c64f9043fb8f6b0e5b148fbace",
         "type": "github"
       },
       "original": {
@@ -628,11 +628,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1704927112,
-        "narHash": "sha256-AKTE0TczctkgAj3FGnslPrDZP0A9FDlRITv+aV2Agsg=",
+        "lastModified": 1705084579,
+        "narHash": "sha256-4wdTYrDDTSt+EgblhwSJPBETQGjQbMpDzEv9FK08ttA=",
         "owner": "pjones",
         "repo": "plasma-manager",
-        "rev": "06ad8e693009a64b58156b8b55e347defe759970",
+        "rev": "47172cdc5d4b787115da691bb201d3f8e8c90610",
         "type": "github"
       },
       "original": {
