@@ -60,30 +60,33 @@ with lib; {
     path = [pkgs.git pkgs.openssh];
     serviceConfig.ExecCondition = lib.getExe (
       pkgs.writeShellScriptBin "check-date" ''
+        echo 00
         if [[ ! -d ${personal-info.flake-path} ]]; then
             echo "${personal-info.flake-path} does not exist, skipping update"
             exit 1
         fi
         cd ${personal-info.flake-path}
         branch_name="$(${pkgs.git}/bin/git rev-parse --abbrev-ref HEAD)"
-
+        echo 11
         if [ "$branch_name" != "master" ]; then
             echo "Current branch $branch_name is not master, skipping update"
             exit 1
         fi
+        echo 22
         if [[ $(${pkgs.git}/bin/git diff --stat) != "" ]]; then
             echo 'Dirty working tree, skipping update'
             exit 1
         fi
+        echo 33
         # if [[ ! $(${pkgs.git}/bin/git log HEAD..origin/master --oneline) ]]; then
         #     echo "Up-to-date"
         #     exit 1
         # fi
 
-        if [[ $(${pkgs.git}/bin/git log origin/master..HEAD --oneline) ]]; then
-            echo "Unpushed commits, skipping update"
-            exit 1
-        fi
+        # if [[ $(${pkgs.git}/bin/git log origin/master..HEAD --oneline) ]]; then
+        #     echo "Unpushed commits, skipping update"
+        #     exit 1
+        # fi
       ''
     );
   };
