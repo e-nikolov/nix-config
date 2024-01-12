@@ -16,6 +16,7 @@ on:
 
 jobs:
   nix:
+    name: Setup Nix
     runs-on: "${{ inputs.platform }}-latest"
     steps:
       - uses: easimon/maximize-build-space@v10

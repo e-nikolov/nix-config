@@ -14,12 +14,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: easimon/maximize-build-space@v10
-        with:
-          overprovision-lvm: true
-          remove-android: true
-          remove-dotnet: true
-          remove-haskell: true
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
@@ -27,13 +21,13 @@ jobs:
       - uses: DeterminateSystems/nix-installer-action@main
         with:
           logger: pretty
-      - uses: DeterminateSystems/magic-nix-cache-action@main
-      - uses: cachix/cachix-action@master
-        with:
-          name: e-nikolov-nix-config
-          authToken: "${{ secrets.CACHIX_AUTH_TOKEN }}"
-      - name: Update flake.lock PR
+      - name: Update flake.lock
         uses: DeterminateSystems/update-flake-lock@main
+        with:
+          pr-title: "Update flake.lock" # Title of PR to be created
+          pr-labels: | # Labels to be set on the PR
+            dependencies
+            automated
       # - name: Update flake.lock
       #   uses: stefanzweifel/git-auto-commit-action@v4
       #   with:
