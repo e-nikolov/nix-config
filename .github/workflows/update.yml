@@ -15,10 +15,9 @@ jobs:
     name: Update flake.lock
 
     steps:
-      # - uses: actions/checkout@v4
-      #   with:
-      #     fetch-depth: 0
-
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: DeterminateSystems/nix-installer-action@main
         with:
           logger: pretty
