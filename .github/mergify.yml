@@ -1,15 +1,11 @@
-pull_request_rules:
-  - name: Run Workflows
-    conditions:
-      - label=dependencies
-    actions:
-      github_actions:
-        workflow:
-          dispatch:
-            - workflow: check-flake
+pull_request_rules: 
   - name: Auto Merge
     conditions:
       - check-success=check-flake 
+      - check-success=build-home-nix-system
+      - check-success=build-home-nix-home
+      - check-success=build-nixps-system
+      - check-success=build-nixps-home
       - label=dependencies
     actions:
       merge:

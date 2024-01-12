@@ -1,12 +1,8 @@
 name: Build Flake
 
 on:
-  workflow_dispatch:
   pull_request:
-    # paths:
-    #   - "**.nix"
-    #   - "**.lock"
-    #   - ".github/workflows/build.yml"
+  workflow_dispatch:
 
 jobs:
   build-home-nix-system:

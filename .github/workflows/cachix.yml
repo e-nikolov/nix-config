@@ -15,7 +15,6 @@ on:
 jobs:
   cachix:
     runs-on: ubuntu-latest
-
     steps:
       - uses: easimon/maximize-build-space@v10
         with:
@@ -26,6 +25,7 @@ jobs:
 
       - uses: actions/checkout@v4
         with:
+          token: "${{ secrets.GITHUB_TOKEN }}"
           fetch-depth: 0
 
       - uses: DeterminateSystems/nix-installer-action@main

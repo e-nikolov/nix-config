@@ -15,26 +15,16 @@ on:
         required: true
 
 jobs:
-  nix:
-    name: Setup Nix
+  nix-setup:
     runs-on: "${{ inputs.platform }}-latest"
     steps:
-      - uses: easimon/maximize-build-space@v10
-        with:
-          overprovision-lvm: true
-          remove-android: true
-          remove-dotnet: true
-          remove-haskell: true
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          token: "${{ secrets.GH_TOKEN }}"
-
+          token: "${{ secrets.GITHUB_TOKEN }}"
+          fetch-depth: 0
       - name: Install Nix
         uses: DeterminateSystems/nix-installer-action@main
-        with:
-          logger: pretty
-
       - name: Nix Magic Cache
         uses: DeterminateSystems/magic-nix-cache-action@main
         with:
