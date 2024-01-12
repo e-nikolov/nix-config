@@ -1,4 +1,4 @@
-name: Build home-nix home
+name: Build Flake
 
 on:
   workflow_dispatch:
@@ -6,7 +6,7 @@ on:
     paths:
       - "**.nix"
       - "**.lock"
-      - ".github/workflows/check.yml"
+      - ".github/workflows/build.yml"
 
 jobs:
   build-home-nix-system:

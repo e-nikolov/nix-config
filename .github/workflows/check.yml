@@ -1,4 +1,4 @@
-name: "Check Flake Inputs"
+name: "Check Flake"
 
 on:
   pull_request:
@@ -6,7 +6,7 @@ on:
     branches: [master]
 
 jobs:
-  flake-checker:
+  check:
     name: Flake checker
     runs-on: ubuntu-latest
     steps:
