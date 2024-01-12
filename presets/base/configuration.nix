@@ -69,8 +69,8 @@ in {
           nix flake metadata "$1" --refresh --json | ${lib.getExe pkgs.jq} '.lastModified'
         }
         echo remote flake: $(lastModified "${config.system.autoUpgrade.flake}")
-        echo local flake: $(lastModified "${personal-info.flake-url}")
-        test "$(lastModified "${config.system.autoUpgrade.flake}")"  -gt "$(lastModified "${personal-info.flake-url}")"
+        echo local flake: $(lastModified "${personal-info.flake-path}")
+        test "$(lastModified "${config.system.autoUpgrade.flake}")"  -gt "$(lastModified "${personal-info.flake-path}")"
       ''
     );
   };
