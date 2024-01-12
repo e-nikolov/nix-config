@@ -160,7 +160,7 @@
 
       Timer = {
         OnCalendar = "*-*-* 08:56:00";
-        Unit = "home-manager-auto-upgrade.service";
+        Unit = "custom-home-manager-auto-upgrade.service";
         Persistent = true;
       };
     };
