@@ -180,7 +180,7 @@
           branch_name="$(git symbolic-ref HEAD 2>/dev/null)"
 
           if [ "$branch_name" != "refs/heads/master" ]; then
-              echo "Not on master, skipping update"
+              echo "Current branch $branch_name is not master, skipping update"
               exit 0
           fi
           if [[ $(git diff --stat) != "" ]]; then
