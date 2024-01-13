@@ -1,16 +1,11 @@
-pull_request_rules:
-  - name: Dispatch Checks Workflow
+pull_request_rules: 
+  - name: Merge Queue
     conditions:
       - label=dependencies
     actions:
-      github_actions:
-        workflow:
-          dispatch:
-            - workflow: build.yml
-              ref: ${{ github.head_ref }}
-            - workflow: check.yml
-              ref: ${{ github.head_ref }}
-# TODO add back the pull_rqeuest_rule with the queue action instead of the queue_conditions
+      queue:
+        merge_method: rebase
+        update_method: rebase
 queue_rules:
   - name: default
     queue_conditions:
