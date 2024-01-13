@@ -13,6 +13,8 @@ pull_request_rules:
       - label=dependencies
     actions:
       queue:
+        merge_method: rebase
+        update_method: rebase
 queue_rules:
   - name: default
     merge_conditions:
@@ -26,4 +28,5 @@ defaults:
   actions:
     queue:
       allow_merging_configuration_change: true
-      method: rebase
+      merge_method: rebase
+      update_method: rebase
