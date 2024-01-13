@@ -7,7 +7,9 @@ pull_request_rules:
         workflow:
           dispatch:
             - workflow: build.yml
+              ref: ${{ github.head_ref }}
             - workflow: check.yml
+              ref: ${{ github.head_ref }}
 queue_rules:
   - name: default
     queue_conditions:
