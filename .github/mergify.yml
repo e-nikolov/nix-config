@@ -1,13 +1,29 @@
-pull_request_rules: 
-  - name: Auto Merge
-    conditions:
+queue_rules:
+  - name: default
+    merge_conditions:
       - check-success=check-flake 
       - check-success=build-home-nix-system
       - check-success=build-home-nix-home
       - check-success=build-nixps-system
       - check-success=build-nixps-home
       - label=dependencies
+defaults:
+  actions:
+    queue:
+      allow_merging_configuration_change: true
+      method: rebase
+pull_request_rules:
+  - name: Merge Queue
+    conditions:
+      - label=dependencies
     actions:
-      merge:
-        method: rebase
-      
+      queue:
+  - name: Dispatch Checks Workflow
+    conditions:
+      - label=dependencies
+    actions:
+      github_actions:
+        workflow:
+          dispatch:
+            - workflow: build.yml
+            - workflow: check.yml
