@@ -18,6 +18,5 @@ queue_rules:
 defaults:
   actions:
     queue:
-      allow_merging_configuration_change: true
       merge_method: rebase
       update_method: rebase
