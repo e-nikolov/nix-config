@@ -15,12 +15,17 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          token: "${{ secrets.MERGE_BOT_TOKEN }}"
           fetch-depth: 0
+      - uses: tibdex/github-app-token@v2
+        id: generate-token
+        with:
+          app_id: ${{ secrets.APP_ID }}
+          private_key: ${{ secrets.APP_PRIVATE_KEY }}
       - uses: DeterminateSystems/nix-installer-action@main
       - name: Update flake.lock
         uses: DeterminateSystems/update-flake-lock@main
         with:
+          token: ${{ steps.generate-token.outputs.token }}
           pr-title: "Update flake.lock"
           pr-labels: |
             dependencies
