@@ -8,22 +8,12 @@ pull_request_rules:
           dispatch:
             - workflow: build.yml
             - workflow: check.yml
-  - name: Merge Queue
-    conditions:
-      - label=dependencies
-    actions:
-      queue:
-        merge_method: rebase
-        update_method: rebase
 queue_rules:
   - name: default
-    merge_conditions:
-      - check-success=check-flake 
-      - check-success=build-home-nix-system
-      - check-success=build-home-nix-home
-      - check-success=build-nixps-system
-      - check-success=build-nixps-home
+    queue_conditions:
       - label=dependencies
+    update_method: rebase
+    merge_method: rebase
 defaults:
   actions:
     queue:
