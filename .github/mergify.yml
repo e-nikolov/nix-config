@@ -13,11 +13,6 @@ defaults:
       allow_merging_configuration_change: true
       method: rebase
 pull_request_rules:
-  - name: Merge Queue
-    conditions:
-      - label=dependencies
-    actions:
-      queue:
   - name: Dispatch Checks Workflow
     conditions:
       - label=dependencies
@@ -27,3 +22,8 @@ pull_request_rules:
           dispatch:
             - workflow: build.yml
             - workflow: check.yml
+  - name: Merge Queue
+    conditions:
+      - label=dependencies
+    actions:
+      queue:
