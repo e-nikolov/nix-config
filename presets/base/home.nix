@@ -9,17 +9,8 @@
 }: {
   imports = [
     ../minimal/home.nix
+    ../../modules/home/news.nix
   ];
-
-  # https://github.com/nix-community/home-manager/issues/2033#issuecomment-1848326144
-  news.display = "silent";
-  news.json = lib.mkForce {};
-  news.entries = lib.mkForce [];
-  # targets.genericLinux.enable = lib.mkForce false;
-
-  # disabledModules = [
-  #   "misc/news.nix" # https://github.com/nix-community/home-manager/issues/2033
-  # ];
 
   nixpkgs = {
     overlays = builtins.attrValues outputs.overlays;

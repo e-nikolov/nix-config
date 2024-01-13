@@ -56,7 +56,7 @@
     '';
     shellAbbrs = {
       # ne = lib.mkDefault "$EDITOR ~/nix-config/ ";
-      nfu = "nix flake update ~/nix-config ";
+      nfu = "nix flake update --flake ~/nix-config ";
       nh = "home-manager --flake ~/nix-config ";
       ns = "nix shell ";
       # nd = lib.mkDefault "nix develop ";

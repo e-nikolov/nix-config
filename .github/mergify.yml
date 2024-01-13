@@ -10,6 +10,7 @@ pull_request_rules:
               ref: ${{ github.head_ref }}
             - workflow: check.yml
               ref: ${{ github.head_ref }}
+# TODO add back the pull_rqeuest_rule with the queue action instead of the queue_conditions
 queue_rules:
   - name: default
     queue_conditions:

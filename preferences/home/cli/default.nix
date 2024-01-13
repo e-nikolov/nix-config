@@ -141,7 +141,7 @@ in {
   home.shellAliases = {
     nfe = lib.mkDefault "$EDITOR ~/nix-config/ ";
     ne = lib.mkDefault "$EDITOR ~/nix-config/ ";
-    nfu = lib.mkDefault "nix flake update ~/nix-config ";
+    nfu = lib.mkDefault "nix flake update --flake ~/nix-config ";
     nh = lib.mkDefault "home-manager --flake ~/nix-config ";
     ns = lib.mkDefault "nix shell ";
     # nd = lib.mkDefault "nix develop ";
