@@ -2,19 +2,33 @@ pull_request_rules:
   - name: Merge Queue
     conditions:
       - label=dependencies
+      - check-success = check-flake
+      - check-success ~= build-home-nix-system
+      - check-success ~= build-home-nix-home
+      - check-success ~= build-nixps-system
+      - check-success ~= build-home-nixps-home
+      - base=main
     actions:
       queue:
         merge_method: rebase
         update_method: rebase
-  - name: Continuously rebase dependencies pull requests 
-    conditions:
-      - label=dependencies
-    actions:
-      rebase:
+  # - name: Continuously rebase dependencies pull requests 
+  #   conditions:
+  #     - label=dependencies
+  #   actions:
+  #     rebase:
 queue_rules:
   - name: default 
     update_method: rebase
     merge_method: rebase
+    queue_conditions:
+      - label=dependencies
+      - check-success = check-flake
+      - check-success ~= build-home-nix-system
+      - check-success ~= build-home-nix-home
+      - check-success ~= build-nixps-system
+      - check-success ~= build-home-nixps-home
+      - base=main
 defaults:
   actions:
     queue:
