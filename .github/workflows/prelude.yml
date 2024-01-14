@@ -27,7 +27,7 @@ jobs:
         uses: DeterminateSystems/nix-installer-action@main
       - name: Nix Magic Cache
         uses: DeterminateSystems/magic-nix-cache-action@main
-        with:
-          upstream-cache: https://e-nikolov-nix-config.cachix.org
+        # with:
+        #   upstream-cache: https://e-nikolov-nix-config.cachix.org
       - name: "Run Input: ${{ inputs.command }}"
         run: "${{ inputs.command }}"
