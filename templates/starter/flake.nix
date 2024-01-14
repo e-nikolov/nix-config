@@ -15,6 +15,15 @@
     devenv.url = "github:cachix/devenv";
   };
 
+  nixConfig = {
+    extra-substituters = [
+      "https://e-nikolov-nix-config.cachix.org"
+    ];
+    extra-trusted-public-keys = [
+      "e-nikolov-nix-config.cachix.org-1:0Y02be6fZwhgvQjyzN3w+bNc5k3Uaz6kXLbAiO0bkO4="
+    ];
+  };
+
   outputs = inputs @ {
     self,
     nixpkgs,
