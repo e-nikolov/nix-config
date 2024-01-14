@@ -2,6 +2,8 @@ name: Build Flake
 
 on:
   pull_request:
+    branches-ignore:
+      - "mergify/merge-queue/**"
   workflow_dispatch:
 
 jobs:
