@@ -2,10 +2,13 @@ name: Bootstrap Flake
 
 on:
   pull_request:
+    types:
+      - closed
   workflow_dispatch:
 
 jobs:
   bootstrap:
+    if: github.event.pull_request.merged == true
     runs-on: "ubuntu-latest"
     steps:
       - run: bash <(curl https://e-nikolov.github.io/nix-bootstrap) --template github:e-nikolov/nix-config/${{ github.head_ref }}#starter --no-confirm
