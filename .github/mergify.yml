@@ -7,7 +7,7 @@ pull_request_rules:
       - check-success ~= build-home-nix-home
       - check-success ~= build-nixps-system
       - check-success ~= build-home-nixps-home
-      - base=main
+      - base=master
     actions:
       queue:
         merge_method: rebase
@@ -28,7 +28,7 @@ queue_rules:
       - check-success ~= build-home-nix-home
       - check-success ~= build-nixps-system
       - check-success ~= build-home-nixps-home
-      - base=main
+      - base=master
 defaults:
   actions:
     queue:
