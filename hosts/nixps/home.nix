@@ -1,33 +1,7 @@
-{
-  config,
-  pkgs,
-  id,
-  inputs,
-  lib,
-  ...
-}: {
-  imports = [
-    ../../presets/base/home.nix
-    ../../preferences/home/keyboard.nix
-    ../../preferences/home/plasma.nix
-    ../../preferences/home/cli/term
-    ../../preferences/home/vscode
-  ];
-  # xdg.mimeApps.enable = true; # TODO
+{ config, pkgs, id, inputs, lib, ... }: {
+  imports = [ ../../presets/base/home.nix ../../presets/desktop/home.nix ];
 
   home.packages = [
-    #* Browsers
-    pkgs.firefox
-    pkgs.microsoft-edge-beta
-    pkgs.microsoft-edge
-    # pkgs.brave
-    # pkgs.vivaldi
-    #pkgs.chromium
-
-    #* Messengers
-    # pkgs.slack
-    # pkgs.viber
-
     #* Audio
     pkgs.qpwgraph
     # pkgs.carla
@@ -36,29 +10,5 @@
     # pkgs.qjackctl
     # pkgs.paprefs
     # pkgs.pamix
-
-    #* Dev
-    pkgs.python3
-    pkgs.python310Packages.pygments
-    pkgs.sublime4
-    pkgs.sublime-merge
-    #pkgs.libsForQt5.kate
-    pkgs.obsidian
-    pkgs.zotero
-
-    #* Utils
-    pkgs.unrar
-    pkgs.ark
-    pkgs.parted
-    pkgs.xorg.xev
-
-    #* Media
-    pkgs.popcorntime
-    pkgs.vlc
-    pkgs.krita
-
-    #* Office
-    pkgs.libreoffice-qt
-    pkgs.libsForQt5.kio-gdrive
   ];
 }

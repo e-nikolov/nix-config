@@ -1,6 +1,10 @@
 { config, pkgs, lib, ... }: {
   programs.git.extraConfig.gpg.ssh.program = "op-ssh-sign-wsl";
   programs.git.extraConfig.core.sshCommand = "ssh.exe";
+  home.shellAliases = {
+    ssh = "ssh.exe ";
+    op = "op.exe";
+  };
 
   programs.zsh = {
     initExtra = ''
