@@ -1,20 +1,16 @@
 # This file defines overlays
-{
-  inputs,
-  outputs,
-  ...
-}: {
+{ inputs, outputs, ... }: {
   # Third party overlays
   nix-alien = inputs.nix-alien.overlays.default;
   golink = inputs.golink.overlay;
   vscode-insiders = inputs.code-insiders.overlays.default;
+  helix = inputs.helix.overlays.default;
   # nil = inputs.nil.overlays.default;
   # nixd = inputs.nixd.overlays.default;
 
   # This one brings our custom packages from the 'packages' directory
   additions = final: prev:
-    import ../packages {pkgs = final;}
-    // {
+    import ../packages { pkgs = final; } // {
       # formats = prev.formats // import ../packages/formats { pkgs = final; };
       # vimPlugins = prev.vimPlugins // final.callPackage ../packages/vim-plugins { };
     };

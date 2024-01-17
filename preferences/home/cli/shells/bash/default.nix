@@ -1,10 +1,4 @@
-{
-  config,
-  pkgs,
-  lib,
-  inputs,
-  ...
-} @ args: {
+{ config, pkgs, lib, inputs, ... }@args: {
   programs.bash = {
     enable = lib.mkDefault true;
 
@@ -15,9 +9,17 @@
         xc() {
             wl-copy
         }
-      else
+      elif command -v xclip &> /dev/null; then
         xc() {
             xclip -selection clipboard
+        }
+      elif command -v pbcopy &> /dev/null; then
+        xc() {
+            pbcopy
+        }
+      else
+        xc() {
+            echo "No clipboard command found"
         }
       fi
 

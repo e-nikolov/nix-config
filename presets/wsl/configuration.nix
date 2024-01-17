@@ -1,12 +1,6 @@
-{
-  lib,
-  pkgs,
-  config,
-  modulesPath,
-  personal-info,
-  ...
-}:
-with lib; {
+{ inputs, lib, pkgs, config, modulesPath, personal-info, ... }: {
+  imports = [ inputs.nixos-wsl.nixosModules.wsl ];
+
   wsl = {
     enable = true;
     startMenuLaunchers = true;

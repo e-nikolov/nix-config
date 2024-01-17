@@ -1,11 +1,5 @@
-{
-  config,
-  pkgs,
-  id,
-  inputs,
-  lib,
-  ...
-}: let
+{ config, pkgs, id, inputs, lib, ... }:
+let
   yakuake_autostart = pkgs.makeAutostartItem {
     name = "yakuake";
     package = pkgs.yakuake;
@@ -22,13 +16,11 @@ in {
     pkgs.fira-code
     pkgs.jetbrains-mono
     pkgs.noto-fonts-monochrome-emoji
-    pkgs.neofetch
   ];
+  fonts.fontconfig.enable = true;
 
-  home.file.".local/share/konsole/default.keytab".source =
-    ./default.keytab;
-  home.file.".local/share/konsole/termix.profile".source =
-    ./termix.profile;
+  home.file.".local/share/konsole/default.keytab".source = ./default.keytab;
+  home.file.".local/share/konsole/termix.profile".source = ./termix.profile;
   home.file.".local/bin/zotero.sh".source = ./zotero.sh;
   home.file.".local/share/konsole/termix.colorscheme".text = ''
     [Background]
@@ -140,8 +132,7 @@ in {
     Wallpaper=${config.home.homeDirectory}/.local/share/konsole/termix-bg.png
     WallpaperOpacity=0.9
   '';
-  home.file.".local/share/konsole/termix-bg.png".source =
-    ./termix-bg.png;
+  home.file.".local/share/konsole/termix-bg.png".source = ./termix-bg.png;
   home.file.".npmrc".text = ''
     prefix = ${config.home.homeDirectory}/.npm-packages
   '';

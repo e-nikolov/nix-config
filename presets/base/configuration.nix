@@ -1,19 +1,13 @@
-{
-  lib,
-  pkgs,
-  config,
-  modulesPath,
-  inputs,
-  personal-info,
-  ...
-}:
-with lib; let
+{ lib, pkgs, config, modulesPath, inputs, personal-info, ... }:
+with lib;
+let
   # Only enable auto upgrade if current config came from a clean tree
   # This avoids accidental auto-upgrades when working locally.
   isClean = inputs.self ? rev;
 in {
   imports = [
     inputs.sops-nix.nixosModules.sops
+    inputs.nix-ld.nixosModules.nix-ld
 
     ../../modules/nixos/nordvpn
   ];
@@ -42,7 +36,7 @@ in {
   users.defaultUserShell = pkgs.zsh;
   programs.mosh.enable = true;
 
-  boot.binfmt.emulatedSystems = ["armv7l-linux" "aarch64-linux"];
+  boot.binfmt.emulatedSystems = [ "armv7l-linux" "aarch64-linux" ];
   programs.nix-ld.enable = true;
   programs.nix-ld.package = inputs.nix-ld-rs.packages.${pkgs.system}.nix-ld-rs;
   virtualisation.docker.enable = false;
@@ -63,20 +57,21 @@ in {
   };
   systemd.services.nixos-upgrade = lib.mkIf config.system.autoUpgrade.enable {
     # path = [pkgs.git pkgs.openssh];
-    serviceConfig.ExecCondition = lib.getExe (
-      pkgs.writeShellScriptBin "check-date" ''
+    serviceConfig.ExecCondition = lib.getExe
+      (pkgs.writeShellScriptBin "check-date" ''
         lastModified() {
-          nix flake metadata "$1" --refresh --json | ${lib.getExe pkgs.jq} '.lastModified'
+          nix flake metadata "$1" --refresh --json | ${
+            lib.getExe pkgs.jq
+          } '.lastModified'
         }
         echo remote flake: $(lastModified "${config.system.autoUpgrade.flake}")
         echo local flake: $(lastModified "${personal-info.flake-path}")
         test "$(lastModified "${config.system.autoUpgrade.flake}")"  -gt "$(lastModified "${personal-info.flake-path}")"
-      ''
-    );
+      '');
   };
   programs._1password.enable = true;
   programs._1password-gui.enable = true;
-  programs._1password-gui.polkitPolicyOwners = [personal-info.username];
+  programs._1password-gui.polkitPolicyOwners = [ personal-info.username ];
 
   # programs._1password-gui.package = (pkgs._1password-gui-beta.overrideAttrs
   #   (oldAttrs: {
@@ -102,9 +97,10 @@ in {
   '';
   security.polkit.enable = true;
   security.pam.services.kwallet.enableKwallet = true;
-  nix.settings.trusted-users = ["root" personal-info.username];
+  nix.settings.trusted-users = [ "root" personal-info.username ];
 
-  users.users.${personal-info.username}.extraGroups = ["wheel" "podman" "docker" "nordvpn" "onepassword" "onepassword-cli"];
+  users.users.${personal-info.username}.extraGroups =
+    [ "wheel" "podman" "docker" "nordvpn" "onepassword" "onepassword-cli" ];
 
   environment.systemPackages = [
     # pkgs.bashInteractiveFHS
@@ -121,7 +117,7 @@ in {
     pkgs.micro
 
     # pkgs.steam-run
-    (pkgs.cowsay.overrideAttrs (old: {__contentAddressable = true;}))
+    (pkgs.cowsay.overrideAttrs (old: { __contentAddressable = true; }))
   ];
 
   # Enable nix flakes
@@ -131,9 +127,7 @@ in {
   '';
 
   # https://github.com/nix-community/nix-index/issues/212
-  nix.nixPath = [
-    "nixpkgs=${inputs.nixpkgs.outPath}"
-  ];
+  nix.nixPath = [ "nixpkgs=${inputs.nixpkgs.outPath}" ];
   # https://discourse.nixos.org/t/problems-after-switching-to-flake-system/24093/7
   # nix.registry.nixpkgs.flake = "${inputs.nixpkgs}";
   # nix.registry.nixpkgs.flake = inputs.nixpkgs;
