@@ -69,24 +69,6 @@ in {
         test "$(lastModified "${config.system.autoUpgrade.flake}")"  -gt "$(lastModified "${personal-info.flake-path}")"
       '');
   };
-  programs._1password.enable = true;
-  programs._1password-gui.enable = true;
-  programs._1password-gui.polkitPolicyOwners = [ personal-info.username ];
-
-  # programs._1password-gui.package = (pkgs._1password-gui-beta.overrideAttrs
-  #   (oldAttrs: {
-  #     postInstall = ''
-  #       ln -s $out/share/1password/op-ssh-sign $out/bin/op-ssh-sign
-  #     '';
-  #   }));
-
-  # Enable CUPS to print documents.
-  # services.printing.enable = true;
-
-  # programs.gnupg.agent = {
-  #   enable = true;
-  #   enableSSHSupport = false;
-  # };
 
   sops.defaultSopsFile = ../../secrets/secrets.yaml;
 
