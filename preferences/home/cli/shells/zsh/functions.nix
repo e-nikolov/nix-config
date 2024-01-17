@@ -282,21 +282,7 @@ in {
         for i in $lines; do
           echo $i
         done
-      }
-      function has_flag() {
-        local flag_pattern=$1
-        shift
-
-        local positional=()
-        while (($#)); do
-          opt=$1
-          shift
-
-          if [[ $opt =~ ^$flag_pattern ]]; then
-            return 1
-          fi
-        done
-      }
+      } 
       function nd() {
         has_flag "-c|--command" "$@"
         local hf=$?
