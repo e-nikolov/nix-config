@@ -4,15 +4,13 @@ in {
   imports = [ ./zsh ./fish ./bash ./nushell ];
 
   # FIXME: This is not working for zsh
-  home.sessionPath = [ "$GOBIN" "$HOME/.local/bin" "$HOME/.npm-packages/bin" ];
+  home.sessionPath = [ "$GOBIN" ];
 
   home.sessionVariables = {
     NODE_PATH = lib.mkDefault "$HOME/.npm-packages/lib/node_modules";
     HOME_MANAGER_CONFIG = lib.mkDefault "$HOME/nix-config";
-    # PATH = "$GOBIN:$HOME/.local/bin:$HOME/.npm-packages/bin:$PATH";
     TERM = "xterm-256color";
     COLORTERM = "truecolor";
-    # EDITOR = lib.mkDefault "vi";
     GOBIN = "$HOME/go/bin";
     GOMODCACHE = "$HOME/go/pkg/mod";
     GOPATH = "$HOME/go";

@@ -37,8 +37,6 @@
       nrs() {
         sudo nixos-rebuild switch --flake ~/nix-config $@ && exec zsh
       }
-      export PATH=$PATH:$HOME/.local/bin
-      export PATH=$PATH:"$HOME/.cargo/bin"
 
       [ -f  ~/nix-config/dotfiles/.zshrc ] && . ~/nix-config/dotfiles/.zshrc
     '';

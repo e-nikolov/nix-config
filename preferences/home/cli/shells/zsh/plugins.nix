@@ -197,47 +197,6 @@
 
       export ZSH_WEB_SEARCH_ENGINES=(nixpkgs "https://search.nixos.org/packages?channel=unstable&from=0&size=50&sort=relevance&type=packages&query=")
       export ZSH_AUTOSUGGEST_USE_ASYNC=on
-      # unset ZSH_AUTOSUGGEST_USE_ASYNC
-
-      # Set shell options: http://zsh.sourceforge.net/Doc/Release/Options.html.
-      # unsetopt MENU_COMPLETE
-      # unsetopt FLOW_CONTROL
-      # setopt AUTO_MENU
-      setopt COMPLETE_IN_WORD
-      setopt ALWAYS_TO_END
-      setopt NO_LIST_BEEP
-      setopt LIST_PACKED
-
-
-      setopt glob_dots     # no special treatment for file names with a leading dot
-      setopt no_auto_menu  # require an extra TAB press to open the completion menu
-      setopt alwaystoend
-      setopt autocd
-      setopt noautomenu
-      setopt autopushd
-      setopt noautoremoveslash
-      setopt nobeep
-      setopt nobgnice
-      setopt cbases
-      setopt extendedhistory
-      setopt noflowcontrol
-      setopt noglobalrcs
-      setopt globdots
-      setopt histexpiredupsfirst
-      setopt histfcntllock
-      setopt histfindnodups
-      setopt histignoredups
-      setopt histignorespace
-      setopt histsavenodups
-      setopt histverify
-      setopt interactive
-      setopt interactivecomments
-      setopt nolisttypes
-      setopt promptsubst
-      setopt sharehistory
-      setopt typesetsilent
-
-      export PATH=$PATH:$HOME/.local/bin
     '';
   };
 }
