@@ -1,10 +1,5 @@
-{
-  config,
-  pkgs,
-  inputs,
-  self,
-  ...
-}: let
+{ config, pkgs, inputs, self, ... }:
+let
   # _1password_desktopItem = pkgs.makeDesktopItem {
   #   name = "_1password-gui";
   #   exec = "_1password-gui";
@@ -20,17 +15,11 @@
     package = pkgs._1password-gui;
   };
 in {
-  imports = [
-    ../../presets/base/home.nix
-    ../../presets/wsl/home.nix
-  ];
+  imports = [ ../../presets/base/home.nix ../../presets/wsl/home.nix ];
 
   systemd.user.services = {
     _1password_gui_autostart = {
-      Unit = {
-        Description = "1Password GUI Autostart";
-        # After = [ "network.target" ];
-      };
+      Unit = { Description = "1Password GUI Autostart"; };
 
       Service = {
         Environment = "DISPLAY=:0";
@@ -38,10 +27,7 @@ in {
         ExecStart = "${pkgs._1password-gui}/bin/1password";
         Restart = "always";
       };
-      # Install.WantedBy = [ "graphical-session.target" ];
-      # Install.WantedBy = [ "graphical.target" ];
-      # Install.WantedBy = [ "multi-user.target" ];
-      Install.WantedBy = ["default.target"];
+      Install.WantedBy = [ "default.target" ];
     };
   };
 }

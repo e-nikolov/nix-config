@@ -187,7 +187,7 @@ EOF
         else
             echo Installing home-manager
 
-            nix shell home-manager/master nixpkgs#jq --command sh -c "
+            nix shell --override-input nixpkgs github:NixOS/nixpkgs/nixos-unstable home-manager/master nixpkgs#jq --command sh -c "
         ## * There is no easy way to find the original nix package in the current profile
         ## * We use jq to find the index of the package that has priority 5 and a store path that contains *-nix-[digit]*
         i=\$(nix profile list --json | jq '.elements | map(

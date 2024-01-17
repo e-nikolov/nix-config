@@ -1,11 +1,4 @@
-{
-  pkgs,
-  lib,
-  self,
-  inputs,
-  personal-info,
-  ...
-}: {
+{ pkgs, lib, self, inputs, personal-info, ... }: {
   environment.variables.NIXOS_OZONE_WL = "1";
   programs.xwayland.enable = true;
   security = {

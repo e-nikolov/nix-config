@@ -1,10 +1,4 @@
-args @ {
-  config,
-  pkgs,
-  lib,
-  inputs,
-  ...
-}: {
+args@{ config, pkgs, lib, inputs, ... }: {
   imports = [
     ../starter/home.nix
     ../../preferences/home/cli
@@ -16,31 +10,11 @@ args @ {
     "electron-25.9.0" # obsidian https://github.com/NixOS/nixpkgs/issues/273611
   ];
 
-  home.packages =
-    [
-      # pkgs.stable.ripgrep-all
-      # pkgs.ripgrep-all
-      pkgs.websocat
-      pkgs.rnix-lsp
-      pkgs.gnumake
-      pkgs.bc
-      pkgs.lsof
-
-      # * FONTS
-      pkgs.meslo-lgs-nf
-      pkgs.fira-code
-      pkgs.jetbrains-mono
-      pkgs.noto-fonts-monochrome-emoji
-
-      pkgs.neofetch
-      pkgs.readline
-      pkgs.fasd
-
-      # pkgs.fortune
-      # pkgs.hello
-      # pkgs.cowsay
-    ]
-    ++ [];
+  home.packages = [
+    # pkgs.fortune
+    # pkgs.hello
+    # pkgs.cowsay
+  ] ++ [ ];
 
   # This value determines the Home Manager release that your
   # configuration is compatible with. This helps avoid breakage

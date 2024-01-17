@@ -1,10 +1,6 @@
-{
-  config,
-  pkgs,
-  lib,
-  ...
-}: {
-  # programs.git.gpg.ssh.program = "${pkgs._1password-gui}/share/1password/op-ssh-sign";
+{ config, pkgs, lib, ... }: {
+  programs.git.extraConfig.gpg.ssh.program = "op-ssh-sign-wsl";
+  programs.git.extraConfig.core.sshCommand = "ssh.exe";
 
   programs.zsh = {
     initExtra = ''
