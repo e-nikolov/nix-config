@@ -14,12 +14,23 @@
   interface = "wlan0";
   hostname = "rpi1";
 in {
+  imports = [
+    # Include the results of the hardware scan.
+    ./hardware-configuration.nix
+  ];
   # boot.loader.grub.enable = false;
   # boot.loader.generic-extlinux-compatible.enable = true;
   # boot.kernelPackages = pkgs.linuxPackages_rpi2;
 
-  nix.settings.substituters = lib.mkForce ["https://cache.armv7l.xyz"];
-  nix.settings.trusted-public-keys = ["cache.armv7l.xyz-1:kBY/eGnBAYiqYfg0fy0inWhshUo+pGFM3Pj7kIkmlBk="];
+  nix = {
+    settings = {
+      substituters = lib.mkForce ["https://cache.armv7l.xyz"];
+      trusted-public-keys = ["cache.armv7l.xyz-1:kBY/eGnBAYiqYfg0fy0inWhshUo+pGFM3Pj7kIkmlBk="];
+    };
+    extraOptions = ''
+      experimental-features = nix-command flakes repl-flake ca-derivations
+    '';
+  };
 
   swapDevices = [
     {
@@ -44,9 +55,11 @@ in {
     git
   ];
   virtualisation.docker.enable = true;
-  services.tailscale.enable = true;
+  services = {
+    tailscale.enable = true;
 
-  services.openssh.enable = true;
+    openssh.enable = true;
+  };
 
   users = {
     mutableUsers = false;
@@ -68,15 +81,12 @@ in {
 
   # hardware.pulseaudio.enable = true;
 
-  imports = [
-    # Include the results of the hardware scan.
-    ./hardware-configuration.nix
-  ];
-
   # Use the extlinux boot loader. (NixOS wants to enable GRUB by default)
-  boot.loader.grub.enable = false;
-  # Enables the generation of /boot/extlinux/extlinux.conf
-  boot.loader.generic-extlinux-compatible.enable = true;
+  boot.loader = {
+    grub.enable = false;
+    # Enables the generation of /boot/extlinux/extlinux.conf
+    generic-extlinux-compatible.enable = true;
+  };
 
   # networking.hostName = "nixos"; # Define your hostname.
   # Pick only one of the below networking options.
@@ -100,10 +110,6 @@ in {
 
   # Enable the X11 windowing system.
   # services.xserver.enable = true;
-
-  nix.extraOptions = ''
-    experimental-features = nix-command flakes repl-flake ca-derivations
-  '';
 
   # Configure keymap in X11
   # services.xserver.layout = "us";

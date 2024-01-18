@@ -10,7 +10,7 @@
   # Only enable auto upgrade if current config came from a clean tree
   # This avoids accidental auto-upgrades when working locally.
   # isClean = inputs.self ? rev;
-  isClean = true;
+  isClean = inputs.self ? rev;
 in {
   imports = [
     inputs.sops-nix.nixosModules.sops
@@ -20,90 +20,106 @@ in {
   ];
 
   networking.firewall.checkReversePath = "loose";
-  services.tailscale.enable = true;
-  services.nordvpn.enable = true;
-  services.openssh.enable = true;
-
-  documentation.dev.enable = true;
-  documentation.man.enable = true;
-  documentation.enable = true;
-  documentation.man.mandoc.enable = true;
-  documentation.man.man-db.enable = false;
-  programs.ssh.enableAskPassword = true;
-  programs.git.enable = true;
-  programs.zsh = {
-    enable = true;
-    enableCompletion = false;
-    # enableBashCompletion = true;
+  services = {
+    tailscale.enable = true;
+    nordvpn.enable = true;
+    openssh.enable = true;
   };
-  programs.bash = {
-    # vteIntegration = true;
-    # blesh.enable = true; # bugged
+
+  documentation = {
+    enable = true;
+    dev.enable = true;
+    man = {
+      enable = true;
+      mandoc.enable = true;
+      man-db.enable = false;
+    };
+  };
+
+  programs = {
+    ssh.enableAskPassword = true;
+
+    git.enable = true;
+    zsh = {
+      enable = true;
+      enableCompletion = false;
+      # enableBashCompletion = true;
+    };
+    bash = {
+      # vteIntegration = true;
+      # blesh.enable = true; # bugged
+    };
+    mosh.enable = true;
+    nix-ld = {
+      enable = true;
+      package = inputs.nix-ld-rs.packages.${pkgs.system}.nix-ld-rs;
+      libraries = with pkgs; [
+        alsa-lib
+        at-spi2-atk
+        at-spi2-core
+        atk
+        cairo
+        cups
+        curl
+        dbus
+        expat
+        fontconfig
+        freetype
+        fuse3
+        gdk-pixbuf
+        glib
+        gtk3
+        icu
+        libGL
+        libappindicator-gtk3
+        libdrm
+        libglvnd
+        libnotify
+        libpulseaudio
+        libunwind
+        libusb1
+        libuuid
+        libxkbcommon
+        libxml2
+        mesa
+        nspr
+        nss
+        openssl
+        pango
+        pipewire
+        stdenv.cc.cc
+        systemd
+        vulkan-loader
+        xorg.libX11
+        xorg.libXScrnSaver
+        xorg.libXcomposite
+        xorg.libXcursor
+        xorg.libXdamage
+        xorg.libXext
+        xorg.libXfixes
+        xorg.libXi
+        xorg.libXrandr
+        xorg.libXrender
+        xorg.libXtst
+        xorg.libxcb
+        xorg.libxkbfile
+        xorg.libxshmfence
+        zlib
+      ];
+    };
   };
   users.defaultUserShell = pkgs.zsh;
-  programs.mosh.enable = true;
 
   boot.binfmt.emulatedSystems = ["armv7l-linux" "aarch64-linux"];
-  programs.nix-ld.enable = true;
-  programs.nix-ld.package = inputs.nix-ld-rs.packages.${pkgs.system}.nix-ld-rs;
-  programs.nix-ld.libraries = with pkgs; [
-    alsa-lib
-    at-spi2-atk
-    at-spi2-core
-    atk
-    cairo
-    cups
-    curl
-    dbus
-    expat
-    fontconfig
-    freetype
-    fuse3
-    gdk-pixbuf
-    glib
-    gtk3
-    icu
-    libGL
-    libappindicator-gtk3
-    libdrm
-    libglvnd
-    libnotify
-    libpulseaudio
-    libunwind
-    libusb1
-    libuuid
-    libxkbcommon
-    libxml2
-    mesa
-    nspr
-    nss
-    openssl
-    pango
-    pipewire
-    stdenv.cc.cc
-    systemd
-    vulkan-loader
-    xorg.libX11
-    xorg.libXScrnSaver
-    xorg.libXcomposite
-    xorg.libXcursor
-    xorg.libXdamage
-    xorg.libXext
-    xorg.libXfixes
-    xorg.libXi
-    xorg.libXrandr
-    xorg.libXrender
-    xorg.libXtst
-    xorg.libxcb
-    xorg.libxkbfile
-    xorg.libxshmfence
-    zlib
-  ];
-  virtualisation.docker.enable = false;
-  virtualisation.podman.enable = true;
-  virtualisation.podman.dockerSocket.enable = true;
-  virtualisation.podman.dockerCompat = true;
-  # virtualisation.podman.defaultNetwork.dnsname.enable = true;
+  virtualisation = {
+    docker.enable = false;
+    podman = {
+      enable = true;
+      dockerSocket.enable = true;
+      dockerCompat = true;
+      # defaultNetwork.dnsname.enable = true;
+    };
+  };
 
   system.autoUpgrade = {
     enable = isClean;
@@ -131,15 +147,21 @@ in {
       '');
   };
 
-  sops.defaultSopsFile = ../../secrets/secrets.yaml;
+  sops = {
+    defaultSopsFile = ../../secrets/secrets.yaml;
+    age = {
+      generateKey = true;
+      keyFile = "/var/lib/sops-nix/key.txt";
+    };
+  };
 
-  sops.age.generateKey = true;
-  sops.age.keyFile = "/var/lib/sops-nix/key.txt";
-  security.sudo.extraConfig = ''
-    Defaults        timestamp_timeout=30
-  '';
-  security.polkit.enable = true;
-  security.pam.services.kwallet.enableKwallet = true;
+  security = {
+    sudo.extraConfig = ''
+      Defaults        timestamp_timeout=30
+    '';
+    polkit.enable = true;
+    pam.services.kwallet.enableKwallet = true;
+  };
 
   users.users.${me.username}.extraGroups = ["wheel" "podman" "docker" "nordvpn" "onepassword" "onepassword-cli"];
 

@@ -16,7 +16,7 @@
           };
           shellcheck.enable = true;
           shfmt.enable = true;
-          gptcommit.enable = true;
+          # gptcommit.enable = true;
           # lychee.enable = true;
           # lychee.flags = "--timeout 5 -v";
           typos = {

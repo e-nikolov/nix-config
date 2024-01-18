@@ -19,7 +19,6 @@
     inputs.nix-index-database.hmModules.nix-index
   ];
 
-  programs.nix-index-database.comma.enable = lib.mkDefault true;
   home.packages = [
     # * Dev
     pkgs.gnumake
@@ -60,11 +59,15 @@
       '';
     })
   ];
-  programs.htop.enable = true; # task manager
-  programs.eza.enable = true; # modern ls
-  programs.micro.enable = true; # editor
+  programs = {
+    nix-index-database.comma.enable = lib.mkDefault true;
 
-  # programs.readline.enable = true;
-  # programs.gitui.enable = true;
-  # programs.pls.enable = true;
+    htop.enable = true; # task manager
+    eza.enable = true; # modern ls
+    micro.enable = true; # editor
+
+    # readline.enable = true;
+    # gitui.enable = true;
+    # pls.enable = true;
+  };
 }

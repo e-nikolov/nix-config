@@ -14,9 +14,6 @@
     ../../preferences/nixos/keyboard.nix
   ];
 
-  services.upower.enable = true;
-  programs.dconf.enable = true;
-
   xdg.portal = {
     enable = true;
     xdgOpenUsePortal = true;
@@ -30,10 +27,17 @@
 
   environment.systemPackages = [pkgs.konsole pkgs.libsForQt5.kcalc];
 
-  programs._1password.enable = true;
-  programs._1password-gui.enable = true;
-  programs._1password-gui.polkitPolicyOwners = [me.username];
-  programs._1password-gui.package = pkgs._1password-gui-beta;
+  programs = {
+    dconf.enable = true;
+    _1password.enable = true;
+    _1password-gui = {
+      enable = true;
+      polkitPolicyOwners = [me.username];
+      package = pkgs._1password-gui-beta;
+    };
+  };
+
+  services.upower.enable = true;
 
   # Enable CUPS to print documents.
   # services.printing.enable = true;

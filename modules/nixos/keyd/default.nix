@@ -7,7 +7,7 @@
 with lib; let
   cfg = config.custom.services.keyd;
 
-  keyboardOptions = {...}: {
+  keyboardOptions = _: {
     options = {
       ids = mkOption {
         type = types.listOf types.str;

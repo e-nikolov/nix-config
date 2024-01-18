@@ -136,8 +136,10 @@
     # nil.inputs.flake-utils.follows = "flake-utils";
     # nixd.url = "github:nix-community/nixd";
 
-    code-insiders.url = "github:e-nikolov/code-insiders-flake";
-    code-insiders.inputs.nixpkgs.follows = "nixpkgs";
+    code-insiders = {
+      url = "github:e-nikolov/code-insiders-flake";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     home-manager = {
       url = "github:nix-community/home-manager/master";
@@ -151,50 +153,82 @@
 
     devenv.url = "github:cachix/devenv";
 
-    plasma-manager.url = "github:pjones/plasma-manager";
-    plasma-manager.inputs.nixpkgs.follows = "nixpkgs";
-    plasma-manager.inputs.home-manager.follows = "home-manager";
-
-    nixos-wsl.url = "github:nix-community/nixos-wsl/main";
-    nixos-wsl.inputs.nixpkgs.follows = "nixpkgs";
-    nixos-wsl.inputs.flake-utils.follows = "flake-utils";
-    nixos-wsl.inputs.flake-compat.follows = "flake-compat";
+    plasma-manager = {
+      url = "github:pjones/plasma-manager";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        home-manager.follows = "home-manager";
+      };
+    };
+    nixos-wsl = {
+      url = "github:nix-community/nixos-wsl/main";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        flake-utils.follows = "flake-utils";
+        flake-compat.follows = "flake-compat";
+      };
+    };
 
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
 
-    nix-index-database.url = "github:nix-community/nix-index-database/main";
-    nix-index-database.inputs.nixpkgs.follows = "nixpkgs";
-    nix-alien.url = "github:thiagokokada/nix-alien";
-    nix-alien.inputs.nixpkgs.follows = "nixpkgs";
-    nix-alien.inputs.flake-compat.follows = "flake-compat";
-    nix-alien.inputs.flake-utils.follows = "flake-utils";
-    nix-alien.inputs.nix-index-database.follows = "nix-index-database";
+    nix-index-database = {
+      url = "github:nix-community/nix-index-database/main";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    nix-alien = {
+      url = "github:thiagokokada/nix-alien";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        flake-compat.follows = "flake-compat";
+        flake-utils.follows = "flake-utils";
+        nix-index-database.follows = "nix-index-database";
+      };
+    };
 
-    golink.url = "github:tailscale/golink/main";
-    golink.inputs.nixpkgs.follows = "nixpkgs";
-    golink.inputs.flake-utils.follows = "flake-utils";
+    golink = {
+      url = "github:tailscale/golink/main";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        flake-utils.follows = "flake-utils";
+      };
+    };
 
-    sops-nix.url = "github:Mic92/sops-nix";
-    sops-nix.inputs.nixpkgs.follows = "nixpkgs";
-    sops-nix.inputs.nixpkgs-stable.follows = "nixpkgs-stable";
+    sops-nix = {
+      url = "github:Mic92/sops-nix";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        nixpkgs-stable.follows = "nixpkgs-stable";
+      };
+    };
 
     flake-parts.url = "github:hercules-ci/flake-parts";
 
-    nix-ld.url = "github:Mic92/nix-ld/main";
-    nix-ld.inputs.nixpkgs.follows = "nixpkgs";
-    nix-ld-rs.url = "github:nix-community/nix-ld-rs/main";
-    nix-ld-rs.inputs.nixpkgs.follows = "nixpkgs";
-    nix-ld-rs.inputs.flake-utils.follows = "flake-utils";
-    nix-ld-rs.inputs.flake-compat.follows = "flake-compat";
+    nix-ld = {
+      url = "github:Mic92/nix-ld/main";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    nix-ld-rs = {
+      url = "github:nix-community/nix-ld-rs/main";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        flake-utils.follows = "flake-utils";
+        flake-compat.follows = "flake-compat";
+      };
+    };
 
     # nur.url = "github:nix-community/NUR";
     nix-colors.url = "github:misterio77/nix-colors";
-    nix-gaming.url = "github:fufexan/nix-gaming";
-    nix-gaming.inputs.nixpkgs.follows = "nixpkgs";
-
-    helix.url = "github:helix-editor/helix/master";
-    helix.inputs.nixpkgs.follows = "nixpkgs";
-    helix.inputs.flake-utils.follows = "flake-utils";
+    nix-gaming = {
+      url = "github:fufexan/nix-gaming";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    helix = {
+      url = "github:helix-editor/helix/master";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        flake-utils.follows = "flake-utils";
+      };
+    };
     pre-commit-hooks = {
       url = "github:cachix/pre-commit-hooks.nix";
       inputs.nixpkgs.follows = "nixpkgs";
