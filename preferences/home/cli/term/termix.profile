@@ -2,7 +2,7 @@
 ColorScheme=termix
 # Font=MesloLGS NF,10,-1,5,50,0,0,0,0,0
 Font=JetBrains Mono,14,-1,5,50,0,0,0,0,0
-UseFontLineChararacters=true
+UseFontLineCharacters=true
 
 [Cursor Options]
 CursorShape=1
