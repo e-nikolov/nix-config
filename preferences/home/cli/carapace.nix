@@ -2,12 +2,10 @@
   config,
   pkgs,
   lib,
-  personal-info,
+  me,
   inputs,
-  outputs,
   ...
-}:
-with lib; {
+}: {
   imports = [
     ../../../modules/home/carapace.nix
   ];

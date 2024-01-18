@@ -8,19 +8,21 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     flake-utils.url = "github:numtide/flake-utils";
-    nix-index-database.url = "github:nix-community/nix-index-database/main";
-    nix-index-database.inputs.nixpkgs.follows = "nixpkgs";
-
-    nix-config.url = "github:e-nikolov/nix-config/master";
-    nix-config.inputs.nixpkgs.follows = "nixpkgs";
-    nix-config.inputs.nixpkgs-stable.follows = "nixpkgs-stable";
-    nix-config.inputs.home-manager.follows = "home-manager";
-    nix-config.inputs.flake-utils.follows = "flake-utils";
-    nix-config.inputs.nix-index-database.follows = "nix-index-database";
+    nix-index-database = {
+      url = "github:nix-community/nix-index-database/main";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    nix-config = {
+      url = "github:e-nikolov/nix-config/master";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nixpkgs-stable.follows = "nixpkgs-stable";
+      inputs.home-manager.follows = "home-manager";
+      inputs.flake-utils.follows = "flake-utils";
+      inputs.nix-index-database.follows = "nix-index-database";
+    };
   };
 
   outputs = inputs @ {
-    self,
     nixpkgs,
     nixpkgs-stable,
     flake-utils,
@@ -39,7 +41,7 @@
         inherit system;
         config = {allowUnfree = true;};
         overlays = [
-          (self: super: {
+          (final: prev: {
           })
         ];
       };
@@ -64,22 +66,24 @@
       packages.homeConfigurations."{{username}}@{{hostname}}" = mkHome {
         modules = [
           {
-            home.username = "{{username}}";
-            home.homeDirectory = "{{homedir}}";
+            home = {
+              username = "{{username}}";
+              homeDirectory = "{{homedir}}";
 
-            home.packages = [
-              pkgs.hello
-            ];
+              packages = [
+                pkgs.hello
+              ];
 
-            # This value determines the Home Manager release that your
-            # configuration is compatible with. This helps avoid breakage
-            # when a new Home Manager release introduces backwards
-            # incompatible changes.
-            #
-            # You can update Home Manager without changing this value. See
-            # the Home Manager release notes for a list of state version
-            # changes in each release.
-            home.stateVersion = "23.05";
+              # This value determines the Home Manager release that your
+              # configuration is compatible with. This helps avoid breakage
+              # when a new Home Manager release introduces backwards
+              # incompatible changes.
+              #
+              # You can update Home Manager without changing this value. See
+              # the Home Manager release notes for a list of state version
+              # changes in each release.
+              stateVersion = "23.05";
+            };
           }
         ];
       };

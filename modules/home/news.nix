@@ -17,8 +17,10 @@ in {
   #   };
   # };
   config = {
-    news.display = lib.mkForce "silent";
-    news.json = lib.mkForce {};
-    news.entries = lib.mkForce [];
+    news = {
+      display = lib.mkForce "silent";
+      json = lib.mkForce {};
+      entries = lib.mkForce [];
+    };
   };
 }

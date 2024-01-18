@@ -1,9 +1,8 @@
 {
   pkgs,
   lib,
-  self,
   inputs,
-  personal-info,
+  me,
   ...
 }: {
   imports = [
@@ -46,7 +45,7 @@
     # };
   };
 
-  users.users.${personal-info.username} = {
+  users.users.${me.username} = {
     isNormalUser = true;
     extraGroups = [
       "keyd"

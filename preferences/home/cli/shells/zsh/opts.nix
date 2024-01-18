@@ -1,4 +1,11 @@
-{ config, pkgs, lib, personal-info, inputs, outputs, ... }: {
+{
+  config,
+  pkgs,
+  lib,
+  me,
+  inputs,
+  ...
+}: {
   config.programs.zsh = {
     history = {
       size = 10000;

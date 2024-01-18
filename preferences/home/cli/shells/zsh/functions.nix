@@ -1,6 +1,13 @@
-{ config, pkgs, lib, personal-info, inputs, outputs, ... }:
-with lib;
-let cfg = config.programs.zsh.extra;
+{
+  config,
+  pkgs,
+  lib,
+  me,
+  inputs,
+  ...
+}: let
+  cfg = config.programs.zsh.extra;
+  inherit (lib) mkIf mkOption mkDefault;
 in {
   options.programs.zsh.extra = {
     enable = mkOption {
@@ -186,7 +193,7 @@ in {
 
         for store_path in "''${store_paths[@]}"; do
           _nar $store_path $cache $quiet
-        done 
+        done
       }
 
       # Usage: time-n-cmd TIMES CMD
@@ -203,7 +210,7 @@ in {
         )
       }
 
-      # sfs creates a temporary directory and mounts a remote filesystem to it. Usage: sfs core@ares.unchain.io
+      # sfs creates a temporary directory and mounts a remote filesystem to it. Usage: sfs <user>@<hostname>
       sfs() {
         mkdir /tmp/$1
         sshfs $1:/ /tmp/$1
@@ -212,11 +219,11 @@ in {
         nohup dolphin /tmp/$1 &>/dev/null &
       }
 
-      # sin adds a new entry to your ssh config file. Usage: sin ares core ares.unchain.io
+      # sin adds a new entry to your ssh config file. Usage: sin <alias> <user> <hostname>
       sin() {
       cat << EOF >> ~/.ssh/config
 
-      Host $1 
+      Host $1
           User $2
           HostName $3
 
@@ -282,7 +289,7 @@ in {
         for i in $lines; do
           echo $i
         done
-      } 
+      }
       function nd() {
         has_flag "-c|--command" "$@"
         local hf=$?

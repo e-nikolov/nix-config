@@ -1,4 +1,11 @@
-{ config, pkgs, lib, personal-info, inputs, outputs, ... }: {
+{
+  config,
+  pkgs,
+  lib,
+  me,
+  inputs,
+  ...
+}: {
   imports = [
     ../../preferences/home/keyboard.nix
     ../../preferences/home/plasma.nix
@@ -10,7 +17,7 @@
   home.packages = [
     (pkgs.makeAutostartItem {
       name = "1password";
-      package = pkgs._1password-gui;
+      package = pkgs._1password-gui-beta;
     })
     #* Browsers
     pkgs.firefox

@@ -1,5 +1,12 @@
-{ config, pkgs, lib, personal-info, inputs, outputs, ... }: {
-  home.packages = [ pkgs.bash-completion pkgs.zsh-completions ];
+{
+  config,
+  pkgs,
+  lib,
+  me,
+  inputs,
+  ...
+}: {
+  home.packages = [pkgs.bash-completion pkgs.zsh-completions];
   programs.zsh.completionInit = ''
     eval "$(dircolors -b)"
     export CARAPACE_MATCH=CASE_INSENSITIVE

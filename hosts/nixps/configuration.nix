@@ -5,7 +5,7 @@
   config,
   pkgs,
   inputs,
-  personal-info,
+  me,
   ...
 }: {
   imports = [
@@ -18,27 +18,31 @@
     ../../presets/desktop/configuration.nix
   ];
 
-  # boot.blacklistedKernelModules = [ "nouveau" "nvidia" ];
-  boot.blacklistedKernelModules = ["snd_pcsp"];
-  # boot.kernelParams = [ "acpi_rev_override=1" "nomodeset" ];
-  boot.kernelParams = ["acpi_rev_override=1"];
-  boot.loader = {
-    systemd-boot = {
-      enable = true;
-      configurationLimit = 10;
-      extraEntries = {
-        "kubuntu.conf" = ''
-          title Kubuntu
-          efi /EFI/ubuntu/shimx64.efi
-        '';
+  boot = {
+    blacklistedKernelModules = ["snd_pcsp"];
+    # blacklistedKernelModules = [ "nouveau" "nvidia" ];
+    # kernelParams = [ "acpi_rev_override=1" "nomodeset" ];
+    kernelParams = ["acpi_rev_override=1"];
+    loader = {
+      systemd-boot = {
+        enable = true;
+        configurationLimit = 10;
+        extraEntries = {
+          "kubuntu.conf" = ''
+            title Kubuntu
+            efi /EFI/ubuntu/shimx64.efi
+          '';
+        };
       };
+      efi = {canTouchEfiVariables = true;};
     };
-    efi = {canTouchEfiVariables = true;};
   };
-
-  networking.hostName = "nixps"; # Define your hostname.
-  networking.hostId = "a96153f9";
-  networking.networkmanager.enable = true; # Easiest to use and most distros use this by default.
+  networking = {
+    hostName = "nixps"; # Define your hostname.
+    hostId = "a96153f9";
+    networkmanager.enable = true; # Easiest to use and most distros use this by default.
+    firewall.allowedTCPPorts = [12345];
+  };
 
   # Set your time zone.
   time.timeZone = "Europe/Amsterdam";
@@ -53,7 +57,6 @@
   # services.blueman.enable = true;
 
   programs.partition-manager.enable = true;
-  networking.firewall.allowedTCPPorts = [12345];
 
   # boot.zfs.requestEncryptionCredentials = false;
 

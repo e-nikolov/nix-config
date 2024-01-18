@@ -1,9 +1,16 @@
-{ lib, pkgs, config, modulesPath, inputs, personal-info, ... }:
-with lib;
-let
+{
+  lib,
+  pkgs,
+  config,
+  modulesPath,
+  inputs,
+  me,
+  ...
+}: let
   # Only enable auto upgrade if current config came from a clean tree
   # This avoids accidental auto-upgrades when working locally.
-  isClean = inputs.self ? rev;
+  # isClean = inputs.self ? rev;
+  isClean = true;
 in {
   imports = [
     inputs.sops-nix.nixosModules.sops
@@ -36,9 +43,62 @@ in {
   users.defaultUserShell = pkgs.zsh;
   programs.mosh.enable = true;
 
-  boot.binfmt.emulatedSystems = [ "armv7l-linux" "aarch64-linux" ];
+  boot.binfmt.emulatedSystems = ["armv7l-linux" "aarch64-linux"];
   programs.nix-ld.enable = true;
   programs.nix-ld.package = inputs.nix-ld-rs.packages.${pkgs.system}.nix-ld-rs;
+  programs.nix-ld.libraries = with pkgs; [
+    alsa-lib
+    at-spi2-atk
+    at-spi2-core
+    atk
+    cairo
+    cups
+    curl
+    dbus
+    expat
+    fontconfig
+    freetype
+    fuse3
+    gdk-pixbuf
+    glib
+    gtk3
+    icu
+    libGL
+    libappindicator-gtk3
+    libdrm
+    libglvnd
+    libnotify
+    libpulseaudio
+    libunwind
+    libusb1
+    libuuid
+    libxkbcommon
+    libxml2
+    mesa
+    nspr
+    nss
+    openssl
+    pango
+    pipewire
+    stdenv.cc.cc
+    systemd
+    vulkan-loader
+    xorg.libX11
+    xorg.libXScrnSaver
+    xorg.libXcomposite
+    xorg.libXcursor
+    xorg.libXdamage
+    xorg.libXext
+    xorg.libXfixes
+    xorg.libXi
+    xorg.libXrandr
+    xorg.libXrender
+    xorg.libXtst
+    xorg.libxcb
+    xorg.libxkbfile
+    xorg.libxshmfence
+    zlib
+  ];
   virtualisation.docker.enable = false;
   virtualisation.podman.enable = true;
   virtualisation.podman.dockerSocket.enable = true;
@@ -47,7 +107,7 @@ in {
 
   system.autoUpgrade = {
     enable = isClean;
-    flake = personal-info.flake-url;
+    flake = me.flake-url;
     flags = [
       "-L" # print build logs
       "--refresh"
@@ -57,16 +117,17 @@ in {
   };
   systemd.services.nixos-upgrade = lib.mkIf config.system.autoUpgrade.enable {
     # path = [pkgs.git pkgs.openssh];
-    serviceConfig.ExecCondition = lib.getExe
+    serviceConfig.ExecCondition =
+      lib.getExe
       (pkgs.writeShellScriptBin "check-date" ''
         lastModified() {
           nix flake metadata "$1" --refresh --json | ${
-            lib.getExe pkgs.jq
-          } '.lastModified'
+          lib.getExe pkgs.jq
+        } '.lastModified'
         }
         echo remote flake: $(lastModified "${config.system.autoUpgrade.flake}")
-        echo local flake: $(lastModified "${personal-info.flake-path}")
-        test "$(lastModified "${config.system.autoUpgrade.flake}")"  -gt "$(lastModified "${personal-info.flake-path}")"
+        echo local flake: $(lastModified "${me.flake-path}")
+        test "$(lastModified "${config.system.autoUpgrade.flake}")"  -gt "$(lastModified "${me.flake-path}")"
       '');
   };
 
@@ -79,10 +140,8 @@ in {
   '';
   security.polkit.enable = true;
   security.pam.services.kwallet.enableKwallet = true;
-  nix.settings.trusted-users = [ "root" personal-info.username ];
 
-  users.users.${personal-info.username}.extraGroups =
-    [ "wheel" "podman" "docker" "nordvpn" "onepassword" "onepassword-cli" ];
+  users.users.${me.username}.extraGroups = ["wheel" "podman" "docker" "nordvpn" "onepassword" "onepassword-cli"];
 
   environment.systemPackages = [
     # pkgs.bashInteractiveFHS
@@ -99,19 +158,30 @@ in {
     pkgs.micro
 
     # pkgs.steam-run
-    (pkgs.cowsay.overrideAttrs (old: { __contentAddressable = true; }))
+    (pkgs.cowsay.overrideAttrs (old: {__contentAddressable = true;}))
   ];
 
-  # Enable nix flakes
-  # nix.package = pkgs.nixFlakes;
-  nix.extraOptions = ''
-    experimental-features = nix-command flakes repl-flake ca-derivations
-  '';
+  nix = {
+    package = lib.mkDefault pkgs.nixUnstable;
+    gc.automatic = true;
+    nixPath = ["nixpkgs=${inputs.nixpkgs.outPath}"];
+    settings = {
+      experimental-features = [
+        "flakes"
+        "nix-command"
+        "repl-flake"
+        "ca-derivations"
+        "auto-allocate-uids"
+      ];
 
-  # https://github.com/nix-community/nix-index/issues/212
-  nix.nixPath = [ "nixpkgs=${inputs.nixpkgs.outPath}" ];
-  # https://discourse.nixos.org/t/problems-after-switching-to-flake-system/24093/7
-  # nix.registry.nixpkgs.flake = "${inputs.nixpkgs}";
-  # nix.registry.nixpkgs.flake = inputs.nixpkgs;
-  nix.gc.automatic = true;
+      keep-derivations = lib.mkDefault true;
+      keep-outputs = lib.mkDefault true;
+      auto-optimise-store = lib.mkDefault true;
+      use-xdg-base-directories = lib.mkDefault true;
+      log-lines = lib.mkDefault 20;
+      show-trace = lib.mkDefault true;
+
+      trusted-users = ["root" "@wheel"];
+    };
+  };
 }

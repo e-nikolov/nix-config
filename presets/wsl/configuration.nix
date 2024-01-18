@@ -1,5 +1,13 @@
-{ inputs, lib, pkgs, config, modulesPath, personal-info, ... }: {
-  imports = [ inputs.nixos-wsl.nixosModules.wsl ];
+{
+  inputs,
+  lib,
+  pkgs,
+  config,
+  modulesPath,
+  me,
+  ...
+}: {
+  imports = [inputs.nixos-wsl.nixosModules.wsl];
 
   wsl = {
     enable = true;
@@ -9,7 +17,7 @@
     interop.register = true;
     wslConf.network.generateResolvConf = true;
     wslConf.network.generateHosts = false;
-    defaultUser = personal-info.username;
+    defaultUser = me.username;
 
     # wslConf.automount.root = "/mnt";
     # interop.preserveArgvZero = false;

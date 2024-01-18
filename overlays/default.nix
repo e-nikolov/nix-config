@@ -1,39 +1,51 @@
-# This file defines overlays
-{ inputs, outputs, ... }: {
-  # Third party overlays
-  nix-alien = inputs.nix-alien.overlays.default;
-  golink = inputs.golink.overlay;
-  vscode-insiders = inputs.code-insiders.overlays.default;
-  helix = inputs.helix.overlays.default;
-  # nil = inputs.nil.overlays.default;
-  # nixd = inputs.nixd.overlays.default;
+{inputs, ...} @ localFlake: {
+  lib,
+  config,
+  getSystem,
+  ...
+} @ flake: let
+  # importPkgs = path:
+  #   import path (cfg.args
+  #     // {
+  #       inherit system;
+  #       overlays = [inputs.self.overlays.default] ++ cfg.args.overlays;
+  #     });
+  overlays = [
+    inputs.nix-alien.overlays.default
+    inputs.golink.overlay
+    inputs.code-insiders.overlays.default
+    inputs.helix.overlays.default
+    # inputs.nil.overlays.default
 
-  # This one brings our custom packages from the 'packages' directory
-  additions = final: prev:
-    import ../packages { pkgs = final; } // {
-      # formats = prev.formats // import ../packages/formats { pkgs = final; };
-      # vimPlugins = prev.vimPlugins // final.callPackage ../packages/vim-plugins { };
-    };
+    (final: prev:
+      {
+        inherit (inputs.devenv.packages.${final.system}) devenv;
+        inherit (inputs.plasma-manager.packages.${final.system}) rc2nix;
+        stable = import inputs.nixpkgs-stable {
+          inherit (final) system;
+          config.allowUnfree = true;
+        };
+      }
+      // import ../packages {pkgs = final;})
+  ];
+in {
+  flake.overlays.default = final: prev: lib.composeManyExtensions overlays final prev;
 
-  # This one contains whatever you want to overlay
-  # You can change versions, add patches, set compilation flags, anything really.
-  # https://nixos.wiki/wiki/Overlays
-  modifications = final: prev: {
-    # example = prev.example.overrideAttrs (oldAttrs: rec {
-    # ...
-    # });
+  perSystem = {system, ...}: {
+    _module.args.pkgs = import inputs.nixpkgs {
+      inherit system;
+      overlays = [inputs.self.overlays.default];
 
-    # inherit (inputs.nil.packages.${system}) nil;
-    inherit (inputs.devenv.packages.${final.system}) devenv;
-    inherit (inputs.plasma-manager.packages.${final.system}) rc2nix;
-  };
-
-  # When applied, the stable nixpkgs set (declared in the flake inputs) will
-  # be accessible through 'pkgs.stable'
-  nixpkgs-stable = final: _prev: {
-    stable = import inputs.nixpkgs-stable {
-      system = final.system;
-      config.allowUnfree = true;
+      config = {
+        allowUnfree = true;
+        nvidia.acceptLicense = true;
+        allowInsecurePredicate = pkg:
+          builtins.elem (lib.getName pkg) [
+            "openssl"
+            # obsidian https://github.com/NixOS/nixpkgs/issues/273611
+            "electron"
+          ];
+      };
     };
   };
 }

@@ -6,25 +6,30 @@
   inputs,
   ...
 }: {
-  nix.package = lib.mkDefault pkgs.nixFlakes;
+  nix = {
+    package = lib.mkDefault pkgs.nixFlakes;
+    settings = {
+      experimental-features = ["flakes" "nix-command" "repl-flake" "auto-allocate-uids"];
+      keep-derivations = lib.mkDefault true;
+      keep-outputs = lib.mkDefault true;
+      auto-optimise-store = lib.mkDefault true;
+      nix-path = [
+        "nixpkgs=${inputs.nixpkgs.outPath}"
+      ];
+      use-xdg-base-directories = lib.mkDefault true;
+      log-lines = lib.mkDefault 20;
+      show-trace = lib.mkDefault true;
+    };
+  };
 
-  nix.settings.experimental-features = ["flakes" "nix-command" "repl-flake" "auto-allocate-uids"];
-  nix.settings.keep-derivations = lib.mkDefault true;
-  nix.settings.keep-outputs = lib.mkDefault true;
-  nix.settings.auto-optimise-store = lib.mkDefault true;
-  nix.settings.nix-path = [
-    "nixpkgs=${inputs.nixpkgs.outPath}"
-  ];
-  nix.settings.use-xdg-base-directories = lib.mkDefault true;
-  nix.settings.log-lines = lib.mkDefault 20;
-  nix.settings.show-trace = lib.mkDefault true;
   targets.genericLinux.enable = lib.mkDefault true;
   xdg.enable = lib.mkDefault true;
 
-  programs.home-manager.enable = lib.mkDefault true;
-  programs.direnv.enable = lib.mkDefault true;
-  programs.direnv.nix-direnv.enable = lib.mkDefault true;
-
+  programs = {
+    home-manager.enable = lib.mkDefault true;
+    direnv.enable = lib.mkDefault true;
+    direnv.nix-direnv.enable = lib.mkDefault true;
+  };
   home.packages = [
     ## * Add Packages here
 
@@ -53,29 +58,29 @@
     # pkgs.cowsay
   ];
   systemd.user.startServices = "sd-switch";
-  home.sessionVariables = {
-    # NODE_PATH = lib.mkDefault "$HOME/.npm-packages/lib/node_modules";
-    HOME_MANAGER_CONFIG = lib.mkDefault "$HOME/nix-config";
+  home = {
+    sessionVariables = {
+      # NODE_PATH = lib.mkDefault "$HOME/.npm-packages/lib/node_modules";
+      HOME_MANAGER_CONFIG = lib.mkDefault "$HOME/nix-config";
+    };
+
+    # FIXME: This is not working for zsh
+    sessionPath = ["$HOME/.local/bin" "$HOME/.npm-packages/bin"];
+    # meta.priority = 4;
+
+    shellAliases = {
+      nfe = lib.mkDefault "$EDITOR ~/nix-config/ ";
+      ne = lib.mkDefault "$EDITOR ~/nix-config/ ";
+      nfu = lib.mkDefault "nix flake update --flake ~/nix-config ";
+      nh = lib.mkDefault "home-manager --flake ~/nix-config ";
+      ns = lib.mkDefault "nix shell ";
+      # nd = lib.mkDefault "nix develop ";
+      gst = lib.mkDefault "git status ";
+      gcl = lib.mkDefault "git clone --recurse-submodules ";
+      gc = lib.mkDefault "git commit ";
+      sudo = lib.mkDefault ''sudo -E env "PATH=$PATH" '';
+    };
   };
-
-  # FIXME: This is not working for zsh
-  home.sessionPath = ["$HOME/.local/bin" "$HOME/.npm-packages/bin"];
-
-  # meta.priority = 4;
-
-  home.shellAliases = {
-    nfe = lib.mkDefault "$EDITOR ~/nix-config/ ";
-    ne = lib.mkDefault "$EDITOR ~/nix-config/ ";
-    nfu = lib.mkDefault "nix flake update --flake ~/nix-config ";
-    nh = lib.mkDefault "home-manager --flake ~/nix-config ";
-    ns = lib.mkDefault "nix shell ";
-    # nd = lib.mkDefault "nix develop ";
-    gst = lib.mkDefault "git status ";
-    gcl = lib.mkDefault "git clone --recurse-submodules ";
-    gc = lib.mkDefault "git commit ";
-    sudo = lib.mkDefault ''sudo -E env "PATH=$PATH" '';
-  };
-
   # programs.bash = {
   #   enable = lib.mkDefault true;
 

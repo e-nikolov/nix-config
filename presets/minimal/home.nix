@@ -1,20 +1,23 @@
-args@{ config, pkgs, lib, inputs, ... }: {
+{
+  config,
+  pkgs,
+  lib,
+  inputs,
+  ...
+}: {
   imports = [
     ../starter/home.nix
     ../../preferences/home/cli
     inputs.nix-colors.homeManagerModule
   ];
-  nixpkgs.config.permittedInsecurePackages = [
-    # home-manager
-    pkgs.openssl_1_1.name
-    "electron-25.9.0" # obsidian https://github.com/NixOS/nixpkgs/issues/273611
-  ];
 
-  home.packages = [
-    # pkgs.fortune
-    # pkgs.hello
-    # pkgs.cowsay
-  ] ++ [ ];
+  home.packages =
+    [
+      # pkgs.fortune
+      # pkgs.hello
+      # pkgs.cowsay
+    ]
+    ++ [];
 
   # This value determines the Home Manager release that your
   # configuration is compatible with. This helps avoid breakage

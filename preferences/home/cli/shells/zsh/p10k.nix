@@ -1,24 +1,20 @@
-{ config, pkgs, lib, inputs, ... }@args: {
-  home.packages = [ pkgs.zsh-powerlevel10k pkgs.direnv ];
-
-  programs.direnv.enable = true; # auto env on cd
-  programs.direnv.enableZshIntegration = false;
-  programs.direnv.nix-direnv.enable = true;
+{
+  config,
+  pkgs,
+  lib,
+  inputs,
+  ...
+} @ args: {
+  home.packages = [pkgs.zsh-powerlevel10k];
 
   programs.zsh = {
-    initExtraFirst = lib.mkBefore ''
-      # zmodload zsh/zprof
-      # command -v direnv > /dev/null && eval "$(${config.programs.direnv.package}/bin/direnv export zsh)"
-      (( ''${+commands[direnv]} )) && emulate zsh -c "$(direnv export zsh)"
-
+    initExtraFirst = lib.mkOrder 2 ''
       # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
       # Initialization code that may require console input (password prompts, [y/n]
       # confirmations, etc.) must go above this block; everything else may go below.
       if [[ -r "${config.xdg.cacheHome}/p10k-instant-prompt-''${(%):-%n}.zsh" ]]; then
         source "${config.xdg.cacheHome}/p10k-instant-prompt-''${(%):-%n}.zsh"
       fi
-
-      (( ''${+commands[direnv]} )) && emulate zsh -c "$(direnv hook zsh)"
     '';
 
     plugins = [
@@ -34,7 +30,7 @@
       }
     ];
 
-    initExtra = ''
+    initExtra = lib.mkAfter ''
       ### Theme ###
 
       function prompt_shell_level() {

@@ -1,1 +1,8 @@
-{ config, pkgs, lib, personal-info, inputs, outputs, ... }: { }
+{
+  config,
+  pkgs,
+  lib,
+  me,
+  inputs,
+  ...
+}: {}

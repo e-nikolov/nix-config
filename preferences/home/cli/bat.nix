@@ -1,5 +1,12 @@
-{ config, pkgs, lib, personal-info, inputs, outputs, ... }: {
-  home.packages = [ pkgs.most ];
+{
+  config,
+  pkgs,
+  lib,
+  me,
+  inputs,
+  ...
+}: {
+  home.packages = [pkgs.most];
   programs.bat = {
     enable = true;
     config = {
@@ -16,5 +23,5 @@
     ];
   };
 
-  home.shellAliases = { cat = "bat "; };
+  home.shellAliases = {cat = "bat ";};
 }

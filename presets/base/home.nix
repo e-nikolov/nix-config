@@ -1,10 +1,12 @@
-{ config, pkgs, lib, personal-info, inputs, outputs, ... }: {
-  imports = [ ../minimal/home.nix ../../modules/home/news.nix ];
-
-  nixpkgs = {
-    overlays = builtins.attrValues outputs.overlays;
-    config = { allowUnfree = true; };
-  };
+{
+  config,
+  pkgs,
+  lib,
+  me,
+  inputs,
+  ...
+}: {
+  imports = [../minimal/home.nix ../../modules/home/news.nix];
 
   programs.ssh = {
     forwardAgent = lib.mkDefault true;
@@ -14,81 +16,83 @@
             IdentityAgent ~/.1password/agent.sock
     '';
   };
-  home.packages = [
-    # EDITORS ##
-    # pkgs.inkscape
-    # pkgs.librsvg
-    # pkgs.drawio
-    # pkgs.obsidian
-    # pkgs.evince
+  home.packages =
+    [
+      # EDITORS ##
+      # pkgs.inkscape
+      # pkgs.librsvg
+      # pkgs.drawio
+      # pkgs.obsidian
+      # pkgs.evince
 
-    # MPYC ##
-    # pkgs.stuntman
-    # pkgs.libnatpmp
-    # pkgs.miniupnpc
-    pkgs.wireguard-tools
-    pkgs.wireguard-go
-    pkgs.coturn
-    pkgs.bun2
-    # pkgs.terraform
-    # pkgs.nebula
+      # MPYC ##
+      # pkgs.stuntman
+      # pkgs.libnatpmp
+      # pkgs.miniupnpc
+      pkgs.wireguard-tools
+      pkgs.wireguard-go
+      pkgs.coturn
+      pkgs.bun2
+      # pkgs.terraform
+      # pkgs.nebula
 
-    # NETWORKING ##
-    pkgs.strongswan
-    pkgs.nmap-unfree
-    # pkgs.sofia_sip
-    pkgs.inetutils
-    pkgs.host.dnsutils
+      # NETWORKING ##
+      pkgs.strongswan
+      pkgs.nmap-unfree
+      # pkgs.sofia_sip
+      pkgs.inetutils
+      pkgs.host.dnsutils
 
-    pkgs.docker-compose
-    pkgs.containerd
-    pkgs.runc
+      pkgs.docker-compose
+      pkgs.containerd
+      pkgs.runc
 
-    pkgs.patchelf
-    pkgs.steam-run
-    pkgs.nix-ld
-    # # ? pkgs.nix-alien
+      pkgs.patchelf
+      pkgs.steam-run
+      pkgs.nix-ld
+      # # ? pkgs.nix-alien
 
-    # # CLOUD ##
-    # pkgs.kubernetes-helm
-    # pkgs.awscli2
-    # pkgs.doctl
-    # pkgs.vault
-    # pkgs.kubectl
-    # pkgs.kubectx
+      # # CLOUD ##
+      # pkgs.kubernetes-helm
+      # pkgs.awscli2
+      # pkgs.doctl
+      # pkgs.vault
+      # pkgs.kubectl
+      # pkgs.kubectx
 
-    # LANGUAGES ##
-    pkgs.go
-    # pkgs.gcc
-    # pkgs.ent-go
-    # pkgs.rustc
-    # pkgs.python3
-    # pkgs.nodejs
-    # pkgs.elixir
-    # pkgs.R
-    # pkgs.rstudio
+      # LANGUAGES ##
+      pkgs.go
+      # pkgs.gcc
+      # pkgs.ent-go
+      # pkgs.rustc
+      # pkgs.python3
+      # pkgs.nodejs
+      # pkgs.elixir
+      # pkgs.R
+      # pkgs.rstudio
 
-    ## UTILS ##
-    pkgs.git-filter-repo
-    pkgs.inotify-tools
-    pkgs.screen
-    pkgs.cacert
-    # pkgs.cmctl
-    # pkgs.udisks2
-    pkgs.pam_mount
-    # pkgs.killall
-    # pkgs.nixos-install-tools
-    # pkgs.kmod
-    pkgs.bashInteractiveFHS
-    pkgs.asciinema
-    pkgs.asciinema-agg
+      ## UTILS ##
+      pkgs.git-filter-repo
+      pkgs.inotify-tools
+      pkgs.screen
+      pkgs.cacert
+      # pkgs.cmctl
+      # pkgs.udisks2
+      pkgs.pam_mount
+      # pkgs.killall
+      # pkgs.nixos-install-tools
+      # pkgs.kmod
+      pkgs.bashInteractiveFHS
+      pkgs.asciinema
+      pkgs.asciinema-agg
 
-    # pkgs.fortune
-    # pkgs.hello
-    # pkgs.cowsay
-  ] ++ [ ];
+      # pkgs.fortune
+      # pkgs.hello
+      # pkgs.cowsay
+    ]
+    ++ [];
 
-  programs.texlive = { enable = true; };
+  programs.texlive = {enable = true;};
 
   nix.settings.extra-platforms = [
     "armv7l-linux"
@@ -98,7 +102,7 @@
     "i686-linux"
   ];
 
-  home.sessionVariables = { EDITOR = "code-insiders"; };
+  home.sessionVariables = {EDITOR = "code-insiders";};
 
   nix.settings.cores = 4;
   home.shellAliases = {
@@ -118,8 +122,8 @@
 
     extraConfig = {
       url = {
-        "git@github.com:" = { insteadOf = "https://github.com/"; };
-        "ssh://git@bitbucket.org/" = { insteadOf = "https://bitbucket.org/"; };
+        "git@github.com:" = {insteadOf = "https://github.com/";};
+        "ssh://git@bitbucket.org/" = {insteadOf = "https://bitbucket.org/";};
       };
       gpg = {
         format = "ssh";
@@ -133,7 +137,7 @@
     timers.custom-home-manager-auto-upgrade = {
       Unit.Description = "Home Manager upgrade timer";
 
-      Install.WantedBy = [ "timers.target" ];
+      Install.WantedBy = ["timers.target"];
 
       Timer = {
         OnCalendar = "*-*-* 08:56:00";
@@ -145,16 +149,17 @@
     services.custom-home-manager-auto-upgrade = {
       Unit.Description = "Home Manager upgrade";
 
-      Service.ExecStart = toString
+      Service.ExecStart =
+        toString
         (pkgs.writeShellScript "home-manager-auto-upgrade" ''
           export PATH=$PATH:${pkgs.openssh}/bin:${pkgs.git}/bin:${pkgs.nixUnstable}/bin
           echo PATH: $PATH
-          if [[ ! -d ${personal-info.flake-path} ]]; then
-              echo "${personal-info.flake-path} does not exist, skipping update"
+          if [[ ! -d ${me.flake-path} ]]; then
+              echo "${me.flake-path} does not exist, skipping update"
               exit 0
           fi
 
-          cd ${personal-info.flake-path}
+          cd ${me.flake-path}
           branch_name="$(${pkgs.git}/bin/git rev-parse --abbrev-ref HEAD)"
           if [ "$branch_name" != "master" ]; then
               echo "Current branch $branch_name is not master, skipping update"
@@ -182,7 +187,7 @@
           ${pkgs.git}/bin/git pull
 
           echo "Upgrading home environment"
-          ${pkgs.home-manager}/bin/home-manager switch --flake ${personal-info.flake-path}
+          ${pkgs.home-manager}/bin/home-manager switch --flake ${me.flake-path}
         '');
     };
   };

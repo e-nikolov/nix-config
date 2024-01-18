@@ -1,4 +1,11 @@
-{ config, pkgs, lib, personal-info, inputs, outputs, ... }: {
+{
+  config,
+  pkgs,
+  lib,
+  me,
+  inputs,
+  ...
+}: {
   programs.git = {
     enable = true;
     # difftastic = {
@@ -12,17 +19,16 @@
 
     extraConfig = {
       init.defaultBranch = "main";
-      core = { editor = lib.mkDefault "micro"; };
-      credential = { helper = lib.mkDefault "cache --timeout=3600"; };
+      core = {editor = lib.mkDefault "micro";};
+      credential = {helper = lib.mkDefault "cache --timeout=3600";};
 
       pull = {
         rebase = true;
         ff = lib.mkDefault "only";
       };
-
     };
   };
-  home.packages = [ ];
+  home.packages = [];
   home.shellAliases = {
     gct = "git commit -am 'tmp'";
     gst = lib.mkDefault "git status ";

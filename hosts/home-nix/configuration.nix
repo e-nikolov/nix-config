@@ -1,5 +1,12 @@
-{ lib, pkgs, config, modulesPath, inputs, personal-info, ... }:
-with lib; {
+{
+  lib,
+  pkgs,
+  config,
+  modulesPath,
+  inputs,
+  me,
+  ...
+}: {
   imports = [
     ../../presets/base/configuration.nix
     ../../presets/wsl/configuration.nix
@@ -20,7 +27,7 @@ with lib; {
   # Set your time zone.
   time.timeZone = "Europe/Amsterdam";
 
-  environment.systemPackages = [ pkgs.obsidian ];
+  environment.systemPackages = [pkgs.obsidian];
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
 
