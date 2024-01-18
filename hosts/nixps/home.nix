@@ -1,5 +1,12 @@
-{ config, pkgs, id, inputs, lib, ... }: {
-  imports = [ ../../presets/base/home.nix ../../presets/desktop/home.nix ];
+{
+  config,
+  pkgs,
+  id,
+  inputs,
+  lib,
+  ...
+}: {
+  imports = [../../presets/base/home.nix ../../presets/desktop/home.nix];
 
   home.packages = [
     #* Audio

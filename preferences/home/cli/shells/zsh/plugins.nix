@@ -1,4 +1,10 @@
-{ config, pkgs, lib, inputs, ... }@args: {
+{
+  config,
+  pkgs,
+  lib,
+  inputs,
+  ...
+} @ args: {
   home.packages = [
     pkgs.xclip
     pkgs.oh-my-zsh
@@ -113,7 +119,7 @@
         }
       fi
 
-      ### Functions ### 
+      ### Functions ###
       WORDCHARS="*?_-[]~=&;!$%^(){}<>"
       STATEMENTCHARS="@\,:\"'~=!#$%^&*?+_-/;."
       # STATEMENTCHARS="@\,:\"'~=!#$%^&*?+_-/;.(){}[]<>"
