@@ -1,40 +1,60 @@
-{ config, pkgs, lib, ... }:
-let
-  inherit (lib)
-    mkEnableOption mkPackageOption mkBefore mkAfter mkIf pipe fileContents
-    splitString;
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}: let
+  inherit
+    (lib)
+    mkEnableOption
+    mkPackageOption
+    mkBefore
+    mkAfter
+    mkIf
+    pipe
+    fileContents
+    splitString
+    ;
   cfg = config.programs.carapace;
   bin = cfg.package + "/bin/carapace";
 in {
-  disabledModules = [ "programs/carapace.nix" ];
+  disabledModules = ["programs/carapace.nix"];
 
-  meta.maintainers = with lib.maintainers; [ weathercold bobvanderlinden ];
+  meta.maintainers = with lib.maintainers; [weathercold bobvanderlinden];
 
   options.programs.carapace = {
     enable =
       mkEnableOption "carapace, a multi-shell multi-command argument completer";
 
-    package = mkPackageOption pkgs "carapace" { };
+    package = mkPackageOption pkgs "carapace" {};
 
-    enableBashIntegration = mkEnableOption "Bash integration" // {
-      default = true;
-    };
+    enableBashIntegration =
+      mkEnableOption "Bash integration"
+      // {
+        default = true;
+      };
 
-    enableZshIntegration = mkEnableOption "Zsh integration" // {
-      default = true;
-    };
+    enableZshIntegration =
+      mkEnableOption "Zsh integration"
+      // {
+        default = true;
+      };
 
-    enableFishIntegration = mkEnableOption "Fish integration" // {
-      default = true;
-    };
+    enableFishIntegration =
+      mkEnableOption "Fish integration"
+      // {
+        default = true;
+      };
 
-    enableNushellIntegration = mkEnableOption "Nushell integration" // {
-      default = true;
-    };
+    enableNushellIntegration =
+      mkEnableOption "Nushell integration"
+      // {
+        default = true;
+      };
   };
 
   config = mkIf cfg.enable {
-    home.packages = [ cfg.package ];
+    home.packages = [cfg.package];
 
     programs = {
       bash.initExtra = mkIf cfg.enableBashIntegration ''
@@ -75,25 +95,26 @@ in {
       };
     };
 
-    xdg.configFile =
-      mkIf (config.programs.fish.enable && cfg.enableFishIntegration) (
-        # Convert the entries from `carapace --list` to empty
-        # xdg.configFile."fish/completions/NAME.fish" entries.
-        #
-        # This is to disable fish builtin completion for each of the
-        # carapace-supported completions It is in line with the instructions from
-        # carapace-bin:
-        #
-        #   carapace --list | awk '{print $1}' | xargs -I{} touch ~/.config/fish/completions/{}.fish
-        #
-        # See https://github.com/rsteube/carapace-bin#getting-started
-        let
-          carapaceListFile = pkgs.runCommandLocal "carapace-list" {
-            buildInputs = [ cfg.package ];
+    xdg.configFile = mkIf (config.programs.fish.enable && cfg.enableFishIntegration) (
+      # Convert the entries from `carapace --list` to empty
+      # xdg.configFile."fish/completions/NAME.fish" entries.
+      #
+      # This is to disable fish builtin completion for each of the
+      # carapace-supported completions It is in line with the instructions from
+      # carapace-bin:
+      #
+      #   carapace --list | awk '{print $1}' | xargs -I{} touch ~/.config/fish/completions/{}.fish
+      #
+      # See https://github.com/rsteube/carapace-bin#getting-started
+      let
+        carapaceListFile =
+          pkgs.runCommandLocal "carapace-list" {
+            buildInputs = [cfg.package];
           } ''
             ${bin} --list > $out
           '';
-        in pipe carapaceListFile [
+      in
+        pipe carapaceListFile [
           fileContents
           (splitString "\n")
           (map (builtins.match "^([a-z0-9-]+) .*"))
@@ -102,9 +123,10 @@ in {
           (map (match: builtins.head match))
           (map (name: {
             name = "fish/completions/${name}.fish";
-            value = { text = ""; };
+            value = {text = "";};
           }))
           builtins.listToAttrs
-        ]);
+        ]
+    );
   };
 }

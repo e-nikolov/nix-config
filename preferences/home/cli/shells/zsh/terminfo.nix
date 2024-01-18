@@ -1,4 +1,10 @@
-{ config, pkgs, lib, inputs, ... }@args: {
+{
+  config,
+  pkgs,
+  lib,
+  inputs,
+  ...
+} @ args: {
   programs.zsh = {
     initExtraFirst = lib.mkAfter ''
       # Stolen from ArchWiki
