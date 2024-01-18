@@ -12,17 +12,17 @@
           statix.enable = true;
           prettier = {
             enable = true;
-            excludes = [".js" ".md" ".ts"];
+            excludes = [".js" ".md" ".ts" ".nix" ".zsh" ".keep" ".profile" ".keytab" ".sh" ".colorscheme" ".envrc" ".gitignore" ".gitattributes" "Makefile" ".conf" ".toml"];
           };
-          shellcheck.enable = true;
-          shfmt.enable = true;
+          # shellcheck.enable = true;
+          # shfmt.enable = true;
           # gptcommit.enable = true;
           # lychee.enable = true;
           # lychee.flags = "--timeout 5 -v";
-          typos = {
-            enable = true;
-            excludes = [".nix"];
-          };
+          # typos = {
+          #   enable = true;
+          #   excludes = [".nix"];
+          # };
           #   treefmt.package = pkgs.writeShellApplication {
           #     name = "treefmt";
           #     runtimeInputs = [

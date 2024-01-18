@@ -6,6 +6,8 @@
     layout = "us,bg";
     desktopManager = {
       xterm.enable = false;
+    };
+    displayManager = {
       startx.enable = true;
       sddm.enable = true;
     };

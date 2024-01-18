@@ -24,7 +24,7 @@ EOF
     trap 'catch' ERR
     catch() {
         trap - ERR
-        echo $1
+        echo "$1"
 
         echo "Installation failed"
         echo "
@@ -33,23 +33,23 @@ export NIX_CONFIG=\$(cat <<EOF
         use-xdg-base-directories = true
 EOF
 )"
-        if [ -e $___NIX_DAEMON_SHELL_PROFILE_PATH ]; then
-            echo . $___NIX_DAEMON_SHELL_PROFILE_PATH
+        if [ -e "$___NIX_DAEMON_SHELL_PROFILE_PATH" ]; then
+            echo . "$___NIX_DAEMON_SHELL_PROFILE_PATH"
         fi
 
-        if [ -e $___NIX_USER_SHELL_PROFILE_PATH ]; then
-            echo . $___NIX_USER_SHELL_PROFILE_PATH
+        if [ -e "$___NIX_USER_SHELL_PROFILE_PATH" ]; then
+            echo . "$___NIX_USER_SHELL_PROFILE_PATH"
         fi
 
         kill -INT $$
     }
 
-    if [ -e $___NIX_DAEMON_SHELL_PROFILE_PATH ]; then
-        . $___NIX_DAEMON_SHELL_PROFILE_PATH
+    if [ -e "$___NIX_DAEMON_SHELL_PROFILE_PATH" ]; then
+        . "$___NIX_DAEMON_SHELL_PROFILE_PATH"
     fi
 
-    if [ -e $___NIX_USER_SHELL_PROFILE_PATH ]; then
-        . $___NIX_USER_SHELL_PROFILE_PATH
+    if [ -e "$___NIX_USER_SHELL_PROFILE_PATH" ]; then
+        . "$___NIX_USER_SHELL_PROFILE_PATH"
     fi
     export HOST=$(hostname)
 
@@ -105,7 +105,7 @@ EOF
         FLAKE_TEMPLATE=github:e-nikolov/nix-config/master#full
     fi
 
-    if [ ! $(command -v nix) ]; then
+    if [ ! "$(command -v nix)" ]; then
         case "$(uname -s)" in
         Darwin)
             nix_installer_type="multi-user"
@@ -122,15 +122,15 @@ EOF
 
         echo installing nix via $nix_installer_type installer
         if [ "$nix_installer_type" == "multi-user" ]; then
-            curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install $NO_CONFIRM_FLAG
-            if [ -e $___NIX_DAEMON_SHELL_PROFILE_PATH ]; then
-                . $___NIX_DAEMON_SHELL_PROFILE_PATH
+            curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install "$NO_CONFIRM_FLAG"
+            if [ -e "$___NIX_DAEMON_SHELL_PROFILE_PATH" ]; then
+                . "$___NIX_DAEMON_SHELL_PROFILE_PATH"
             fi
             nix profile list ## * Avoids ERROR: Could not find suitable profile directory
         else
             curl -L https://nixos.org/nix/install | sh
-            if [ -e $___NIX_USER_SHELL_PROFILE_PATH ]; then
-                . $___NIX_USER_SHELL_PROFILE_PATH
+            if [ -e "$___NIX_USER_SHELL_PROFILE_PATH" ]; then
+                . "$___NIX_USER_SHELL_PROFILE_PATH"
             fi
 
             ## * There are some issues with bootstrapping nix and home-manager on single user installs
@@ -146,44 +146,44 @@ EOF
             echo nix profile install nixpkgs#nix --priority 9
             nix profile install nixpkgs#nix --priority 9
         fi
-        echo installing nix... done
+        echo "installing nix... done"
     else
         echo nix is present
     fi
 
-    if [ ! -e $HOME/.nix-profile ]; then
-        echo ln -s $HOME/.local/state/nix/profile $HOME/.nix-profile
-        ln -s $HOME/.local/state/nix/profile $HOME/.nix-profile
+    if [ ! -e "$HOME"/.nix-profile ]; then
+        echo ln -s "$HOME"/.local/state/nix/profile "$HOME"/.nix-profile
+        ln -s "$HOME"/.local/state/nix/profile "$HOME"/.nix-profile
     fi
 
     if [ -d "$HOME_CONFIG_PATH" ]; then
-        echo $HOME_CONFIG_PATH already exists
+        echo "$HOME_CONFIG_PATH" already exists
         rand=$(od -An -N2 -i /dev/urandom)
 
         rand_suffix=$(
-            echo ${rand} | md5sum | head -c 10
+            echo "${rand}" | md5sum | head -c 10
             echo
         )
         export HOME_CONFIG_PATH=${HOME_CONFIG_PATH}-${rand_suffix}
     fi
-    echo initializing home-manager\'s flake from template $FLAKE_TEMPLATE to $HOME_CONFIG_PATH
+    echo initializing home-manager\'s flake from template "$FLAKE_TEMPLATE" to "$HOME_CONFIG_PATH"
 
-    echo nix flake --refresh new --template $FLAKE_TEMPLATE $HOME_CONFIG_PATH
-    nix flake --refresh new --template $FLAKE_TEMPLATE $HOME_CONFIG_PATH
+    echo nix flake --refresh new --template "$FLAKE_TEMPLATE" "$HOME_CONFIG_PATH"
+    nix flake --refresh new --template "$FLAKE_TEMPLATE" "$HOME_CONFIG_PATH"
 
     echo Configuring the flake for "$USER"@"$HOST" with home "$HOME"
 
     flake_path=$HOME_CONFIG_PATH/flake.nix
-    sed -i s@{{username}}@"$USER"@g $flake_path
-    sed -i s@{{hostname}}@"$HOST"@g $flake_path
-    sed -i s@{{homedir}}@"$HOME"@g $flake_path
+    sed -i s@{{username}}@"$USER"@g "$flake_path"
+    sed -i s@{{hostname}}@"$HOST"@g "$flake_path"
+    sed -i s@{{homedir}}@"$HOME"@g "$flake_path"
 
     if [ "$NO_HOME_MANAGER" ]; then
         echo skipping home-manager
     else
-        if [ $(command -v home-manager) ]; then
+        if [ "$(command -v home-manager)" ]; then
             echo home-manager is present
-            home-manager switch --flake $HOME_CONFIG_PATH -b backup
+            home-manager switch --flake "$HOME_CONFIG_PATH" -b backup
         else
             echo Installing home-manager
 
@@ -212,13 +212,13 @@ EOF
     "
             ## TODO remove the second nix
         fi
-        echo $POST_SUCCESS
+        echo "$POST_SUCCESS"
 
         if [ "$POST_SUCCESS" ]; then
-            eval $POST_SUCCESS
+            eval "$POST_SUCCESS"
         fi
 
-        if [ $FLAKE_TEMPLATE == "github:e-nikolov/nix-config/master#minimal" ]; then
+        if [ "$FLAKE_TEMPLATE" == "github:e-nikolov/nix-config/master#minimal" ]; then
             echo setting zsh as the default shell
             command -v zsh | sudo tee -a /etc/shells
             sudo chsh -s "$(command -v zsh)" "${USER}"
@@ -227,9 +227,9 @@ EOF
     fi
 
     if [ "$nix_installer_type" == "multi-user" ]; then
-        echo . $___NIX_DAEMON_SHELL_PROFILE_PATH
+        echo . "$___NIX_DAEMON_SHELL_PROFILE_PATH"
     else
-        echo . $___NIX_USER_SHELL_PROFILE_PATH
+        echo . "$___NIX_USER_SHELL_PROFILE_PATH"
     fi
 
     if [ "$0" = "$BASH_SOURCE" ]; then

@@ -162,32 +162,32 @@
           export PATH=$PATH:${pkgs.openssh}/bin:${pkgs.git}/bin:${pkgs.nixUnstable}/bin
           echo PATH: $PATH
           if [[ ! -d ${me.flake-path} ]]; then
-              echo "${me.flake-path} does not exist, skipping update"
-              exit 0
+            echo "${me.flake-path} does not exist, skipping update"
+            exit 0
           fi
 
           cd ${me.flake-path}
           branch_name="$(${pkgs.git}/bin/git rev-parse --abbrev-ref HEAD)"
           if [ "$branch_name" != "master" ]; then
-              echo "Current branch $branch_name is not master, skipping update"
-              exit 0
+            echo "Current branch $branch_name is not master, skipping update"
+            exit 0
           fi
           if [[ $(${pkgs.git}/bin/git diff --stat) != "" ]]; then
-              echo 'Dirty working tree, skipping update'
-              exit 0
+            echo 'Dirty working tree, skipping update'
+            exit 0
           fi
 
           echo "Fetching latest changes"
           ${pkgs.git}/bin/git fetch
 
           if [[ ! $(${pkgs.git}/bin/git log HEAD..origin/master --oneline) ]]; then
-              echo "Up-to-date"
-              exit 0
+            echo "Up-to-date"
+            exit 0
           fi
 
           if [[ $(${pkgs.git}/bin/git log origin/master..HEAD --oneline) ]]; then
-              echo "Unpushed commits, skipping update"
-              exit 0
+            echo "Unpushed commits, skipping update"
+            exit 0
           fi
 
           echo "Pulling latest changes"
