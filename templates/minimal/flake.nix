@@ -14,11 +14,13 @@
     };
     nix-config = {
       url = "github:e-nikolov/nix-config/master";
-      inputs.nixpkgs.follows = "nixpkgs";
-      inputs.nixpkgs-stable.follows = "nixpkgs-stable";
-      inputs.home-manager.follows = "home-manager";
-      inputs.flake-utils.follows = "flake-utils";
-      inputs.nix-index-database.follows = "nix-index-database";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        nixpkgs-stable.follows = "nixpkgs-stable";
+        home-manager.follows = "home-manager";
+        flake-utils.follows = "flake-utils";
+        nix-index-database.follows = "nix-index-database";
+      };
     };
   };
 
@@ -56,12 +58,13 @@
           ]
           ++ args.modules;
         extraSpecialArgs = {inherit inputs;} // args.extraSpecialArgs or {};
-      in (home-manager.lib.homeManagerConfiguration (
-        args
-        // {
-          inherit modules pkgs extraSpecialArgs;
-        }
-      ));
+      in
+        home-manager.lib.homeManagerConfiguration (
+          args
+          // {
+            inherit modules pkgs extraSpecialArgs;
+          }
+        );
     in {
       packages.homeConfigurations."{{username}}@{{hostname}}" = mkHome {
         modules = [

@@ -11,13 +11,7 @@
     inputs.nix-colors.homeManagerModule
   ];
 
-  home.packages =
-    [
-      # pkgs.fortune
-      # pkgs.hello
-      # pkgs.cowsay
-    ]
-    ++ [];
+  home.packages = [];
 
   # This value determines the Home Manager release that your
   # configuration is compatible with. This helps avoid breakage

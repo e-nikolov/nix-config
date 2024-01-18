@@ -30,35 +30,36 @@
     direnv.enable = lib.mkDefault true;
     direnv.nix-direnv.enable = lib.mkDefault true;
   };
-  home.packages = [
-    ## * Add Packages here
-
-    pkgs.jq
-
-    (pkgs.nixUnstable.overrideAttrs (prev: {
-      meta.priority = 4;
-    }))
-
-    pkgs.direnv
-    pkgs.devenv
-    pkgs.sops
-    pkgs.age
-    pkgs.file
-    pkgs.nix-doc
-    pkgs.xdg-utils
-    pkgs.micro
-    pkgs.htop
-    pkgs.curl
-    pkgs.git
-    pkgs.tldr
-    pkgs.sd-switch
-
-    # pkgs.fortune
-    # pkgs.hello
-    # pkgs.cowsay
-  ];
   systemd.user.startServices = "sd-switch";
   home = {
+    packages = [
+      ## * Add Packages here
+
+      pkgs.jq
+
+      (pkgs.nixUnstable.overrideAttrs (prev: {
+        meta.priority = 4;
+      }))
+
+      pkgs.direnv
+      pkgs.devenv
+      pkgs.sops
+      pkgs.age
+      pkgs.file
+      pkgs.nix-doc
+      pkgs.xdg-utils
+      pkgs.micro
+      pkgs.htop
+      pkgs.curl
+      pkgs.git
+      pkgs.tldr
+      pkgs.sd-switch
+
+      # pkgs.fortune
+      # pkgs.hello
+      # pkgs.cowsay
+    ];
+
     sessionVariables = {
       # NODE_PATH = lib.mkDefault "$HOME/.npm-packages/lib/node_modules";
       HOME_MANAGER_CONFIG = lib.mkDefault "$HOME/nix-config";

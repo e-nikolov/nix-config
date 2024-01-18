@@ -7,17 +7,16 @@
   ...
 }: {
   imports = [../minimal/home.nix ../../modules/home/news.nix];
+  home = {
+    sessionVariables = {EDITOR = "code-insiders";};
 
-  programs.ssh = {
-    forwardAgent = lib.mkDefault true;
-    enable = lib.mkDefault true;
-    extraConfig = ''
-      Host *
-            IdentityAgent ~/.1password/agent.sock
-    '';
-  };
-  home.packages =
-    [
+    shellAliases = {
+      code = "code-insiders ";
+      k = "kubectl";
+      kx = "kubectx";
+      kn = "kubens ";
+    };
+    packages = [
       # EDITORS ##
       # pkgs.inkscape
       # pkgs.librsvg
@@ -89,50 +88,58 @@
       # pkgs.fortune
       # pkgs.hello
       # pkgs.cowsay
-    ]
-    ++ [];
-
-  programs.texlive = {enable = true;};
-
-  nix.settings.extra-platforms = [
-    "armv7l-linux"
-    "armv7l-hf-multiplatform"
-    "armv7l-multiplatform"
-    "aarch64-linux"
-    "i686-linux"
-  ];
-
-  home.sessionVariables = {EDITOR = "code-insiders";};
-
-  nix.settings.cores = 4;
-  home.shellAliases = {
-    code = "code-insiders ";
-    k = "kubectl";
-    kx = "kubectx";
-    kn = "kubens ";
+    ];
   };
-  programs.zsh.extra.enable = true;
-  services.ssh-agent.enable = false;
-  programs.git = {
-    signing = {
-      signByDefault = true;
-      gpgPath = "${pkgs.openssh}/bin/ssh-keygen";
-      key = "${config.home.homeDirectory}/.ssh/id_rsa.pub";
+
+  programs = {
+    ssh = {
+      forwardAgent = lib.mkDefault true;
+      enable = lib.mkDefault true;
+      extraConfig = ''
+        Host *
+              IdentityAgent ~/.1password/agent.sock
+      '';
     };
 
-    extraConfig = {
-      url = {
-        "git@github.com:" = {insteadOf = "https://github.com/";};
-        "ssh://git@bitbucket.org/" = {insteadOf = "https://bitbucket.org/";};
+    texlive = {enable = true;};
+    zsh.extra.enable = true;
+    git = {
+      signing = {
+        signByDefault = true;
+        gpgPath = "${pkgs.openssh}/bin/ssh-keygen";
+        key = "${config.home.homeDirectory}/.ssh/id_rsa.pub";
       };
-      gpg = {
-        format = "ssh";
-        ssh.program =
-          lib.mkDefault "${pkgs._1password-gui}/share/1password/op-ssh-sign";
+
+      extraConfig = {
+        url = {
+          "git@github.com:" = {insteadOf = "https://github.com/";};
+          "ssh://git@bitbucket.org/" = {insteadOf = "https://bitbucket.org/";};
+        };
+        gpg = {
+          format = "ssh";
+          ssh.program =
+            lib.mkDefault "${pkgs._1password-gui}/share/1password/op-ssh-sign";
+        };
       };
     };
   };
 
+  services = {
+    ssh-agent.enable = false;
+    gpg-agent.enable = false;
+  };
+
+  nix.settings = {
+    extra-platforms = [
+      "armv7l-linux"
+      "armv7l-hf-multiplatform"
+      "armv7l-multiplatform"
+      "aarch64-linux"
+      "i686-linux"
+    ];
+
+    cores = 4;
+  };
   systemd.user = {
     timers.custom-home-manager-auto-upgrade = {
       Unit.Description = "Home Manager upgrade timer";
@@ -191,13 +198,4 @@
         '');
     };
   };
-  # This value determines the Home Manager release that your
-  # configuration is compatible with. This helps avoid breakage
-  # when a new Home Manager release introduces backwards
-  # incompatible changes.
-  #
-  # You can update Home Manager without changing this value. See
-  # the Home Manager release notes for a list of state version
-  # changes in each release.
-  home.stateVersion = "23.05";
 }

@@ -10,10 +10,14 @@
   cfg = config.services.gpg-agent;
 in {
   home.packages = [pkgs.sops pkgs.gnupg pkgs.age];
-  services.gpg-agent.enable = lib.mkDefault false;
-  services.gpg-agent.enableSshSupport = lib.mkIf cfg.enable true;
-  services.gpg-agent.defaultCacheTtl = lib.mkIf cfg.enable 3600;
-  services.gpg-agent.enableZshIntegration = lib.mkIf cfg.enable false;
+  services = {
+    gpg-agent = {
+      enable = lib.mkDefault false;
+      enableSshSupport = lib.mkIf cfg.enable true;
+      defaultCacheTtl = lib.mkIf cfg.enable 3600;
+      enableZshIntegration = lib.mkIf cfg.enable false;
+    };
+  };
 
   programs.zsh = {
     initExtraFirst = lib.mkIf cfg.enable (lib.mkAfter ''

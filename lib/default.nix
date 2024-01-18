@@ -14,11 +14,17 @@
     inputs,
     ...
   }: {
-    home.username = me.username;
-    home.homeDirectory = "/home/${me.username}";
-    programs.git.userName = me.fullName;
-    programs.git.userEmail = me.email;
-    home.stateVersion = "23.05";
+    home = {
+      inherit (me) username;
+      stateVersion = "23.05";
+      homeDirectory = "/home/${me.username}";
+    };
+    programs = {
+      git = {
+        userName = me.fullName;
+        userEmail = me.email;
+      };
+    };
   };
 
   pkgsFor = system: (getSystem system).allModuleArgs.pkgs;

@@ -21,38 +21,40 @@
     extraModulePackages = [];
   };
 
-  fileSystems."/" = {
-    device = "zroot/nixos";
-    fsType = "zfs";
-  };
+  fileSystems = {
+    "/" = {
+      device = "zroot/nixos";
+      fsType = "zfs";
+    };
 
-  fileSystems."/boot" = {
-    device = "/dev/disk/by-label/ESP";
-    fsType = "vfat";
-  };
+    "/boot" = {
+      device = "/dev/disk/by-label/ESP";
+      fsType = "vfat";
+    };
 
-  fileSystems."/home/enikolov" = {
-    device = "zroot/nixos/home/enikolov";
-    fsType = "zfs";
-    mountPoint = "/home/enikolov";
-  };
+    "/home/enikolov" = {
+      device = "zroot/nixos/home/enikolov";
+      fsType = "zfs";
+      mountPoint = "/home/enikolov";
+    };
 
-  fileSystems."/home/enikolov/data" = {
-    device = "zroot/nixos/data";
-    fsType = "zfs";
-    mountPoint = "/home/enikolov/data";
-  };
+    "/home/enikolov/data" = {
+      device = "zroot/nixos/data";
+      fsType = "zfs";
+      mountPoint = "/home/enikolov/data";
+    };
 
-  fileSystems."/mnt/nix-ubuntu" = {
-    device = "zroot/data/nix";
-    fsType = "zfs";
-    mountPoint = "/mnt/nix-ubuntu";
-  };
+    "/mnt/nix-ubuntu" = {
+      device = "zroot/data/nix";
+      fsType = "zfs";
+      mountPoint = "/mnt/nix-ubuntu";
+    };
 
-  fileSystems."/mnt/home/enikolov" = {
-    device = "zroot/data/home/enikolov";
-    fsType = "zfs";
-    mountPoint = "/mnt/home/enikolov";
+    "/mnt/home/enikolov" = {
+      device = "zroot/data/home/enikolov";
+      fsType = "zfs";
+      mountPoint = "/mnt/home/enikolov";
+    };
   };
 
   swapDevices = [{device = "/dev/disk/by-uuid/71c4bafc-f364-40f4-bf18-7186b65cd497";}];
