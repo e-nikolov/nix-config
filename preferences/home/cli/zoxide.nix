@@ -2,12 +2,12 @@
   config,
   pkgs,
   lib,
-  personal-info,
+  me,
   inputs,
-  outputs,
   ...
-}:
-with lib; {
+}: let
+  inherit (lib) mkAfter;
+in {
   programs.zoxide.enable = true;
   programs.zoxide.enableZshIntegration = true;
 

@@ -1,5 +1,12 @@
-{ lib, pkgs, config, modulesPath, inputs, personal-info, ... }:
-with lib; {
+{
+  lib,
+  pkgs,
+  config,
+  modulesPath,
+  inputs,
+  me,
+  ...
+}: {
   imports = [
     ../../preferences/nixos/display
     ../../preferences/nixos/audio.nix
@@ -14,21 +21,20 @@ with lib; {
     enable = true;
     xdgOpenUsePortal = true;
     config = {
-      common.default = [ "kde" ];
-      hyprland.default = [ "kde" "hyprland" ];
+      common.default = ["kde"];
+      hyprland.default = ["kde" "hyprland"];
     };
 
-    extraPortals = [ pkgs.xdg-desktop-portal-kde ];
+    extraPortals = [pkgs.xdg-desktop-portal-kde];
   };
 
-  environment.systemPackages = [ pkgs.konsole pkgs.libsForQt5.kcalc ];
+  environment.systemPackages = [pkgs.konsole pkgs.libsForQt5.kcalc];
 
   programs._1password.enable = true;
   programs._1password-gui.enable = true;
-  programs._1password-gui.polkitPolicyOwners = [ personal-info.username ];
+  programs._1password-gui.polkitPolicyOwners = [me.username];
   programs._1password-gui.package = pkgs._1password-gui-beta;
 
   # Enable CUPS to print documents.
   # services.printing.enable = true;
-
 }

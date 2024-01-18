@@ -1,4 +1,10 @@
-{ config, pkgs, lib, inputs, ... }@args: {
+{
+  config,
+  pkgs,
+  lib,
+  inputs',
+  ...
+} @ args: {
   imports = [
     ./p10k.nix
     ./terminfo.nix
@@ -6,9 +12,10 @@
     ./completions.nix
     ./functions.nix
     ./opts.nix
+    ./direnv.nix
   ];
 
-  home.packages = [ ];
+  home.packages = [];
   home.shellAliases = {
     zfg = "code ~/.zshrc";
     src = "source ~/.zshrc";
@@ -20,11 +27,12 @@
 
     initExtraFirst = lib.mkAfter ''
       ${config.lib.shell.exportAll config.home.sessionVariables}
-      ${lib.optionalString (config.home.sessionPath != [ ]) ''
-        export PATH="$PATH''${PATH:+:}${
-          builtins.concatStringsSep ":" config.home.sessionPath
-        }"
-      '' + config.home.sessionVariablesExtra}
+      ${lib.optionalString (config.home.sessionPath != []) ''
+          export PATH="$PATH''${PATH:+:}${
+            builtins.concatStringsSep ":" config.home.sessionPath
+          }"
+        ''
+        + config.home.sessionVariablesExtra}
     '';
 
     defaultKeymap = "emacs";

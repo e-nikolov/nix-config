@@ -1,35 +1,33 @@
 {
-  outputs = inputs@{ self, flake-parts, nixpkgs, nixpkgs-stable, flake-utils
-    , nix-index-database, home-manager, ... }:
-    let
-      personal-info = {
-        username = "enikolov";
-        gitUsername = "e-nikolov";
-        email = "emil.e.nikolov@gmail.com";
-        flake-path = "/home/${personal-info.username}/nix-config";
-        flake-url = "github:e-nikolov/nix-config/master";
-      };
-      default-module = { pkgs, ... }: {
-        nix.package = pkgs.nixFlakes;
-        home.username = personal-info.username;
-        home.homeDirectory = "/home/${personal-info.username}";
-        programs.git.userName = personal-info.gitUsername;
-        programs.git.userEmail = personal-info.email;
+  outputs = {
+    self,
+    flake-parts,
+    ...
+  } @ inputs: let
+    toplevel = inputs;
+    me = {
+      username = "enikolov";
+      fullName = "Emil Nikolov";
+      email = "emil.e.nikolov@gmail.com";
+      flake-path = "/home/${me.username}/nix-config";
+      flake-url = "github:e-nikolov/nix-config/master";
+    };
 
-        home.file."nix-config/.tmp/debug.log".text = ''
-          ${if inputs.self ? rev then toString inputs.self.rev else "no rev"}
-          ${inputs.self.outPath}
-          ${personal-info.flake-path}
-          ${personal-info.email}
-        '';
+    inherit (flake-parts.lib) importApply mkFlake;
 
-        home.stateVersion = "23.05";
-      };
+    flakeModules = {
+      default.imports = [
+        (importApply ./lib {inherit inputs;})
+        (importApply ./overlays {inherit inputs;})
+      ];
+    };
+  in
+    mkFlake {inherit inputs;} {
+      debug = true;
+      _module.args.me = me;
+      _module.args.self = inputs.self;
 
-      inherit (self) outputs;
-    in flake-parts.lib.mkFlake { inherit inputs; } {
-      inherit personal-info;
-      imports = [ inputs.devenv.flakeModule ./lib ./pre-commit-hooks.nix ];
+      imports = (inputs.nixpkgs.lib.attrValues flakeModules) ++ [inputs.devenv.flakeModule ./pre-commit-hooks.nix];
 
       systems = [
         "aarch64-darwin"
@@ -38,69 +36,60 @@
         "x86_64-linux"
         "armv7l-linux"
       ];
-      perSystem = { system, ... }:
-        let
-          pkgs = import nixpkgs {
-            inherit system;
-            config = {
-              allowUnfree = true;
-              nvidia.acceptLicense = true;
-              permittedInsecurePackages = [
-                # nixos-rebuild switch
-                "electron-25.9.0" # obsidian https://github.com/NixOS/nixpkgs/issues/273611
-              ];
-            };
+      perSystem = {
+        config,
+        pkgs,
+        ...
+      }: {
+        formatter = pkgs.alejandra;
 
-            overlays = builtins.attrValues self.overlays;
-          };
-        in {
-          # Provides the pkgs to all flake modules and to withSystem calls
-          _module.args = { inherit pkgs; };
+        devShells.default = pkgs.mkShell {
+          NIX_CONFIG = "extra-experimental-features = nix-command flakes repl-flake ";
+          packages = [
+            pkgs.alejandra
+            pkgs.nodePackages.prettier
+            pkgs.home-manager
+            pkgs.nix
+            pkgs.zsh
+            pkgs.git
 
-          formatter = pkgs.alejandra;
-
-          devShells.default = pkgs.mkShell {
-            NIX_CONFIG =
-              "extra-experimental-features = nix-command flakes repl-flake ";
-            nativeBuildInputs = [
-              pkgs.home-manager
-              pkgs.nix
-              pkgs.zsh
-              pkgs.git
-
-              pkgs.sops
-              pkgs.gnupg
-              pkgs.age
-            ];
-            shellHook = ''
-              zsh
-            '';
-          };
+            pkgs.sops
+            pkgs.gnupg
+            pkgs.age
+          ];
+          DIRENV_LOG_FORMAT = "";
+          shellHook = ''
+            ${config.pre-commit.installationScript}
+          '';
         };
+      };
       ## * End of perSystem() ##
 
       flake = {
-        overlays = import ./overlays { inherit inputs outputs; };
+        inherit me flakeModules;
 
         homeConfigurations = {
-          "${personal-info.username}@home-nix" = self.lib.mkHome {
-            modules = [ default-module ./hosts/home-nix/home.nix ];
+          "${me.username}@home-nix" = self.lib.mkHome {
+            modules = [./hosts/home-nix/home.nix];
           };
-          "${personal-info.username}@nixps" = self.lib.mkHome {
-            modules = [ default-module ./hosts/nixps/home.nix ];
+          "${me.username}@nixps" = self.lib.mkHome {
+            modules = [./hosts/nixps/home.nix];
+          };
+          test = self.lib.mkHome {
+            modules = [];
           };
         };
 
         nixosConfigurations = {
           home-nix = self.lib.mkSystem {
-            modules = [ ./hosts/home-nix/configuration.nix ];
+            modules = [./hosts/home-nix/configuration.nix];
           };
           nixps = self.lib.mkSystem {
-            modules = [ ./hosts/nixps/configuration.nix ];
+            modules = [./hosts/nixps/configuration.nix];
           };
           rpi1 = self.lib.mkSystem {
             system = "armv7l-linux";
-            modules = [ ./hosts/rpi1/configuration.nix ];
+            modules = [./hosts/rpi1/configuration.nix];
           };
         };
 
@@ -132,8 +121,7 @@
     };
 
   nixConfig = {
-    extra-substituters =
-      [ "https://e-nikolov-nix-config.cachix.org" "https://helix.cachix.org" ];
+    extra-substituters = ["https://e-nikolov-nix-config.cachix.org" "https://helix.cachix.org"];
     extra-trusted-public-keys = [
       "e-nikolov-nix-config.cachix.org-1:0Y02be6fZwhgvQjyzN3w+bNc5k3Uaz6kXLbAiO0bkO4="
       "helix.cachix.org-1:ejp9KQpR1FBI2onstMQ34yogDm4OgU2ru6lIwPvuCVs="
@@ -144,14 +132,10 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-23.11";
     # nil.url = "github:oxalica/nil/main";
+    # nil.inputs.nixpkgs.follows = "nixpkgs";
+    # nil.inputs.flake-utils.follows = "flake-utils";
     # nixd.url = "github:nix-community/nixd";
 
-    # src = builtins.fetchTarball {
-    #   url = "https://code.visualstudio.com/sha/download?build=insider&os=linux-x64";
-    #   sha256 = "sha256:023ryfx9zj7d7ghh41xixsz3yyngc2y6znkvfsrswcij67jqm8cd";
-    # };
-    # vscode-insiders.url = "https://code.visualstudio.com/sha/download?build=insider&os=linux-x64";
-    # vscode-insiders.flake = false;
     code-insiders.url = "github:e-nikolov/code-insiders-flake";
     code-insiders.inputs.nixpkgs.follows = "nixpkgs";
 
@@ -200,6 +184,8 @@
     nix-ld.inputs.nixpkgs.follows = "nixpkgs";
     nix-ld-rs.url = "github:nix-community/nix-ld-rs/main";
     nix-ld-rs.inputs.nixpkgs.follows = "nixpkgs";
+    nix-ld-rs.inputs.flake-utils.follows = "flake-utils";
+    nix-ld-rs.inputs.flake-compat.follows = "flake-compat";
 
     # nur.url = "github:nix-community/NUR";
     nix-colors.url = "github:misterio77/nix-colors";

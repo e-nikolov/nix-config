@@ -1,4 +1,10 @@
-{ config, pkgs, id, inputs, lib, ... }: {
+{
+  config,
+  pkgs,
+  inputs,
+  lib,
+  ...
+}: {
   imports = [
     ./shells
     ./nvim
@@ -9,7 +15,7 @@
     ./bat.nix
     ./fzf.nix
     ./gpg.nix
-    ./helix.nix
+    ./helix
     inputs.nix-index-database.hmModules.nix-index
   ];
 
@@ -47,13 +53,12 @@
     pkgs.manix
     (pkgs.stdenv.mkDerivation {
       name = "nix-index";
-      buildInputs = [ pkgs.nix-index-unwrapped ];
+      buildInputs = [pkgs.nix-index-unwrapped];
       buildCommand = ''
         mkdir -p $out/bin
         cp ${pkgs.nix-index-unwrapped}/bin/nix-index $out/bin/
       '';
     })
-
   ];
   programs.htop.enable = true; # task manager
   programs.eza.enable = true; # modern ls

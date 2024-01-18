@@ -1,12 +1,12 @@
 {
   pkgs,
   lib,
-  self,
   inputs,
-  personal-info,
+  me,
   ...
-}:
-with lib; {
+}: let
+  inherit (lib) mkForce;
+in {
   imports = [
     inputs.nix-gaming.nixosModules.pipewireLowLatency
   ];
@@ -39,7 +39,7 @@ with lib; {
   };
   sound.enable = true;
 
-  users.users.${personal-info.username} = {
+  users.users.${me.username} = {
     isNormalUser = true;
     extraGroups = [
       "audio"

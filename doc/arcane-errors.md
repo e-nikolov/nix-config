@@ -36,8 +36,13 @@ Caused by setting nix.nixPath = ["nixpkgs=${inputs.nixpkgs.outPath}" "nixpkgs-st
     - see what depends on the broken package
     - use the stable version of the dependent package
 
-# 1Pasword graphical glitches
+# 1Password graphical glitches
 
 1password --disable-gpu-driver-bug-workarounds
 
 Disable hardware acceleration
+
+# error infinite recursion
+
+Sometimes it shows that error if an input is not available to a home-manager/nixos module
+should supply it via specialArgs/extraSpecialArgs

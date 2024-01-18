@@ -9,8 +9,9 @@
     platformTheme = "kde";
     style = "breeze";
   };
-
-  services.xserver.displayManager.defaultSession = "plasma";
-  services.xserver.desktopManager.plasma5.enable = true;
-  services.xserver.desktopManager.plasma5.runUsingSystemd = true;
+  services.xserver = {
+    displayManager.defaultSession = "plasma";
+    desktopManager.plasma5.enable = true;
+    desktopManager.plasma5.runUsingSystemd = true;
+  };
 }

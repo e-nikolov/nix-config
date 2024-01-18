@@ -1,19 +1,26 @@
-{ config, pkgs, lib, personal-info, inputs, outputs, ... }: {
+{
+  config,
+  pkgs,
+  lib,
+  me,
+  inputs,
+  ...
+}: {
   home.packages = [
     pkgs.zsh-fzf-tab
     # pkgs.stable.ripgrep-all
-    # pkgs.ripgrep-all 
+    # pkgs.ripgrep-all
   ];
 
   programs.fzf = {
     enable = true;
-    historyWidgetOptions = [ "--reverse" ];
+    historyWidgetOptions = ["--reverse"];
     fileWidgetOptions = [
       "--height=80% --preview='[[ -d {} ]] && eza -lh --group-directories-first --color always --icons --classify --time-style relative --created --changed {} || bat {} --color=always' "
     ];
     # tmux.enableShellIntegration = true;
     # defaultOptions = [ "--ansi" "--height=60%" ];
-    defaultOptions = [ "--ansi" ];
+    defaultOptions = ["--ansi"];
     colors = {
       bg = "#1e1e1e";
       "bg+" = "#1e1e1e";
@@ -23,11 +30,13 @@
   };
 
   programs.zsh = {
-    plugins = [{
-      file = "fzf-tab.plugin.zsh";
-      name = "zsh-fzf-tab";
-      src = "${pkgs.zsh-fzf-tab}/share/fzf-tab/";
-    }];
+    plugins = [
+      {
+        file = "fzf-tab.plugin.zsh";
+        name = "zsh-fzf-tab";
+        src = "${pkgs.zsh-fzf-tab}/share/fzf-tab/";
+      }
+    ];
 
     initExtra = ''
       fzf-process-widget() {

@@ -1,10 +1,17 @@
-{ config, pkgs, id, inputs, lib, ... }:
-let inherit (inputs.nix-colors) colorSchemes;
+{
+  config,
+  pkgs,
+  id,
+  inputs,
+  lib,
+  ...
+}: let
+  inherit (inputs.nix-colors) colorSchemes;
 in {
-  imports = [ ./zsh ./fish ./bash ./nushell ];
+  imports = [./zsh ./fish ./bash ./nushell];
 
   # FIXME: This is not working for zsh
-  home.sessionPath = [ "$GOBIN" ];
+  home.sessionPath = ["$GOBIN"];
 
   home.sessionVariables = {
     NODE_PATH = lib.mkDefault "$HOME/.npm-packages/lib/node_modules";
@@ -26,16 +33,14 @@ in {
     xargs = "xargs ";
 
     l = "eza";
-    ls =
-      "eza -olh --group-directories-first --color always --icons --classify --time-style relative --created --changed";
+    ls = "eza -olh --group-directories-first --color always --icons --classify --time-style relative --created --changed";
     lsa = "ls -a ";
     tree = "eza --tree -alh --group-directories-first --color always --icons ";
     grep = "grep --color --ignore-case --line-number --context=3 ";
     df = "df -h ";
 
     port = "sudo lsof -i -P -n | fzf";
-    pp =
-      "ps axww -o pid,user,%cpu,%mem,start,command | fzf | sed 's/^ *//' | cut -f1 -d' '";
+    pp = "ps axww -o pid,user,%cpu,%mem,start,command | fzf | sed 's/^ *//' | cut -f1 -d' '";
 
     gi = "go install ./...";
     gomt = "go mod tidy";
@@ -50,7 +55,7 @@ in {
     x = "xdg-open";
   };
 
-  home.packages = [ pkgs.vivid ];
+  home.packages = [pkgs.vivid];
   colorscheme = lib.mkDefault colorSchemes.dracula;
   programs.starship.enable = true;
   programs.starship.enableTransience = true;
