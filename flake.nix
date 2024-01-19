@@ -49,7 +49,7 @@
             pkgs.alejandra
             pkgs.nodePackages.prettier
             pkgs.home-manager
-            pkgs.nix
+            pkgs.nixUnstable
             pkgs.zsh
             pkgs.git
 

@@ -43,6 +43,7 @@
 
       pkgs.direnv
       pkgs.devenv
+      pkgs.ncdu
       pkgs.sops
       pkgs.age
       pkgs.file
