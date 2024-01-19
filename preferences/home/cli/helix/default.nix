@@ -36,7 +36,8 @@
         ];
     });
     settings = {
-      theme = "catppuccin_mocha";
+      # theme = "catppuccin_mocha";
+      theme = "onedark";
       editor = {
         color-modes = true;
         cursorline = true;
