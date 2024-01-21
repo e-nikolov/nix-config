@@ -84,6 +84,7 @@
       pkgs.bashInteractiveFHS
       pkgs.asciinema
       pkgs.asciinema-agg
+      pkgs.socat
 
       # pkgs.fortune
       # pkgs.hello
@@ -95,10 +96,6 @@
     ssh = {
       forwardAgent = lib.mkDefault true;
       enable = lib.mkDefault true;
-      extraConfig = ''
-        Host *
-              IdentityAgent ~/.1password/agent.sock
-      '';
     };
 
     texlive = {enable = true;};

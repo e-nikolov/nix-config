@@ -6,7 +6,9 @@
 }: {
   home.shellAliases = {
     ssh = "ssh.exe ";
+    ssh-add = "ssh-add.exe ";
     op = "op.exe";
+    wsl = "wsl.exe";
   };
   programs = {
     git.extraConfig = {

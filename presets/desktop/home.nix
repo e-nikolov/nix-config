@@ -67,4 +67,14 @@
   #     Install.WantedBy = [ "default.target" ];
   #   };
   # };
+  programs = {
+    ssh = {
+      forwardAgent = lib.mkDefault true;
+      enable = lib.mkDefault true;
+      extraConfig = ''
+        Host *
+              IdentityAgent ~/.1password/agent.sock
+      '';
+    };
+  };
 }

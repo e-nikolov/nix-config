@@ -37,6 +37,7 @@ in {
   };
 
   programs = {
+    _1password.enable = true;
     ssh.enableAskPassword = true;
 
     git.enable = true;
