@@ -108,10 +108,10 @@
       };
 
       extraConfig = {
-        url = {
-          "git@github.com:" = {insteadOf = "https://github.com/";};
-          "ssh://git@bitbucket.org/" = {insteadOf = "https://bitbucket.org/";};
-        };
+        # url = {
+        #   "git@github.com:" = {insteadOf = "https://github.com/";};
+        #   "ssh://git@bitbucket.org/" = {insteadOf = "https://bitbucket.org/";};
+        # };
         gpg = {
           format = "ssh";
           ssh.program =
@@ -188,7 +188,7 @@
           fi
 
           echo "Pulling latest changes"
-          ${pkgs.git}/bin/git pull
+          ${pkgs.git}/bin/git pull ${me.flake-repo}
 
           echo "Upgrading home environment"
           ${pkgs.home-manager}/bin/home-manager switch --flake ${me.flake-path}

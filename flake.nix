@@ -4,13 +4,13 @@
     flake-parts,
     ...
   } @ inputs: let
-    toplevel = inputs;
     me = {
       username = "enikolov";
       fullName = "Emil Nikolov";
       email = "emil.e.nikolov@gmail.com";
       flake-path = "/home/${me.username}/nix-config";
       flake-url = "github:e-nikolov/nix-config/master";
+      flake-repo = "https://github.com/e-nikolov/nix-config";
     };
 
     inherit (flake-parts.lib) importApply mkFlake;
