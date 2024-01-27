@@ -97,8 +97,8 @@
 
     functions = {
       xc = "xclip -selection clipboard";
-      nhs = "home-manager switch --flake ~/nix-config $argv && exec fish";
-      nrs = "sudo nixos-rebuild switch --flake ~/nix-config $argv && exec fish";
+      nhs = "home-manager switch --flake ~/nix-config --verbose $argv && exec fish";
+      nrs = "sudo nixos-rebuild switch --flake ~/nix-config --verbose $argv && exec fish";
     };
 
     plugins = [

@@ -3,6 +3,7 @@
   pkgs,
   config,
   modulesPath,
+  options,
   inputs,
   me,
   ...
@@ -51,62 +52,85 @@ in {
       # blesh.enable = true; # bugged
     };
     mosh.enable = true;
+
+    # https://github.com/Mic92/dotfiles/blob/main/nixos/modules/nix-ld.nix
     nix-ld = {
       enable = true;
       package = inputs.nix-ld-rs.packages.${pkgs.system}.nix-ld-rs;
-      libraries = with pkgs; [
-        alsa-lib
-        at-spi2-atk
-        at-spi2-core
-        atk
-        cairo
-        cups
-        curl
-        dbus
-        expat
-        fontconfig
-        freetype
-        fuse3
-        gdk-pixbuf
-        glib
-        gtk3
-        icu
-        libGL
-        libappindicator-gtk3
-        libdrm
-        libglvnd
-        libnotify
-        libpulseaudio
-        libunwind
-        libusb1
-        libuuid
-        libxkbcommon
-        libxml2
-        mesa
-        nspr
-        nss
-        openssl
-        pango
-        pipewire
-        stdenv.cc.cc
-        systemd
-        vulkan-loader
-        xorg.libX11
-        xorg.libXScrnSaver
-        xorg.libXcomposite
-        xorg.libXcursor
-        xorg.libXdamage
-        xorg.libXext
-        xorg.libXfixes
-        xorg.libXi
-        xorg.libXrandr
-        xorg.libXrender
-        xorg.libXtst
-        xorg.libxcb
-        xorg.libxkbfile
-        xorg.libxshmfence
-        zlib
-      ];
+      # libraries =
+      #   options.programs.nix-ld.libraries.default
+      #   ++ [
+      #     pkgs.alsa-lib
+      #     pkgs.at-spi2-atk
+      #     pkgs.at-spi2-core
+      #     pkgs.atk
+      #     pkgs.cairo
+      #     pkgs.glamoroustoolkit.out
+      #     pkgs.cups
+      #     pkgs.curl
+      #     pkgs.dbus
+      #     pkgs.expat
+      #     pkgs.fontconfig
+      #     pkgs.freetype
+      #     pkgs.fuse3
+      #     pkgs.gdk-pixbuf
+      #     pkgs.glib
+      #     pkgs.gtk3
+      #     pkgs.icu
+      #     pkgs.libappindicator-gtk3
+      #     pkgs.libgcc.lib
+      #     pkgs.libdrm
+      #     pkgs.libGL
+      #     pkgs.libglvnd
+      #     pkgs.libnotify
+      #     pkgs.libpulseaudio
+      #     pkgs.libunwind
+      #     pkgs.libusb1
+      #     pkgs.libuuid
+      #     pkgs.libxkbcommon
+      #     pkgs.libxml2
+      #     pkgs.mesa
+      #     pkgs.nspr
+      #     pkgs.nss_latest.out
+      #     pkgs.openssl
+      #     pkgs.pango
+      #     pkgs.pipewire
+      #     pkgs.stdenv.cc.cc
+      #     pkgs.systemd
+      #     pkgs.vulkan-loader
+      #     pkgs.xorg.libX11
+      #     pkgs.xorg.libXScrnSaver
+      #     pkgs.xorg.libXcomposite
+      #     pkgs.xorg.libXcursor
+      #     pkgs.xorg.libXdamage
+      #     pkgs.xorg.libXext
+      #     pkgs.xorg.libXfixes
+      #     pkgs.xorg.libXi
+      #     pkgs.xorg.libXrandr
+      #     pkgs.xorg.libXrender
+      #     pkgs.xorg.libXtst
+      #     pkgs.xorg.libxcb
+      #     pkgs.xorg.libxkbfile
+      #     pkgs.xorg.libxshmfence
+      #     pkgs.xorg.libXinerama
+      #     pkgs.xorg_sys_opengl.out
+      #     pkgs.zlib
+      #     pkgs.SDL2
+      #     pkgs.SDL
+      #     pkgs.xorg.libXmu
+      #     pkgs.xorg.libSM
+      #     pkgs.xorg.libICE
+      #     pkgs.dbus-glib
+      #     pkgs.alsaLib
+      #     pkgs.libva
+      #     pkgs.which
+      #     pkgs.sqlite
+      #     pkgs.pciutils
+      #     pkgs.wayland
+      #     pkgs.libelf
+      #     pkgs.mesa.llvmPackages.llvm.lib
+      #     pkgs.mesa.drivers
+      #   ];
     };
   };
   users.defaultUserShell = pkgs.zsh;

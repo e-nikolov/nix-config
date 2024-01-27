@@ -67,12 +67,12 @@
       }
 
       extern-wrapped nhs [...args] {
-        home-manager switch --flake ~/nix-config $args
+        home-manager switch --flake ~/nix-config --verbose $args
         exec nu
       }
 
       extern-wrapped nrs [...args] {
-        sudo nixos-rebuild switch --flake ~/nix-config/ $args
+        sudo nixos-rebuild switch --flake ~/nix-config/ --verbose $args
         exec nu
       }
 

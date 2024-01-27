@@ -120,7 +120,7 @@
       fi
 
       ### Functions ###
-      WORDCHARS="*?_-~&;!$%^"
+      WORDCHARS="*?_-~&;!%^"
       STATEMENTCHARS="@\,:\"'~=!#$%^&*?+_-/;."
       # STATEMENTCHARS="@\,:\"'~=!#$%^&*?+_-/;.(){}[]<>"
 

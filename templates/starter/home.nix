@@ -90,11 +90,11 @@
   #     ### Functions ###
 
   #     nhs() {
-  #       home-manager switch --flake ~/nix-config $@ && exec bash
+  #       home-manager switch --flake ~/nix-config --verbose $@ && exec bash
   #     }
 
   #     nrs() {
-  #       sudo nixos-rebuild switch --flake ~/nix-config/ $@ && exec bash
+  #       sudo nixos-rebuild switch --flake ~/nix-config/ --verbose $@ && exec bash
   #     }
 
   #     nd() {

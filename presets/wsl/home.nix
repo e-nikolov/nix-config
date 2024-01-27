@@ -1,15 +1,26 @@
 {
   config,
   pkgs,
+  inputs,
   lib,
   ...
 }: {
-  home.shellAliases = {
-    ssh = "ssh.exe ";
-    ssh-add = "ssh-add.exe ";
-    op = "op.exe";
-    wsl = "wsl.exe";
+  home = {
+    shellAliases = {
+      ssh = "ssh.exe ";
+      ssh-add = "ssh-add.exe ";
+      op = "op.exe";
+      wsl = "wsl.exe";
+    };
+    packages = [
+      pkgs.krita
+      pkgs.nixgl.nixGLMesa
+      pkgs.nixgl.nixGLIntel
+      pkgs.nixgl.nixVulkanIntel
+      pkgs.nixgl.nixVulkanMesa
+    ];
   };
+
   programs = {
     git.extraConfig = {
       gpg.ssh.program = "op-ssh-sign-wsl";

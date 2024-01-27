@@ -40,10 +40,10 @@
     initExtra = ''
       ### Functions ###
       nhs() {
-        home-manager switch --flake ~/nix-config $@ && exec zsh
+        home-manager switch --flake ~/nix-config --verbose $@ && exec zsh
       }
       nrs() {
-        sudo nixos-rebuild switch --flake ~/nix-config $@ && exec zsh
+        sudo nixos-rebuild switch --flake ~/nix-config --verbose $@ && exec zsh
       }
 
       [ -f  ~/nix-config/dotfiles/.zshrc ] && . ~/nix-config/dotfiles/.zshrc

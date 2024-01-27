@@ -15,6 +15,7 @@
     inputs.golink.overlay
     inputs.code-insiders.overlays.default
     inputs.helix.overlays.default
+    inputs.nixgl.overlay
     # inputs.nil.overlays.default
 
     (final: prev:

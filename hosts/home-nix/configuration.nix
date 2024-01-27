@@ -27,7 +27,7 @@
   # Set your time zone.
   time.timeZone = "Europe/Amsterdam";
 
-  environment.systemPackages = [pkgs.obsidian];
+  environment.systemPackages = [pkgs.obsidian pkgs.mesa pkgs.mesa-demos pkgs.libGL pkgs.xwayland pkgs.firefox pkgs.vlc pkgs.libsForQt5.kate pkgs.libsForQt5.kcalc];
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
 
