@@ -23,11 +23,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1706313762,
-        "narHash": "sha256-AWKokoQCa87qoIVI1Hgad63iIS5Oq5U5fHQtvEh/JFA=",
+        "lastModified": 1706400168,
+        "narHash": "sha256-+oqJYinGdmU1+/OK9uTUBweLSEHm5LA+Tmh/434iQnw=",
         "owner": "e-nikolov",
         "repo": "code-insiders-flake",
-        "rev": "3a2a083063782fe77f0ee042b1eb7b0eb76077f4",
+        "rev": "1120cf3fada229c208017d39e00d4b58a6609514",
         "type": "github"
       },
       "original": {
@@ -277,11 +277,11 @@
         "rust-overlay": "rust-overlay"
       },
       "locked": {
-        "lastModified": 1706159537,
-        "narHash": "sha256-/RvFZuAhSD0qt8bSkQ2Pa/EF4qwVHTQsDdYLKZeUb58=",
+        "lastModified": 1706383057,
+        "narHash": "sha256-y4MlkNmc4jliu1feGJuD7akjbGPjD+YMphcD40nSmLA=",
         "owner": "helix-editor",
         "repo": "helix",
-        "rev": "2661e05b3405c216a2303c20e71830b4bde7ac35",
+        "rev": "0d09fb4f550eb87a02f5f17dffb0800220f2e937",
         "type": "github"
       },
       "original": {
