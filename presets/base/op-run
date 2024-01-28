@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+op-run() {
+    if [[ -f .oprc ]]; then
+        command -v op >/dev/null || return 0 && local OP_CMD="op"
+        command -v op.exe >/dev/null || return 0 && local OP_CMD="op.exe"
+        eval "$(cat .oprc | ''${OP_CMD} inject)"
+    fi
+
+    "$@"
+}
+
+op-run "$@"

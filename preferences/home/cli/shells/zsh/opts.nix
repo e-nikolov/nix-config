@@ -8,7 +8,7 @@
 }: {
   config.programs.zsh = {
     history = {
-      size = 10000;
+      size = 100000;
       path = "$HOME/.zsh_history";
       ignoreAllDups = true;
       ignoreSpace = true;
@@ -20,38 +20,37 @@
       # unsetopt FLOW_CONTROL
       # setopt AUTO_MENU
       setopt COMPLETE_IN_WORD
-      setopt ALWAYS_TO_END
       setopt NO_LIST_BEEP
       setopt LIST_PACKED
 
 
-      setopt glob_dots     # no special treatment for file names with a leading dot
-      setopt no_auto_menu  # require an extra TAB press to open the completion menu
-      setopt alwaystoend
-      setopt autocd
-      setopt noautomenu
-      setopt autopushd
-      setopt noautoremoveslash
-      setopt nobeep
-      setopt nobgnice
-      setopt cbases
-      setopt extendedhistory
-      setopt noflowcontrol
-      setopt noglobalrcs
-      setopt globdots
-      setopt histexpiredupsfirst
-      setopt histfcntllock
-      setopt histfindnodups
-      setopt histignoredups
-      setopt histignorespace
-      setopt histsavenodups
-      setopt histverify
-      setopt interactive
-      setopt interactivecomments
-      setopt nolisttypes
-      setopt promptsubst
-      setopt sharehistory
-      setopt typesetsilent
+      setopt GLOB_DOTS      # no special treatment for file names with a leading dot
+      setopt NO_AUTO_MENU   # require an extra TAB press to open the completion menu
+      setopt ALWAYS_TO_END
+      setopt AUTO_CD
+      setopt AUTO_PUSHD
+      setopt NO_AUTO_REMOVE_SLASH
+      setopt NO_BEEP
+      setopt NO_BG_NICE
+      setopt C_BASES
+      setopt EXTENDED_HISTORY
+      setopt NO_FLOW_CONTROL
+      setopt NO_GLOBAL_RCS
+      setopt HIST_EXPIRE_DUPS_FIRST
+      setopt HIST_FCNTL_LOCK
+      setopt HIST_FIND_NO_DUPS
+      setopt HIST_IGNORE_ALL_DUPS
+      setopt HIST_REDUCE_BLANKS
+      setopt HIST_IGNORE_SPACE
+      setopt HIST_SAVE_NO_DUPS
+      setopt HIST_VERIFY
+      setopt INTERACTIVE
+      setopt INTERACTIVE_COMMENTS
+      setopt NO_LIST_TYPES
+      setopt PROMPT_SUBST
+      setopt SHARE_HISTORY
+      setopt INC_APPEND_HISTORY
+      setopt TYPESET_SILENT
     '';
   };
 }

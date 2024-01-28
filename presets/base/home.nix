@@ -8,6 +8,12 @@
 }: {
   imports = [../minimal/home.nix ../../modules/home/news.nix];
   home = {
+    file = {
+      ".local/bin/op-run" = {
+        source = ./op-run;
+        executable = true;
+      };
+    };
     sessionVariables = {EDITOR = "code-insiders";};
 
     shellAliases = {

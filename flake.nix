@@ -129,7 +129,7 @@
   };
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-23.11";
     # nil.url = "github:oxalica/nil/main";
     # nil.inputs.nixpkgs.follows = "nixpkgs";
@@ -151,6 +151,7 @@
       flake = false;
     };
 
+    # devenv.url = "github:cachix/devenv/python-rewrite";
     devenv.url = "github:cachix/devenv";
 
     plasma-manager = {
