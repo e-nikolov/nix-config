@@ -29,6 +29,7 @@ in {
       nfu = lib.mkDefault "nix flake update --flake ~/nix-config ";
       nh = lib.mkDefault "home-manager --flake ~/nix-config ";
       ns = lib.mkDefault "nix shell ";
+      ndr = lib.mkDefault "nix-direnv-reload ";
       # nd = lib.mkDefault "nix develop ";
       sudo = lib.mkDefault ''sudo -E env "PATH=$PATH" '';
       xargs = "xargs ";
