@@ -21,7 +21,9 @@ in {
   ];
 
   networking.firewall.checkReversePath = "loose";
+  xdg.portal.enable = true;
   services = {
+    flatpak.enable = true;
     tailscale.enable = true;
     nordvpn.enable = true;
     openssh.enable = true;
@@ -133,6 +135,7 @@ in {
       #   ];
     };
   };
+
   users.defaultUserShell = pkgs.zsh;
 
   boot.binfmt.emulatedSystems = ["armv7l-linux" "aarch64-linux"];

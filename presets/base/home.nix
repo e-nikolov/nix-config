@@ -32,6 +32,7 @@
       pkgs.wireguard-go
       pkgs.coturn
       pkgs.bun2
+      pkgs.distrobox
       # pkgs.terraform
       # pkgs.nebula
 
