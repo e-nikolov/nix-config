@@ -388,11 +388,11 @@
         "nixpkgs-lib": "nixpkgs-lib_2"
       },
       "locked": {
-        "lastModified": 1706614854,
-        "narHash": "sha256-arWAFxjTp8e1al2rEfRcHdE78AuT0Lk6r6OJKcpycnY=",
+        "lastModified": 1706615604,
+        "narHash": "sha256-pwgVwvMN5nhSoQ6IUW/Uch3C0/ebuq5Xwmnqq+CD9sQ=",
         "owner": "misterio77",
         "repo": "nix-colors",
-        "rev": "0ed6b055c3e033cd6cafaa731fbab0b0f6c1e48c",
+        "rev": "f84b4255d2c635c97378af20fa704561b9247435",
         "type": "github"
       },
       "original": {
