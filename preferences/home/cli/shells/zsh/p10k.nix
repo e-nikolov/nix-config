@@ -59,6 +59,10 @@
       # typeset -g POWERLEVEL9K_BACKGROUND=#1d3541
       typeset -g POWERLEVEL9K_KUBECONTEXT_SHOW_ON_COMMAND='kubectl|helm|kubens|kubectx|oc|istioctl|kogito|k9s|helmfile|make'
 
+      export ZSH_AUTOSUGGEST_USE_ASYNC="on";
+      export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=12";
+      export COPY_COMMAND="xc";
+      export KEYTIMEOUT="10";
 
       # black1 (#5E0000): prompt pid
       # black2 (#666042): htop text

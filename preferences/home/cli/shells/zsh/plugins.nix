@@ -15,10 +15,6 @@
   ];
 
   home.sessionVariables = {
-    # ZSH_AUTOSUGGEST_USE_ASYNC = "on";
-    ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE = "fg=12";
-    COPY_COMMAND = "xc";
-    KEYTIMEOUT = "10";
   };
 
   programs.zsh = let
