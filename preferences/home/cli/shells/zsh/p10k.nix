@@ -74,7 +74,8 @@
       # cyan2 (#FC874F): prompt cwd
       # green1: (#58CC48): zsh-syntax-highlights matched command / htop header
       # green2: (#61C838): htop some text
-      # purple1: (#FF709B): htop some text
+      # purple1: (#DE6187): htop some text
+      # purple2: (#FF709B): nix warnings
 
       # foreground (#986811): default text color
       #
