@@ -58,26 +58,24 @@
       }
     '';
     extraConfig = ''
-
-
       ### Functions ###
 
       def xc [] {
-          xclip -selection clipboard
+        xclip -selection clipboard
       }
 
-      extern-wrapped nhs [...args] {
-        home-manager switch --flake ~/nix-config --verbose $args
+      def --wrapped nhs [...args] {
+        home-manager switch --flake ~/nix-config ...$args
         exec nu
       }
 
-      extern-wrapped nrs [...args] {
-        sudo nixos-rebuild switch --flake ~/nix-config/ --verbose $args
+      def --wrapped nrs [...args] {
+        sudo nixos-rebuild switch --flake ~/nix-config/ --verbose ...$args
         exec nu
       }
 
-      extern-wrapped nd [...args] {
-        nix $args --command nu develop
+      def --wrapped nd [...args] {
+        nix ...$args --command nu develop
       }
     '';
 
