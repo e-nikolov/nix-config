@@ -8,75 +8,26 @@
 } @ args: {
   programs.nushell = {
     enable = true;
-
+    package = pkgs.nushell.overrideAttrs (drv: let
+      src = pkgs.fetchFromGitHub {
+        owner = "nushell";
+        repo = "nushell";
+        rev = "d1c807230b4f35a9d963ce6fee5b72641690fe06";
+        sha256 = "sha256-T+0kdTOqtf+zL1+9gVeC5Xf6q2XXCOMOUnuOskeGvuA=";
+      };
+    in {
+      inherit src;
+      cargoDeps = pkgs.rustPlatform.importCargoLock {
+        lockFile = ./Cargo.lock;
+        outputHashes = {
+          "reedline-0.28.0" = "sha256-GFuSsjRK8LUX2WfUM1prbuFO14nP6WozwAKC2p/SGKg=";
+        };
+      };
+    });
+    configFile.source = ./config.nu;
     extraEnv = ''
-      $env.config = {
-        show_banner: false,
-
-        keybindings: [
-          {
-            name: fuzzy_history_fzf
-            modifier: control
-            keycode: char_r
-            mode: [emacs , vi_normal, vi_insert]
-            event: {
-              send: executehostcommand
-              cmd: "commandline (
-                history
-                  | each { |it| $it.command }
-                  | uniq
-                  | reverse
-                  | str join (char -i 0)
-                  | fzf --read0 --tiebreak=chunk --layout=reverse  --multi --preview='echo {..}' --preview-window='bottom:3:wrap' --bind alt-up:preview-up,alt-down:preview-down --height=70% -q (commandline)
-                  | decode utf-8
-                  | str trim
-              )"
-            }
-          },
-          {
-              name: fzf_history_menu_fzf_ui
-              modifier: control
-              keycode: char_e
-              mode: [emacs, vi_normal, vi_insert]
-              event: { send: menu name: fzf_history_menu_fzf_ui }
-          }
-          {
-              name: fzf_history_menu_nu_ui
-              modifier: control
-              keycode: char_w
-              mode: [emacs, vi_normal, vi_insert]
-              event: { send: menu name: fzf_menu_nu_ui }
-          }
-          {
-              name: fzf_dir_menu_nu_ui
-              modifier: control
-              keycode: char_q
-              mode: [emacs, vi_normal, vi_insert]
-              event: { send: menu name: fzf_dir_menu_nu_ui }
-          }
-        ]
-      }
     '';
     extraConfig = ''
-      ### Functions ###
-
-      def xc [] {
-        xclip -selection clipboard
-      }
-
-      def --wrapped nhs [...args] {
-        home-manager switch --flake ~/nix-config ...$args
-        exec nu
-      }
-
-      def --wrapped nrs [...args] {
-        sudo nixos-rebuild switch --flake ~/nix-config/ --verbose ...$args
-        exec nu
-      }
-
-      def --wrapped nd [...args] {
-        nix ...$args --command nu develop
-      }
     '';
 
     shellAliases = {
@@ -88,6 +39,8 @@
       gst = "git status ";
       gc = "git commit ";
       gcl = "git clone --recurse-submodules ";
+      ga = "git add ";
+
       sudo = ''sudo -E env "PATH=$PATH" '';
 
       xargs = "xargs ";

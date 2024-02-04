@@ -14,6 +14,7 @@
         executable = true;
       };
     };
+    # sessionVariables = {EDITOR = "'code-insiders -w'";};
     sessionVariables = {EDITOR = "code-insiders";};
 
     shellAliases = {

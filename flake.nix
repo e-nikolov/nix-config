@@ -195,6 +195,11 @@
       };
     };
 
+    nushell = {
+      url = "github:nushell/nushell/main";
+      flake = false;
+    };
+
     sops-nix = {
       url = "github:Mic92/sops-nix";
       inputs = {

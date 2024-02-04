@@ -1,0 +1,1 @@
+export CACHIX_AUTH_TOKEN='op://personal/cachix-token/credential'

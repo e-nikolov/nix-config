@@ -8,7 +8,7 @@
 }: let
   inherit (inputs.nix-colors) colorSchemes;
 in {
-  imports = [./zsh ./fish ./bash ./nushell];
+  imports = [./zsh ./fish ./bash ./nushell ./starship.nix];
 
   # FIXME: This is not working for zsh
   home = {
@@ -62,11 +62,6 @@ in {
   };
   colorscheme = lib.mkDefault colorSchemes.dracula;
   programs = {
-    starship = {
-      enable = true;
-      enableTransience = true;
-      enableZshIntegration = false;
-    };
     ion.enable = true;
 
     yazi = {

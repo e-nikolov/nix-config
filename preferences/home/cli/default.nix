@@ -39,6 +39,7 @@
 
     # Nix
     pkgs.devenv
+    pkgs.cachix
     pkgs.rnix-lsp
     pkgs.nixos-option
     pkgs.nix-doc

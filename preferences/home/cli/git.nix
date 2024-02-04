@@ -34,5 +34,6 @@
     gst = lib.mkDefault "git status ";
     gcl = lib.mkDefault "git clone --recurse-submodules ";
     gc = lib.mkDefault "git commit ";
+    ga = lib.mkDefault "git add ";
   };
 }

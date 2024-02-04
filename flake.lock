@@ -719,6 +719,23 @@
         "type": "github"
       }
     },
+    "nushell": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1707056349,
+        "narHash": "sha256-T+0kdTOqtf+zL1+9gVeC5Xf6q2XXCOMOUnuOskeGvuA=",
+        "owner": "nushell",
+        "repo": "nushell",
+        "rev": "d1c807230b4f35a9d963ce6fee5b72641690fe06",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nushell",
+        "ref": "main",
+        "repo": "nushell",
+        "type": "github"
+      }
+    },
     "plasma-manager": {
       "inputs": {
         "home-manager": [
@@ -817,6 +834,7 @@
         "nixos-wsl": "nixos-wsl",
         "nixpkgs": "nixpkgs_2",
         "nixpkgs-stable": "nixpkgs-stable_2",
+        "nushell": "nushell",
         "plasma-manager": "plasma-manager",
         "pre-commit-hooks": "pre-commit-hooks_2",
         "sops-nix": "sops-nix"
