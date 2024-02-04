@@ -27,6 +27,8 @@
     zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#) ([0-9a-z-]#)*=01;34=0=01'
     zstyle ':fzf-tab:*' query-string "" # https://github.com/Aloxaf/fzf-tab/issues/32#issuecomment-1519639800
     zstyle ':completion:*:git:*' group-order 'main commands' 'alias commands' 'external commands'
+    zstyle ':completion:*' verbose true
+
     #command -v wg > /dev/null && . ${config.home.profileDirectory}/share/bash-completion/completions/wg
     #command -v wg-quick > /dev/null && . ${config.home.profileDirectory}/share/bash-completion/completions/wg-quick
 

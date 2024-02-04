@@ -14,6 +14,7 @@
             enable = true;
             excludes = [".js" ".md" ".ts" ".nix" ".zsh" ".keep" ".profile" ".keytab" ".sh" ".colorscheme" ".envrc" ".gitignore" ".gitattributes" "Makefile" ".conf" ".toml"];
           };
+
           # shellcheck.enable = true;
           # shfmt.enable = true;
           # gptcommit.enable = true;

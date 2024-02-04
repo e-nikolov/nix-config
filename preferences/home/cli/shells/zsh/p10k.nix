@@ -41,6 +41,7 @@
           fi
       }
 
+
       typeset -g PROMPT_EOL_MARK=""
       typeset -g POWERLEVEL9K_TERM_SHELL_INTEGRATION=true
       typeset -g POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(os_icon context root_indicator direnv shell_level nix_shell dir vcs newline prompt_char)
@@ -57,6 +58,22 @@
       typeset -g POWERLEVEL9K_BACKGROUND=#0e1920
       # typeset -g POWERLEVEL9K_BACKGROUND=#1d3541
       typeset -g POWERLEVEL9K_KUBECONTEXT_SHOW_ON_COMMAND='kubectl|helm|kubens|kubectx|oc|istioctl|kogito|k9s|helmfile|make'
+
+
+      # black1 (#5E0000): prompt pid
+      # black2 (#666042): htop text
+      # red1: (#FF0004): git status modified files
+      # red2: (#C40000): zsh-syntax-highlights missing command
+      # blue2 (#1A2830): zsh-autosuggestions
+      # yellow1 (#CC430D): nix shell prompt / direnv: nix-direnv: cache is out of date
+      # cyan1 (#FFC699): htop selected row
+      # cyan2 (#FC874F): prompt cwd
+      # green1: (#58CC48): zsh-syntax-highlights matched command / htop header
+      # green2: (#61C838): htop some text
+      # purple1: (#FF709B): htop some text
+
+      # foreground (#986811): default text color
+      #
 
       # p10k reload
       # POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status command_execution_time direnv kubecontext context nix_shell time)
