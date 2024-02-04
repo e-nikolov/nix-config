@@ -40,7 +40,7 @@
     initExtra = ''
       ### Functions ###
       nhs() {
-        home-manager switch --flake ~/nix-config --verbose $@ && exec zsh
+        home-manager switch --flake ~/nix-config $@ && exec zsh
       }
       nrs() {
         sudo nixos-rebuild switch --flake ~/nix-config --verbose $@ && exec zsh

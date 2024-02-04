@@ -290,6 +290,27 @@ in {
           echo $i
         done
       }
+
+      function wwr() {
+        local paths=()
+        local lines=()
+        while IFS= read -r line; do
+          if [[ $line =~ ^/ ]]; then
+            paths+=("$line")
+          else
+            lines+=("$line")
+          fi
+        done < <(which "$@");
+
+        if [[ ! ''${#paths[@]} -eq 0 ]]; then
+          realpath $paths | xargs ls -a
+        fi
+
+        for i in $lines; do
+          echo $i
+        done
+      }
+
       function nd() {
         has_flag "-c|--command" "$@"
         local hf=$?

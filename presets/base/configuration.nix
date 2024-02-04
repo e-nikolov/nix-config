@@ -12,6 +12,14 @@
   # This avoids accidental auto-upgrades when working locally.
   # isClean = inputs.self ? rev;
   isClean = inputs.self ? rev;
+  dockerCompat =
+    pkgs.runCommand "${pkgs.podman.pname}-docker-compat-completions-${pkgs.podman.version}"
+    {
+      outputs = ["out"];
+    } ''
+      mkdir -p $out/share/zsh/site-functions
+      sed s/podman/docker/g ${pkgs.podman}/share/zsh/site-functions/_podman > $out/share/zsh/site-functions/_docker
+    '';
 in {
   imports = [
     inputs.sops-nix.nixosModules.sops
@@ -192,24 +200,27 @@ in {
   };
 
   users.users.${me.username}.extraGroups = ["wheel" "podman" "docker" "nordvpn" "onepassword" "onepassword-cli"];
+  environment = {
+    pathsToLink = ["/share/zsh"];
+    systemPackages = [
+      # pkgs.bashInteractiveFHS
+      pkgs.nixUnstable
+      pkgs.wgnord
+      pkgs.neovim
+      pkgs.nordvpn
+      pkgs.man-pages
+      pkgs.vim
+      pkgs.git
+      pkgs.wget
+      pkgs.golink
+      pkgs.pciutils
+      pkgs.micro
+      dockerCompat
 
-  environment.systemPackages = [
-    # pkgs.bashInteractiveFHS
-    pkgs.nixUnstable
-    pkgs.wgnord
-    pkgs.neovim
-    pkgs.nordvpn
-    pkgs.man-pages
-    pkgs.vim
-    pkgs.git
-    pkgs.wget
-    pkgs.golink
-    pkgs.pciutils
-    pkgs.micro
-
-    # pkgs.steam-run
-    (pkgs.cowsay.overrideAttrs (old: {__contentAddressable = true;}))
-  ];
+      # pkgs.steam-run
+      (pkgs.cowsay.overrideAttrs (old: {__contentAddressable = true;}))
+    ];
+  };
 
   nix = {
     package = lib.mkDefault pkgs.nixUnstable;
