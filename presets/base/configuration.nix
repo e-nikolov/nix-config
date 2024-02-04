@@ -10,7 +10,7 @@
 }: let
   # Only enable auto upgrade if current config came from a clean tree
   # This avoids accidental auto-upgrades when working locally.
-  # isClean = inputs.self ? rev;
+  inherit (lib) mkDefault;
   isClean = inputs.self ? rev;
   dockerCompat =
     pkgs.runCommand "${pkgs.podman.pname}-docker-compat-completions-${pkgs.podman.version}"
@@ -29,7 +29,10 @@ in {
   ];
 
   networking.firewall.checkReversePath = "loose";
-  xdg.portal.enable = true;
+  xdg.portal = {
+    enable = true;
+    config.common.default = mkDefault "*";
+  };
   services = {
     flatpak.enable = true;
     tailscale.enable = true;
