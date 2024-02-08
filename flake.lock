@@ -23,11 +23,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1707264148,
-        "narHash": "sha256-2efk9BapyavWtTKXdNYA6bgZwTXUvKeHjLqZ0SAbeE0=",
+        "lastModified": 1707350558,
+        "narHash": "sha256-yWMcqsFrujyi74EL+vjMmJ5SefJTKvrAc3KCLNNci7o=",
         "owner": "e-nikolov",
         "repo": "code-insiders-flake",
-        "rev": "688c505ea483d64c52d56212abb28922412f93ae",
+        "rev": "6555cc9a33ce0ed16000c438dc475e4018b615fd",
         "type": "github"
       },
       "original": {
@@ -722,11 +722,11 @@
     "nushell": {
       "flake": false,
       "locked": {
-        "lastModified": 1707348162,
-        "narHash": "sha256-DonnN29W1XIK7XDnkCyuh33lYIJkPmj1K0mxwRRL2a8=",
+        "lastModified": 1707351345,
+        "narHash": "sha256-y6Ms8Jd3mFrg/0idvz4pyRi/fAb5CkEdtCGVztokGAQ=",
         "owner": "nushell",
         "repo": "nushell",
-        "rev": "09f513bb538a0dbe2ce9b9647c1cbe4f789d2514",
+        "rev": "b2092df27efa8b94474f90b330c7ce61619e429e",
         "type": "github"
       },
       "original": {
