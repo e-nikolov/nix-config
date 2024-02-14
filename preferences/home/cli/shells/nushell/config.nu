@@ -22,124 +22,124 @@ $env.config = {
   }
 
   menus: [ 
-      {
-        name: completion_menu
-        only_buffer_difference: false
-        marker: "󰋼 "
-        type: {
-          layout: columnar
-          columns: 4
-          col_width: 20    
-          col_padding: 2
-        }
-        style: {
-          text: green
-          selected_text: green_reverse
-          description_text: yellow
-        }
+    {
+      name: fzf_history_menu_fzf_ui
+      only_buffer_difference: false
+      marker: "󰋼 "
+      type: {
+        layout: columnar
+        columns: 4
+        col_width: 20    
+        col_padding: 2
       }
-      {
-        name: fzf_history_menu_fzf_ui
-        only_buffer_difference: false
-        marker: "# "
-        type: {
-          layout: columnar
-          columns: 4
-          col_width: 20
-          col_padding: 2
-        }
-        style: {
-          text: green
-          selected_text: green_reverse
-          description_text: yellow
-        }
-        source: { |buffer, position|
-          open $nu.history-path | get history.command_line | to text | fzf +s --tac | str trim
-          | where $it =~ $buffer
-          | each { |v| {value: ($v | str trim) } }
-        }
+      style: {
+        text: green
+        selected_text: green_reverse
+        description_text: yellow
       }
-      {
-          name: fzf_history_menu_nu_ui
-          only_buffer_difference: true
-          marker: "# "
-          type: {
-            layout: list
-            page_size: 10
-          }
-          style: {
-            text: "#66ff66"
-            selected_text: { fg: "#66ff66" attr: r }
-            description_text: yellow
-          }
-          source: { |buffer, position|
-            open $nu.history-path | get history.command_line | to text
-            | fzf -f $buffer
-            | lines
-            | each { |v| {value: ($v | str trim) } }
-          }
+    }
+    {
+      name: completion_menu
+      only_buffer_difference: false
+      marker: "# "
+      type: {
+        layout: columnar
+        columns: 4
+        col_width: 20
+        col_padding: 2
       }
-      {
-        name: fzf_dir_menu_nu_ui
-        only_buffer_difference: true
-        marker: "# "
-        type: {
-          layout: list
-          page_size: 10
-        }
-        style: {
-          text: "#66ff66"
-          selected_text: { fg: "#66ff66" attr: r }
-          description_text: yellow
-        }
-        source: { |buffer, position|
-          ls $'($env.PWD)' | where type == dir
-          | sort-by name | get name | to text
-          | fzf -f $buffer
-          | each { |v| { value: ($v | str trim) }}
-        }
+      style: {
+        text: green
+        selected_text: green_reverse
+        description_text: yellow
       }
-      # {
-      #   name: fzf_history_menu_fzf_ui
-      #   only_buffer_difference: false
-      #   marker: "# "
-      #   type: {
-      #     layout: columnar
-      #     columns: 4
-      #     col_width: 20
-      #     col_padding: 2
-      #   }
-      #   style: {
-      #     text: green
-      #     selected_text: green_reverse
-      #     description_text: yellow
-      #   }
-      #   source: { |buffer, position|
-      #     open -r $nu.history-path | fzf +s --tac | str trim
-      #     | where $it =~ $buffer
-      #     | each { |v| {value: ($v | str trim) } }
-      #   }
-      # }
-      # {
-      #   name: fzf_menu_nu_ui
-      #   only_buffer_difference: false
-      #   marker: "# "
-      #   type: {
-      #     layout: list
-      #     page_size: 10
-      #   }
-      #   style: {
-      #     text: "#66ff66"
-      #     selected_text: { fg: "#66ff66" attr: r }
-      #     description_text: yellow
-      #   }        
-      #   source: { |buffer, position|
-      #     open -r $nu.history-path
-      #     | fzf -f $buffer
-      #     | lines
-      #     | each { |v| {value: ($v | str trim) } }
-      #   }
-      # }
+      source: { |buffer, position|
+        open $nu.history-path | get history.command_line | to text | fzf +s --tac | str trim
+        | where $it =~ $buffer
+        | each { |v| {value: ($v | str trim) } }
+      }
+    }
+    {
+      name: fzf_history_menu_nu_ui
+      only_buffer_difference: true
+      marker: "# "
+      type: {
+        layout: list
+        page_size: 10
+      }
+      style: {
+        text: "#66ff66"
+        selected_text: { fg: "#66ff66" attr: r }
+        description_text: yellow
+      }
+      source: { |buffer, position|
+        open $nu.history-path | get history.command_line | to text
+        | fzf -f $buffer
+        | lines
+        | each { |v| {value: ($v | str trim) } }
+      }
+    }
+    {
+      name: fzf_dir_menu_nu_ui
+      only_buffer_difference: true
+      marker: "# "
+      type: {
+        layout: list
+        page_size: 10
+      }
+      style: {
+        text: "#66ff66"
+        selected_text: { fg: "#66ff66" attr: r }
+        description_text: yellow
+      }
+      source: { |buffer, position|
+        ls $'($env.PWD)' | where type == dir
+        | sort-by name | get name | to text
+        | fzf -f $buffer
+        | each { |v| { value: ($v | str trim) }}
+      }
+    }
+    # {
+    #   name: fzf_history_menu_fzf_ui
+    #   only_buffer_difference: false
+    #   marker: "# "
+    #   type: {
+    #     layout: columnar
+    #     columns: 4
+    #     col_width: 20
+    #     col_padding: 2
+    #   }
+    #   style: {
+    #     text: green
+    #     selected_text: green_reverse
+    #     description_text: yellow
+    #   }
+    #   source: { |buffer, position|
+    #     open -r $nu.history-path | fzf +s --tac | str trim
+    #     | where $it =~ $buffer
+    #     | each { |v| {value: ($v | str trim) } }
+    #   }
+    # }
+    # {
+    #   name: fzf_menu_nu_ui
+    #   only_buffer_difference: false
+    #   marker: "# "
+    #   type: {
+    #     layout: list
+    #     page_size: 10
+    #   }
+    #   style: {
+    #     text: "#66ff66"
+    #     selected_text: { fg: "#66ff66" attr: r }
+    #     description_text: yellow
+    #   }        
+    #   source: { |buffer, position|
+    #     open -r $nu.history-path
+    #     | fzf -f $buffer
+    #     | lines
+    #     | each { |v| {value: ($v | str trim) } }
+    #   }
+    # }
   ]
   keybindings: [
     {
@@ -183,6 +183,18 @@ $env.config = {
       }
     }
     {
+      name: completion_menu2
+      modifier: control
+      keycode: char_n
+      mode: [emacs vi_normal vi_insert]
+      event: {
+        until: [
+          { send: menu name: completion_menu }
+          { send: menunext }
+        ]
+      }
+    }
+    {
       name: completion_previous
       modifier: shift
       keycode: backtab
@@ -196,13 +208,13 @@ $env.config = {
       mode: [emacs, vi_insert]
       event: {edit: BackspaceWord}
     },
-    {
-      name: open_command_editor
-      modifier: control
-      keycode: char_o
-      mode: [emacs, vi_normal, vi_insert]
-      event: { send: openeditor }
-    }
+    # {
+    #   name: open_command_editor
+    #   modifier: control
+    #   keycode: char_o
+    #   mode: [emacs, vi_normal, vi_insert]
+    #   event: { send: openeditor }
+    # }
     {
       name: cut_selection
       modifier: control

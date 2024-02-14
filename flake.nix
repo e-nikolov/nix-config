@@ -47,7 +47,6 @@
           NIX_CONFIG = "extra-experimental-features = nix-command flakes repl-flake ";
           packages = [
             pkgs.alejandra
-            pkgs.alejandra
             pkgs.nodePackages.prettier
             pkgs.home-manager
             pkgs.nixUnstable

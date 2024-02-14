@@ -73,6 +73,8 @@ in {
 
         # Skip the nix completer, since we're using the one from https://github.com/nix-community/nix-zsh-completions
         # compdef _carapace_lazy $(carapace --list | awk '{print $1}' | command grep -vP '(^|\s)\K(nix|podman|docker|systemctl)(?=\s|$)')
+
+        source <(carapace just zsh)
       '');
 
       fish.interactiveShellInit = mkIf cfg.enableFishIntegration ''
