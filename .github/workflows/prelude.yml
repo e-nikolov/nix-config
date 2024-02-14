@@ -18,6 +18,12 @@ jobs:
   nix-setup:
     runs-on: "${{ inputs.platform }}-latest"
     steps:
+      - uses: easimon/maximize-build-space@v10
+        with:
+          overprovision-lvm: true
+          remove-android: true
+          remove-dotnet: true
+          remove-haskell: true
       - name: Checkout
         uses: actions/checkout@v4
         with:
