@@ -8,22 +8,22 @@
 } @ args: {
   programs.nushell = {
     enable = true;
-    package = pkgs.nushell.overrideAttrs (drv: let
-      src = pkgs.fetchFromGitHub {
-        owner = "nushell";
-        repo = "nushell";
-        rev = "d1c807230b4f35a9d963ce6fee5b72641690fe06";
-        sha256 = "sha256-T+0kdTOqtf+zL1+9gVeC5Xf6q2XXCOMOUnuOskeGvuA=";
-      };
-    in {
-      inherit src;
-      cargoDeps = pkgs.rustPlatform.importCargoLock {
-        lockFile = ./Cargo.lock;
-        outputHashes = {
-          "reedline-0.28.0" = "sha256-GFuSsjRK8LUX2WfUM1prbuFO14nP6WozwAKC2p/SGKg=";
-        };
-      };
-    });
+    # package = pkgs.nushell.overrideAttrs (drv: let
+    #   src = pkgs.fetchFromGitHub {
+    #     owner = "nushell";
+    #     repo = "nushell";
+    #     rev = "d1c807230b4f35a9d963ce6fee5b72641690fe06";
+    #     sha256 = "sha256-T+0kdTOqtf+zL1+9gVeC5Xf6q2XXCOMOUnuOskeGvuA=";
+    #   };
+    # in {
+    #   inherit src;
+    #   cargoDeps = pkgs.rustPlatform.importCargoLock {
+    #     lockFile = ./Cargo.lock;
+    #     outputHashes = {
+    #       "reedline-0.28.0" = "sha256-GFuSsjRK8LUX2WfUM1prbuFO14nP6WozwAKC2p/SGKg=";
+    #     };
+    #   };
+    # });
     configFile.source = ./config.nu;
     extraEnv = ''
     '';
