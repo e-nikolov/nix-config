@@ -23,11 +23,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1707955352,
-        "narHash": "sha256-CD0aSnPvZTJVGNojHJybQW4A7/BE7Es3HO0OHoC4yFc=",
+        "lastModified": 1708041752,
+        "narHash": "sha256-4QhokRbJ6QJjY+IzNCl0Jiz43lpKQQ9hN11NDWedsH0=",
         "owner": "e-nikolov",
         "repo": "code-insiders-flake",
-        "rev": "6079bc85aedf80583a0036c9a3a5dc3d201251c8",
+        "rev": "4d9d410b83dfc3a0ad77111ebb5e6d5b7623c2d6",
         "type": "github"
       },
       "original": {
@@ -705,11 +705,11 @@
     },
     "nixpkgs_2": {
       "locked": {
-        "lastModified": 1707939175,
-        "narHash": "sha256-D1xan0lgxbmXDyzVqXTiSYHLmAMrMRdD+alKzEO/p3w=",
+        "lastModified": 1708001613,
+        "narHash": "sha256-woOmAXW05XnqlLn7dKzCkRAEOSOdA/Z2ndVvKcjid94=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "f7e8132daca31b1e3859ac0fb49741754375ac3d",
+        "rev": "085589047343aad800c4d305cf7b98e8a3d51ae2",
         "type": "github"
       },
       "original": {
