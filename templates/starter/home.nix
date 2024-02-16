@@ -42,7 +42,7 @@
       }))
 
       pkgs.direnv
-      pkgs.devenv
+      # pkgs.devenv
       pkgs.ncdu
       pkgs.sops
       pkgs.age
