@@ -722,11 +722,11 @@
     "nushell": {
       "flake": false,
       "locked": {
-        "lastModified": 1708196699,
-        "narHash": "sha256-jreeJCk7JtfG8jFg0ktWSV/mebcqUcifTyNolp0w398=",
+        "lastModified": 1708241496,
+        "narHash": "sha256-97b/SNj/lPztWWub9FSOkHmRGme8DC8JXWTzcuWIxms=",
         "owner": "nushell",
         "repo": "nushell",
-        "rev": "0487e9ffcbc57c2d5feca606e10c3f8221ff5e00",
+        "rev": "28f0f32ae767c92ac6e627920c9b677c2a2a44d8",
         "type": "github"
       },
       "original": {
