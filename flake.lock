@@ -23,11 +23,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1708732946,
-        "narHash": "sha256-mVmMszXFKQGrrwxkpin8WLLbumQh94CtOkBWRYqO8kk=",
+        "lastModified": 1708819367,
+        "narHash": "sha256-cUmcgD+VeSzSHQY9FPTpucZm6ficjKGGAfZYWotuYyE=",
         "owner": "e-nikolov",
         "repo": "code-insiders-flake",
-        "rev": "daee1a05338cb934b9d7abb9c0e80eb2cabff87d",
+        "rev": "d190c0f749d5b359f4166b251d18a7099ae698b8",
         "type": "github"
       },
       "original": {
