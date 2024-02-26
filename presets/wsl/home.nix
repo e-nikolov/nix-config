@@ -36,6 +36,10 @@
 
           command -v wslpath &>/dev/null && precmd_functions+=(keep_current_path)
 
+          xc() {
+            clip.exe
+          }
+
           e() {
             explorer.exe $(wslpath -w $*)
           }

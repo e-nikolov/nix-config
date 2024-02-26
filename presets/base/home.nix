@@ -112,7 +112,8 @@
       signing = {
         signByDefault = true;
         gpgPath = "${pkgs.openssh}/bin/ssh-keygen";
-        key = "${config.home.homeDirectory}/.ssh/id_rsa.pub";
+        # key = "${config.home.homeDirectory}/.ssh/id_rsa.pub";
+        key = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKt+yh7syhzpRCoV/0QQlGsAG2jmreCzp3VV7mq7k7QW";
       };
 
       extraConfig = {
