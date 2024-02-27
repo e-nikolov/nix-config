@@ -150,6 +150,8 @@ in {
   users.defaultUserShell = pkgs.zsh;
 
   boot.binfmt.emulatedSystems = ["armv7l-linux" "aarch64-linux"];
+  boot.tmp.cleanOnBoot = true;
+
   virtualisation = {
     docker.enable = false;
     podman = {
