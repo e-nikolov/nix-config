@@ -225,7 +225,9 @@
     # nur.url = "github:nix-community/NUR";
     nix-colors.url = "github:misterio77/nix-colors";
     nix-gaming = {
-      url = "github:fufexan/nix-gaming";
+      # url = "github:fufexan/nix-gaming";
+      url = "github:NotAShelf/nix-gaming/master";
+
       inputs.nixpkgs.follows = "nixpkgs";
     };
     helix = {
