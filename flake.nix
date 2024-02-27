@@ -228,7 +228,7 @@
       # url = "github:fufexan/nix-gaming";
       url = "github:NotAShelf/nix-gaming/master";
 
-      inputs.nixpkgs.follows = "nixpkgs";
+      # inputs.nixpkgs.follows = "nixpkgs";
     };
     helix = {
       url = "github:helix-editor/helix/master";
