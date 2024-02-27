@@ -13,9 +13,9 @@
       keep-derivations = lib.mkDefault true;
       keep-outputs = lib.mkDefault true;
       auto-optimise-store = lib.mkDefault true;
-      nix-path = [
-        "nixpkgs=${inputs.nixpkgs.outPath}"
-      ];
+      # nix-path = [
+      #   "nixpkgs=${inputs.nixpkgs.outPath}"
+      # ];
       use-xdg-base-directories = lib.mkDefault true;
       log-lines = lib.mkDefault 20;
       show-trace = lib.mkDefault true;

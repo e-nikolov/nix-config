@@ -130,6 +130,7 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
+    nixpkgs-small.url = "github:NixOS/nixpkgs/2a34566b67bef34c551f204063faeecc444ae9da";
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-23.11";
     # nil.url = "github:oxalica/nil/main";
     # nil.inputs.nixpkgs.follows = "nixpkgs";
@@ -228,7 +229,7 @@
       # url = "github:fufexan/nix-gaming";
       url = "github:NotAShelf/nix-gaming/master";
 
-      # inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nixpkgs.follows = "nixpkgs-small";
     };
     helix = {
       url = "github:helix-editor/helix/master";

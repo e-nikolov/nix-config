@@ -3,7 +3,7 @@
   services.xserver = {
     videoDrivers = ["intel"];
     enable = true;
-    layout = "us,bg";
+    xkb.layout = "us,bg";
     desktopManager = {
       xterm.enable = false;
     };

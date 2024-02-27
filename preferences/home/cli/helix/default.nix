@@ -8,6 +8,16 @@
 }: {
   imports = [./languages.nix];
 
+  nix = {
+    settings = {
+      extra-substituters = ["https://e-nikolov-nix-config.cachix.org" "https://helix.cachix.org"];
+      extra-trusted-public-keys = [
+        "e-nikolov-nix-config.cachix.org-1:0Y02be6fZwhgvQjyzN3w+bNc5k3Uaz6kXLbAiO0bkO4="
+        "helix.cachix.org-1:ejp9KQpR1FBI2onstMQ34yogDm4OgU2ru6lIwPvuCVs="
+      ];
+    };
+  };
+
   programs.helix = {
     enable = true;
     extraPackages = [

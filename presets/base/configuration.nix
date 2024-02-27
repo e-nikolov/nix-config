@@ -230,7 +230,7 @@ in {
   nix = {
     package = lib.mkDefault pkgs.nixUnstable;
     gc.automatic = true;
-    nixPath = ["nixpkgs=${inputs.nixpkgs.outPath}"];
+    # nixPath = ["nixpkgs=${inputs.nixpkgs.outPath}"];
     settings = {
       experimental-features = [
         "flakes"
