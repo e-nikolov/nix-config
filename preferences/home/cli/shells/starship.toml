@@ -1,135 +1,103 @@
-#     ▼    impure    ~/nix-config     master  9  2  15       "$schema" = 'https://starship.rs/config-schema.json'
-# format = '$all'
-format = """
-[](#0e1920)\
-$os\
-$shell\
-$shlvl\
-$direnv\
-$nix_shell\
-(fg:#6c6c6c bg:#0e1920)\
-$directory\
-(fg:#6c6c6c bg:#0e1920)\
-$git_branch\
-$git_status\
-(fg:#6c6c6c bg:#0e1920)\
-$sudo\
-(fg:#6c6c6c bg:#0e1920)\
-[](fg:#0e1920)\
-$fill\
-[](fg:#0e1920)$nodejs\
-$python\
-$rust\
-$golang\
-$cmd_duration\
-$time
-$character
-"""
 add_newline = true
-
-
-continuation_prompt = '▶▶ '
-
-palette = "tokyonight"
-
-[palettes.tokyonight]
-git_bg = "#0e1920"
-dir_bg = "#0e1920"
-# dir_bg = "#1C1C1C"
-# dir_fg = "#e3e5e5"
-dir_fg = "#fc874f"
-os_bg = "#0e1920"
-os_fg = "#eeeeee"
-nix_fg = "blue"
-node_bg = "#0e1920"
-
-[custom.separator]
-format = "[](fg:#676768 bg:#0e1920)"
-
-[os]
-disabled = false
-format = "[ $symbol ]($style)[](fg:#676768 bg:#0e1920)"
-style = "bg:os_bg fg:os_fg"
-  [os.symbols]
-  NixOS = ""
+continuation_prompt = "▶▶ "
+format = "$os$shell$shlvl$direnv$nix_shell(fg:#6c6c6c bg:#0e1920)$directory(fg:#6c6c6c bg:#0e1920)$git_branch$git_status(fg:#6c6c6c bg:#0e1920)$sudo(fg:#6c6c6c bg:#0e1920)[](fg:#0e1920)$fill[](fg:#0e1920)$nodejs$python$rust$golang$cmd_duration$time\n$character"
+palette = "noctis"
 
 [directory]
-truncate_to_repo = false
+format = "[  ](fg:#676768 bg:#0e1920)[ $path]($style)"
 style = "bg:dir_bg fg:dir_fg"
-format = "[   $path ]($style)[](fg:#676768 bg:#0e1920)"
-
-  [directory.substitutions]
-  "Documents" = "󰈙 "
-  "Downloads" = " "
-  "Music" = " "
-  "Pictures" = " "
-
-[direnv]
-# disabled = false
-
-[shell]
-disabled = false
-style = "bg:os_bg dimmed fg:nix_fg"
-fish_indicator = '󰈺'
-format = '[ $indicator]($style)[ ](fg:#676768 bg:#0e1920)'
-
-[shlvl]
-format = '[↕$shlvl]($style)'
-style = "bg:os_bg dimmed fg:nix_fg"
-disabled = false
-
-
-[nix_shell]
-# disabled = true
-symbol = "  "
-impure_msg = '[💩](bg:os_bg bold red)'
-style = "bg:os_bg dimmed fg:nix_fg"
-# pure_msg = '[pure shell](bold green)'
-# unknown_msg = '[unknown shell](bold yellow)'
-# format = '$symbol$state '
-format = '[$symbol$state]($style)[ ](fg:#676768 bg:#0e1920)'
-
-[git_branch]
-symbol = ""
-style = "bg:git_bg"
-format = '[[ $symbol $branch ](fg:#008700 bg:#0e1920)]($style)'
-
-[git_status]
-style = "bg:git_bg"
-format = '[[($staged $modified $stashed )](fg:#008700 bg:#0e1920)]($style)'
-staged = " $count"
-modified = " $count"
-stashed = " $count"
-
-[nodejs]
-symbol = ""
-style = "bg:node_bg"
-format = '[[ $symbol ($version) ](fg:#769ff0 bg:#0e1920)]($style)[ ](fg:#676768 bg:#0e1920)'
-
-[rust]
-symbol = ""
-style = "bg:#212736"
-format = '[[ $symbol ($version) ](fg:#769ff0 bg:#0e1920)]($style)[ ](fg:#676768 bg:#0e1920)'
-
-[golang]
-symbol = ""
-style = "bg:#212736"
-format = '[[ $symbol ($version) ](fg:#769ff0 bg:#0e1920)]($style)[ ](fg:#676768 bg:#0e1920)'
-
-[php]
-symbol = ""
-style = "bg:#212736"
-format = '[[ $symbol ($version) ](fg:#769ff0 bg:#0e1920)]($style)[ ](fg:#676768 bg:#0e1920)'
-
-[time]
-disabled = false
-time_format = "%R" # Hour:Minute Format
-style = "bg:#1d2230"
-format = '[[  $time ](fg:#a0a9cb bg:#0e1920)]($style)'
-
-[python]
-style = "bg:node_bg"
-format = '[${symbol}${version}]($style)'
+truncate_to_repo = false
+truncation_length = 33333
+use_os_path_sep = false
 
 [fill]
 symbol = " "
+
+[git_branch]
+format = "[  ](fg:#676768 bg:#0e1920)[$symbol $branch]($style)"
+style = "fg:#008700 bg:#0e1920"
+symbol = ""
+
+[git_status]
+format = "[($staged $modified $stashed)]($style)"
+modified = " $count"
+staged = " $count"
+stashed = " $count"
+style = "fg:#008700 bg:#0e1920"
+
+[golang]
+format = "[  ](fg:#676768 bg:#0e1920)[$symbol ($version)]($style)"
+style = "fg:#769ff0 bg:#0e1920"
+symbol = ""
+
+[nix_shell]
+disabled = false
+format = "[  ](fg:#676768 bg:#0e1920)[$symbol]($style)$state"
+impure_msg = "[ 󰇷](bg:nix_bg fg:nix_fg)"
+style = "bg:nix_bg fg:nix_fg"
+symbol = ""
+
+[nodejs]
+format = "[  ](fg:#676768 bg:#0e1920)[$symbol ($version)]($style)"
+style = "fg:#769ff0 bg:#0e1920"
+symbol = ""
+
+[os]
+disabled = false
+format = "$symbol"
+style = "bg:os_bg"
+
+[os.symbols]
+NixOS = "[ ]($style fg:#7eb7df)"
+Windows = "[ ]($style fg:#00a8e8)"
+
+[palettes.noctis]
+dir_bg = "#0e1920"
+dir_fg = "#fc874f"
+git_bg = "#0e1920"
+nix_bg = "#0e1920"
+nix_fg = "#ff719c"
+node_bg = "#0e1920"
+os_bg = "#0e1920"
+os_fg = "#eeeeee"
+shell_bg = "#0e1920"
+shell_fg = "#428c3e"
+shlvl_fg = "#c6ae70"
+
+[php]
+format = "[  ](fg:#676768 bg:#0e1920)[$symbol ($version)]]($style)"
+style = "fg:#769ff0 bg:#0e1920"
+symbol = ""
+
+[python]
+format = "[  ](fg:#676768 bg:#0e1920)[$symbol ($version)]($style)"
+style = "bg:node_bg"
+symbol = ""
+
+[rust]
+format = "[  ](fg:#676768 bg:#0e1920)[$symbol ($version)]($style)"
+style = "fg:#769ff0 bg:#0e1920"
+symbol = ""
+
+[shell]
+bash_indicator = "[]($style fg:#bbbbbb bold)"
+disabled = false
+fish_indicator = "[🐟]($style fg:#4bb748)"
+format = "[  ](fg:#676768 bg:#0e1920)$indicator"
+nu_indicator = "[nu]($style fg:#4e9a06)[]($style fg:#f2f2f2)"
+powershell_indicator = "[󰨊]($style fg:#1b74c1)"
+style = "bg:shell_bg"
+
+[shlvl]
+disabled = false
+format = "[  ](fg:#676768 bg:#0e1920)[󰽘 $shlvl]($style)"
+style = "bg:os_bg fg:shlvl_fg"
+
+[sudo]
+disabled = false
+
+[time]
+disabled = false
+format = "[  $time ]($style)"
+style = "fg:#a0a9cb bg:#0e1920"
+time_format = "%R"

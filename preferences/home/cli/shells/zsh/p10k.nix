@@ -56,6 +56,8 @@
       typeset -g POWERLEVEL9K_VCS_LOADING_VISUAL_IDENTIFIER_COLOR=28
       typeset -g POWERLEVEL9K_PROMPT_CHAR_OK_VIINS_FOREGROUND=28
       typeset -g POWERLEVEL9K_BACKGROUND=#0e1920
+      typeset -g POWERLEVEL9K_OS_ICON_FOREGROUND=#7eb7df
+
       # typeset -g POWERLEVEL9K_BACKGROUND=#1d3541
       typeset -g POWERLEVEL9K_KUBECONTEXT_SHOW_ON_COMMAND='kubectl|helm|kubens|kubectx|oc|istioctl|kogito|k9s|helmfile|make'
 
