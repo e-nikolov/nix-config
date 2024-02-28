@@ -185,11 +185,11 @@
         "systems": "systems_2"
       },
       "locked": {
-        "lastModified": 1705309234,
-        "narHash": "sha256-uNRRNRKmJyCRC/8y1RqBkqWBLM034y4qN7EprSdmgyA=",
+        "lastModified": 1709126324,
+        "narHash": "sha256-q6EQdSeUZOG26WelxqkmR7kArjgWCdw5sfJVHPH/7j8=",
         "owner": "numtide",
         "repo": "flake-utils",
-        "rev": "1ef2e671c3b0c19053962c07dbda38332dcebf26",
+        "rev": "d465f4819400de7c8d874d50b982301f28a84605",
         "type": "github"
       },
       "original": {
@@ -739,11 +739,11 @@
     "nushell": {
       "flake": false,
       "locked": {
-        "lastModified": 1709124230,
-        "narHash": "sha256-TEDb8Sen1Uof6wYVCvnIAADO1GpSHdMaVCzoFVqOtLE=",
+        "lastModified": 1709128181,
+        "narHash": "sha256-3ysg6AHbjz0dBzB3PclGzfTxtisxLWK/vO/yPwoO2aI=",
         "owner": "nushell",
         "repo": "nushell",
-        "rev": "d3895d71db6f909b0a8adfbb9dc7b8eaa078cbd8",
+        "rev": "c6cb406a535d6efd47ec1989ccfe54ed3f5d50e2",
         "type": "github"
       },
       "original": {
