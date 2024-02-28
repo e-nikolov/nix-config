@@ -5,6 +5,10 @@
   lib,
   ...
 }: {
+  imports = [
+    ../../preferences/home/cli/term/default.nix
+  ];
+
   home = {
     shellAliases = {
       ssh = "ssh.exe ";

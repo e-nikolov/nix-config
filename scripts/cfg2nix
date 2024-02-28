@@ -1,0 +1,25 @@
+filepath=$1
+filename=$(basename $filepath)
+filename=${filename%.*}
+extension=${filepath##*.}
+dirn=$(dirname $filepath)
+output=$dirn/$filename.nix
+
+if [ -z "$filepath" ]; then
+    echo "Usage: json2nix <json-file>"
+    exit 1
+fi
+
+if [ -f "$output"]; then
+    echo "Output file $output already exists. Exiting."
+    exit 1
+fi
+
+if [ "$extension" == "json" ]; then
+    nix eval --impure --expr "builtins.fromJSON (builtins.readFile $filepath)" | alejandra >$output
+elif [ "$extension" == "yaml" ]; then
+    nix eval --impure --expr "builtins.fromYAML (builtins.readFile $filepath)" | alejandra >$output
+else
+    echo "Unknown file extension $extension. Exiting."
+    exit 1
+fi

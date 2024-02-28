@@ -52,7 +52,7 @@ in {
       dcu = "docker-compose up";
       dcr = "docker-compose run";
       dclt = "docker-compose logs --follow --tail=100";
-      colors = ''for i in {0..255}; do print -Pn "%K{$i}  %k%F{$i}''${(l:3::0:)i}%f " ''${''${(M)$((i%6)):#3}:+$'\n'}; done'';
+      # colors = ''for i in {0..255}; do print -Pn "%K{$i}  %k%F{$i}''${(l:3::0:)i}%f " ''${''${(M)$((i%6)):#3}:+$'\n'}; done'';
 
       tf = "terraform";
       x = "xdg-open";

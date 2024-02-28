@@ -1,0 +1,54 @@
+[colors]
+[colors.bright]
+black = "#666042"
+blue = "#1A2830"
+cyan = "#FC874F"
+green = "#61C838"
+magenta = "#FF709B"
+red = "#C40000"
+white = "#C5D1D3"
+yellow = "#D1D1B8"
+
+[colors.normal]
+black = "#5E0000"
+blue = "#F5146D"
+cyan = "#FFC699"
+green = "#58CC48"
+magenta = "#DE6187"
+red = "#FF0004"
+white = "#C5CDD3"
+yellow = "#CC430D"
+
+[colors.primary]
+background = "#1B2932"
+foreground = "#d88a3a"
+
+[colors.selection]
+background = "#496D83"
+
+[cursor.style]
+blinking = "On"
+shape = "BEAM"
+
+[font]
+size = 12
+[font.bold]
+family = "JetBrainsMono Nerd Font Propo"
+
+[font.italic]
+family = "JetBrainsMono Nerd Font Propo"
+
+[font.normal]
+family = "JetBrainsMono Nerd Font Propo"
+
+[shell]
+program = "C:\\Program Files\\WSL\\wsl.EXE --cd ~"
+
+[window]
+decorations = "Full"
+dynamic_padding = true
+opacity = 0.98
+
+[window.padding]
+x = 10
+y = 10

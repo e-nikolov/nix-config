@@ -161,15 +161,15 @@ $env.config = {
         )"
       }
     },
-    {
-      name: SelectAll
-      modifier: control
-      keycode: char_a
-      mode: [emacs , vi_normal, vi_insert]
-      event: {
-        edit: SelectAll
-      }
-    }
+    # {
+    #   name: SelectAll
+    #   modifier: control
+    #   keycode: char_a
+    #   mode: [emacs , vi_normal, vi_insert]
+    #   event: {
+    #     edit: SelectAll
+    #   }
+    # }
     {
       name: completion_menu
       modifier: none
@@ -215,13 +215,13 @@ $env.config = {
     #   mode: [emacs, vi_normal, vi_insert]
     #   event: { send: openeditor }
     # }
-    {
-      name: cut_selection
-      modifier: control
-      keycode: char_x
-      mode: [emacs, vi_insert]
-      event: {edit: CutSelection}
-    },
+    # {
+    #   name: cut_selection
+    #   modifier: control
+    #   keycode: char_x
+    #   mode: [emacs, vi_insert]
+    #   event: {edit: CutSelection}
+    # },
     {
       name: redo_change
       modifier: shift

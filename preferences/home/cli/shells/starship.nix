@@ -6,7 +6,11 @@
   lib,
   ...
 }: let
-  separator = "[ ](fg:#676768 bg:#0e1920)";
+  bg = "bg:#0e1920";
+  fg1 = "fg:#6c6c6c";
+  fg2 = "fg:#676768";
+  promptStyle = "(${fg1} ${bg})";
+  separator = "[  ](${fg2} ${bg})";
 in {
   programs = {
     starship = {
@@ -16,21 +20,21 @@ in {
 
       settings = {
         add_newline = true;
+
         format = lib.concatStrings [
-          "[](#0e1920)"
           "$os"
           "$shell"
           "$shlvl"
           "$direnv"
           "$nix_shell"
-          "(fg:#6c6c6c bg:#0e1920)"
+          promptStyle
           "$directory"
-          "(fg:#6c6c6c bg:#0e1920)"
+          promptStyle
           "$git_branch"
           "$git_status"
-          "(fg:#6c6c6c bg:#0e1920)"
+          promptStyle
           "$sudo"
-          "(fg:#6c6c6c bg:#0e1920)"
+          promptStyle
           "[](fg:#0e1920)"
           "$fill"
           "[](fg:#0e1920)$nodejs"
@@ -39,13 +43,17 @@ in {
           "$golang"
           "$cmd_duration"
           "$time\n"
-          "$character\n"
+          "$character"
         ];
 
+        fill = {
+          symbol = " ";
+        };
+
         continuation_prompt = "▶▶ ";
-        palette = "tokyonight";
+        palette = "noctis";
         palettes = {
-          tokyonight = {
+          noctis = {
             git_bg = "#0e1920";
             dir_bg = "#0e1920";
             dir_fg = "#fc874f";
@@ -58,21 +66,29 @@ in {
 
         os = {
           disabled = false;
-          format = "[ $symbol ]($style)${separator}";
+          format = "[ $symbol]($style)";
+          style = "bg:os_bg fg:os_fg";
 
           symbols.NixOS = "";
-          style = "bg:os_bg fg:os_fg";
+          symbols.Windows = "";
         };
         directory = {
-          truncate_to_repo = false;
           style = "bg:dir_bg fg:dir_fg";
-          format = "[   $path ]($style)${separator}";
-          substitutions = {
-            Documents = "󰈙 ";
-            Downloads = " ";
-            Music = " ";
-            Pictures = " ";
-          };
+          format = "${separator}[ $path]($style)";
+          truncate_to_repo = false;
+          use_os_path_sep = false;
+          truncation_length = 33333;
+
+          # substitutions = {
+          #   Documents = "󰈙 ";
+          #   Downloads = " ";
+          #   Music = " ";
+          #   Pictures = " ";
+          # };
+        };
+
+        sudo = {
+          disabled = false;
         };
 
         # direnv = {
@@ -83,32 +99,32 @@ in {
           disabled = false;
           style = "bg:os_bg dimmed fg:nix_fg";
           fish_indicator = "󰈺";
-          format = "[ $indicator ]($style)${separator}";
+          format = "${separator}[$indicator]($style)";
         };
 
         shlvl = {
-          format = "[↕$shlvl]($style)${separator}";
-          style = "bg:os_bg dimmed fg:nix_fg";
           disabled = false;
+          format = "${separator}[↕$shlvl]($style)";
+          style = "bg:os_bg dimmed fg:nix_fg";
         };
 
         nix_shell = {
           disabled = false;
           symbol = "  ";
+          format = "${separator}[$symbol$state]($style)";
           impure_msg = "[💩](bg:os_bg bold red)";
           style = "bg:os_bg dimmed fg:nix_fg";
-          format = "[$symbol$state]($style)${separator}";
         };
 
         git_branch = {
           symbol = "";
-          style = "bg:git_bg";
-          format = "[[ $symbol $branch ](fg:#008700 bg:#0e1920)]($style)";
+          style = "fg:#008700 bg:#0e1920";
+          format = "${separator}[$symbol $branch]($style)";
         };
 
         git_status = {
-          style = "bg:git_bg";
-          format = "[[($staged $modified $stashed )](fg:#008700 bg:#0e1920)]($style)";
+          style = "fg:#008700 bg:#0e1920";
+          format = "[($staged$modified$stashed)]($style)";
           staged = " $count";
           modified = " $count";
           stashed = " $count";
@@ -116,42 +132,38 @@ in {
 
         nodejs = {
           symbol = "";
-          style = "bg:node_bg";
-          format = "[[ $symbol ($version) ](fg:#769ff0 bg:#0e1920)]($style)${separator}";
+          style = "fg:#769ff0 bg:#0e1920";
+          format = "${separator}[$symbol ($version)]($style)";
         };
 
         rust = {
           symbol = "";
-          style = "bg:#212736";
-          format = "[[ $symbol ($version) ](fg:#769ff0 bg:#0e1920)]($style)${separator}";
+          style = "fg:#769ff0 bg:#0e1920";
+          format = "${separator}[$symbol ($version)]($style)";
         };
 
         golang = {
           symbol = "";
-          style = "bg:#212736";
-          format = "[[ $symbol ($version) ](fg:#769ff0 bg:#0e1920)]($style)${separator}";
+          style = "fg:#769ff0 bg:#0e1920";
+          format = "${separator}[$symbol ($version)]($style)";
         };
 
         php = {
           symbol = "";
-          style = "bg:#212736";
-          format = "[[ $symbol ($version) ](fg:#769ff0 bg:#0e1920)]($style)${separator}";
+          style = "fg:#769ff0 bg:#0e1920";
+          format = "${separator}[$symbol ($version)]]($style)";
         };
 
         time = {
           disabled = false;
           time_format = "%R"; # Hour:Minute Format
-          style = "bg:#1d2230";
-          format = "[[  $time ](fg:#a0a9cb bg:#0e1920)]($style)";
+          style = "fg:#a0a9cb bg:#0e1920";
+          format = "[  $time ]($style)";
         };
 
         python = {
           style = "bg:node_bg";
-          format = "[$symbol$version]($style)";
-        };
-
-        fill = {
-          symbol = " ";
+          format = "${separator}[$symbol ($version)]($style)";
         };
       };
     };

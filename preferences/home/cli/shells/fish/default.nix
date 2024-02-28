@@ -102,6 +102,15 @@
     };
 
     plugins = [
+      # {
+      #   name = "fasd";
+      #   src = pkgs.fetchFromGitHub {
+      #     owner = "oh-my-fish";
+      #     repo = "plugin-fasd";
+      #     rev = "98c4c729780d8bd0a86031db7d51a97d55025cf5";
+      #     sha256 = "sha256-8JASaNylXAGnWd2IV88juk73b8eJJlVrpyiRZUwHGFQ=";
+      #   };
+      # }
       {
         name = "fzf";
         src = pkgs.fetchFromGitHub {
@@ -127,15 +136,6 @@
           repo = "fish-abbreviation-tips";
           rev = "8ed76a62bb044ba4ad8e3e6832640178880df485";
           sha256 = "sha256-F1t81VliD+v6WEWqj1c1ehFBXzqLyumx5vV46s/FZRU=";
-        };
-      }
-      {
-        name = "fasd";
-        src = pkgs.fetchFromGitHub {
-          owner = "oh-my-fish";
-          repo = "plugin-fasd";
-          rev = "98c4c729780d8bd0a86031db7d51a97d55025cf5";
-          sha256 = "sha256-8JASaNylXAGnWd2IV88juk73b8eJJlVrpyiRZUwHGFQ=";
         };
       }
     ];
