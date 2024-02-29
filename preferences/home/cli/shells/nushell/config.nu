@@ -1,5 +1,10 @@
 
 $env.config = {
+  highlight_resolved_externals: true,
+  color_config: {
+    shape_external_resolved: green,
+    shape_internalcall: green,
+  }
   show_banner: false,
 
   history: {
@@ -161,15 +166,15 @@ $env.config = {
         )"
       }
     },
-    # {
-    #   name: SelectAll
-    #   modifier: control
-    #   keycode: char_a
-    #   mode: [emacs , vi_normal, vi_insert]
-    #   event: {
-    #     edit: SelectAll
-    #   }
-    # }
+    {
+      name: SelectAll
+      modifier: control
+      keycode: char_a
+      mode: [emacs , vi_normal, vi_insert]
+      event: {
+        edit: SelectAll
+      }
+    }
     {
       name: completion_menu
       modifier: none
@@ -208,20 +213,20 @@ $env.config = {
       mode: [emacs, vi_insert]
       event: {edit: BackspaceWord}
     },
-    # {
-    #   name: open_command_editor
-    #   modifier: control
-    #   keycode: char_o
-    #   mode: [emacs, vi_normal, vi_insert]
-    #   event: { send: openeditor }
-    # }
-    # {
-    #   name: cut_selection
-    #   modifier: control
-    #   keycode: char_x
-    #   mode: [emacs, vi_insert]
-    #   event: {edit: CutSelection}
-    # },
+    {
+      name: open_command_editor
+      modifier: control
+      keycode: char_o
+      mode: [emacs, vi_normal, vi_insert]
+      event: { send: openeditor }
+    }
+    {
+      name: cut_selection
+      modifier: control
+      keycode: char_x
+      mode: [emacs, vi_insert]
+      event: {edit: CutSelection}
+    },
     {
       name: redo_change
       modifier: shift
@@ -264,6 +269,36 @@ def --wrapped nhs [...args] {
   exec nu
 }
 
+def --wrapped gst [...args] {
+  git status ...$args
+}
+
+def --wrapped nfu [...args] {
+  nix flake update --flake ~/nix-config ...$args
+}
+
+def --wrapped nh [...args] {
+  home-manager --flake ~/nix-config ...$args
+}
+
+def --wrapped ns [...args] {
+  nix shell ...$args
+}
+
+def --wrapped gc [...args] {
+  git commit ...$args
+}
+def --wrapped gcl [...args] {
+  git clone --recurse-submodules ...$args
+}
+
+def --wrapped ga [...args] {
+  git add ...$args
+}
+def --wrapped gd [...args] {
+  git diff ...$args
+} 
+
 def --wrapped nrs [...args] {
   sudo nixos-rebuild switch --flake ~/nix-config/ --verbose ...$args
   exec nu
@@ -272,3 +307,72 @@ def --wrapped nrs [...args] {
 def --wrapped nd [...args] {
   nix ...$args --command nu develop
 }
+
+def --wrapped sudo [...args] {
+  sudo -E env "PATH=$PATH" ...$args
+}
+
+def --wrapped xargs [...args] {
+  xargs ...$args
+}
+
+def --wrapped code [...args] {
+  code-insiders ...$args
+}
+
+def --wrapped gct [...args] {
+  code-insiders ...git commit -am 'tmp'
+}
+def --wrapped l [...args] {
+  eza ...$args
+}
+
+def --wrapped ls [...args] {
+  eza -o -lh --group-directories-first --color always --icons --classify --time-style relative --created --changed  
+}
+
+def --wrapped lsa [...args] {
+  ls -a ...$args
+}
+def --wrapped tree [...args] {
+  "eza --tree -alh --group-directories-first --color always --icons ";
+}
+def --wrapped grep [...args] {
+  grep --color --ignore-case --line-number --context=3 ...$args;
+}
+
+def --wrapped zfg [...args] {
+  code ~/.zshrc ...$args
+}
+
+def --wrapped gi [...args] {
+  go install ./... ...$args
+}
+
+def --wrapped gomt [...args] {
+  go mod tidy  ...$args
+}
+def --wrapped d [...args] {
+  docker ...$args
+}
+def --wrapped dc [...args] {
+  docker-compose ...$args
+}
+
+def --wrapped dcu [...args] {
+  docker-compose up ...$args
+}
+
+def --wrapped dcr [...args] {
+  docker-compose run ...$args
+}
+
+def --wrapped dclt [...args] {
+  docker-compose logs --follow --tail=100 ...$args
+}
+# ne = lib.mkDefault "$EDITOR ~/nix-config/ ";
+# src = "source ~/.zshrc";
+
+# port = "sudo lsof -i -P -n | fzf";
+# pp = "ps axww -o pid,user,%cpu,%mem,start,time,command | fzf | sed 's/^ *//' | cut -f1 -d' '";
+
