@@ -16,6 +16,9 @@
     '';
 
     shellAliases = {
+      sudo = ''sudo -E env "PATH=$PATH" '';
+      xargs = "xargs ";
+      grep = "grep --color --ignore-case --line-number --context=3 ";
     };
   };
 }

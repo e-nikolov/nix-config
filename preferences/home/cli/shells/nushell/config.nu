@@ -308,14 +308,6 @@ def --wrapped nd [...args] {
   nix ...$args --command nu develop
 }
 
-def --wrapped sudo [...args] {
-  sudo -E env "PATH=$PATH" ...$args
-}
-
-def --wrapped xargs [...args] {
-  xargs ...$args
-}
-
 def --wrapped code [...args] {
   code-insiders ...$args
 }
@@ -334,11 +326,13 @@ def --wrapped ls [...args] {
 def --wrapped lsa [...args] {
   ls -a ...$args
 }
+
 def --wrapped tree [...args] {
-  "eza --tree -alh --group-directories-first --color always --icons ";
+  eza --tree -alh --group-directories-first --color always --icons ...$args;
 }
-def --wrapped grep [...args] {
-  grep --color --ignore-case --line-number --context=3 ...$args;
+
+def --wrapped ndr [...args] {
+  nix-direnv-reload;
 }
 
 def --wrapped zfg [...args] {
