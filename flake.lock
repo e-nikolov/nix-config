@@ -424,11 +424,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1709124723,
-        "narHash": "sha256-DXuMZKEsRhmgMKmWymFNSYqi1NhjPnO+JQ67UN+D8rw=",
+        "lastModified": 1709172715,
+        "narHash": "sha256-UNxQ6dR5gK6CEJumKhnqdyoHpMMjr+yl92VSZ8Hgll8=",
         "owner": "NotAShelf",
         "repo": "nix-gaming",
-        "rev": "6e2db2c21be525330942380e2e839277574404fa",
+        "rev": "0a3ff7911bada339d842ed87e7543b25e645fa1b",
         "type": "github"
       },
       "original": {
@@ -706,11 +706,11 @@
     },
     "nixpkgs_2": {
       "locked": {
-        "lastModified": 1709101946,
-        "narHash": "sha256-TsySgcWm/GlbYdL3AEva49ceeI2BdPQ7muwfYNr1fwo=",
+        "lastModified": 1709136964,
+        "narHash": "sha256-XD6GfVgSfWjqqWAuybkvaxS1/xrwTrh3V1dSkoYJW3Q=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "d53c2037394da6fe98decca417fc8fda64bf2443",
+        "rev": "96990c69fd59e807cee8ff874d0526c70dffdf8f",
         "type": "github"
       },
       "original": {
@@ -723,11 +723,11 @@
     "nushell": {
       "flake": false,
       "locked": {
-        "lastModified": 1709161904,
-        "narHash": "sha256-JPc7BvFoDeaUN6Mz+FOjPsCRM4LgiQoQrxS/F6ewen8=",
+        "lastModified": 1709174651,
+        "narHash": "sha256-29c8t3kdDbxIhip/wTe2zzAWRM6e+QReiHR2Dax79oU=",
         "owner": "nushell",
         "repo": "nushell",
-        "rev": "345edbbe109ceae3f69c67f4df69d5ae8c40a17c",
+        "rev": "f24877ba081f754251188f902f1bed18aa270bcf",
         "type": "github"
       },
       "original": {
