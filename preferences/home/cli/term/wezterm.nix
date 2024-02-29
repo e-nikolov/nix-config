@@ -11,7 +11,7 @@
 in {
   home.activation = {
     copyWezTermConfig = lib.hm.dag.entryAfter ["writeBoundary"] ''
-      run cp --no-preserve=mode -rf $XDG_CONFIG_HOME/wezterm ${me.flake-path}/preferences/home/cli/term/wezterm
+      run cp --update --no-preserve=mode -rf $XDG_CONFIG_HOME/wezterm ${me.flake-path}/preferences/home/cli/term/wezterm
     '';
   };
 

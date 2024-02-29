@@ -350,7 +350,7 @@ def --wrapped gi [...args] {
 }
 
 def --wrapped gomt [...args] {
-  go mod tidy  ...$args
+  go mod tidy ...$args
 }
 def --wrapped d [...args] {
   docker ...$args
@@ -370,6 +370,11 @@ def --wrapped dcr [...args] {
 def --wrapped dclt [...args] {
   docker-compose logs --follow --tail=100 ...$args
 }
+
+def --wrapped ggpush [...args] {
+  git push origin ...$args
+}
+
 # ne = lib.mkDefault "$EDITOR ~/nix-config/ ";
 # src = "source ~/.zshrc";
 

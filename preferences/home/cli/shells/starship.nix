@@ -16,7 +16,7 @@
 in {
   home.activation = {
     copyStarshipConfig = lib.hm.dag.entryAfter ["writeBoundary"] ''
-      run cp --no-preserve=mode -f $XDG_CONFIG_HOME/starship.toml ${me.flake-path}/preferences/home/cli/shells/starship.toml
+      run cp --update --no-preserve=mode -f $XDG_CONFIG_HOME/starship.toml ${me.flake-path}/preferences/home/cli/shells/starship.toml
     '';
   };
   programs = {
