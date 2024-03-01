@@ -424,11 +424,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1709172715,
-        "narHash": "sha256-UNxQ6dR5gK6CEJumKhnqdyoHpMMjr+yl92VSZ8Hgll8=",
+        "lastModified": 1709324835,
+        "narHash": "sha256-CSuX2DsADgc2jCkEcP6OSWjgGZCw4+Q2/TEPegsTj3s=",
         "owner": "NotAShelf",
         "repo": "nix-gaming",
-        "rev": "0a3ff7911bada339d842ed87e7543b25e645fa1b",
+        "rev": "c46aea8d46f3c97f7b47c3951ce66227d5409244",
         "type": "github"
       },
       "original": {
